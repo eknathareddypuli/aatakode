@@ -1,0 +1,63 @@
+{
+  "id": "py-04-bugfix-1",
+  "region": "first-steps",
+  "order": 4,
+  "title": "Chilaka's Broken Greeting",
+  "story": "Chilaka greets visitors and tells them their age next year, but the program refuses to run. Boss fight: find every bug.",
+  "goal": "Fix the program: it should print Hello <name>! and then Next year you will be <age + 1>.",
+  "type": "fix-the-bug",
+  "starter": "name = input()\nage = input()\nprint(\"Hello \" + name + \"!\"\nprint(\"Next year you will be \" + age + 1)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Asha, 12",
+      "expect": "Hello Asha!\nNext year you will be 13",
+      "stdin": [
+        "Asha",
+        "12"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Ravi, 9",
+      "expect": "Hello Ravi!\nNext year you will be 10",
+      "stdin": [
+        "Ravi",
+        "9"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Meera, 0",
+      "expect": "Hello Meera!\nNext year you will be 1",
+      "stdin": [
+        "Meera",
+        "0"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Read the error message. Python tells you the line. Count your brackets there.",
+    "After fixing the bracket, a second bug hides in the last line: you cannot add a number to text. Convert the age and the result.",
+    "name = input()\nage = int(input())\nprint(\"Hello \" + name + \"!\")\nprint(\"Next year you will be \" + str(age + 1))"
+  ],
+  "socratic": [
+    "Which line does the error point to, and what is missing there?",
+    "What type is age after input()? What type does + need on both sides?",
+    "Which function turns a number back into text for printing?"
+  ],
+  "explain": "In one sentence: name the two bugs you fixed.",
+  "xp": 50,
+  "skills": [
+    "debugging",
+    "types",
+    "syntax"
+  ],
+  "requires": [
+    "py-03-input-math"
+  ],
+  "solution": "name = input()\nage = int(input())\nprint(\"Hello \" + name + \"!\")\nprint(\"Next year you will be \" + str(age + 1))\n",
+  "alt": "name = input()\nage = int(input())\nprint(f\"Hello {name}!\")\nprint(f\"Next year you will be {age + 1}\")\n",
+  "boss": true
+}

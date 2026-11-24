@@ -1,0 +1,60 @@
+{
+  "id": "py-10-bugfix-3",
+  "region": "loops",
+  "order": 3,
+  "title": "The Endless Climb",
+  "story": "Chilaka climbs a tree, calling out each step. The program never stops and floods the screen.",
+  "goal": "Fix the loop so it prints Step 1 up to Step n, then stops.",
+  "type": "fix-the-bug",
+  "starter": "steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "3 steps",
+      "expect": "Step 1\nStep 2\nStep 3",
+      "stdin": [
+        "3"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "1 step",
+      "expect": "Step 1",
+      "stdin": [
+        "1"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "5 steps",
+      "expect": "Step 1\nStep 2\nStep 3\nStep 4\nStep 5",
+      "stdin": [
+        "5"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A while loop runs as long as its condition is true. What changes count inside the loop?",
+    "Nothing changes count, so the condition stays true forever. Add a line that moves count forward.",
+    "steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n    count += 1"
+  ],
+  "socratic": [
+    "After each step, what is the value of count?",
+    "What would make the condition count <= steps become false?",
+    "Which line moves count to the next number?"
+  ],
+  "explain": "In one sentence: why was the loop infinite?",
+  "xp": 50,
+  "skills": [
+    "debugging",
+    "while",
+    "infinite-loop"
+  ],
+  "requires": [
+    "py-09-accumulate"
+  ],
+  "solution": "steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n    count += 1\n",
+  "alt": "steps = int(input())\nfor count in range(1, steps + 1):\n    print(\"Step\", count)\n",
+  "boss": true
+}

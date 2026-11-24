@@ -1,0 +1,89 @@
+{
+  "id": "linux-02-disk-full",
+  "region": "debug-the-outage",
+  "order": 2,
+  "title": "No Space Left",
+  "story": "Writes are failing with 'No space left on device'. Something under /var/log has grown out of control.",
+  "goal": "Find which directory under /var/log uses the most space and report its path.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/log/app/app.log": "debug: flushing cache\ndebug: flushing cache\ndebug: flushing cache\n",
+      "/var/log/nginx/access.log": "GET / 200\n",
+      "/var/log/syslog": "kernel: disk almost full\n"
+    },
+    "disks": [
+      {
+        "fs": "/dev/sda1",
+        "size": "20G",
+        "used": "20G",
+        "avail": "0",
+        "pct": "100%",
+        "mount": "/"
+      },
+      {
+        "fs": "tmpfs",
+        "size": "2.0G",
+        "used": "12M",
+        "avail": "2.0G",
+        "pct": "1%",
+        "mount": "/run"
+      }
+    ],
+    "sizes": {
+      "/var/log/app": "18G",
+      "/var/log/nginx": "140M",
+      "/var/log/syslog": "22M"
+    }
+  },
+  "tests": [
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "df"
+      ],
+      "note": "Check which filesystem is full",
+      "label": "Check which filesystem is full"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "du"
+      ],
+      "note": "Measure the directories",
+      "label": "Measure the directories"
+    },
+    {
+      "kind": "answer",
+      "expect": "/var/log/app",
+      "note": "Learner submits the directory path",
+      "label": "Learner submits the directory path"
+    }
+  ],
+  "hints": [
+    "First confirm the disk really is full. Which command shows filesystem usage in human-readable form?",
+    "Use du to measure folders: du -sh /var/log/* shows the size of each entry.",
+    "Run df -h, then du -sh /var/log/*. The biggest is /var/log/app at 18G."
+  ],
+  "socratic": [
+    "Which command tells you how full each filesystem is?",
+    "Which command measures how much space a folder uses?",
+    "How do you compare several folders at once?"
+  ],
+  "explain": "In one sentence: why check df before du?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "disk",
+    "troubleshooting"
+  ],
+  "requires": [],
+  "solution": {
+    "commands": [
+      "df -h",
+      "du -sh /var/log/*"
+    ],
+    "answer": "/var/log/app"
+  }
+}

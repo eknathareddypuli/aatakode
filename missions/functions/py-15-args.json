@@ -1,0 +1,59 @@
+{
+  "id": "py-15-args",
+  "region": "functions",
+  "order": 2,
+  "title": "The Greeter",
+  "story": "A good greeter can be calm or excited. Some functions have optional settings with default values.",
+  "goal": "Define greet(name, excited=False) that returns Hello, <name> or Hello, <name>! when excited.",
+  "type": "write-code",
+  "starter": "# greet(\"Asha\") -> \"Hello, Asha\"\n# greet(\"Ravi\", True) -> \"Hello, Ravi!\"\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "calm greeting",
+      "expr": "greet(\"Asha\")",
+      "expect": "'Hello, Asha'"
+    },
+    {
+      "kind": "eval",
+      "label": "excited greeting",
+      "expr": "greet(\"Ravi\", True)",
+      "expect": "'Hello, Ravi!'"
+    },
+    {
+      "kind": "eval",
+      "label": "named arguments",
+      "expr": "greet(name=\"Meera\", excited=True)",
+      "expect": "'Hello, Meera!'"
+    },
+    {
+      "kind": "eval",
+      "label": "excited off",
+      "expr": "greet(\"Kiran\", False)",
+      "expect": "'Hello, Kiran'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Give a parameter a default with =, like excited=False. Callers may then leave it out.",
+    "Inside the function, an if on excited chooses between the two endings.",
+    "def greet(name, excited=False):\n    if excited:\n        return \"Hello, \" + name + \"!\"\n    return \"Hello, \" + name"
+  ],
+  "socratic": [
+    "What value does excited have when the caller does not pass it?",
+    "Which one decision picks the ending?",
+    "What does return do for the early branch?"
+  ],
+  "explain": "In one sentence: what is a default parameter?",
+  "xp": 35,
+  "skills": [
+    "functions",
+    "default-arguments",
+    "if"
+  ],
+  "requires": [
+    "py-14-def"
+  ],
+  "solution": "def greet(name, excited=False):\n    if excited:\n        return \"Hello, \" + name + \"!\"\n    return \"Hello, \" + name\n",
+  "alt": "def greet(name, excited=False):\n    return f\"Hello, {name}\" + (\"!\" if excited else \"\")\n"
+}

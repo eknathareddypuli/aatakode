@@ -1,0 +1,62 @@
+{
+  "id": "py-08-for-range",
+  "region": "loops",
+  "order": 1,
+  "title": "Count the Seeds",
+  "story": "Chilaka counts seeds out loud, one at a time, from 1 up to however many there are.",
+  "goal": "Read n and print the numbers 1 to n, one per line.",
+  "type": "write-code",
+  "starter": "n = int(input())\n# print 1, 2, 3 ... n, each on its own line\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "n = 5",
+      "expect": "1\n2\n3\n4\n5",
+      "stdin": [
+        "5"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "n = 1",
+      "expect": "1",
+      "stdin": [
+        "1"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "n = 3",
+      "expect": "1\n2\n3",
+      "stdin": [
+        "3"
+      ]
+    },
+    {
+      "kind": "source",
+      "label": "Uses a loop",
+      "pattern": "\\b(for|while)\\b"
+    }
+  ],
+  "hints": [
+    "A for loop repeats a block: for i in range(...): (indented lines).",
+    "range(1, n) stops before n. How can you make it include n?",
+    "for i in range(1, n + 1):\n    print(i)"
+  ],
+  "socratic": [
+    "Which numbers does range(1, 4) give you?",
+    "How do you make the loop include n itself?",
+    "What variable holds the current number inside the loop?"
+  ],
+  "explain": "In one sentence: why did we write n + 1?",
+  "xp": 30,
+  "skills": [
+    "for",
+    "range"
+  ],
+  "requires": [
+    "py-07-bugfix-2"
+  ],
+  "solution": "n = int(input())\nfor i in range(1, n + 1):\n    print(i)\n",
+  "alt": "n = int(input())\ni = 1\nwhile i <= n:\n    print(i)\n    i += 1\n"
+}

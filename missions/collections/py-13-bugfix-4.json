@@ -1,0 +1,45 @@
+{
+  "id": "py-13-bugfix-4",
+  "region": "collections",
+  "order": 3,
+  "title": "The Missing Treasure",
+  "story": "The treasure list is printed with numbers, but the program crashes at the end and the total is wrong.",
+  "goal": "Fix it to print 1 gem, 2 coin, 3 key, then Total: 3.",
+  "type": "fix-the-bug",
+  "starter": "items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items) + 1):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items) - 1)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints the list and total",
+      "expect": "1 gem\n2 coin\n3 key\nTotal: 3"
+    },
+    {
+      "kind": "source",
+      "label": "Still uses the items list",
+      "pattern": "items\\s*=\\s*\\["
+    }
+  ],
+  "hints": [
+    "Run it and read the error. A list of 3 items has valid positions 0, 1 and 2.",
+    "range(len(items) + 1) goes one step too far. Also check how the total is calculated.",
+    "items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items)):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items))"
+  ],
+  "socratic": [
+    "What is the largest valid index in a list of 3 items?",
+    "How many times should the loop run?",
+    "Is the total one less than the number of items?"
+  ],
+  "explain": "In one sentence: what is an off-by-one bug?",
+  "xp": 50,
+  "skills": [
+    "debugging",
+    "lists",
+    "off-by-one"
+  ],
+  "requires": [
+    "py-12-dict"
+  ],
+  "solution": "items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items)):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items))\n",
+  "alt": "items = [\"gem\", \"coin\", \"key\"]\nfor number, item in enumerate(items, 1):\n    print(number, item)\nprint(\"Total:\", len(items))\n",
+  "boss": true
+}

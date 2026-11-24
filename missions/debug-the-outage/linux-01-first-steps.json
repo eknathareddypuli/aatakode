@@ -1,0 +1,70 @@
+{
+  "id": "linux-01-first-steps",
+  "region": "debug-the-outage",
+  "title": "The Silent Server",
+  "story": "It's 2 a.m. The web service has stopped responding and the on-call phone is ringing. Before you fix anything, you need to see what is going on.",
+  "goal": "Find which process is using port 8080 and report its name.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/log/app.log": "ERROR: cannot bind to port 8080: address already in use\n"
+    },
+    "processes": [
+      {
+        "pid": 412,
+        "name": "old-worker",
+        "port": 8080
+      }
+    ]
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "old-worker",
+      "note": "Learner submits the process name",
+      "label": "Reported the process name"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "ss",
+        "netstat",
+        "lsof"
+      ],
+      "label": "Used a port-inspection command"
+    }
+  ],
+  "hints": [
+    "The log tells you the port is already in use. Which command lists listening ports?",
+    "Try `ss -ltnp` or `lsof -i :8080` to see the process behind a port.",
+    "Run `ss -ltnp | grep 8080`. The process name is old-worker (pid 412)."
+  ],
+  "explain": "In one sentence: why did the service fail to start?",
+  "xp": 20,
+  "skills": [
+    "linux",
+    "networking",
+    "troubleshooting"
+  ],
+  "requires": [],
+  "order": 1,
+  "socratic": [
+    "What does the log line say about port 8080?",
+    "Which commands can list what is listening on a port?",
+    "Once you see the process, where is its name in the output?"
+  ],
+  "solution": {
+    "commands": [
+      "cat /var/log/app.log",
+      "ss -ltnp | grep 8080"
+    ],
+    "answer": "old-worker"
+  },
+  "alt": {
+    "commands": [
+      "lsof -i :8080"
+    ],
+    "answer": "old-worker"
+  }
+}

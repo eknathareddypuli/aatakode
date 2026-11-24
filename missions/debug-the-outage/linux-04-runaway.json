@@ -1,0 +1,104 @@
+{
+  "id": "linux-04-runaway",
+  "region": "debug-the-outage",
+  "order": 4,
+  "title": "The Runaway Process",
+  "story": "The server is crawling. Pages time out and SSH feels like wading through mud. One process is hogging the CPU.",
+  "goal": "Find the process using the most CPU and stop it without touching the others.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {},
+    "processes": [
+      {
+        "pid": 1,
+        "name": "init",
+        "user": "root",
+        "cpu": 0.0,
+        "mem": 0.1
+      },
+      {
+        "pid": 233,
+        "name": "nginx",
+        "user": "www",
+        "cpu": 1.2,
+        "mem": 2.3,
+        "port": 80
+      },
+      {
+        "pid": 512,
+        "name": "billing",
+        "user": "deploy",
+        "cpu": 3.4,
+        "mem": 8.8
+      },
+      {
+        "pid": 777,
+        "name": "data-crunch",
+        "user": "deploy",
+        "cpu": 98.7,
+        "mem": 41.0
+      }
+    ]
+  },
+  "tests": [
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "ps",
+        "top"
+      ],
+      "note": "Inspect the running processes",
+      "label": "Inspect the running processes"
+    },
+    {
+      "kind": "process-gone",
+      "pid": 777,
+      "note": "The runaway process is stopped",
+      "label": "The runaway process is stopped"
+    },
+    {
+      "kind": "process-alive",
+      "pid": 233,
+      "note": "nginx is still running",
+      "label": "nginx is still running"
+    },
+    {
+      "kind": "process-alive",
+      "pid": 512,
+      "note": "billing is still running",
+      "label": "billing is still running"
+    }
+  ],
+  "hints": [
+    "Which command lists running processes along with their CPU use?",
+    "ps aux shows a %CPU column. Spot the outlier, note its PID, then use kill PID.",
+    "ps aux, then kill 777."
+  ],
+  "socratic": [
+    "Which command shows what is running right now?",
+    "Which column tells you who is hogging the CPU?",
+    "How do you stop one specific process by its number?"
+  ],
+  "explain": "In one sentence: why look before you kill?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "processes",
+    "troubleshooting"
+  ],
+  "requires": [],
+  "solution": {
+    "commands": [
+      "ps aux",
+      "kill 777",
+      "ps aux"
+    ]
+  },
+  "alt": {
+    "commands": [
+      "top",
+      "kill -9 777"
+    ]
+  }
+}

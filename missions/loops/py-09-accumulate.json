@@ -1,0 +1,74 @@
+{
+  "id": "py-09-accumulate",
+  "region": "loops",
+  "order": 2,
+  "title": "Fruit Basket Total",
+  "story": "Fruits arrive one by one with their weights in grams. Chilaka needs the running total.",
+  "goal": "The first input is how many weights follow. Read them all and print their sum.",
+  "type": "write-code",
+  "starter": "count = int(input())\n# read that many numbers and print their total\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "three weights",
+      "expect": "60",
+      "stdin": [
+        "3",
+        "10",
+        "20",
+        "30"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "one weight",
+      "expect": "7",
+      "stdin": [
+        "1",
+        "7"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "four weights",
+      "expect": "10",
+      "stdin": [
+        "4",
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "no weights",
+      "expect": "0",
+      "stdin": [
+        "0"
+      ]
+    }
+  ],
+  "hints": [
+    "Keep a running total in a variable that starts at 0, and add to it inside the loop.",
+    "Inside the loop, call input() each time, convert with int(), and add it to total.",
+    "total = 0\nfor _ in range(count):\n    total += int(input())\nprint(total)"
+  ],
+  "socratic": [
+    "What value should the total start with?",
+    "How many times should input() be called?",
+    "Where does the print belong: inside or after the loop?"
+  ],
+  "explain": "In one sentence: why does total start at 0?",
+  "xp": 35,
+  "skills": [
+    "for",
+    "accumulator",
+    "input"
+  ],
+  "requires": [
+    "py-08-for-range"
+  ],
+  "solution": "count = int(input())\ntotal = 0\nfor _ in range(count):\n    total += int(input())\nprint(total)\n",
+  "alt": "count = int(input())\nprint(sum(int(input()) for _ in range(count)))\n"
+}

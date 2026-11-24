@@ -1,0 +1,41 @@
+{
+  "id": "py-01-hello",
+  "region": "first-steps",
+  "order": 1,
+  "title": "Say Hello",
+  "story": "Chilaka the parrot only repeats what you teach it. Today's lesson: the very first word.",
+  "goal": "Make the program print exactly: Hello, Aata!",
+  "type": "write-code",
+  "starter": "# Teach Chilaka to say hello\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints the greeting",
+      "expect": "Hello, Aata!"
+    },
+    {
+      "kind": "source",
+      "label": "Uses print()",
+      "pattern": "print\\s*\\("
+    }
+  ],
+  "hints": [
+    "Python shows text on the screen with a function called print(). What goes inside the brackets?",
+    "Text goes inside quotes. The shape is print(\"...\").",
+    "print(\"Hello, Aata!\")"
+  ],
+  "socratic": [
+    "Which function shows something on the screen?",
+    "How does Python know something is plain text and not a command?",
+    "Compare your output with the goal letter by letter. What differs?"
+  ],
+  "explain": "In one sentence: what do the quotation marks do?",
+  "xp": 20,
+  "skills": [
+    "print",
+    "strings"
+  ],
+  "requires": [],
+  "solution": "print(\"Hello, Aata!\")\n",
+  "alt": "print('Hello, ' + 'Aata!')\n"
+}

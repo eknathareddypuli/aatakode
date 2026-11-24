@@ -1,0 +1,70 @@
+{
+  "id": "py-05-if-else",
+  "region": "decisions",
+  "order": 1,
+  "title": "Gate Guard",
+  "story": "The temple gate only opens for scores of 50 or more. Everyone else is asked to try again.",
+  "goal": "Read a score. Print Pass if it is 50 or more, otherwise print Try again.",
+  "type": "write-code",
+  "starter": "score = int(input())\n# print Pass if the score is 50 or more, otherwise Try again\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "50 passes",
+      "expect": "Pass",
+      "stdin": [
+        "50"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "49 tries again",
+      "expect": "Try again",
+      "stdin": [
+        "49"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "100 passes",
+      "expect": "Pass",
+      "stdin": [
+        "100"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "0 tries again",
+      "expect": "Try again",
+      "stdin": [
+        "0"
+      ]
+    },
+    {
+      "kind": "source",
+      "label": "Uses if",
+      "pattern": "\\bif\\b"
+    }
+  ],
+  "hints": [
+    "A decision has the shape: if condition: (indented action) else: (indented action).",
+    "The condition for passing is score >= 50. Remember the colons and the indentation.",
+    "if score >= 50:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")"
+  ],
+  "socratic": [
+    "Which comparison means 'at least 50'?",
+    "What two symbols must end the if line and the else line?",
+    "What happens to the lines under if when the condition is false?"
+  ],
+  "explain": "In one sentence: when does the else part run?",
+  "xp": 25,
+  "skills": [
+    "if",
+    "comparison"
+  ],
+  "requires": [
+    "py-04-bugfix-1"
+  ],
+  "solution": "score = int(input())\nif score >= 50:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")\n",
+  "alt": "score = int(input())\nprint(\"Pass\" if score >= 50 else \"Try again\")\n"
+}

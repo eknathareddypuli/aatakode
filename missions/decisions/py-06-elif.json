@@ -1,0 +1,90 @@
+{
+  "id": "py-06-elif",
+  "region": "decisions",
+  "order": 2,
+  "title": "Report Card",
+  "story": "Marks are turned into grades: 90 or more is A, 75 or more is B, 50 or more is C, anything lower is D.",
+  "goal": "Read marks and print the grade letter.",
+  "type": "write-code",
+  "starter": "marks = int(input())\n# print A, B, C or D\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "95 is A",
+      "expect": "A",
+      "stdin": [
+        "95"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "90 is A",
+      "expect": "A",
+      "stdin": [
+        "90"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "80 is B",
+      "expect": "B",
+      "stdin": [
+        "80"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "75 is B",
+      "expect": "B",
+      "stdin": [
+        "75"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "60 is C",
+      "expect": "C",
+      "stdin": [
+        "60"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "50 is C",
+      "expect": "C",
+      "stdin": [
+        "50"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "49 is D",
+      "expect": "D",
+      "stdin": [
+        "49"
+      ]
+    }
+  ],
+  "hints": [
+    "When there are more than two outcomes, chain them: if ... elif ... else.",
+    "Check the highest band first: if marks >= 90, then elif marks >= 75, then elif marks >= 50, then else.",
+    "if marks >= 90:\n    print(\"A\")\nelif marks >= 75:\n    print(\"B\")\nelif marks >= 50:\n    print(\"C\")\nelse:\n    print(\"D\")"
+  ],
+  "socratic": [
+    "If marks is 95, which conditions are true? Which one should win?",
+    "Why does the order of the checks matter?",
+    "What does elif do that a second if does not?"
+  ],
+  "explain": "In one sentence: why do we check the highest band first?",
+  "xp": 30,
+  "skills": [
+    "if",
+    "elif",
+    "logic"
+  ],
+  "requires": [
+    "py-05-if-else"
+  ],
+  "solution": "marks = int(input())\nif marks >= 90:\n    print(\"A\")\nelif marks >= 75:\n    print(\"B\")\nelif marks >= 50:\n    print(\"C\")\nelse:\n    print(\"D\")\n",
+  "alt": "marks = int(input())\ngrade = \"D\"\nif marks >= 50:\n    grade = \"C\"\nif marks >= 75:\n    grade = \"B\"\nif marks >= 90:\n    grade = \"A\"\nprint(grade)\n"
+}

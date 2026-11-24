@@ -1,0 +1,44 @@
+{
+  "id": "py-11-lists",
+  "region": "collections",
+  "order": 1,
+  "title": "Pack the Bag",
+  "story": "An explorer's bag holds a map and a rope. A torch is missing.",
+  "goal": "Add \"torch\" to the end of bag, then print how many items it holds and the first item.",
+  "type": "write-code",
+  "starter": "bag = [\"map\", \"rope\"]\n# add \"torch\" to the end of the bag\n# then print the number of items, then the first item\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints count then first item",
+      "expect": "3\nmap"
+    },
+    {
+      "kind": "eval",
+      "label": "bag is now map, rope, torch",
+      "expr": "bag",
+      "expect": "['map', 'rope', 'torch']"
+    }
+  ],
+  "hints": [
+    "Lists have an append method: bag.append(...) adds one item at the end.",
+    "len(bag) counts items. The first item is bag[0] because counting starts at zero.",
+    "bag.append(\"torch\")\nprint(len(bag))\nprint(bag[0])"
+  ],
+  "socratic": [
+    "Which list method adds an item to the end?",
+    "Which function tells you how many items a list has?",
+    "What index is the first item?"
+  ],
+  "explain": "In one sentence: why is the first item at index 0?",
+  "xp": 30,
+  "skills": [
+    "lists",
+    "indexing"
+  ],
+  "requires": [
+    "py-10-bugfix-3"
+  ],
+  "solution": "bag = [\"map\", \"rope\"]\nbag.append(\"torch\")\nprint(len(bag))\nprint(bag[0])\n",
+  "alt": "bag = [\"map\", \"rope\"]\nbag = bag + [\"torch\"]\nprint(len(bag))\nprint(bag[0])\n"
+}

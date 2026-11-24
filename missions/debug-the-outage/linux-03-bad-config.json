@@ -1,0 +1,73 @@
+{
+  "id": "linux-03-bad-config",
+  "region": "debug-the-outage",
+  "order": 3,
+  "title": "The Crash Loop",
+  "story": "The billing service restarts every few seconds. Customers cannot pay. The log hints at a configuration problem.",
+  "goal": "Fix /etc/billing/config.yaml so the service reads port: 8080.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/log/billing.log": "ERROR config: unknown key 'prot' in /etc/billing/config.yaml (line 3)\nERROR service exited with code 2\n",
+      "/etc/billing/config.yaml": "name: billing\nworkers: 4\nprot: 8080\nlog_level: info\n"
+    }
+  },
+  "tests": [
+    {
+      "kind": "file-contains",
+      "path": "/etc/billing/config.yaml",
+      "text": "port: 8080",
+      "note": "The key is spelled correctly",
+      "label": "The key is spelled correctly"
+    },
+    {
+      "kind": "file-not-contains",
+      "path": "/etc/billing/config.yaml",
+      "text": "prot",
+      "note": "The typo is gone",
+      "label": "The typo is gone"
+    },
+    {
+      "kind": "file-contains",
+      "path": "/etc/billing/config.yaml",
+      "text": "workers: 4",
+      "note": "Nothing else was lost",
+      "label": "Nothing else was lost"
+    }
+  ],
+  "hints": [
+    "Read the log. It names a file, a line and a key. What does the file say on that line?",
+    "The key is misspelled. sed can fix text in a file: sed -i 's/old/new/' file",
+    "sed -i 's/prot:/port:/' /etc/billing/config.yaml"
+  ],
+  "socratic": [
+    "Which file does the log point to?",
+    "Which line looks wrong when you read it?",
+    "Which command edits text inside a file without opening an editor?"
+  ],
+  "explain": "In one sentence: how did the log tell you what was wrong?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "logs",
+    "configuration"
+  ],
+  "requires": [],
+  "solution": {
+    "commands": [
+      "cat /var/log/billing.log",
+      "cat /etc/billing/config.yaml",
+      "sed -i 's/prot:/port:/' /etc/billing/config.yaml",
+      "cat /etc/billing/config.yaml"
+    ]
+  },
+  "alt": {
+    "commands": [
+      "echo \"name: billing\" > /etc/billing/config.yaml",
+      "echo \"workers: 4\" >> /etc/billing/config.yaml",
+      "echo \"port: 8080\" >> /etc/billing/config.yaml",
+      "echo \"log_level: info\" >> /etc/billing/config.yaml"
+    ]
+  }
+}

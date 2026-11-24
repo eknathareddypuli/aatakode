@@ -1,0 +1,58 @@
+{
+  "id": "py-03-input-math",
+  "region": "first-steps",
+  "order": 3,
+  "title": "Snack Calculator",
+  "story": "Chilaka runs a snack stall. Each snack costs 5 rupees, and customers tell you how many they want.",
+  "goal": "Read a number of snacks with input() and print the total cost (5 rupees each).",
+  "type": "write-code",
+  "starter": "# Read how many snacks, then print the total cost (5 rupees each)\nsnacks = input()\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "3 snacks cost 15",
+      "expect": "15",
+      "stdin": [
+        "3"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "10 snacks cost 50",
+      "expect": "50",
+      "stdin": [
+        "10"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "0 snacks cost 0",
+      "expect": "0",
+      "stdin": [
+        "0"
+      ]
+    }
+  ],
+  "hints": [
+    "input() always gives you text. What happens if you multiply text by 5?",
+    "Turn the text into a whole number with int(...) before doing maths.",
+    "snacks = int(input())\nprint(snacks * 5)"
+  ],
+  "socratic": [
+    "What type of value does input() give back?",
+    "What does \"3\" * 5 do in Python? Try it in your head.",
+    "Which function turns text into a whole number?"
+  ],
+  "explain": "In one sentence: why did we need int() here?",
+  "xp": 30,
+  "skills": [
+    "input",
+    "int",
+    "arithmetic"
+  ],
+  "requires": [
+    "py-02-variables"
+  ],
+  "solution": "snacks = int(input())\nprint(snacks * 5)\n",
+  "alt": "n = input()\ntotal = int(n) * 5\nprint(total)\n"
+}

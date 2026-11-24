@@ -1,0 +1,59 @@
+{
+  "id": "py-16-bugfix-5",
+  "region": "functions",
+  "order": 3,
+  "title": "The Silent Function",
+  "story": "average() should hand back the mean of a list, but it prints instead, adds wrongly and crashes on an empty list.",
+  "goal": "Fix average(numbers): return the mean, or 0 for an empty list.",
+  "type": "fix-the-bug",
+  "starter": "def average(numbers):\n    total = 0\n    for n in numbers:\n        total = n\n    print(total / len(numbers))\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "average of 2, 4, 6",
+      "expr": "average([2, 4, 6])",
+      "expect": "4.0"
+    },
+    {
+      "kind": "eval",
+      "label": "average of one number",
+      "expr": "average([5])",
+      "expect": "5.0"
+    },
+    {
+      "kind": "eval",
+      "label": "average of 1 and 2",
+      "expr": "average([1, 2])",
+      "expect": "1.5"
+    },
+    {
+      "kind": "eval",
+      "label": "empty list gives 0",
+      "expr": "average([])",
+      "expect": "0"
+    }
+  ],
+  "hints": [
+    "Test it with [2, 4, 6]. Two things go wrong: the result is not handed back, and the total is wrong.",
+    "total = n replaces the total each time. Use += to add. Use return instead of print. Handle the empty list first.",
+    "def average(numbers):\n    if len(numbers) == 0:\n        return 0\n    total = 0\n    for n in numbers:\n        total += n\n    return total / len(numbers)"
+  ],
+  "socratic": [
+    "What does a function give back if it never uses return?",
+    "After the loop with total = n, what does total hold?",
+    "What happens when you divide by len([])?"
+  ],
+  "explain": "In one sentence: name the three bugs you fixed.",
+  "xp": 50,
+  "skills": [
+    "debugging",
+    "functions",
+    "edge-cases"
+  ],
+  "requires": [
+    "py-15-args"
+  ],
+  "solution": "def average(numbers):\n    if len(numbers) == 0:\n        return 0\n    total = 0\n    for n in numbers:\n        total += n\n    return total / len(numbers)\n",
+  "alt": "def average(numbers):\n    return sum(numbers) / len(numbers) if numbers else 0\n",
+  "boss": true
+}

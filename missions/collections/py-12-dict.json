@@ -1,0 +1,60 @@
+{
+  "id": "py-12-dict",
+  "region": "collections",
+  "order": 2,
+  "title": "Score Board",
+  "story": "The scoreboard remembers each player's points. New players are added the first time they score.",
+  "goal": "Read a name and points, add the points to that player's score (new players start at 0), then print their new score.",
+  "type": "write-code",
+  "starter": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\n# update the scoreboard, then print the new score for name\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "existing player Asha",
+      "expect": "50",
+      "stdin": [
+        "Asha",
+        "10"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "existing player Ravi",
+      "expect": "60",
+      "stdin": [
+        "Ravi",
+        "5"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "new player Meera",
+      "expect": "7",
+      "stdin": [
+        "Meera",
+        "7"
+      ]
+    }
+  ],
+  "hints": [
+    "A dictionary maps keys to values: scores[\"Asha\"] gives Asha's score.",
+    "scores.get(name, 0) gives the current score, or 0 if the name is new.",
+    "scores[name] = scores.get(name, 0) + points\nprint(scores[name])"
+  ],
+  "socratic": [
+    "What happens if you read scores[name] for a name that is not there?",
+    "Which method gives a default value for a missing key?",
+    "How do you store the new total back under the same key?"
+  ],
+  "explain": "In one sentence: why use .get() instead of scores[name]?",
+  "xp": 35,
+  "skills": [
+    "dictionaries",
+    "get"
+  ],
+  "requires": [
+    "py-11-lists"
+  ],
+  "solution": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nscores[name] = scores.get(name, 0) + points\nprint(scores[name])\n",
+  "alt": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nif name in scores:\n    scores[name] += points\nelse:\n    scores[name] = points\nprint(scores[name])\n"
+}

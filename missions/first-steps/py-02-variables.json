@@ -1,0 +1,50 @@
+{
+  "id": "py-02-variables",
+  "region": "first-steps",
+  "order": 2,
+  "title": "Name Tag",
+  "story": "Chilaka needs a name tag and a lives counter. Variables are labelled boxes that remember things.",
+  "goal": "Create name = \"Chilaka\" and lives = 3, then print: Chilaka has 3 lives (use the variables).",
+  "type": "write-code",
+  "starter": "# 1. make a variable called name\n# 2. make a variable called lives\n# 3. print the sentence using both variables\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints the sentence",
+      "expect": "Chilaka has 3 lives"
+    },
+    {
+      "kind": "eval",
+      "label": "name holds \"Chilaka\"",
+      "expr": "name",
+      "expect": "'Chilaka'"
+    },
+    {
+      "kind": "eval",
+      "label": "lives holds 3",
+      "expr": "lives",
+      "expect": "3"
+    }
+  ],
+  "hints": [
+    "A variable is a labelled box: name = \"Chilaka\" puts text in a box called name.",
+    "Make both variables first. Then give print() the variable names themselves, without quotes around them.",
+    "name = \"Chilaka\"\nlives = 3\nprint(name, \"has\", lives, \"lives\")"
+  ],
+  "socratic": [
+    "What is the difference between name and \"name\"?",
+    "How can print() show several things on one line?",
+    "Did you create both variables before printing?"
+  ],
+  "explain": "In one sentence: why use a variable instead of typing the text again?",
+  "xp": 25,
+  "skills": [
+    "variables",
+    "print"
+  ],
+  "requires": [
+    "py-01-hello"
+  ],
+  "solution": "name = \"Chilaka\"\nlives = 3\nprint(name, \"has\", lives, \"lives\")\n",
+  "alt": "name = \"Chilaka\"\nlives = 3\nprint(f\"{name} has {lives} lives\")\n"
+}

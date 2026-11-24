@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AataKode: play your way to code (free, offline-first)</title>
+<meta name="description" content="Free, offline-first gamified coding academy. Learn Python and fix broken servers by playing. No sign-up.">
+<meta name="theme-color" content="#15123a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>:root{
+  --bg:#15123a;--panel:#1f1b52;--panel2:#2a2569;--ink:#f3f0ff;--muted:#b9b3e6;--line:#3d3784;
+  --gold:#f2b531;--coral:#ff7a6b;--mint:#4ade9f;--sky:#74c7ff;--on-gold:#1a1744;--code:#100e2e;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Telugu","Nirmala UI",sans-serif;
+  --shadow:4px 4px 0 rgba(0,0,0,.35);
+}
+:root[data-theme="light"]{
+  --bg:#fbf6e9;--panel:#ffffff;--panel2:#f3ead0;--ink:#1d1a45;--muted:#58548a;--line:#d6c9a0;
+  --gold:#e0a010;--coral:#c9372a;--mint:#0b7d4f;--sky:#1560a8;--on-gold:#1a1744;--code:#fffdf5;
+  --shadow:4px 4px 0 rgba(29,26,69,.18);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans);min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3,h4{font-family:var(--mono);line-height:1.2;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(1.9rem,5vw,3.1rem)}h2{font-size:1.5rem}h3{font-size:1.15rem}
+a{color:var(--sky)}
+code,pre,.mono{font-family:var(--mono)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.wrap{width:min(1180px,100% - 2rem);margin-inline:auto}
+main{flex:1;padding:1.25rem 0 3rem}
+.muted{color:var(--muted)}
+.row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.spread{justify-content:space-between}
+.grow{flex:1}
+
+/* header */
+.hdr{background:var(--panel);border-bottom:3px solid var(--line);position:sticky;top:0;z-index:20}
+.hdr .wrap{display:flex;align-items:center;gap:.8rem;padding:.55rem 0;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:.5rem;font:800 1.25rem var(--mono);color:var(--ink);text-decoration:none}
+.logo b{color:var(--gold)}
+.nav{display:flex;gap:.25rem;flex-wrap:wrap;margin-left:.5rem}
+.nav a{color:var(--muted);text-decoration:none;padding:.35rem .7rem;border:2px solid transparent;border-radius:6px;font-weight:600}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--ink);border-color:var(--line);background:var(--panel2)}
+.hdr .right{margin-left:auto;display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .6rem;border:2px solid var(--line);border-radius:999px;background:var(--panel2);font:600 .85rem var(--mono);white-space:nowrap}
+.chip.gold{border-color:var(--gold);color:var(--gold)}
+.iconbtn{background:var(--panel2);border:2px solid var(--line);border-radius:6px;padding:.25rem .55rem;cursor:pointer;font-weight:700}
+.iconbtn:hover{border-color:var(--gold)}
+
+/* buttons / cards */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border:2px solid var(--line);border-radius:6px;background:var(--panel2);cursor:pointer;font-weight:700;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform .08s}
+.btn:hover{transform:translate(-1px,-1px);border-color:var(--gold)}
+.btn:active{transform:translate(2px,2px);box-shadow:none}
+.btn.primary{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.btn.good{background:var(--mint);color:#06281a;border-color:var(--mint)}
+.btn.small{padding:.3rem .65rem;font-size:.9rem;box-shadow:none}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:8px;padding:1rem 1.1rem;box-shadow:var(--shadow)}
+.grid{display:grid;gap:1rem}
+.grid.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.grid.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.bar{height:12px;border:2px solid var(--line);border-radius:6px;background:var(--code);overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--coral))}
+.tag{display:inline-block;padding:.05rem .5rem;border-radius:4px;background:var(--panel2);border:1px solid var(--line);font:600 .75rem var(--mono)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:2rem;align-items:center;padding:1.5rem 0 2rem}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:34rem}
+.hero .art{display:grid;place-items:center}
+.codepeek{background:var(--code);border:2px solid var(--line);border-radius:8px;padding:.9rem 1rem;font:.9rem/1.5 var(--mono);box-shadow:var(--shadow);overflow:auto}
+.kw{color:var(--coral)}.st{color:var(--mint)}.cm{color:var(--muted)}.fn{color:var(--sky)}
+@media(max-width:820px){.hero{grid-template-columns:1fr}}
+
+/* map */
+.track{margin:1.6rem 0 .6rem}
+.region{display:grid;grid-template-columns:230px 1fr;gap:1rem;align-items:center;margin-bottom:.9rem}
+.region.locked{opacity:.78}
+.nodes{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.node{width:54px;height:54px;border-radius:50%;border:3px solid var(--line);background:var(--panel2);display:grid;place-items:center;font:800 1.05rem var(--mono);cursor:pointer;position:relative;color:var(--ink)}
+.node.open{border-color:var(--gold);box-shadow:0 0 0 4px rgba(242,181,49,.25)}
+.node.done{background:var(--mint);border-color:var(--mint);color:#06281a}
+.node.boss{border-radius:10px;width:62px;height:62px}
+.node.locked{cursor:not-allowed;color:var(--muted);border-style:dashed}
+.node .star{position:absolute;top:-8px;right:-8px;font-size:1rem}
+.link{width:22px;height:4px;background:var(--line)}
+.link.done{background:var(--mint)}
+@media(max-width:700px){.region{grid-template-columns:1fr}}
+
+/* mission */
+.mhead{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-bottom:.8rem}
+.mhead h2{margin:0}
+.mgrid{display:grid;grid-template-columns:minmax(250px,.9fr) minmax(320px,1.35fr) minmax(280px,1fr);gap:.9rem;align-items:start}
+@media(max-width:1000px){.mgrid{grid-template-columns:1fr}}
+.story{border-left:4px solid var(--gold);padding-left:.8rem;margin:.4rem 0 .8rem;color:var(--muted)}
+.goal{background:var(--panel2);border:2px dashed var(--gold);border-radius:6px;padding:.5rem .7rem;margin:.5rem 0}
+.tests{list-style:none;padding:0;margin:.5rem 0}
+.tests li{display:flex;gap:.5rem;align-items:flex-start;padding:.3rem 0;border-bottom:1px dashed var(--line);font-size:.93rem}
+.tests .ok{color:var(--mint)}.tests .no{color:var(--coral)}.tests .idle{color:var(--muted)}
+.detail{margin:.2rem 0 0 1.5rem;font:.8rem/1.4 var(--mono);color:var(--muted);white-space:pre-wrap}
+.hintbox{background:var(--panel2);border:2px solid var(--line);border-radius:6px;padding:.5rem .7rem;margin:.4rem 0}
+.hintbox pre{margin:.3rem 0 0;white-space:pre-wrap}
+.editor{display:flex;background:var(--code);border:2px solid var(--line);border-radius:8px;overflow:hidden;min-height:280px}
+.gutter{padding:.7rem .5rem;text-align:right;color:var(--muted);font:.92rem/1.55 var(--mono);user-select:none;background:rgba(0,0,0,.18);overflow:hidden;min-width:2.6rem}
+.editor textarea{flex:1;border:0;background:transparent;resize:vertical;padding:.7rem;font:.92rem/1.55 var(--mono);min-height:280px;tab-size:4;white-space:pre;overflow:auto;outline:none}
+.editor:focus-within{border-color:var(--gold)}
+.tabs{display:flex;gap:.25rem;border-bottom:3px solid var(--line);margin-bottom:.6rem;flex-wrap:wrap}
+.tabs button{background:none;border:2px solid transparent;border-bottom:0;padding:.35rem .75rem;border-radius:6px 6px 0 0;cursor:pointer;color:var(--muted);font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--panel2);border-color:var(--line);color:var(--ink)}
+.out{background:var(--code);border:2px solid var(--line);border-radius:6px;padding:.6rem .7rem;font:.9rem/1.5 var(--mono);white-space:pre-wrap;min-height:90px;max-height:320px;overflow:auto}
+.err{border:2px solid var(--coral);border-radius:6px;padding:.5rem .7rem;margin:.5rem 0;background:rgba(255,122,107,.1)}
+.err b{color:var(--coral)}
+.input{width:100%;background:var(--code);border:2px solid var(--line);border-radius:6px;padding:.4rem .6rem;font:.9rem var(--mono)}
+textarea.input{resize:vertical}
+.reward{border:3px solid var(--gold);background:linear-gradient(135deg,var(--panel2),var(--panel));border-radius:8px;padding:.8rem 1rem;margin:.6rem 0}
+.reward ul{margin:.3rem 0 0;padding-left:1.1rem}
+.stepcode{background:var(--code);border:2px solid var(--line);border-radius:6px;padding:.4rem 0;font:.88rem/1.5 var(--mono);overflow:auto;max-height:220px}
+.stepcode div{padding:0 .6rem;white-space:pre}
+.stepcode .cur{background:rgba(242,181,49,.28);box-shadow:inset 4px 0 var(--gold)}
+table.vars{width:100%;border-collapse:collapse;font:.85rem var(--mono)}
+table.vars td,table.vars th{border-bottom:1px dashed var(--line);padding:.2rem .4rem;text-align:left}
+.blocks .blk{margin:3px 0;padding:.25rem .6rem;border-radius:6px;font:.88rem var(--mono);border-left:6px solid var(--line);background:var(--panel2)}
+.blk.say{border-color:var(--sky)}.blk.set{border-color:var(--gold)}.blk.loop{border-color:var(--coral)}.blk.choose{border-color:var(--mint)}.blk.func{border-color:#c79bff}.blk.note{opacity:.7;font-style:italic}
+.cmp pre{background:var(--code);border:2px solid var(--line);border-radius:6px;padding:.5rem .7rem;overflow:auto;margin:.3rem 0}
+.term{background:#0a0820;color:#d8ffe9;border:2px solid var(--line);border-radius:8px;font:.9rem/1.45 var(--mono);display:flex;flex-direction:column;min-height:340px;max-height:460px}
+.term .log{flex:1;overflow:auto;padding:.6rem .7rem;white-space:pre-wrap;word-break:break-word}
+.term .log .cmd{color:var(--gold)}
+.term form{display:flex;gap:.4rem;border-top:2px solid var(--line);padding:.4rem .6rem;align-items:center}
+.term input{flex:1;background:transparent;border:0;color:inherit;font:inherit;outline:none}
+.pill{font:600 .78rem var(--mono);padding:.1rem .5rem;border-radius:999px;border:2px solid var(--line)}
+.pill.ready{border-color:var(--mint);color:var(--mint)}.pill.load{border-color:var(--gold);color:var(--gold)}.pill.fail{border-color:var(--coral);color:var(--coral)}
+
+/* profile */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.7rem}
+.badge{border:2px solid var(--line);border-radius:8px;padding:.6rem;text-align:center;background:var(--panel2)}
+.badge.off{opacity:.4;filter:grayscale(1)}
+.badge .ico{font-size:1.8rem}
+.skillrow{display:grid;grid-template-columns:130px 1fr 28px;gap:.5rem;align-items:center;margin:.25rem 0;font:.85rem var(--mono)}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{padding:.4rem .5rem;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.scroll{overflow:auto}
+
+/* toast + confetti */
+#toasts{position:fixed;right:1rem;bottom:1rem;display:grid;gap:.5rem;z-index:50}
+.toast{background:var(--panel);border:2px solid var(--gold);border-radius:8px;padding:.6rem .9rem;box-shadow:var(--shadow);max-width:320px}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:9px;height:14px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+.stretch{animation:pop .35s}
+@keyframes pop{from{transform:scale(.9)}to{transform:scale(1)}}
+:root[data-motion="reduce"] *{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){:root[data-motion="auto"] *{animation:none!important;transition:none!important}}
+footer{border-top:3px solid var(--line);padding:1rem 0;color:var(--muted);font-size:.9rem}
+.gutter{white-space:pre}.sr:focus{position:fixed;left:8px;top:8px;width:auto;height:auto;clip:auto;background:var(--gold,#f2b531);color:#000;padding:.4rem .7rem;z-index:99}
+</style>
+</head>
+<body>
+<a href="#view" class="sr" id="skip">Skip to content</a>
+<header class="hdr"><div class="wrap" id="hdr"></div></header>
+<main class="wrap" id="view" tabindex="-1"></main>
+<footer class="ftr"><div class="wrap" id="ftr"></div></footer>
+<div id="toasts" aria-live="polite"></div>
+<noscript><p style="padding:2rem">AataKode needs JavaScript to run missions in your browser.</p></noscript>
+<script>/* AataKode engine: shared by the browser app and the lesson verifier (Node).
+ * No DOM access in this file. Contents:
+ *   1. ranks, badges, dates          4. terminal simulator + grader
+ *   2. progress / XP / streak logic  5. Python bridge (Pyodide)
+ *   3. friendly errors, blocks view  6. teacher cards
+ */
+(function (root) {
+  "use strict";
+  const AK = {};
+
+  /* ---------------------------------------------------------------- 1. ranks, dates */
+  AK.RANKS = [
+    { xp: 0, en: "Seedling", te: "విత్తు" },
+    { xp: 60, en: "Sprout", te: "మొలక" },
+    { xp: 150, en: "Sapling", te: "మొక్క" },
+    { xp: 300, en: "Branch", te: "కొమ్మ" },
+    { xp: 500, en: "Tree", te: "చెట్టు" },
+    { xp: 800, en: "Forest", te: "వనం" },
+  ];
+
+  AK.rankFor = function (xp) {
+    let i = 0;
+    for (let k = 0; k < AK.RANKS.length; k++) if (xp >= AK.RANKS[k].xp) i = k;
+    const cur = AK.RANKS[i], next = AK.RANKS[i + 1] || null;
+    const pct = next ? Math.round(((xp - cur.xp) / (next.xp - cur.xp)) * 100) : 100;
+    return { index: i, current: cur, next: next, pct: pct };
+  };
+
+  AK.dateKey = function (d) {
+    const p = (n) => String(n).padStart(2, "0");
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+  };
+  function dayNumber(key) {
+    const [y, m, d] = key.split("-").map(Number);
+    return Math.floor(Date.UTC(y, m - 1, d) / 86400000);
+  }
+  AK.daysBetween = function (a, b) { return dayNumber(a) - dayNumber(b); };
+
+  /* Week index counts weeks since 2024-01-01 (a Monday), in the learner's local time. */
+  AK.weekIndex = function (d) {
+    return Math.floor((dayNumber(AK.dateKey(d)) - dayNumber("2024-01-01")) / 7);
+  };
+  AK.daysUntilNextWeek = function (d) {
+    const since = dayNumber(AK.dateKey(d)) - dayNumber("2024-01-01");
+    return 7 - (((since % 7) + 7) % 7);
+  };
+  AK.featuredOutage = function (missions, d) {
+    const ops = missions.filter((m) => m.type === "terminal").sort((a, b) => a.order - b.order);
+    if (!ops.length) return null;
+    return ops[((AK.weekIndex(d) % ops.length) + ops.length) % ops.length];
+  };
+
+  /* ---------------------------------------------------------------- 2. progress */
+  AK.newState = function () {
+    return {
+      v: 1, name: "", classCode: "", xp: 0, solved: {}, drafts: {}, hintLvl: {},
+      testOut: {}, explains: {}, votes: {},
+      streak: { count: 0, best: 0, last: "", freezes: 0 },
+      badges: {}, weekly: {},
+      settings: { lang: "en", theme: "dark", motion: "auto", socratic: false },
+      created: new Date().toISOString(),
+    };
+  };
+
+  AK.recomputeXp = function (S) {
+    let xp = 0;
+    for (const id in S.solved) xp += S.solved[id].xp || 0;
+    for (const id in S.explains) if (S.explains[id].bonus) xp += 5;
+    S.xp = xp;
+    return xp;
+  };
+
+  AK.regionMissions = function (data, regionId) {
+    return data.missions.filter((m) => m.region === regionId).sort((a, b) => a.order - b.order);
+  };
+
+  AK.regionComplete = function (S, data, regionId) {
+    const ms = AK.regionMissions(data, regionId);
+    if (!ms.length) return false;
+    const boss = ms.find((m) => m.boss);
+    if (boss) return !!S.solved[boss.id];
+    return ms.every((m) => S.solved[m.id]);
+  };
+
+  AK.isUnlocked = function (S, data, m, featuredId) {
+    if (S.solved[m.id]) return true;
+    if ((m.requires || []).every((r) => S.solved[r])) return true;
+    if (m.boss && S.testOut[m.region]) return true;
+    if (featuredId && m.id === featuredId) return true;
+    if (AK.regionComplete(S, data, m.region)) return true;
+    return false;
+  };
+
+  AK.streakStatus = function (S, now) {
+    const st = S.streak, today = AK.dateKey(now);
+    if (!st.last) return { count: 0, atRisk: false };
+    const gap = AK.daysBetween(today, st.last);
+    if (gap <= 0) return { count: st.count, atRisk: false };
+    if (gap === 1) return { count: st.count, atRisk: true };
+    if (gap === 2 && st.freezes > 0) return { count: st.count, atRisk: true };
+    return { count: 0, atRisk: false };
+  };
+
+  function touchStreak(S, now) {
+    const st = S.streak, today = AK.dateKey(now);
+    if (st.last === today) return;
+    if (!st.last) st.count = 1;
+    else {
+      const gap = AK.daysBetween(today, st.last);
+      if (gap === 1) st.count += 1;
+      else if (gap === 2 && st.freezes > 0) { st.freezes -= 1; st.count += 1; }
+      else st.count = 1;
+    }
+    st.last = today;
+    st.best = Math.max(st.best, st.count);
+    if (st.count > 0 && st.count % 7 === 0) st.freezes = Math.min(2, st.freezes + 1);
+  }
+
+  AK.BADGES = [
+    { id: "first-spark", icon: "✨", en: "First Spark", te: "మొదటి మెరుపు", desc: "Solve your first mission." },
+    { id: "no-hints", icon: "🧠", en: "Own Brain", te: "స్వంత బుద్ధి", desc: "Solve a mission without any hints." },
+    { id: "bug-squasher", icon: "🐛", en: "Bug Squasher", te: "బగ్ వేటగాడు", desc: "Fix a broken program in a bug-fix mission." },
+    { id: "explainer", icon: "💬", en: "Explainer", te: "వివరణకారుడు", desc: "Explain your fix in your own words 3 times." },
+    { id: "comparer", icon: "⚖️", en: "Code Critic", te: "కోడ్ విమర్శకుడు", desc: "Vote on a solution in the comparison view." },
+    { id: "streak-3", icon: "🔥", en: "3-Day Streak", te: "3 రోజుల వరుస", desc: "Learn on 3 days in a row." },
+    { id: "streak-7", icon: "🌋", en: "7-Day Streak", te: "7 రోజుల వరుస", desc: "Learn on 7 days in a row." },
+    { id: "outage-survivor", icon: "🚨", en: "Outage Survivor", te: "అంతరాయ విజేత", desc: "Fix a server outage in the simulated terminal." },
+    { id: "weekly-hero", icon: "🏅", en: "Weekly Hero", te: "వారపు వీరుడు", desc: "Solve the Outage of the Week during its week." },
+    { id: "python-graduate", icon: "🎓", en: "Python Graduate", te: "పైథాన్ పట్టభద్రుడు", desc: "Complete every Python Quest region." },
+  ];
+  AK.regionBadge = function (region) {
+    return { id: "region-" + region.id, icon: region.icon || "🏁", en: region.title + " cleared", te: (region.title_te || region.title) + " పూర్తి", desc: "Beat the boss of " + region.title + "." };
+  };
+  AK.allBadges = function (data) {
+    return AK.BADGES.concat(data.regions.map(AK.regionBadge));
+  };
+
+  AK.checkBadges = function (S, data, now) {
+    const earned = [];
+    const give = (id) => { if (!S.badges[id]) { S.badges[id] = AK.dateKey(now); earned.push(id); } };
+    const solvedMs = data.missions.filter((m) => S.solved[m.id]);
+    if (solvedMs.length >= 1) give("first-spark");
+    if (solvedMs.some((m) => S.solved[m.id].hints === 0)) give("no-hints");
+    if (solvedMs.some((m) => m.boss || m.type === "fix-the-bug")) give("bug-squasher");
+    if (Object.values(S.explains).filter((e) => e.bonus).length >= 3) give("explainer");
+    if (Object.keys(S.votes).some((k) => Object.keys(S.votes[k]).length)) give("comparer");
+    if (S.streak.count >= 3) give("streak-3");
+    if (S.streak.count >= 7) give("streak-7");
+    if (solvedMs.some((m) => m.type === "terminal")) give("outage-survivor");
+    if (Object.keys(S.weekly).length) give("weekly-hero");
+    const pyRegions = data.regions.filter((r) => r.track === "python");
+    for (const r of data.regions) if (AK.regionComplete(S, data, r.id)) give("region-" + r.id);
+    if (pyRegions.length && pyRegions.every((r) => AK.regionComplete(S, data, r.id))) give("python-graduate");
+    return earned;
+  };
+
+  /* Awards XP for a first solve. Hints cost 5 XP each (never below half the base). */
+  AK.applySolve = function (S, data, m, opts) {
+    const now = opts.now || new Date();
+    if (S.solved[m.id]) return { repeat: true, gained: 0, breakdown: [], newBadges: [], rankUp: false };
+    const hints = opts.hintsUsed || 0;
+    const before = AK.rankFor(S.xp).index;
+    const base = m.xp || 20;
+    const main = Math.max(Math.round(base / 2), base - hints * 5);
+    const breakdown = [{ label: "Mission", xp: main }];
+    if (hints > 0) breakdown.push({ label: "Hints used: " + hints, xp: 0 });
+    let total = main;
+    if (hints === 0) { breakdown.push({ label: "No-hints bonus", xp: 10 }); total += 10; }
+    if (opts.weeklyId && opts.weeklyId === m.id) {
+      breakdown.push({ label: "Outage of the Week", xp: 30 }); total += 30;
+      S.weekly[String(AK.weekIndex(now))] = m.id;
+    }
+    S.solved[m.id] = { xp: total, hints: hints, at: AK.dateKey(now), code: opts.code || "" };
+    touchStreak(S, now);
+    AK.recomputeXp(S);
+    const newBadges = AK.checkBadges(S, data, now);
+    return { repeat: false, gained: total, breakdown: breakdown, newBadges: newBadges, rankUp: AK.rankFor(S.xp).index > before };
+  };
+
+  AK.addExplanation = function (S, data, id, text, now) {
+    text = (text || "").trim();
+    const first = !S.explains[id];
+    const bonus = text.length >= 12 && (first || !S.explains[id].bonus);
+    S.explains[id] = { text: text, bonus: !!(S.explains[id] && S.explains[id].bonus) || bonus };
+    AK.recomputeXp(S);
+    return { bonus: bonus, newBadges: AK.checkBadges(S, data, now || new Date()) };
+  };
+
+  AK.mergeState = function (cur, inc) {
+    const out = JSON.parse(JSON.stringify(cur));
+    for (const id in inc.solved || {}) {
+      if (!out.solved[id] || (inc.solved[id].xp || 0) > (out.solved[id].xp || 0)) out.solved[id] = inc.solved[id];
+    }
+    for (const id in inc.explains || {}) if (!out.explains[id] || inc.explains[id].bonus) out.explains[id] = inc.explains[id];
+    for (const id in inc.badges || {}) if (!out.badges[id]) out.badges[id] = inc.badges[id];
+    for (const id in inc.drafts || {}) if (!(id in out.drafts)) out.drafts[id] = inc.drafts[id];
+    for (const id in inc.testOut || {}) if (inc.testOut[id]) out.testOut[id] = true;
+    for (const id in inc.votes || {}) out.votes[id] = Object.assign({}, inc.votes[id], out.votes[id] || {});
+    for (const id in inc.weekly || {}) out.weekly[id] = inc.weekly[id];
+    for (const id in inc.hintLvl || {}) out.hintLvl[id] = Math.max(out.hintLvl[id] || 0, inc.hintLvl[id]);
+    if ((inc.streak || {}).best > out.streak.best) out.streak.best = inc.streak.best;
+    if ((inc.streak || {}).last > out.streak.last) out.streak = Object.assign({}, inc.streak);
+    if (!out.name && inc.name) out.name = inc.name;
+    if (!out.classCode && inc.classCode) out.classCode = inc.classCode;
+    AK.recomputeXp(out);
+    return out;
+  };
+
+  /* ---------------------------------------------------------------- 3. friendly errors, blocks */
+  AK.friendlyError = function (err) {
+    if (!err) return null;
+    const line = err.line ? " (line " + err.line + ")" : "";
+    const raw = err.type + ": " + err.msg + line;
+    let hint = "Read the message and check the line it points to.";
+    const m = err.msg || "";
+    switch (err.type) {
+      case "SyntaxError": hint = "Python cannot read this line. Check brackets, quotes and colons at the end of if/for/while/def lines."; break;
+      case "IndentationError": hint = "The spaces at the start of a line do not match. Lines inside if/for/def must be indented by the same amount."; break;
+      case "NameError": { const n = (m.match(/'(.+?)'/) || [])[1]; hint = "Python does not know the name " + (n ? "'" + n + "'" : "you used") + ". Did you define it first, or misspell it?"; break; }
+      case "TypeError": hint = "You are mixing types, like text and numbers. Convert one side with int() or str()."; break;
+      case "ValueError": hint = "A value had the right type but the wrong content, like int() on text that is not a whole number."; break;
+      case "IndexError": hint = "That position does not exist in the list. Counting starts at 0 and the last valid index is len(list) - 1."; break;
+      case "KeyError": hint = "That key is not in the dictionary. Try .get(key, default)."; break;
+      case "ZeroDivisionError": hint = "You divided by zero. Handle that case before dividing."; break;
+      case "EOFError": hint = "Your program asked for input but none was left. Put test input in the Input box, one line per input()."; break;
+      case "AttributeError": hint = "That object does not have that method or attribute. Check the spelling."; break;
+      case "Timeout": hint = "Your program ran for too long. Is there a loop that never ends?"; break;
+    }
+    return { title: err.type === "Timeout" ? "Stopped: too long" : err.type, hint: hint, raw: raw, line: err.line || null };
+  };
+
+  AK.toBlocks = function (code) {
+    const rows = [];
+    String(code).split("\n").forEach(function (ln, i) {
+      if (!ln.trim()) return;
+      const indent = ln.match(/^ */)[0].length;
+      const t = ln.trim();
+      let kind = "do", label = t, m;
+      if (t[0] === "#") { kind = "note"; label = t.slice(1).trim(); }
+      else if ((m = t.match(/^print\((.*)\)$/))) { kind = "say"; label = "say " + m[1]; }
+      else if ((m = t.match(/^for\s+(\w+)\s+in\s+range\((.*)\):$/))) { kind = "loop"; label = "repeat for " + m[1] + " in range(" + m[2] + ")"; }
+      else if ((m = t.match(/^for\s+(.+)\s+in\s+(.+):$/))) { kind = "loop"; label = "repeat for each " + m[1] + " in " + m[2]; }
+      else if ((m = t.match(/^while\s+(.+):$/))) { kind = "loop"; label = "repeat while " + m[1]; }
+      else if ((m = t.match(/^if\s+(.+):$/))) { kind = "choose"; label = "if " + m[1]; }
+      else if ((m = t.match(/^elif\s+(.+):$/))) { kind = "choose"; label = "else if " + m[1]; }
+      else if (/^else:$/.test(t)) { kind = "choose"; label = "otherwise"; }
+      else if ((m = t.match(/^def\s+(\w+)\((.*)\):$/))) { kind = "func"; label = "define " + m[1] + "(" + m[2] + ")"; }
+      else if ((m = t.match(/^return\b\s*(.*)$/))) { kind = "func"; label = "give back " + (m[1] || "nothing"); }
+      else if ((m = t.match(/^(\w+)\s*([+\-*\/]?=)\s*(.+)$/)) && m[2] !== "==") { kind = "set"; label = (m[2] === "=" ? "set " + m[1] + " to " + m[3] : "change " + m[1] + " (" + m[2] + ") " + m[3]); }
+      else if (/^(break|continue|pass)$/.test(t)) { kind = "loop"; label = t; }
+      rows.push({ line: i + 1, depth: Math.floor(indent / 4), kind: kind, label: label });
+    });
+    return rows;
+  };
+
+  /* ---------------------------------------------------------------- 4. terminal simulator */
+  function tokenize(line) {
+    const toks = []; let cur = "", q = null, has = false;
+    const push = () => { if (has) { toks.push({ t: "w", v: cur }); cur = ""; has = false; } };
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (q) { if (c === q) q = null; else cur += c; has = true; continue; }
+      if (c === '"' || c === "'") { q = c; has = true; continue; }
+      if (/\s/.test(c)) { push(); continue; }
+      if (c === "|") { push(); toks.push({ t: "op", v: "|" }); continue; }
+      if (c === ">") {
+        push();
+        if (line[i + 1] === ">") { toks.push({ t: "op", v: ">>" }); i++; } else toks.push({ t: "op", v: ">" });
+        continue;
+      }
+      cur += c; has = true;
+    }
+    push();
+    return toks;
+  }
+
+  AK.createTerminal = function (starter) {
+    const s = JSON.parse(JSON.stringify(starter || {}));
+    const T = {
+      cwd: s.cwd || "/", files: s.files || {}, procs: s.processes || [],
+      disks: s.disks || [], sizes: s.sizes || {}, history: [], cmds: [],
+    };
+    const abs = (p) => {
+      const parts = [];
+      (p[0] === "/" ? p : T.cwd + "/" + p).split("/").forEach((seg) => {
+        if (!seg || seg === ".") return;
+        if (seg === "..") parts.pop(); else parts.push(seg);
+      });
+      return "/" + parts.join("/");
+    };
+    const allPaths = () => Object.keys(T.files).concat(Object.keys(T.sizes));
+    const children = (dir) => {
+      const pre = dir === "/" ? "/" : dir + "/", set = {};
+      allPaths().forEach((p) => { if (p.startsWith(pre) && p.length > pre.length) set[p.slice(pre.length).split("/")[0]] = 1; });
+      return Object.keys(set).sort();
+    };
+    const isDir = (p) => p === "/" || allPaths().some((x) => x.startsWith(p + "/"));
+    const expand = (arg) => {
+      if (!arg.endsWith("/*")) return [arg];
+      const dir = abs(arg.slice(0, -2));
+      return children(dir).map((c) => (dir === "/" ? "" : dir) + "/" + c);
+    };
+    const lines = (s) => (s === "" ? [] : s.replace(/\n$/, "").split("\n"));
+    const pad = (v, n) => String(v).padEnd(n);
+
+    const cmds = {
+      help: () => "Commands: ls cd pwd cat head tail grep wc echo ps top ss netstat lsof df du kill sed history clear\nPipes (|) and redirects (> >>) work.",
+      pwd: () => T.cwd,
+      cd: (a) => {
+        const p = abs(a[0] || "/");
+        if (!isDir(p)) return "cd: no such directory: " + (a[0] || "");
+        T.cwd = p; return "";
+      },
+      ls: (a) => {
+        const args = a.filter((x) => x[0] !== "-"), p = abs(args[0] || ".");
+        if (T.files[p] !== undefined) return args[0];
+        if (!isDir(p)) return "ls: cannot access '" + (args[0] || "") + "': No such file or directory";
+        return children(p).map((c) => (isDir((p === "/" ? "" : p) + "/" + c) ? c + "/" : c)).join("\n");
+      },
+      cat: (a, inp) => {
+        if (!a.length) return inp || "";
+        return a.map((f) => (T.files[abs(f)] !== undefined ? T.files[abs(f)].replace(/\n$/, "") : "cat: " + f + ": No such file or directory")).join("\n");
+      },
+      echo: (a) => a.join(" "),
+      head: (a, inp) => ht(a, inp, true),
+      tail: (a, inp) => ht(a, inp, false),
+      grep: (a, inp) => {
+        const flags = a.filter((x) => x[0] === "-" && x.length > 1).join(""), rest = a.filter((x) => !(x[0] === "-" && x.length > 1));
+        const pat = rest[0]; if (pat === undefined) return "grep: missing pattern";
+        let re; try { re = new RegExp(pat, flags.includes("i") ? "i" : ""); } catch (e) { re = new RegExp(pat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")); }
+        let text = inp;
+        if (rest.length > 1) text = rest.slice(1).map((f) => (T.files[abs(f)] !== undefined ? T.files[abs(f)] : "")).join("\n");
+        const inv = flags.includes("v");
+        return lines(text || "").filter((l) => re.test(l) !== inv).join("\n");
+      },
+      wc: (a, inp) => {
+        let text = inp; const f = a.filter((x) => x[0] !== "-")[0];
+        if (f) text = T.files[abs(f)] || "";
+        return String(lines(text || "").length);
+      },
+      ps: () => procTable(T.procs.slice().sort((x, y) => x.pid - y.pid)),
+      top: () => procTable(T.procs.slice().sort((x, y) => y.cpu - x.cpu)),
+      ss: () => "State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process\n" +
+        T.procs.filter((p) => p.port).map((p) => "LISTEN  0       128     " + pad("0.0.0.0:" + p.port, 20) + "0.0.0.0:*          users:((\"" + p.name + "\",pid=" + p.pid + ",fd=3))").join("\n"),
+      netstat: () => "Proto Recv-Q Send-Q Local Address    Foreign Address  State   PID/Program name\n" +
+        T.procs.filter((p) => p.port).map((p) => "tcp   0      0      " + pad("0.0.0.0:" + p.port, 17) + "0.0.0.0:*        LISTEN  " + p.pid + "/" + p.name).join("\n"),
+      lsof: (a) => {
+        const spec = a.join(" ").match(/:(\d+)/); const port = spec ? Number(spec[1]) : null;
+        const hit = T.procs.filter((p) => p.port && (port === null || p.port === port));
+        return "COMMAND      PID USER  FD  TYPE NAME\n" + hit.map((p) => pad(p.name, 12) + " " + pad(p.pid, 4) + " " + pad(p.user || "root", 5) + " 3u  IPv4 *:" + p.port + " (LISTEN)").join("\n");
+      },
+      df: () => T.disks.length ? "Filesystem  Size  Used  Avail  Use%  Mounted on\n" + T.disks.map((d) => pad(d.fs, 11) + " " + pad(d.size, 5) + " " + pad(d.used, 5) + " " + pad(d.avail, 6) + " " + pad(d.pct, 5) + " " + d.mount).join("\n") : "df: no filesystems",
+      du: (a) => {
+        const targets = [];
+        a.filter((x) => x[0] !== "-").forEach((x) => expand(x).forEach((y) => targets.push(y)));
+        if (!targets.length) targets.push(T.cwd);
+        return targets.map((t) => { const p = abs(t); return (T.sizes[p] || "4.0K") + "\t" + p; }).join("\n");
+      },
+      kill: (a) => {
+        const pid = Number(a.filter((x) => x[0] !== "-")[0]);
+        const i = T.procs.findIndex((p) => p.pid === pid);
+        if (!pid) return "kill: usage: kill [-9] PID";
+        if (i < 0) return "kill: (" + pid + ") - No such process";
+        T.procs.splice(i, 1); return "";
+      },
+      sed: (a, inp) => {
+        const inplace = a.includes("-i"), rest = a.filter((x) => x !== "-i");
+        const expr = rest[0] || "", file = rest[1];
+        if (expr[0] !== "s" || expr.length < 4) return "sed: only s/old/new/ is supported here";
+        const d = expr[1], parts = expr.slice(2).split(d);
+        if (parts.length < 2) return "sed: bad expression";
+        let re; try { re = new RegExp(parts[0], (parts[2] || "").includes("g") ? "g" : ""); } catch (e) { return "sed: bad pattern"; }
+        const text = file ? T.files[abs(file)] : inp;
+        if (text === undefined) return "sed: can't read " + file + ": No such file or directory";
+        const out = text.split("\n").map((l) => l.replace(re, parts[1])).join("\n");
+        if (inplace && file) { T.files[abs(file)] = out; return ""; }
+        return out.replace(/\n$/, "");
+      },
+      history: () => T.history.map((h, i) => pad(i + 1, 4) + h).join("\n"),
+    };
+    function ht(a, inp, head) {
+      let n = 10; const rest = [];
+      for (let i = 0; i < a.length; i++) { if (a[i] === "-n") { n = Number(a[++i]) || 10; } else rest.push(a[i]); }
+      const text = rest.length ? (T.files[abs(rest[0])] || "") : inp || "";
+      const ls = lines(text); return (head ? ls.slice(0, n) : ls.slice(-n)).join("\n");
+    }
+    function procTable(ps) {
+      return "USER       PID  %CPU  %MEM  COMMAND\n" + ps.map((p) => pad(p.user || "root", 10) + " " + pad(p.pid, 4) + " " + pad((p.cpu || 0).toFixed(1), 5) + " " + pad((p.mem || 0).toFixed(1), 5) + " " + p.name).join("\n");
+    }
+
+    T.exec = function (line) {
+      line = String(line).trim();
+      if (!line) return { out: "" };
+      T.history.push(line);
+      if (line === "clear") { T.cmds.push("clear"); return { out: "", clear: true }; }
+      const toks = tokenize(line), stages = [[]];
+      toks.forEach((t) => { if (t.t === "op" && t.v === "|") stages.push([]); else stages[stages.length - 1].push(t); });
+      let data = "";
+      for (let i = 0; i < stages.length; i++) {
+        const st = stages[i]; let redirect = null; const words = [];
+        for (let j = 0; j < st.length; j++) {
+          if (st[j].t === "op") { redirect = { mode: st[j].v, file: (st[j + 1] || {}).v }; break; }
+          words.push(st[j].v);
+        }
+        if (!words.length) continue;
+        const name = words[0]; T.cmds.push(name);
+        const fn = cmds[name];
+        data = fn ? fn(words.slice(1), data) : name + ": command not found";
+        if (redirect) {
+          if (!redirect.file) return { out: "syntax error: missing file after " + redirect.mode };
+          const p = abs(redirect.file), add = data + "\n";
+          T.files[p] = redirect.mode === ">>" ? (T.files[p] || "") + add : add;
+          data = "";
+        }
+      }
+      return { out: data };
+    };
+    return T;
+  };
+
+  const normAns = (s) => String(s == null ? "" : s).trim().toLowerCase().replace(/\/+$/, "");
+
+  AK.gradeTerminal = function (mission, T, answer) {
+    return mission.tests.map(function (t) {
+      let ok = false;
+      switch (t.kind) {
+        case "answer": { const exp = [].concat(t.expect).map(normAns); ok = exp.includes(normAns(answer)); break; }
+        case "command-used": ok = t.anyOf.some((c) => T.cmds.includes(c)); break;
+        case "file-contains": ok = (T.files[t.path] || "").includes(t.text); break;
+        case "file-not-contains": ok = t.path in T.files && !(T.files[t.path] || "").includes(t.text); break;
+        case "process-gone": ok = !T.procs.some((p) => p.pid === t.pid); break;
+        case "process-alive": ok = T.procs.some((p) => p.pid === t.pid); break;
+      }
+      return { label: t.label || t.note || t.kind, ok: ok, hidden: !!t.hidden };
+    });
+  };
+
+  AK.runTerminalSolution = function (mission, sol) {
+    const T = AK.createTerminal(mission.starter);
+    (sol.commands || []).forEach((c) => T.exec(c));
+    return { results: AK.gradeTerminal(mission, T, sol.answer || ""), terminal: T };
+  };
+
+  /* ---------------------------------------------------------------- 5. Python bridge */
+  const PY = { runner: "", fns: null };
+  AK.py = {
+    setRunnerSource: function (src) { PY.runner = src; },
+    init: function (pyodide) {
+      pyodide.runPython(PY.runner);
+      PY.fns = { run: pyodide.globals.get("_run"), grade: pyodide.globals.get("_grade") };
+    },
+    run: function (code, stdin, trace) { return JSON.parse(PY.fns.run(code, JSON.stringify(stdin || []), !!trace)); },
+    grade: function (code, tests) { return JSON.parse(PY.fns.grade(code, JSON.stringify(tests))); },
+  };
+
+  /* ---------------------------------------------------------------- 6. teacher cards */
+  const b64 = {
+    enc: (s) => (typeof Buffer !== "undefined" ? Buffer.from(s, "utf8").toString("base64") : btoa(unescape(encodeURIComponent(s)))),
+    dec: (s) => (typeof Buffer !== "undefined" ? Buffer.from(s, "base64").toString("utf8") : decodeURIComponent(escape(atob(s)))),
+  };
+  AK.encodeCard = function (S) {
+    const card = { v: 1, n: S.name || "", c: S.classCode || "", x: S.xp, s: Object.keys(S.solved), b: Object.keys(S.badges), k: S.streak.count, t: new Date().toISOString() };
+    return "AK1:" + b64.enc(JSON.stringify(card));
+  };
+  AK.decodeCard = function (str) {
+    try {
+      str = String(str).trim();
+      if (!str.startsWith("AK1:")) return null;
+      const c = JSON.parse(b64.dec(str.slice(4)));
+      if (c.v !== 1 || !Array.isArray(c.s)) return null;
+      return c;
+    } catch (e) { return null; }
+  };
+
+  if (typeof module !== "undefined" && module.exports) module.exports = AK;
+  root.AK = AK;
+})(typeof self !== "undefined" ? self : globalThis);
+</script>
+<script>window.AK_DATA={"tracks":[{"id":"python","title":"Python Quest","title_te":"పైథాన్ యాత్ర","blurb":"From your first print() to writing your own functions."},{"id":"ops","title":"Debug the Outage","title_te":"అంతరాయ పరిష్కారం","blurb":"Fix broken servers in a simulated terminal."}],"regions":[{"id":"first-steps","track":"python","title":"First Steps","title_te":"మొదటి అడుగులు","blurb":"Say hello, remember things, read input.","icon":"🌱"},{"id":"decisions","track":"python","title":"Decisions","title_te":"నిర్ణయాలు","blurb":"Teach your program to choose.","icon":"🔀"},{"id":"loops","track":"python","title":"Loops","title_te":"లూప్‌లు","blurb":"Repeat work without repeating code.","icon":"🔁"},{"id":"collections","track":"python","title":"Collections","title_te":"సేకరణలు","blurb":"Lists and dictionaries hold many things.","icon":"🎒"},{"id":"functions","track":"python","title":"Functions","title_te":"ఫంక్షన్లు","blurb":"Write a spell once, cast it anywhere.","icon":"✨"},{"id":"debug-the-outage","track":"ops","title":"Debug the Outage","title_te":"అంతరాయ పరిష్కారం","blurb":"Linux troubleshooting, one outage at a time.","icon":"🚨"}],"missions":[{"id":"py-11-lists","region":"collections","order":1,"title":"Pack the Bag","story":"An explorer's bag holds a map and a rope. A torch is missing.","goal":"Add \"torch\" to the end of bag, then print how many items it holds and the first item.","type":"write-code","starter":"bag = [\"map\", \"rope\"]\n# add \"torch\" to the end of the bag\n# then print the number of items, then the first item\n","tests":[{"kind":"stdout","label":"Prints count then first item","expect":"3\nmap"},{"kind":"eval","label":"bag is now map, rope, torch","expr":"bag","expect":"['map', 'rope', 'torch']"}],"hints":["Lists have an append method: bag.append(...) adds one item at the end.","len(bag) counts items. The first item is bag[0] because counting starts at zero.","bag.append(\"torch\")\nprint(len(bag))\nprint(bag[0])"],"socratic":["Which list method adds an item to the end?","Which function tells you how many items a list has?","What index is the first item?"],"explain":"In one sentence: why is the first item at index 0?","xp":30,"skills":["lists","indexing"],"requires":["py-10-bugfix-3"],"solution":"bag = [\"map\", \"rope\"]\nbag.append(\"torch\")\nprint(len(bag))\nprint(bag[0])\n","alt":"bag = [\"map\", \"rope\"]\nbag = bag + [\"torch\"]\nprint(len(bag))\nprint(bag[0])\n"},{"id":"py-12-dict","region":"collections","order":2,"title":"Score Board","story":"The scoreboard remembers each player's points. New players are added the first time they score.","goal":"Read a name and points, add the points to that player's score (new players start at 0), then print their new score.","type":"write-code","starter":"scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\n# update the scoreboard, then print the new score for name\n","tests":[{"kind":"stdout","label":"existing player Asha","expect":"50","stdin":["Asha","10"]},{"kind":"stdout","label":"existing player Ravi","expect":"60","stdin":["Ravi","5"]},{"kind":"stdout","label":"new player Meera","expect":"7","stdin":["Meera","7"]}],"hints":["A dictionary maps keys to values: scores[\"Asha\"] gives Asha's score.","scores.get(name, 0) gives the current score, or 0 if the name is new.","scores[name] = scores.get(name, 0) + points\nprint(scores[name])"],"socratic":["What happens if you read scores[name] for a name that is not there?","Which method gives a default value for a missing key?","How do you store the new total back under the same key?"],"explain":"In one sentence: why use .get() instead of scores[name]?","xp":35,"skills":["dictionaries","get"],"requires":["py-11-lists"],"solution":"scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nscores[name] = scores.get(name, 0) + points\nprint(scores[name])\n","alt":"scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nif name in scores:\n    scores[name] += points\nelse:\n    scores[name] = points\nprint(scores[name])\n"},{"id":"py-13-bugfix-4","region":"collections","order":3,"title":"The Missing Treasure","story":"The treasure list is printed with numbers, but the program crashes at the end and the total is wrong.","goal":"Fix it to print 1 gem, 2 coin, 3 key, then Total: 3.","type":"fix-the-bug","starter":"items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items) + 1):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items) - 1)\n","tests":[{"kind":"stdout","label":"Prints the list and total","expect":"1 gem\n2 coin\n3 key\nTotal: 3"},{"kind":"source","label":"Still uses the items list","pattern":"items\\s*=\\s*\\["}],"hints":["Run it and read the error. A list of 3 items has valid positions 0, 1 and 2.","range(len(items) + 1) goes one step too far. Also check how the total is calculated.","items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items)):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items))"],"socratic":["What is the largest valid index in a list of 3 items?","How many times should the loop run?","Is the total one less than the number of items?"],"explain":"In one sentence: what is an off-by-one bug?","xp":50,"skills":["debugging","lists","off-by-one"],"requires":["py-12-dict"],"solution":"items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items)):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items))\n","alt":"items = [\"gem\", \"coin\", \"key\"]\nfor number, item in enumerate(items, 1):\n    print(number, item)\nprint(\"Total:\", len(items))\n","boss":true},{"id":"linux-01-first-steps","region":"debug-the-outage","title":"The Silent Server","story":"It's 2 a.m. The web service has stopped responding and the on-call phone is ringing. Before you fix anything, you need to see what is going on.","goal":"Find which process is using port 8080 and report its name.","type":"terminal","starter":{"cwd":"/home/oncall","files":{"/var/log/app.log":"ERROR: cannot bind to port 8080: address already in use\n"},"processes":[{"pid":412,"name":"old-worker","port":8080}]},"tests":[{"kind":"answer","expect":"old-worker","note":"Learner submits the process name","label":"Reported the process name"},{"kind":"command-used","anyOf":["ss","netstat","lsof"],"label":"Used a port-inspection command"}],"hints":["The log tells you the port is already in use. Which command lists listening ports?","Try `ss -ltnp` or `lsof -i :8080` to see the process behind a port.","Run `ss -ltnp | grep 8080`. The process name is old-worker (pid 412)."],"explain":"In one sentence: why did the service fail to start?","xp":20,"skills":["linux","networking","troubleshooting"],"requires":[],"order":1,"socratic":["What does the log line say about port 8080?","Which commands can list what is listening on a port?","Once you see the process, where is its name in the output?"],"solution":{"commands":["cat /var/log/app.log","ss -ltnp | grep 8080"],"answer":"old-worker"},"alt":{"commands":["lsof -i :8080"],"answer":"old-worker"}},{"id":"linux-02-disk-full","region":"debug-the-outage","order":2,"title":"No Space Left","story":"Writes are failing with 'No space left on device'. Something under /var/log has grown out of control.","goal":"Find which directory under /var/log uses the most space and report its path.","type":"terminal","starter":{"cwd":"/home/oncall","files":{"/var/log/app/app.log":"debug: flushing cache\ndebug: flushing cache\ndebug: flushing cache\n","/var/log/nginx/access.log":"GET / 200\n","/var/log/syslog":"kernel: disk almost full\n"},"disks":[{"fs":"/dev/sda1","size":"20G","used":"20G","avail":"0","pct":"100%","mount":"/"},{"fs":"tmpfs","size":"2.0G","used":"12M","avail":"2.0G","pct":"1%","mount":"/run"}],"sizes":{"/var/log/app":"18G","/var/log/nginx":"140M","/var/log/syslog":"22M"}},"tests":[{"kind":"command-used","anyOf":["df"],"note":"Check which filesystem is full","label":"Check which filesystem is full"},{"kind":"command-used","anyOf":["du"],"note":"Measure the directories","label":"Measure the directories"},{"kind":"answer","expect":"/var/log/app","note":"Learner submits the directory path","label":"Learner submits the directory path"}],"hints":["First confirm the disk really is full. Which command shows filesystem usage in human-readable form?","Use du to measure folders: du -sh /var/log/* shows the size of each entry.","Run df -h, then du -sh /var/log/*. The biggest is /var/log/app at 18G."],"socratic":["Which command tells you how full each filesystem is?","Which command measures how much space a folder uses?","How do you compare several folders at once?"],"explain":"In one sentence: why check df before du?","xp":40,"skills":["linux","disk","troubleshooting"],"requires":[],"solution":{"commands":["df -h","du -sh /var/log/*"],"answer":"/var/log/app"}},{"id":"linux-03-bad-config","region":"debug-the-outage","order":3,"title":"The Crash Loop","story":"The billing service restarts every few seconds. Customers cannot pay. The log hints at a configuration problem.","goal":"Fix /etc/billing/config.yaml so the service reads port: 8080.","type":"terminal","starter":{"cwd":"/home/oncall","files":{"/var/log/billing.log":"ERROR config: unknown key 'prot' in /etc/billing/config.yaml (line 3)\nERROR service exited with code 2\n","/etc/billing/config.yaml":"name: billing\nworkers: 4\nprot: 8080\nlog_level: info\n"}},"tests":[{"kind":"file-contains","path":"/etc/billing/config.yaml","text":"port: 8080","note":"The key is spelled correctly","label":"The key is spelled correctly"},{"kind":"file-not-contains","path":"/etc/billing/config.yaml","text":"prot","note":"The typo is gone","label":"The typo is gone"},{"kind":"file-contains","path":"/etc/billing/config.yaml","text":"workers: 4","note":"Nothing else was lost","label":"Nothing else was lost"}],"hints":["Read the log. It names a file, a line and a key. What does the file say on that line?","The key is misspelled. sed can fix text in a file: sed -i 's/old/new/' file","sed -i 's/prot:/port:/' /etc/billing/config.yaml"],"socratic":["Which file does the log point to?","Which line looks wrong when you read it?","Which command edits text inside a file without opening an editor?"],"explain":"In one sentence: how did the log tell you what was wrong?","xp":40,"skills":["linux","logs","configuration"],"requires":[],"solution":{"commands":["cat /var/log/billing.log","cat /etc/billing/config.yaml","sed -i 's/prot:/port:/' /etc/billing/config.yaml","cat /etc/billing/config.yaml"]},"alt":{"commands":["echo \"name: billing\" > /etc/billing/config.yaml","echo \"workers: 4\" >> /etc/billing/config.yaml","echo \"port: 8080\" >> /etc/billing/config.yaml","echo \"log_level: info\" >> /etc/billing/config.yaml"]}},{"id":"linux-04-runaway","region":"debug-the-outage","order":4,"title":"The Runaway Process","story":"The server is crawling. Pages time out and SSH feels like wading through mud. One process is hogging the CPU.","goal":"Find the process using the most CPU and stop it without touching the others.","type":"terminal","starter":{"cwd":"/home/oncall","files":{},"processes":[{"pid":1,"name":"init","user":"root","cpu":0.0,"mem":0.1},{"pid":233,"name":"nginx","user":"www","cpu":1.2,"mem":2.3,"port":80},{"pid":512,"name":"billing","user":"deploy","cpu":3.4,"mem":8.8},{"pid":777,"name":"data-crunch","user":"deploy","cpu":98.7,"mem":41.0}]},"tests":[{"kind":"command-used","anyOf":["ps","top"],"note":"Inspect the running processes","label":"Inspect the running processes"},{"kind":"process-gone","pid":777,"note":"The runaway process is stopped","label":"The runaway process is stopped"},{"kind":"process-alive","pid":233,"note":"nginx is still running","label":"nginx is still running"},{"kind":"process-alive","pid":512,"note":"billing is still running","label":"billing is still running"}],"hints":["Which command lists running processes along with their CPU use?","ps aux shows a %CPU column. Spot the outlier, note its PID, then use kill PID.","ps aux, then kill 777."],"socratic":["Which command shows what is running right now?","Which column tells you who is hogging the CPU?","How do you stop one specific process by its number?"],"explain":"In one sentence: why look before you kill?","xp":40,"skills":["linux","processes","troubleshooting"],"requires":[],"solution":{"commands":["ps aux","kill 777","ps aux"]},"alt":{"commands":["top","kill -9 777"]}},{"id":"py-05-if-else","region":"decisions","order":1,"title":"Gate Guard","story":"The temple gate only opens for scores of 50 or more. Everyone else is asked to try again.","goal":"Read a score. Print Pass if it is 50 or more, otherwise print Try again.","type":"write-code","starter":"score = int(input())\n# print Pass if the score is 50 or more, otherwise Try again\n","tests":[{"kind":"stdout","label":"50 passes","expect":"Pass","stdin":["50"]},{"kind":"stdout","label":"49 tries again","expect":"Try again","stdin":["49"]},{"kind":"stdout","label":"100 passes","expect":"Pass","stdin":["100"]},{"kind":"stdout","label":"0 tries again","expect":"Try again","stdin":["0"]},{"kind":"source","label":"Uses if","pattern":"\\bif\\b"}],"hints":["A decision has the shape: if condition: (indented action) else: (indented action).","The condition for passing is score >= 50. Remember the colons and the indentation.","if score >= 50:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")"],"socratic":["Which comparison means 'at least 50'?","What two symbols must end the if line and the else line?","What happens to the lines under if when the condition is false?"],"explain":"In one sentence: when does the else part run?","xp":25,"skills":["if","comparison"],"requires":["py-04-bugfix-1"],"solution":"score = int(input())\nif score >= 50:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")\n","alt":"score = int(input())\nprint(\"Pass\" if score >= 50 else \"Try again\")\n"},{"id":"py-06-elif","region":"decisions","order":2,"title":"Report Card","story":"Marks are turned into grades: 90 or more is A, 75 or more is B, 50 or more is C, anything lower is D.","goal":"Read marks and print the grade letter.","type":"write-code","starter":"marks = int(input())\n# print A, B, C or D\n","tests":[{"kind":"stdout","label":"95 is A","expect":"A","stdin":["95"]},{"kind":"stdout","label":"90 is A","expect":"A","stdin":["90"]},{"kind":"stdout","label":"80 is B","expect":"B","stdin":["80"]},{"kind":"stdout","label":"75 is B","expect":"B","stdin":["75"]},{"kind":"stdout","label":"60 is C","expect":"C","stdin":["60"]},{"kind":"stdout","label":"50 is C","expect":"C","stdin":["50"]},{"kind":"stdout","label":"49 is D","expect":"D","stdin":["49"]}],"hints":["When there are more than two outcomes, chain them: if ... elif ... else.","Check the highest band first: if marks >= 90, then elif marks >= 75, then elif marks >= 50, then else.","if marks >= 90:\n    print(\"A\")\nelif marks >= 75:\n    print(\"B\")\nelif marks >= 50:\n    print(\"C\")\nelse:\n    print(\"D\")"],"socratic":["If marks is 95, which conditions are true? Which one should win?","Why does the order of the checks matter?","What does elif do that a second if does not?"],"explain":"In one sentence: why do we check the highest band first?","xp":30,"skills":["if","elif","logic"],"requires":["py-05-if-else"],"solution":"marks = int(input())\nif marks >= 90:\n    print(\"A\")\nelif marks >= 75:\n    print(\"B\")\nelif marks >= 50:\n    print(\"C\")\nelse:\n    print(\"D\")\n","alt":"marks = int(input())\ngrade = \"D\"\nif marks >= 50:\n    grade = \"C\"\nif marks >= 75:\n    grade = \"B\"\nif marks >= 90:\n    grade = \"A\"\nprint(grade)\n"},{"id":"py-07-bugfix-2","region":"decisions","order":3,"title":"The Wrong Door","story":"The ticket machine should say Exact change for exactly 10 coins, Overpaid for more, Not enough for fewer. It is broken in two ways.","goal":"Fix the program so all three cases work.","type":"fix-the-bug","starter":"coins = int(input())\nif coins >= 10:\n    print(\"Exact change\")\nelif coins > 10\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")\n","tests":[{"kind":"stdout","label":"10 is exact","expect":"Exact change","stdin":["10"]},{"kind":"stdout","label":"11 is overpaid","expect":"Overpaid","stdin":["11"]},{"kind":"stdout","label":"25 is overpaid","expect":"Overpaid","stdin":["25"]},{"kind":"stdout","label":"9 is not enough","expect":"Not enough","stdin":["9"]},{"kind":"stdout","label":"0 is not enough","expect":"Not enough","stdin":["0"],"hidden":true}],"hints":["Run it first. Python complains about one line. What is missing at the end of an elif line?","Once it runs, try 11 coins. Which branch answers? Is >= the same as \"exactly\"?","coins = int(input())\nif coins == 10:\n    print(\"Exact change\")\nelif coins > 10:\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")"],"socratic":["What must every if/elif/else line end with?","For 11 coins, which condition is true first?","Which operator checks 'exactly equal'?"],"explain":"In one sentence: what is the difference between >= and ==?","xp":50,"skills":["debugging","comparison"],"requires":["py-06-elif"],"solution":"coins = int(input())\nif coins == 10:\n    print(\"Exact change\")\nelif coins > 10:\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")\n","alt":"coins = int(input())\nif coins < 10:\n    print(\"Not enough\")\nelif coins == 10:\n    print(\"Exact change\")\nelse:\n    print(\"Overpaid\")\n","boss":true},{"id":"py-01-hello","region":"first-steps","order":1,"title":"Say Hello","story":"Chilaka the parrot only repeats what you teach it. Today's lesson: the very first word.","goal":"Make the program print exactly: Hello, Aata!","type":"write-code","starter":"# Teach Chilaka to say hello\n","tests":[{"kind":"stdout","label":"Prints the greeting","expect":"Hello, Aata!"},{"kind":"source","label":"Uses print()","pattern":"print\\s*\\("}],"hints":["Python shows text on the screen with a function called print(). What goes inside the brackets?","Text goes inside quotes. The shape is print(\"...\").","print(\"Hello, Aata!\")"],"socratic":["Which function shows something on the screen?","How does Python know something is plain text and not a command?","Compare your output with the goal letter by letter. What differs?"],"explain":"In one sentence: what do the quotation marks do?","xp":20,"skills":["print","strings"],"requires":[],"solution":"print(\"Hello, Aata!\")\n","alt":"print('Hello, ' + 'Aata!')\n"},{"id":"py-02-variables","region":"first-steps","order":2,"title":"Name Tag","story":"Chilaka needs a name tag and a lives counter. Variables are labelled boxes that remember things.","goal":"Create name = \"Chilaka\" and lives = 3, then print: Chilaka has 3 lives (use the variables).","type":"write-code","starter":"# 1. make a variable called name\n# 2. make a variable called lives\n# 3. print the sentence using both variables\n","tests":[{"kind":"stdout","label":"Prints the sentence","expect":"Chilaka has 3 lives"},{"kind":"eval","label":"name holds \"Chilaka\"","expr":"name","expect":"'Chilaka'"},{"kind":"eval","label":"lives holds 3","expr":"lives","expect":"3"}],"hints":["A variable is a labelled box: name = \"Chilaka\" puts text in a box called name.","Make both variables first. Then give print() the variable names themselves, without quotes around them.","name = \"Chilaka\"\nlives = 3\nprint(name, \"has\", lives, \"lives\")"],"socratic":["What is the difference between name and \"name\"?","How can print() show several things on one line?","Did you create both variables before printing?"],"explain":"In one sentence: why use a variable instead of typing the text again?","xp":25,"skills":["variables","print"],"requires":["py-01-hello"],"solution":"name = \"Chilaka\"\nlives = 3\nprint(name, \"has\", lives, \"lives\")\n","alt":"name = \"Chilaka\"\nlives = 3\nprint(f\"{name} has {lives} lives\")\n"},{"id":"py-03-input-math","region":"first-steps","order":3,"title":"Snack Calculator","story":"Chilaka runs a snack stall. Each snack costs 5 rupees, and customers tell you how many they want.","goal":"Read a number of snacks with input() and print the total cost (5 rupees each).","type":"write-code","starter":"# Read how many snacks, then print the total cost (5 rupees each)\nsnacks = input()\n","tests":[{"kind":"stdout","label":"3 snacks cost 15","expect":"15","stdin":["3"]},{"kind":"stdout","label":"10 snacks cost 50","expect":"50","stdin":["10"]},{"kind":"stdout","label":"0 snacks cost 0","expect":"0","stdin":["0"]}],"hints":["input() always gives you text. What happens if you multiply text by 5?","Turn the text into a whole number with int(...) before doing maths.","snacks = int(input())\nprint(snacks * 5)"],"socratic":["What type of value does input() give back?","What does \"3\" * 5 do in Python? Try it in your head.","Which function turns text into a whole number?"],"explain":"In one sentence: why did we need int() here?","xp":30,"skills":["input","int","arithmetic"],"requires":["py-02-variables"],"solution":"snacks = int(input())\nprint(snacks * 5)\n","alt":"n = input()\ntotal = int(n) * 5\nprint(total)\n"},{"id":"py-04-bugfix-1","region":"first-steps","order":4,"title":"Chilaka's Broken Greeting","story":"Chilaka greets visitors and tells them their age next year, but the program refuses to run. Boss fight: find every bug.","goal":"Fix the program: it should print Hello <name>! and then Next year you will be <age + 1>.","type":"fix-the-bug","starter":"name = input()\nage = input()\nprint(\"Hello \" + name + \"!\"\nprint(\"Next year you will be \" + age + 1)\n","tests":[{"kind":"stdout","label":"Asha, 12","expect":"Hello Asha!\nNext year you will be 13","stdin":["Asha","12"]},{"kind":"stdout","label":"Ravi, 9","expect":"Hello Ravi!\nNext year you will be 10","stdin":["Ravi","9"]},{"kind":"stdout","label":"Meera, 0","expect":"Hello Meera!\nNext year you will be 1","stdin":["Meera","0"],"hidden":true}],"hints":["Read the error message. Python tells you the line. Count your brackets there.","After fixing the bracket, a second bug hides in the last line: you cannot add a number to text. Convert the age and the result.","name = input()\nage = int(input())\nprint(\"Hello \" + name + \"!\")\nprint(\"Next year you will be \" + str(age + 1))"],"socratic":["Which line does the error point to, and what is missing there?","What type is age after input()? What type does + need on both sides?","Which function turns a number back into text for printing?"],"explain":"In one sentence: name the two bugs you fixed.","xp":50,"skills":["debugging","types","syntax"],"requires":["py-03-input-math"],"solution":"name = input()\nage = int(input())\nprint(\"Hello \" + name + \"!\")\nprint(\"Next year you will be \" + str(age + 1))\n","alt":"name = input()\nage = int(input())\nprint(f\"Hello {name}!\")\nprint(f\"Next year you will be {age + 1}\")\n","boss":true},{"id":"py-14-def","region":"functions","order":1,"title":"Spell: Double It","story":"Chilaka learns a spell. A function is a spell you write once and cast as many times as you like.","goal":"Define a function double(x) that gives back x times 2.","type":"write-code","starter":"# define double(x) so that double(4) gives back 8\n","tests":[{"kind":"eval","label":"double(4) is 8","expr":"double(4)","expect":"8"},{"kind":"eval","label":"double(0) is 0","expr":"double(0)","expect":"0"},{"kind":"eval","label":"double(-3) is -6","expr":"double(-3)","expect":"-6"},{"kind":"eval","label":"double(2.5) is 5.0","expr":"double(2.5)","expect":"5.0"},{"kind":"source","label":"Defines a function","pattern":"def\\s+double\\s*\\("}],"hints":["A function starts with def, a name, brackets with parameters, and a colon.","Use return to hand the answer back to whoever called the function.","def double(x):\n    return x * 2"],"socratic":["What keyword starts a function?","What is the difference between printing a value and returning it?","What is the parameter called in double(x)?"],"explain":"In one sentence: what does return do?","xp":30,"skills":["functions","return"],"requires":["py-13-bugfix-4"],"solution":"def double(x):\n    return x * 2\n","alt":"def double(x):\n    return x + x\n"},{"id":"py-15-args","region":"functions","order":2,"title":"The Greeter","story":"A good greeter can be calm or excited. Some functions have optional settings with default values.","goal":"Define greet(name, excited=False) that returns Hello, <name> or Hello, <name>! when excited.","type":"write-code","starter":"# greet(\"Asha\") -> \"Hello, Asha\"\n# greet(\"Ravi\", True) -> \"Hello, Ravi!\"\n","tests":[{"kind":"eval","label":"calm greeting","expr":"greet(\"Asha\")","expect":"'Hello, Asha'"},{"kind":"eval","label":"excited greeting","expr":"greet(\"Ravi\", True)","expect":"'Hello, Ravi!'"},{"kind":"eval","label":"named arguments","expr":"greet(name=\"Meera\", excited=True)","expect":"'Hello, Meera!'"},{"kind":"eval","label":"excited off","expr":"greet(\"Kiran\", False)","expect":"'Hello, Kiran'","hidden":true}],"hints":["Give a parameter a default with =, like excited=False. Callers may then leave it out.","Inside the function, an if on excited chooses between the two endings.","def greet(name, excited=False):\n    if excited:\n        return \"Hello, \" + name + \"!\"\n    return \"Hello, \" + name"],"socratic":["What value does excited have when the caller does not pass it?","Which one decision picks the ending?","What does return do for the early branch?"],"explain":"In one sentence: what is a default parameter?","xp":35,"skills":["functions","default-arguments","if"],"requires":["py-14-def"],"solution":"def greet(name, excited=False):\n    if excited:\n        return \"Hello, \" + name + \"!\"\n    return \"Hello, \" + name\n","alt":"def greet(name, excited=False):\n    return f\"Hello, {name}\" + (\"!\" if excited else \"\")\n"},{"id":"py-16-bugfix-5","region":"functions","order":3,"title":"The Silent Function","story":"average() should hand back the mean of a list, but it prints instead, adds wrongly and crashes on an empty list.","goal":"Fix average(numbers): return the mean, or 0 for an empty list.","type":"fix-the-bug","starter":"def average(numbers):\n    total = 0\n    for n in numbers:\n        total = n\n    print(total / len(numbers))\n","tests":[{"kind":"eval","label":"average of 2, 4, 6","expr":"average([2, 4, 6])","expect":"4.0"},{"kind":"eval","label":"average of one number","expr":"average([5])","expect":"5.0"},{"kind":"eval","label":"average of 1 and 2","expr":"average([1, 2])","expect":"1.5"},{"kind":"eval","label":"empty list gives 0","expr":"average([])","expect":"0"}],"hints":["Test it with [2, 4, 6]. Two things go wrong: the result is not handed back, and the total is wrong.","total = n replaces the total each time. Use += to add. Use return instead of print. Handle the empty list first.","def average(numbers):\n    if len(numbers) == 0:\n        return 0\n    total = 0\n    for n in numbers:\n        total += n\n    return total / len(numbers)"],"socratic":["What does a function give back if it never uses return?","After the loop with total = n, what does total hold?","What happens when you divide by len([])?"],"explain":"In one sentence: name the three bugs you fixed.","xp":50,"skills":["debugging","functions","edge-cases"],"requires":["py-15-args"],"solution":"def average(numbers):\n    if len(numbers) == 0:\n        return 0\n    total = 0\n    for n in numbers:\n        total += n\n    return total / len(numbers)\n","alt":"def average(numbers):\n    return sum(numbers) / len(numbers) if numbers else 0\n","boss":true},{"id":"py-08-for-range","region":"loops","order":1,"title":"Count the Seeds","story":"Chilaka counts seeds out loud, one at a time, from 1 up to however many there are.","goal":"Read n and print the numbers 1 to n, one per line.","type":"write-code","starter":"n = int(input())\n# print 1, 2, 3 ... n, each on its own line\n","tests":[{"kind":"stdout","label":"n = 5","expect":"1\n2\n3\n4\n5","stdin":["5"]},{"kind":"stdout","label":"n = 1","expect":"1","stdin":["1"]},{"kind":"stdout","label":"n = 3","expect":"1\n2\n3","stdin":["3"]},{"kind":"source","label":"Uses a loop","pattern":"\\b(for|while)\\b"}],"hints":["A for loop repeats a block: for i in range(...): (indented lines).","range(1, n) stops before n. How can you make it include n?","for i in range(1, n + 1):\n    print(i)"],"socratic":["Which numbers does range(1, 4) give you?","How do you make the loop include n itself?","What variable holds the current number inside the loop?"],"explain":"In one sentence: why did we write n + 1?","xp":30,"skills":["for","range"],"requires":["py-07-bugfix-2"],"solution":"n = int(input())\nfor i in range(1, n + 1):\n    print(i)\n","alt":"n = int(input())\ni = 1\nwhile i <= n:\n    print(i)\n    i += 1\n"},{"id":"py-09-accumulate","region":"loops","order":2,"title":"Fruit Basket Total","story":"Fruits arrive one by one with their weights in grams. Chilaka needs the running total.","goal":"The first input is how many weights follow. Read them all and print their sum.","type":"write-code","starter":"count = int(input())\n# read that many numbers and print their total\n","tests":[{"kind":"stdout","label":"three weights","expect":"60","stdin":["3","10","20","30"]},{"kind":"stdout","label":"one weight","expect":"7","stdin":["1","7"]},{"kind":"stdout","label":"four weights","expect":"10","stdin":["4","1","2","3","4"]},{"kind":"stdout","label":"no weights","expect":"0","stdin":["0"]}],"hints":["Keep a running total in a variable that starts at 0, and add to it inside the loop.","Inside the loop, call input() each time, convert with int(), and add it to total.","total = 0\nfor _ in range(count):\n    total += int(input())\nprint(total)"],"socratic":["What value should the total start with?","How many times should input() be called?","Where does the print belong: inside or after the loop?"],"explain":"In one sentence: why does total start at 0?","xp":35,"skills":["for","accumulator","input"],"requires":["py-08-for-range"],"solution":"count = int(input())\ntotal = 0\nfor _ in range(count):\n    total += int(input())\nprint(total)\n","alt":"count = int(input())\nprint(sum(int(input()) for _ in range(count)))\n"},{"id":"py-10-bugfix-3","region":"loops","order":3,"title":"The Endless Climb","story":"Chilaka climbs a tree, calling out each step. The program never stops and floods the screen.","goal":"Fix the loop so it prints Step 1 up to Step n, then stops.","type":"fix-the-bug","starter":"steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n","tests":[{"kind":"stdout","label":"3 steps","expect":"Step 1\nStep 2\nStep 3","stdin":["3"]},{"kind":"stdout","label":"1 step","expect":"Step 1","stdin":["1"]},{"kind":"stdout","label":"5 steps","expect":"Step 1\nStep 2\nStep 3\nStep 4\nStep 5","stdin":["5"],"hidden":true}],"hints":["A while loop runs as long as its condition is true. What changes count inside the loop?","Nothing changes count, so the condition stays true forever. Add a line that moves count forward.","steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n    count += 1"],"socratic":["After each step, what is the value of count?","What would make the condition count <= steps become false?","Which line moves count to the next number?"],"explain":"In one sentence: why was the loop infinite?","xp":50,"skills":["debugging","while","infinite-loop"],"requires":["py-09-accumulate"],"solution":"steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n    count += 1\n","alt":"steps = int(input())\nfor count in range(1, steps + 1):\n    print(\"Step\", count)\n","boss":true}]};</script>
+<script>AK.py.setRunnerSource("\"\"\"AataKode Python runner. Runs inside Pyodide in the learner's browser.\n\nLearner code is compiled with the filename \"<mission>\" so the tracer can\n(1) stop infinite loops, (2) record step-through snapshots, and\n(3) ignore everything that is not the learner's own code.\n\"\"\"\nimport sys, io, json, re, builtins\n\n_FN = \"<mission>\"\n\n\nclass _Limit(Exception):\n    pass\n\n\ndef _short(v, n=60):\n    try:\n        r = repr(v)\n    except Exception:\n        r = \"<unprintable>\"\n    return r if len(r) <= n else r[: n - 1] + \"\u2026\"\n\n\ndef _visible(d):\n    res = {}\n    for k, v in list(d.items()):\n        if k.startswith(\"__\") or callable(v) or type(v).__name__ == \"module\":\n            continue\n        res[k] = _short(v)\n    return res\n\n\ndef _norm(s):\n    lines = [l.rstrip() for l in str(s).replace(\"\\r\", \"\").split(\"\\n\")]\n    while lines and lines[-1] == \"\":\n        lines.pop()\n    return \"\\n\".join(lines)\n\n\ndef _exec(code, stdin=None, echo=False, trace=False, limit=150000, max_steps=300):\n    buf = io.StringIO()\n    ns = {\"__name__\": \"__main__\"}\n    queue = list(stdin or [])\n    steps = []\n    count = [0]\n\n    def fake_input(prompt=\"\"):\n        if echo:\n            buf.write(str(prompt))\n        if not queue:\n            raise EOFError(\"input() was called but there is no input left\")\n        v = str(queue.pop(0))\n        if echo:\n            buf.write(v + \"\\n\")\n        return v\n\n    def tracer(frame, event, arg):\n        if frame.f_code.co_filename != _FN:\n            return None\n        if event == \"line\":\n            count[0] += 1\n            if count[0] > limit:\n                raise _Limit()\n            if trace and len(steps) < max_steps:\n                stack = []\n                f = frame\n                while f is not None:\n                    if f.f_code.co_filename == _FN:\n                        name = f.f_code.co_name\n                        stack.append(\"main\" if name == \"<module>\" else name)\n                    f = f.f_back\n                stack.reverse()\n                steps.append({\n                    \"line\": frame.f_lineno,\n                    \"vars\": _visible(frame.f_locals),\n                    \"stack\": stack,\n                    \"out\": len(buf.getvalue()),\n                })\n        return tracer\n\n    err = None\n    old_out, old_in = sys.stdout, builtins.input\n    sys.stdout = buf\n    builtins.input = fake_input\n    try:\n        try:\n            co = compile(code, _FN, \"exec\")\n        except SyntaxError as e:\n            err = {\"type\": type(e).__name__, \"msg\": e.msg, \"line\": e.lineno}\n            co = None\n        if co is not None:\n            sys.settrace(tracer)\n            try:\n                exec(co, ns)\n            finally:\n                sys.settrace(None)\n    except _Limit:\n        err = {\"type\": \"Timeout\", \"msg\": \"ran for too long\", \"line\": None}\n    except BaseException as e:\n        line = None\n        tb = e.__traceback__\n        while tb is not None:\n            if tb.tb_frame.f_code.co_filename == _FN:\n                line = tb.tb_lineno\n            tb = tb.tb_next\n        err = {\"type\": type(e).__name__, \"msg\": str(e), \"line\": line}\n    finally:\n        sys.stdout = old_out\n        builtins.input = old_in\n    return {\"out\": buf.getvalue(), \"err\": err, \"steps\": steps, \"ns\": ns}\n\n\ndef _guarded(fn, limit=150000):\n    count = [0]\n\n    def tr(frame, event, arg):\n        if frame.f_code.co_filename != _FN:\n            return None\n        if event == \"line\":\n            count[0] += 1\n            if count[0] > limit:\n                raise _Limit()\n        return tr\n\n    buf = io.StringIO()\n    old = sys.stdout\n    sys.stdout = buf\n    sys.settrace(tr)\n    try:\n        return fn()\n    finally:\n        sys.settrace(None)\n        sys.stdout = old\n\n\ndef _run(code, stdin_json, trace):\n    r = _exec(code, json.loads(stdin_json), echo=True, trace=bool(trace))\n    return json.dumps({\"out\": r[\"out\"], \"err\": r[\"err\"], \"steps\": r[\"steps\"]})\n\n\ndef _res(t, ok, **extra):\n    d = {\"label\": t.get(\"label\") or t.get(\"kind\"), \"ok\": bool(ok), \"hidden\": bool(t.get(\"hidden\"))}\n    if not t.get(\"hidden\"):\n        d.update({k: v for k, v in extra.items() if v is not None})\n    return d\n\n\ndef _grade(code, tests_json):\n    tests = json.loads(tests_json)\n    results = []\n    base = None\n    for t in tests:\n        k = t[\"kind\"]\n        if k == \"source\":\n            found = re.search(t[\"pattern\"], code) is not None\n            results.append(_res(t, (not found) if t.get(\"absent\") else found))\n        elif k == \"stdout\":\n            r = _exec(code, t.get(\"stdin\") or [])\n            exp = _norm(t[\"expect\"])\n            if r[\"err\"]:\n                results.append(_res(t, False, err=r[\"err\"], got=_norm(r[\"out\"]), expect=exp, stdin=t.get(\"stdin\")))\n            else:\n                got = _norm(r[\"out\"])\n                results.append(_res(t, got == exp, got=got, expect=exp, stdin=t.get(\"stdin\")))\n        elif k == \"eval\":\n            if base is None:\n                base = _exec(code, [])\n            if base[\"err\"]:\n                results.append(_res(t, False, err=base[\"err\"], expect=t[\"expect\"]))\n                continue\n            try:\n                expected = eval(t[\"expect\"], {})\n                value = _guarded(lambda: eval(t[\"expr\"], base[\"ns\"]))\n                results.append(_res(t, value == expected, got=_short(value, 80), expect=_short(expected, 80), expr=t[\"expr\"]))\n            except _Limit:\n                results.append(_res(t, False, err={\"type\": \"Timeout\", \"msg\": \"ran for too long\", \"line\": None}, expr=t[\"expr\"]))\n            except BaseException as e:\n                results.append(_res(t, False, err={\"type\": type(e).__name__, \"msg\": str(e), \"line\": None}, expr=t[\"expr\"]))\n        else:\n            results.append(_res(t, False, got=\"unknown test kind\"))\n    return json.dumps(results)\n");</script>
+<script>/* AataKode app: single-page, offline-first. Depends on engine.js (window.AK) and window.AK_DATA. */
+(function () {
+  "use strict";
+  const AK = window.AK, DATA = window.AK_DATA;
+  const PYODIDE_BASE = window.AK_PYODIDE_BASE || "https://cdn.jsdelivr.net/npm/pyodide@314.0.8/";
+  const REPO = "https://github.com/eknathareddypuli/aatakode";
+  const $ = (s, el) => (el || document).querySelector(s);
+  const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const byId = {}, regionById = {};
+  DATA.missions.forEach((m) => (byId[m.id] = m));
+  DATA.regions.forEach((r) => (regionById[r.id] = r));
+  const orderedMissions = DATA.regions.flatMap((r) => AK.regionMissions(DATA, r.id));
+
+  /* ------------------------------------------------------------ i18n (interface only; lessons are English for now) */
+  const I = {
+    en: { nav_home: "Home", nav_map: "Map", nav_arena: "Arena", nav_profile: "Profile", nav_teacher: "Teachers", nav_about: "About",
+      play: "Play a mission now", map: "Map", run: "Run", submit: "Check my code", hint: "Hint", step: "Step through", reset: "Reset",
+      back: "Back to map", next: "Next mission", headline: "Play your way to code.", free: "Free for everyone.", ask: "Nudge me with a question" },
+    te: { nav_home: "హోమ్", nav_map: "పటం", nav_arena: "అరేనా", nav_profile: "ప్రొఫైల్", nav_teacher: "ఉపాధ్యాయులు", nav_about: "గురించి",
+      play: "ఇప్పుడే ఆడండి", map: "పటం", run: "నడుపు", submit: "సమర్పించు", hint: "సూచన", step: "అడుగు అడుగుగా", reset: "రీసెట్",
+      back: "పటానికి తిరిగి", next: "తరువాత మిషన్", headline: "ఆడుతూ కోడ్ నేర్చుకోండి.", free: "అందరికీ ఉచితం.", ask: "ప్రశ్నతో సాయం చేయండి" },
+  };
+
+  /* ------------------------------------------------------------ storage (falls back to memory if blocked) */
+  const KEY = "aatakode.v1", ROSTER_KEY = "aatakode.roster";
+  let memStore = {};
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return memStore[k] || null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } },
+  };
+  function loadState() {
+    const base = AK.newState();
+    try {
+      const raw = store.get(KEY);
+      if (raw) { const s = JSON.parse(raw); return Object.assign(base, s, { settings: Object.assign(base.settings, s.settings || {}), streak: Object.assign(base.streak, s.streak || {}) }); }
+    } catch (e) { /* fall through to fresh state */ }
+    return base;
+  }
+  let S = loadState();
+  const save = () => store.set(KEY, JSON.stringify(S));
+  const t = (k) => (I[S.settings.lang] && I[S.settings.lang][k]) || I.en[k] || k;
+  const lt = (o, f) => (S.settings.lang === "te" && o[f + "_te"]) || o[f];
+
+  function applySettings() {
+    const d = document.documentElement;
+    d.dataset.theme = S.settings.theme; d.dataset.motion = S.settings.motion; d.lang = S.settings.lang === "te" ? "te" : "en";
+  }
+  const reducedMotion = () => S.settings.motion === "reduce" || (S.settings.motion === "auto" && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  /* ------------------------------------------------------------ small UI helpers */
+  function toast(msg, ms) {
+    const el = document.createElement("div"); el.className = "toast"; el.textContent = msg;
+    $("#toasts").appendChild(el); setTimeout(() => el.remove(), ms || 3800);
+  }
+  function confetti() {
+    if (reducedMotion()) return;
+    const box = document.createElement("div"); box.className = "confetti"; const cols = ["#f2b531", "#4ade9f", "#ff7a6b", "#74c7ff"];
+    for (let i = 0; i < 36; i++) { const p = document.createElement("i"); p.style.left = Math.random() * 100 + "%"; p.style.background = cols[i % 4]; p.style.animationDelay = Math.random() * 0.5 + "s"; box.appendChild(p); }
+    document.body.appendChild(box); setTimeout(() => box.remove(), 2600);
+  }
+  function parrot(size) {
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 64 64" role="img" aria-label="Chilaka the parrot"><rect x="20" y="18" width="26" height="30" rx="8" fill="#4ade9f"/><rect x="14" y="10" width="22" height="20" rx="8" fill="#4ade9f"/><rect x="8" y="18" width="10" height="7" rx="2" fill="#f2b531"/><circle cx="26" cy="19" r="3.2" fill="#15123a"/><circle cx="27" cy="18" r="1" fill="#fff"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#ff7a6b"/><rect x="26" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="38" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="18" y="4" width="4" height="8" rx="2" fill="#ff7a6b"/><rect x="24" y="2" width="4" height="9" rx="2" fill="#f2b531"/><\/svg>';
+  }
+  const rankName = (xp) => lt(AK.rankFor(xp).current, "en") && (S.settings.lang === "te" ? AK.rankFor(xp).current.te : AK.rankFor(xp).current.en);
+  const weekly = () => AK.featuredOutage(DATA.missions, new Date());
+
+  function nextMissionFor(m) {
+    const w = weekly(), start = m ? orderedMissions.findIndex((x) => x.id === m.id) + 1 : 0;
+    const pool = orderedMissions.slice(start).concat(orderedMissions.slice(0, start));
+    return pool.find((x) => !S.solved[x.id] && AK.isUnlocked(S, DATA, x, w && w.id)) || null;
+  }
+
+  /* ------------------------------------------------------------ Python engine loader */
+  let pyPromise = null, pyState = "idle";
+  function setPyPill() {
+    const el = $("#pypill"); if (!el) return;
+    const map = { idle: ["load", "Python: starts when needed"], load: ["load", "Python engine loading… (first time only)"], ready: ["ready", "Python ready"], fail: ["fail", "Python engine not available"] };
+    el.className = "pill " + map[pyState][0]; el.textContent = map[pyState][1];
+  }
+  function ensurePy() {
+    if (pyPromise) return pyPromise;
+    pyState = "load"; setPyPill();
+    pyPromise = new Promise(function (resolve, reject) {
+      const s = document.createElement("script"); s.src = PYODIDE_BASE + "pyodide.js";
+      s.onload = function () {
+        window.loadPyodide({ indexURL: PYODIDE_BASE }).then(function (py) { AK.py.init(py); pyState = "ready"; setPyPill(); resolve(AK.py); }, fail);
+      };
+      s.onerror = function () { fail(new Error("offline")); };
+      function fail(e) { pyState = "fail"; pyPromise = null; setPyPill(); reject(e); }
+      document.head.appendChild(s);
+    });
+    return pyPromise;
+  }
+  const PY_OFFLINE = "The Python engine could not load. Connect to the internet once so it can download and cache for offline use. The Debug the Outage missions work without it.";
+
+  /* ------------------------------------------------------------ header / footer */
+  function renderHeader(page) {
+    const st = AK.streakStatus(S, new Date()), rk = AK.rankFor(S.xp);
+    const nav = [["home", "nav_home"], ["map", "nav_map"], ["arena", "nav_arena"], ["profile", "nav_profile"], ["teacher", "nav_teacher"], ["about", "nav_about"]];
+    $("#hdr").innerHTML =
+      '<a class="logo" href="#/home">' + parrot(30) + '<span>Aata<b>Kode<\/b><\/span><\/a>' +
+      '<nav class="nav" aria-label="Main">' + nav.map((n) => '<a href="#/' + n[0] + '"' + (page === n[0] || (n[0] === "map" && page === "mission") ? ' aria-current="page"' : "") + ">" + t(n[1]) + "<\/a>").join("") + "<\/nav>" +
+      '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '<\/span><span class="chip gold" title="Experience points">' + S.xp + ' XP<\/span>' +
+      '<span class="chip" title="Day streak' + (st.atRisk ? " (learn today to keep it)" : "") + '">🔥 ' + st.count + (S.streak.freezes ? " ❄" + S.streak.freezes : "") + "<\/span>" +
+      '<button class="iconbtn" id="langBtn" aria-label="Switch language">' + (S.settings.lang === "te" ? "EN" : "తె") + "<\/button>" +
+      '<button class="iconbtn" id="themeBtn" aria-label="Toggle light and dark theme">' + (S.settings.theme === "dark" ? "☀" : "🌙") + "<\/button><\/div>";
+    $("#langBtn").onclick = () => { S.settings.lang = S.settings.lang === "te" ? "en" : "te"; save(); applySettings(); route(); };
+    $("#themeBtn").onclick = () => { S.settings.theme = S.settings.theme === "dark" ? "light" : "dark"; save(); applySettings(); renderHeader(page); };
+    void rk;
+  }
+  function renderFooter() {
+    $("#ftr").innerHTML = '<div class="row spread"><span>AataKode · <a href="https://eknathalabs.com">EknathaLabs<\/a> · MIT licensed · no ads, no tracking, progress stays on your device.<\/span><span><a href="' + REPO + '">Source on GitHub<\/a> · <a href="#/about">Free-for-all promise<\/a><\/span><\/div>';
+  }
+
+  /* ------------------------------------------------------------ views */
+  const VIEWS = {};
+  let cleanups = [];
+  const onLeave = (fn) => cleanups.push(fn);
+
+  function route() {
+    cleanups.forEach((f) => { try { f(); } catch (e) { /* ignore */ } }); cleanups = [];
+    const hash = location.hash.replace(/^#\/?/, "") || "home", parts = hash.split("/"), name = parts[0], arg = parts.slice(1).join("/");
+    renderHeader(VIEWS[name] ? name : "home");
+    const view = $("#view"); (VIEWS[name] || VIEWS.home)(view, arg);
+    window.scrollTo(0, 0);
+  }
+
+  /* ---- home */
+  VIEWS.home = function (v) {
+    const nxt = nextMissionFor(null) || orderedMissions[0], w = weekly(), started = Object.keys(S.solved).length > 0;
+    v.innerHTML =
+      '<section class="hero"><div><h1>' + esc(t("headline")) + " <em>" + esc(t("free")) + "<\/em><\/h1>" +
+      '<p class="lead">Real code, real tests, no paywall. Learn Python and fix broken servers by playing. Works offline once loaded.<\/p>' +
+      '<div class="row"><a class="btn primary" id="playBtn" href="#/mission/' + nxt.id + '">▶ ' + esc(started ? "Continue your quest" : t("play")) + '<\/a><a class="btn" href="#/map">🗺 ' + esc(t("map")) + "<\/a><\/div>" +
+      '<p class="muted" style="margin-top:.9rem"><b>Aata<\/b> (ఆట) means “play” in Telugu. No sign-up needed: your progress saves on this device.<\/p><\/div>' +
+      '<div class="art"><div style="text-align:center">' + parrot(150) + '<div class="codepeek" style="text-align:left;margin-top:.8rem"><span class="cm"># Chilaka says hi<\/span><br><span class="fn">print<\/span>(<span class="st">"Hello, Aata!"<\/span>)<\/div><\/div><\/div><\/section>' +
+      '<section class="grid g3"><div class="card"><h3>🆓 Everything free<\/h3><p class="muted">Every lesson, project, badge and class tool. Premium (later) only pays for things that cost money to run.<\/p><\/div>' +
+      '<div class="card"><h3>📴 Plays offline<\/h3><p class="muted">After the first load the site and the Python engine are cached, so you can learn without a connection.<\/p><\/div>' +
+      '<div class="card"><h3>🧠 Understanding over points<\/h3><p class="muted">Predict, fix, explain. XP rewards mastery, and hints never block you.<\/p><\/div><\/section>' +
+      (w ? '<section class="card" style="margin-top:1rem"><div class="row spread"><div><span class="tag">OUTAGE OF THE WEEK<\/span><h3 style="margin:.4rem 0 .2rem">🚨 ' + esc(w.title) + '<\/h3><span class="muted">' + esc(w.goal) + '<\/span><\/div><a class="btn" href="#/arena">Take the call →<\/a><\/div><\/section>' : "") +
+      '<section style="margin-top:1.4rem"><h2>How a mission works<\/h2><div class="grid g3">' +
+      ["Read the story and the goal", "Write or fix code, or use the terminal", "Check: tests give instant feedback", "Explain it, compare solutions, level up"].map((s, i) => '<div class="card"><span class="chip gold">' + (i + 1) + "<\/span><p>" + esc(s) + "<\/p><\/div>").join("") + "<\/div><\/section>";
+    const pb = $("#playBtn"); const warm = () => { if (nxt.type !== "terminal") ensurePy().catch(() => {}); };
+    pb.addEventListener("pointerenter", warm); pb.addEventListener("focus", warm);
+  };
+
+  /* ---- map */
+  VIEWS.map = function (v) {
+    const w = weekly();
+    let html = '<div class="row spread"><h2>🗺 ' + esc(t("map")) + '<\/h2><span class="muted">' + Object.keys(S.solved).length + " / " + DATA.missions.length + " missions<\/span><\/div>";
+    DATA.tracks.forEach(function (tr) {
+      html += '<div class="track"><h3>' + esc(lt(tr, "title")) + '<\/h3><div class="muted">' + esc(tr.blurb) + "<\/div><\/div>";
+      DATA.regions.filter((r) => r.track === tr.id).forEach(function (r, ri) {
+        const ms = AK.regionMissions(DATA, r.id), done = ms.filter((m) => S.solved[m.id]).length, complete = AK.regionComplete(S, DATA, r.id);
+        const first = ms[0], locked = !AK.isUnlocked(S, DATA, first, w && w.id);
+        html += '<div class="region card' + (locked ? " locked" : "") + '"><div><div class="row"><span style="font-size:1.6rem">' + r.icon + "<\/span><div><b class='mono'>" + esc(lt(r, "title")) + "<\/b><div class='muted' style='font-size:.85rem'>" + esc(r.blurb) + "<\/div><span class='tag'>" + done + "/" + ms.length + (complete ? " ✔" : "") + "<\/span><\/div><\/div><\/div><div class='nodes'>";
+        ms.forEach(function (m, i) {
+          const solved = !!S.solved[m.id], open = AK.isUnlocked(S, DATA, m, w && w.id), cls = "node" + (m.boss ? " boss" : "") + (solved ? " done" : open ? " open" : " locked");
+          html += (i ? '<span class="link' + (solved ? " done" : "") + '"><\/span>' : "") +
+            '<button class="' + cls + '" data-m="' + m.id + '" aria-label="' + esc(m.title + (solved ? ", done" : open ? "" : ", locked")) + '" title="' + esc(m.title) + '">' + (m.boss ? "🐛" : i + 1) + (w && w.id === m.id ? '<span class="star" title="Outage of the Week">⭐<\/span>' : "") + "<\/button>";
+        });
+        const canTest = tr.id === "python" && ri > 0 && locked && !S.testOut[r.id];
+        html += "<\/div>" + (canTest ? '<div style="grid-column:1/-1"><button class="btn small" data-testout="' + r.id + '">⚡ Test out: attempt the boss to skip ahead<\/button><\/div>' : "") + "<\/div>";
+      });
+    });
+    v.innerHTML = html;
+    $$(".node", v).forEach((b) => (b.onclick = () => {
+      const m = byId[b.dataset.m];
+      if (AK.isUnlocked(S, DATA, m, w && w.id)) location.hash = "#/mission/" + m.id;
+      else { const need = (m.requires || []).map((r) => byId[r]).filter((x) => x && !S.solved[x.id])[0]; toast("Locked. Finish “" + (need ? need.title : "the previous mission") + "” first."); }
+    }));
+    $$("[data-testout]", v).forEach((b) => (b.onclick = () => { S.testOut[b.dataset.testout] = true; save(); toast("Boss unlocked! Beat it to skip this region."); VIEWS.map(v); }));
+  };
+
+  /* ---- mission (shared pieces) */
+  function renderTests(m, results) {
+    return '<ul class="tests" id="testlist">' + m.tests.map(function (tt, i) {
+      const r = results && results[i], label = tt.hidden && !r ? "Hidden check" : (r && r.label) || tt.label || tt.note || tt.kind;
+      const cls = !r ? "idle" : r.ok ? "ok" : "no", icon = !r ? "○" : r.ok ? "✔" : "✘";
+      let detail = "";
+      if (r && !r.ok) {
+        if (r.hidden) detail = "A hidden check failed. Try other inputs.";
+        else if (r.err) { const f = AK.friendlyError(r.err); detail = f.title + ": " + f.hint + (f.line ? " (line " + f.line + ")" : ""); }
+        else if (r.stdin !== undefined && r.expect !== undefined) detail = (r.stdin && r.stdin.length ? "Input: " + r.stdin.join(" ⏎ ") + "\n" : "") + "Expected:\n" + r.expect + "\nGot:\n" + (r.got || "(nothing printed)");
+        else if (r.expr) detail = r.expr + "\nexpected " + r.expect + "\ngot " + r.got;
+      }
+      return '<li><span class="' + cls + '" aria-hidden="true">' + icon + '<\/span><span><span class="sr">' + (r ? (r.ok ? "Passed: " : "Failed: ") : "Not run: ") + "<\/span>" + esc(label) + (detail ? '<div class="detail">' + esc(detail) + "<\/div>" : "") + "<\/span><\/li>";
+    }).join("") + "<\/ul>";
+  }
+
+  function hintsHtml(m) {
+    const lvl = S.hintLvl[m.id] || 0, ask = (S.askLvl && S.askLvl[m.id]) || 0;
+    const qs = m.socratic.slice(0, ask).map((q, i) => '<div class="hintbox">❓ <b>Question ' + (i + 1) + ":<\/b> " + esc(q) + "<\/div>").join("");
+    const hs = m.hints.slice(0, lvl).map((h, i) => '<div class="hintbox">💡 <b>' + (i === 2 ? "Full solution" : "Hint " + (i + 1)) + (i === 2 ? "" : "") + ":<\/b>" + (i === 2 || /\n/.test(h) ? "<pre>" + esc(h) + "<\/pre>" : " " + esc(h)) + "<\/div>").join("");
+    return '<div class="row"><button class="btn small" id="askBtn"' + (ask >= 3 ? " disabled" : "") + ">❓ " + esc(t("ask")) + " (free)<\/button><button class=\"btn small\" id=\"hintBtn\"" + (lvl >= 3 ? " disabled" : "") + ">💡 " + esc(t("hint")) + (lvl === 2 ? " (reveals solution, −5 XP)" : " (−5 XP)") + "<\/button><\/div>" + qs + hs;
+  }
+
+  function explainHtml(m) {
+    const e = S.explains[m.id];
+    return '<div class="card" style="margin-top:.6rem"><b>Explain it (+5 XP)<\/b><div class="muted">' + esc(m.explain) + '<\/div><textarea class="input" id="explainBox" rows="2" placeholder="Write one sentence in your own words">' + esc(e ? e.text : "") + '<\/textarea><div class="row" style="margin-top:.4rem"><button class="btn small" id="explainBtn">Save explanation<\/button><span class="muted" id="explainMsg">' + (e && e.bonus ? "Saved ✔" : "") + "<\/span><\/div><\/div>";
+  }
+
+  function rewardHtml(res, m) {
+    const nx = nextMissionFor(m);
+    return '<div class="reward stretch" id="reward"><b class="mono">🎉 Mission complete! +' + res.gained + " XP<\/b><ul>" +
+      res.breakdown.map((b) => "<li>" + esc(b.label) + (b.xp ? ": +" + b.xp : "") + "<\/li>").join("") + "<\/ul>" +
+      (res.rankUp ? '<p><b>⬆ New rank: ' + esc(rankName(S.xp)) + "!<\/b><\/p>" : "") +
+      (res.newBadges.length ? "<p>🏅 New badge" + (res.newBadges.length > 1 ? "s" : "") + ": " + res.newBadges.map((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); return b ? esc(b.icon + " " + b.en) : ""; }).join(", ") + "<\/p>" : "") +
+      '<div class="row"><a class="btn primary" href="' + (nx ? "#/mission/" + nx.id : "#/map") + '">' + esc(nx ? t("next") + " →" : t("back")) + "<\/a><a class=\"btn small\" href=\"#/map\">🗺 " + esc(t("map")) + "<\/a><\/div><\/div>";
+  }
+
+  function afterSolve(m, res, node) {
+    save(); renderHeader("mission");
+    if (res.repeat) { toast("Already solved. No extra XP, but great practice!"); return; }
+    node.innerHTML = rewardHtml(res, m); confetti();
+    const ex = $("#explainSlot"); if (ex) ex.innerHTML = explainHtml(m), bindExplain(m);
+    refreshCompare(m);
+    if (res.rankUp) toast("Rank up: " + rankName(S.xp));
+    res.newBadges.forEach((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); if (b) toast("Badge: " + b.icon + " " + b.en); });
+  }
+
+  function bindExplain(m) {
+    const btn = $("#explainBtn"); if (!btn) return;
+    btn.onclick = () => {
+      const r = AK.addExplanation(S, DATA, m.id, $("#explainBox").value, new Date()); save(); renderHeader("mission");
+      $("#explainMsg").textContent = r.bonus ? "Saved ✔ +5 XP" : "Saved. Write a bit more (12+ characters) to earn XP.";
+      r.newBadges.forEach((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); if (b) toast("Badge: " + b.icon + " " + b.en); });
+    };
+  }
+
+  function bindHints(m) {
+    const box = $("#hintSlot"); box.innerHTML = hintsHtml(m);
+    $("#askBtn").onclick = () => { S.askLvl = S.askLvl || {}; S.askLvl[m.id] = Math.min(3, (S.askLvl[m.id] || 0) + 1); save(); bindHints(m); };
+    $("#hintBtn").onclick = () => { S.hintLvl[m.id] = Math.min(3, (S.hintLvl[m.id] || 0) + 1); save(); bindHints(m); };
+  }
+
+  /* compare tab */
+  function solutionsFor(m) {
+    const mine = S.solved[m.id] && S.solved[m.id].code;
+    const show = (x) => (typeof x === "string" ? x : (x.commands || []).join("\n") + (x.answer ? "\n# answer: " + x.answer : ""));
+    const list = [];
+    if (mine) list.push({ key: "mine", title: "Your solution", code: mine });
+    list.push({ key: "ref", title: "Reference: the clear way", code: show(m.solution) });
+    if (m.alt) list.push({ key: "alt", title: "Alternative: a different approach", code: show(m.alt) });
+    return list;
+  }
+  function refreshCompare(m) {
+    const slot = $("#tab-compare"); if (!slot) return;
+    if (!S.solved[m.id]) { slot.innerHTML = '<p class="muted">Solve the mission to unlock solution comparison. Comparing approaches is how you learn style.<\/p>'; return; }
+    const votes = S.votes[m.id] || {};
+    slot.innerHTML = '<p class="muted">Which solution is the cleanest to read? Pick one. Votes stay on your device for now; shared community solutions arrive with accounts.<\/p><div class="cmp">' +
+      solutionsFor(m).map((s) => "<div><b>" + esc(s.title) + "<\/b>" + (votes[s.key] ? ' <span class="tag">your pick<\/span>' : "") + "<pre>" + esc(s.code) + '<\/pre><button class="btn small" data-vote="' + s.key + '">👍 Cleanest<\/button><\/div>').join("") + "<\/div>";
+    $$("[data-vote]", slot).forEach((b) => (b.onclick = () => {
+      S.votes[m.id] = {}; S.votes[m.id][b.dataset.vote] = 1;
+      const ns = AK.checkBadges(S, DATA, new Date()); save(); refreshCompare(m);
+      ns.forEach((id) => { const bd = AK.allBadges(DATA).find((x) => x.id === id); if (bd) toast("Badge: " + bd.icon + " " + bd.en); });
+    }));
+  }
+
+  function missionFrame(m, extraRight) {
+    const reg = regionById[m.region];
+    return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "<\/a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : "") + "<\/span><h2>" + esc(m.title) + '<\/h2><span class="chip gold">' + m.xp + ' XP<\/span>' + (S.solved[m.id] ? '<span class="chip">✔ solved<\/span>' : "") + '<span class="pill load" id="pypill"><\/span><\/div>' +
+      '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '<\/div><div class="goal"><b>Goal:<\/b> ' + esc(m.goal) + "<\/div><b>Checks<\/b>" + renderTests(m, null) + '<div id="hintSlot"><\/div><div id="rewardSlot"><\/div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "<\/div><\/aside>" +
+      '<section id="midpane"><\/section><section class="card" id="rightpane"><div class="tabs" role="tablist">' + extraRight.tabs + "<\/div>" + extraRight.panels + '<div id="tab-compare" hidden><\/div><\/section><\/div>';
+  }
+  function bindTabs(m) {
+    const tabs = $$('[role="tab"]');
+    const show = (id) => { tabs.forEach((b) => b.setAttribute("aria-selected", b.dataset.tab === id ? "true" : "false")); $$("#rightpane > div[id^=tab-]").forEach((p) => (p.hidden = p.id !== "tab-" + id)); if (id === "compare") refreshCompare(m); if (id === "blocks") refreshBlocks(); };
+    tabs.forEach((b) => (b.onclick = () => show(b.dataset.tab)));
+    return show;
+  }
+  const tabBtn = (id, label, sel) => '<button role="tab" data-tab="' + id + '" aria-selected="' + (sel ? "true" : "false") + '">' + label + "<\/button>";
+
+  let refreshBlocks = function () {};
+
+  VIEWS.mission = function (v, id) {
+    const m = byId[id], w = weekly();
+    if (!m) { v.innerHTML = '<div class="card"><h2>Mission not found<\/h2><a class="btn" href="#/map">Back to the map<\/a><\/div>'; return; }
+    if (!AK.isUnlocked(S, DATA, m, w && w.id)) {
+      const need = (m.requires || []).map((r) => byId[r]).find((x) => x && !S.solved[x.id]);
+      v.innerHTML = '<div class="card"><h2>🔒 Locked<\/h2><p>Finish <b>' + esc(need ? need.title : "the previous mission") + '<\/b> first, or use “Test out” on the map to attempt the boss.<\/p><a class="btn primary" href="' + (need ? "#/mission/" + need.id : "#/map") + '">Go there<\/a><\/div>';
+      return;
+    }
+    if (m.type === "terminal") missionTerminal(v, m, w); else missionPython(v, m, w);
+  };
+
+  /* ---- python mission */
+  function missionPython(v, m, w) {
+    v.innerHTML = missionFrame(m, {
+      tabs: tabBtn("out", "Output", true) + tabBtn("steps", "Step-through") + tabBtn("blocks", "Blocks") + tabBtn("compare", "Compare"),
+      panels: '<div id="tab-out"><label class="muted" for="stdin">Test input (one line per input() call)<\/label><textarea class="input" id="stdin" rows="2" spellcheck="false"><\/textarea><div class="out" id="outbox" aria-live="polite" style="margin-top:.5rem">Press Run to see your program\'s output.<\/div><div id="errbox"><\/div><\/div>' +
+        '<div id="tab-steps" hidden><p class="muted">Press “Step through” to watch your program run one line at a time.<\/p><div id="stepper"><\/div><\/div><div id="tab-blocks" hidden><p class="muted">Your code as blocks (read-only). Edit the code and the blocks follow.<\/p><div class="blocks" id="blockbox"><\/div><\/div>',
+    });
+    bindHints(m); const show = bindTabs(m);
+    const firstIn = (m.tests.find((x) => x.stdin) || {}).stdin; $("#stdin").value = firstIn ? firstIn.join("\n") : "";
+    $("#midpane").innerHTML = '<div class="editor"><div class="gutter" id="gutter" aria-hidden="true">1<\/div><textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code editor. Press Escape then Tab to leave the editor."><\/textarea><\/div>' +
+      '<div class="row" style="margin-top:.6rem"><button class="btn primary" id="runBtn">▶ ' + esc(t("run")) + '<\/button><button class="btn" id="stepBtn">👣 ' + esc(t("step")) + '<\/button><button class="btn good" id="submitBtn">✔ ' + esc(t("submit")) + '<\/button><button class="btn small" id="resetBtn">↺ ' + esc(t("reset")) + '<\/button><\/div><p class="muted" style="font-size:.85rem">Tip: Ctrl+Enter runs. Press Esc then Tab to move out of the editor.<\/p>';
+    const ta = $("#code"), gut = $("#gutter"); ta.value = S.drafts[m.id] != null ? S.drafts[m.id] : m.starter; refreshCompare(m);
+    let timer = null;
+    refreshBlocks = () => { $("#blockbox").innerHTML = AK.toBlocks(ta.value).map((b) => '<div class="blk ' + b.kind + '" style="margin-left:' + b.depth * 18 + 'px">' + esc(b.label) + "<\/div>").join("") || '<span class="muted">Write some code to see blocks.<\/span>'; };
+    const sync = () => { const n = ta.value.split("\n").length; gut.textContent = Array.from({ length: n }, (_, i) => i + 1).join("\n"); gut.scrollTop = ta.scrollTop; if (!$("#tab-blocks").hidden) refreshBlocks(); };
+    ta.addEventListener("input", () => { sync(); clearTimeout(timer); timer = setTimeout(() => { S.drafts[m.id] = ta.value; save(); }, 400); });
+    ta.addEventListener("scroll", () => (gut.scrollTop = ta.scrollTop));
+    let escaped = false; ta.addEventListener("focus", () => (escaped = false));
+    ta.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { escaped = true; return; }
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); $("#runBtn").click(); return; }
+      if (e.key === "Tab" && !escaped) {
+        e.preventDefault(); const s = ta.selectionStart, en = ta.selectionEnd; ta.setRangeText("    ", s, en, "end"); sync(); return;
+      }
+      if (e.key === "Enter") {
+        e.preventDefault(); const s = ta.selectionStart, before = ta.value.slice(0, s), line = before.split("\n").pop();
+        const indent = line.match(/^ */)[0] + (/:\s*$/.test(line) ? "    " : ""); ta.setRangeText("\n" + indent, s, ta.selectionEnd, "end"); sync();
+      }
+    });
+    sync();
+    const grab = () => ({ code: ta.value, stdin: $("#stdin").value === "" ? [] : $("#stdin").value.split("\n") });
+    async function engine() {
+      try { return await ensurePy(); } catch (e) { $("#outbox").textContent = PY_OFFLINE; return null; }
+    }
+    function showRun(r) {
+      $("#outbox").textContent = r.out || (r.err ? "" : "(your program printed nothing)");
+      const f = r.err ? AK.friendlyError(r.err) : null;
+      $("#errbox").innerHTML = f ? '<div class="err" role="alert"><b>' + esc(f.title) + (f.line ? " on line " + f.line : "") + "<\/b><div>" + esc(f.hint) + '<\/div><div class="muted mono" style="font-size:.8rem">' + esc(f.raw) + "<\/div><\/div>" : "";
+    }
+    $("#runBtn").onclick = async () => {
+      show("out"); $("#outbox").textContent = "Running…"; const api = await engine(); if (!api) return;
+      const g = grab(); showRun(api.run(g.code, g.stdin, false));
+    };
+    $("#stepBtn").onclick = async () => {
+      show("steps"); $("#stepper").textContent = "Preparing…"; const api = await engine(); if (!api) { $("#stepper").textContent = PY_OFFLINE; return; }
+      const g = grab(); renderStepper(api.run(g.code, g.stdin, true), g.code);
+    };
+    $("#resetBtn").onclick = () => { if ($("#resetBtn").dataset.sure) { ta.value = m.starter; S.drafts[m.id] = m.starter; save(); sync(); $("#resetBtn").textContent = "↺ " + t("reset"); delete $("#resetBtn").dataset.sure; } else { $("#resetBtn").dataset.sure = "1"; $("#resetBtn").textContent = "Click again to restore the starter code"; } };
+    $("#submitBtn").onclick = async () => {
+      const api = await engine(); if (!api) return;
+      const results = api.grade(ta.value, m.tests); $("#testlist").outerHTML = renderTests(m, results);
+      if (results.every((r) => r.ok)) {
+        const res = AK.applySolve(S, DATA, m, { hintsUsed: S.hintLvl[m.id] || 0, now: new Date(), code: ta.value, weeklyId: w && w.id });
+        afterSolve(m, res, $("#rewardSlot")); $(".mhead .chip.gold").insertAdjacentHTML("afterend", S.solved[m.id] && !$(".mhead .chip:not(.gold)") ? '<span class="chip">✔ solved<\/span>' : "");
+      } else { toast("Not yet. Read the failed checks and try again."); }
+    };
+    if (!S.solved[m.id]) $("#rewardSlot").innerHTML = ""; else $("#rewardSlot").innerHTML = '<div class="reward"><b>✔ You solved this mission.<\/b> <a href="#/map">Back to the map<\/a><\/div>';
+    bindExplain(m); setPyPill();
+  }
+
+  function renderStepper(r, code) {
+    const box = $("#stepper"), lines = code.split("\n"), steps = r.steps;
+    if (!steps.length) { box.innerHTML = (r.err ? '<div class="err">' + esc(AK.friendlyError(r.err).hint) + "<\/div>" : '<p class="muted">Nothing ran. Write some code first.<\/p>'); return; }
+    let i = 0, timer = null;
+    box.innerHTML = '<div class="row"><button class="btn small" id="sPrev">◀<\/button><button class="btn small" id="sPlay">▶ Play<\/button><button class="btn small" id="sNext">▶|<\/button><input type="range" id="sRange" min="0" max="' + (steps.length - 1) + '" value="0" aria-label="Step" style="flex:1"><span class="muted mono" id="sLbl"><\/span><\/div><div class="stepcode" id="sCode" style="margin:.5rem 0"><\/div><div class="grid g2" style="gap:.5rem"><div><b>Variables<\/b><table class="vars" id="sVars"><\/table><\/div><div><b>Call stack<\/b><div class="mono" id="sStack"><\/div><b>Output so far<\/b><div class="out" id="sOut" style="min-height:50px"><\/div><\/div><\/div>' +
+      (steps.length >= 300 ? '<p class="muted">Showing the first 300 steps.<\/p>' : "") + (r.err ? '<div class="err"><b>' + esc(r.err.type) + "<\/b> at the end: " + esc(AK.friendlyError(r.err).hint) + "<\/div>" : "");
+    const draw = () => {
+      const s = steps[i]; $("#sLbl").textContent = "step " + (i + 1) + "/" + steps.length; $("#sRange").value = i;
+      $("#sCode").innerHTML = lines.map((l, k) => '<div class="' + (k + 1 === s.line ? "cur" : "") + '">' + String(k + 1).padStart(2, " ") + "  " + esc(l || " ") + "<\/div>").join("");
+      const cur = $("#sCode .cur"); if (cur) cur.scrollIntoView({ block: "nearest" });
+      const names = Object.keys(s.vars); $("#sVars").innerHTML = names.length ? names.map((n) => "<tr><td>" + esc(n) + "<\/td><td>" + esc(s.vars[n]) + "<\/td><\/tr>").join("") : '<tr><td class="muted">no variables yet<\/td><\/tr>';
+      $("#sStack").textContent = s.stack.join(" → "); $("#sOut").textContent = (r.out || "").slice(0, s.out);
+    };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; $("#sPlay").textContent = "▶ Play"; } };
+    $("#sPrev").onclick = () => { stop(); i = Math.max(0, i - 1); draw(); };
+    $("#sNext").onclick = () => { stop(); i = Math.min(steps.length - 1, i + 1); draw(); };
+    $("#sRange").oninput = (e) => { stop(); i = Number(e.target.value); draw(); };
+    $("#sPlay").onclick = () => { if (timer) { stop(); return; } $("#sPlay").textContent = "⏸ Pause"; timer = setInterval(() => { if (i >= steps.length - 1) { stop(); return; } i++; draw(); }, 600); };
+    onLeave(stop); draw();
+  }
+
+  /* ---- terminal mission */
+  function missionTerminal(v, m, w) {
+    const T = AK.createTerminal(m.starter), hasAnswer = m.tests.some((x) => x.kind === "answer");
+    v.innerHTML = missionFrame(m, {
+      tabs: tabBtn("cheat", "Cheat sheet", true) + tabBtn("compare", "Compare"),
+      panels: '<div id="tab-cheat"><p class="muted">Commands in this simulated server:<\/p><ul class="mono" style="font-size:.85rem;padding-left:1.1rem"><li>ls, cd, pwd, cat, head, tail<\/li><li>grep PATTERN FILE · wc -l<\/li><li>ps aux · top · kill PID<\/li><li>ss -ltnp · lsof -i :PORT<\/li><li>df -h · du -sh PATH<\/li><li>sed -i \'s/old/new/\' FILE<\/li><li>echo "text" &gt; FILE · history · clear<\/li><\/ul><p class="muted">Pipes (|) and redirects (&gt; &gt;&gt;) work. Nothing here touches your real computer.<\/p><\/div>',
+    });
+    bindHints(m); bindTabs(m); refreshCompare(m);
+    $("#midpane").innerHTML = '<div class="term"><div class="log" id="tlog" role="log" aria-live="polite"><\/div><form id="tform"><span class="mono" id="tprompt"><\/span><input id="tin" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command"><\/form><\/div>' +
+      (hasAnswer ? '<label class="muted" for="ans" style="display:block;margin-top:.6rem">Your answer<\/label><input class="input" id="ans" autocomplete="off" placeholder="Type what you found, e.g. a name or a path">' : "") +
+      '<div class="row" style="margin-top:.6rem"><button class="btn good" id="checkBtn">✔ ' + esc(hasAnswer ? "Check my answer" : "Check my fix") + '<\/button><button class="btn small" id="treset">↺ Reset server<\/button><\/div>';
+    const log = $("#tlog"), inp = $("#tin"), prompt = () => ($("#tprompt").textContent = "oncall@aata:" + T.cwd + "$"); prompt();
+    const put = (txt, cls) => { const d = document.createElement("div"); if (cls) d.className = cls; d.textContent = txt; log.appendChild(d); log.scrollTop = log.scrollHeight; };
+    put("Connected to the server. Type help to see what you can use.");
+    const hist = []; let hp = 0;
+    $("#tform").onsubmit = (e) => {
+      e.preventDefault(); const line = inp.value; inp.value = ""; if (!line.trim()) return;
+      hist.push(line); hp = hist.length; put("$ " + line, "cmd"); const r = T.exec(line);
+      if (r.clear) log.textContent = ""; else if (r.out) put(r.out); prompt();
+    };
+    inp.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowUp" && hist.length) { e.preventDefault(); hp = Math.max(0, hp - 1); inp.value = hist[hp]; }
+      if (e.key === "ArrowDown") { e.preventDefault(); hp = Math.min(hist.length, hp + 1); inp.value = hist[hp] || ""; }
+    });
+    $("#treset").onclick = () => VIEWS.mission(v, m.id);
+    $("#checkBtn").onclick = () => {
+      const results = AK.gradeTerminal(m, T, hasAnswer ? $("#ans").value : ""); $("#testlist").outerHTML = renderTests(m, results);
+      if (results.every((r) => r.ok)) {
+        const res = AK.applySolve(S, DATA, m, { hintsUsed: S.hintLvl[m.id] || 0, now: new Date(), code: T.history.join("\n"), weeklyId: w && w.id });
+        afterSolve(m, res, $("#rewardSlot"));
+      } else toast("Not yet. Look at the failed checks.");
+    };
+    $("#rewardSlot").innerHTML = S.solved[m.id] ? '<div class="reward"><b>✔ You solved this mission.<\/b> <a href="#/map">Back to the map<\/a><\/div>' : "";
+    bindExplain(m); $("#pypill").remove(); inp.focus();
+  }
+
+  /* ---- arena */
+  VIEWS.arena = function (v) {
+    const w = weekly(), days = AK.daysUntilNextWeek(new Date()), wk = String(AK.weekIndex(new Date())), done = S.weekly[wk] === (w && w.id);
+    const others = DATA.missions.filter((m) => m.type === "terminal" && (!w || m.id !== w.id));
+    v.innerHTML = '<h2>🏟 Arena<\/h2>' + (w ? '<div class="card"><span class="tag">OUTAGE OF THE WEEK · changes in ' + days + " day" + (days > 1 ? "s" : "") + '<\/span><h3 style="margin-top:.5rem">🚨 ' + esc(w.title) + "<\/h3><p>" + esc(w.story) + '<\/p><div class="goal"><b>Goal:<\/b> ' + esc(w.goal) + '<\/div><div class="row"><a class="btn primary" href="#/mission/' + w.id + '">' + (S.solved[w.id] ? "Replay" : "Take the call") + " →<\/a><span class=\"chip gold\">+30 bonus XP<\/span>" + (done ? '<span class="chip">✔ done this week<\/span>' : "") + "<\/div><p class=\"muted\">The featured outage is always unlocked and pays a bonus the first time you solve it. Every learner gets the same one, so you can compare notes.<\/p><\/div>" : "") +
+      '<h3 style="margin-top:1.4rem">Past and upcoming outages<\/h3><div class="grid g3">' + others.map((m) => '<a class="card" style="text-decoration:none;color:inherit" href="#/mission/' + m.id + '"><b>' + esc(m.title) + "<\/b><div class=\"muted\">" + esc(m.goal) + "<\/div>" + (S.solved[m.id] ? '<span class="tag">✔ solved<\/span>' : "") + "<\/a>").join("") + "<\/div>" +
+      '<div class="card" style="margin-top:1.2rem"><b>Coming next<\/b><p class="muted">Opt-in weekly leagues, duels and co-op bug raids need accounts, so they are planned for the beta. Nothing here ranks you against strangers.<\/p><\/div>';
+  };
+
+  /* ---- profile */
+  VIEWS.profile = function (v) {
+    const rk = AK.rankFor(S.xp), st = AK.streakStatus(S, new Date()), badges = AK.allBadges(DATA);
+    const skills = {}; DATA.missions.forEach((m) => { if (S.solved[m.id]) (m.skills || []).forEach((s) => (skills[s] = (skills[s] || 0) + 1)); });
+    const maxSk = Math.max(1, ...Object.values(skills));
+    v.innerHTML = '<h2>👤 Profile<\/h2><div class="grid g2">' +
+      '<div class="card"><div class="row">' + parrot(60) + '<div class="grow"><label class="muted" for="pname">Your name (optional)<\/label><input class="input" id="pname" maxlength="40" value="' + esc(S.name) + '" placeholder="e.g. Asha"><label class="muted" for="pclass">Class code (optional, for teachers)<\/label><input class="input" id="pclass" maxlength="24" value="' + esc(S.classCode) + '" placeholder="e.g. 9B-2025"><\/div><\/div>' +
+      '<h3 style="margin-top:1rem">' + esc(rankName(S.xp)) + " · " + S.xp + ' XP<\/h3><div class="bar" role="progressbar" aria-valuenow="' + rk.pct + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + rk.pct + '%"><\/i><\/div><div class="muted">' + (rk.next ? (rk.next.xp - S.xp) + " XP to " + (S.settings.lang === "te" ? rk.next.te : rk.next.en) : "Top rank reached 🌲") + '<\/div>' +
+      '<p>🔥 Streak: <b>' + st.count + "<\/b> day" + (st.count === 1 ? "" : "s") + " · best " + S.streak.best + " · ❄ freezes: " + S.streak.freezes + '<\/p><p class="muted">Learn on 7 days in a row to earn a freeze that saves your streak if you miss a day.<\/p><\/div>' +
+      '<div class="card"><h3>Skills<\/h3>' + (Object.keys(skills).length ? Object.keys(skills).sort().map((k) => '<div class="skillrow"><span>' + esc(k) + '<\/span><div class="bar"><i style="width:' + Math.round((skills[k] / maxSk) * 100) + '%"><\/i><\/div><span>' + skills[k] + "<\/span><\/div>").join("") : '<p class="muted">Solve missions to grow your skills.<\/p>') + "<\/div><\/div>" +
+      '<h3 style="margin-top:1.4rem">Badges<\/h3><div class="badges">' + badges.map((b) => '<div class="badge' + (S.badges[b.id] ? "" : " off") + '" title="' + esc(b.desc) + '"><div class="ico">' + b.icon + "<\/div><b>" + esc(S.settings.lang === "te" ? b.te : b.en) + '<\/b><div class="muted" style="font-size:.78rem">' + esc(S.badges[b.id] ? "Earned " + S.badges[b.id] : b.desc) + "<\/div><\/div>").join("") + "<\/div>" +
+      '<div class="grid g2" style="margin-top:1.4rem"><div class="card"><h3>Your data<\/h3><p class="muted">Everything lives on this device. Export a backup, move it to another device, or start over.<\/p><div class="row"><button class="btn" id="exp">⬇ Export progress<\/button><label class="btn" for="imp">⬆ Import<\/label><input type="file" id="imp" accept="application/json,.json" class="sr"><button class="btn small" id="wipe">Reset everything<\/button><\/div><p id="datamsg" class="muted"><\/p><\/div>' +
+      '<div class="card"><h3>Teacher card<\/h3><p class="muted">Give this code to your teacher. It lists your name, XP and solved missions (not your code).<\/p><textarea class="input" id="card" rows="3" readonly><\/textarea><div class="row" style="margin-top:.4rem"><button class="btn small" id="copycard">Copy code<\/button><\/div><\/div><\/div>' +
+      '<div class="card" style="margin-top:1rem"><h3>Settings<\/h3><div class="row"><label>Language <select id="selLang" class="input" style="width:auto"><option value="en">English<\/option><option value="te">తెలుగు (interface)<\/option><\/select><\/label><label>Theme <select id="selTheme" class="input" style="width:auto"><option value="dark">Dark<\/option><option value="light">Light<\/option><\/select><\/label><label>Motion <select id="selMotion" class="input" style="width:auto"><option value="auto">Follow my device<\/option><option value="reduce">Reduce motion<\/option><\/select><\/label><\/div><\/div>';
+    $("#selLang").value = S.settings.lang; $("#selTheme").value = S.settings.theme; $("#selMotion").value = S.settings.motion;
+    const refreshCard = () => ($("#card").value = AK.encodeCard(S)); refreshCard();
+    $("#pname").oninput = (e) => { S.name = e.target.value; save(); refreshCard(); };
+    $("#pclass").oninput = (e) => { S.classCode = e.target.value; save(); refreshCard(); };
+    $("#selLang").onchange = (e) => { S.settings.lang = e.target.value; save(); applySettings(); route(); };
+    $("#selTheme").onchange = (e) => { S.settings.theme = e.target.value; save(); applySettings(); renderHeader("profile"); };
+    $("#selMotion").onchange = (e) => { S.settings.motion = e.target.value; save(); applySettings(); };
+    $("#copycard").onclick = () => { $("#card").select(); try { navigator.clipboard.writeText($("#card").value); toast("Teacher card copied"); } catch (e) { document.execCommand("copy"); toast("Copied"); } };
+    $("#exp").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], { type: "application/json" })); a.download = "aatakode-progress-" + AK.dateKey(new Date()) + ".json"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); $("#datamsg").textContent = "Exported ✔"; };
+    $("#imp").onchange = (e) => {
+      const f = e.target.files[0]; if (!f) return; const rd = new FileReader();
+      rd.onload = () => { try { const inc = JSON.parse(rd.result); if (!inc || inc.v !== 1 || typeof inc.solved !== "object") throw new Error("bad"); S = AK.mergeState(S, inc); AK.checkBadges(S, DATA, new Date()); save(); applySettings(); $("#datamsg").textContent = "Imported ✔ progress merged."; renderHeader("profile"); VIEWS.profile(v); } catch (er) { $("#datamsg").textContent = "That file is not an AataKode progress backup."; } };
+      rd.readAsText(f);
+    };
+    $("#wipe").onclick = () => { const b = $("#wipe"); if (b.dataset.sure) { S = AK.newState(); save(); applySettings(); route(); toast("Progress cleared"); } else { b.dataset.sure = "1"; b.textContent = "Click again to erase all progress"; } };
+  };
+
+  /* ---- teacher dashboard (works offline: students share cards, nothing is uploaded) */
+  VIEWS.teacher = function (v) {
+    const load = () => { try { return JSON.parse(store.get(ROSTER_KEY) || "[]"); } catch (e) { return []; } };
+    let roster = load(); const saveR = () => store.set(ROSTER_KEY, JSON.stringify(roster));
+    const total = DATA.missions.length;
+    function draw() {
+      const regs = DATA.regions;
+      v.innerHTML = '<h2>🍎 Teacher dashboard<\/h2><div class="card"><p>Free for every teacher, and it works with no server. Students open <b>Profile → Teacher card<\/b> and send you their code. Paste the codes below (one per line) to see class progress. Cards are self-reported: the tests run on each student\'s device, so use this for encouragement and check-ins, not exams.<\/p>' +
+        '<textarea class="input" id="cards" rows="3" placeholder="Paste AK1:… codes here, one per line"><\/textarea><div class="row" style="margin-top:.5rem"><button class="btn primary" id="addCards">Add to class<\/button><button class="btn" id="csv"' + (roster.length ? "" : " disabled") + '>⬇ Export CSV<\/button><button class="btn small" id="clearR"' + (roster.length ? "" : " disabled") + '>Clear class<\/button><span class="muted" id="tmsg"><\/span><\/div><\/div>' +
+        (roster.length ? '<div class="card scroll" style="margin-top:1rem"><table class="tbl"><thead><tr><th>Student<\/th><th>Class<\/th><th>Rank<\/th><th>XP<\/th><th>Missions<\/th>' + regs.map((r) => "<th title=\"" + esc(r.title) + "\">" + r.icon + "<\/th>").join("") + "<th>Streak<\/th><th>Badges<\/th><th>Updated<\/th><th><\/th><\/tr><\/thead><tbody>" +
+          roster.map((c, i) => "<tr><td>" + esc(c.n || "(no name)") + "<\/td><td>" + esc(c.c || "") + "<\/td><td>" + esc(AK.rankFor(c.x).current.en) + "<\/td><td>" + c.x + "<\/td><td>" + c.s.length + "/" + total + "<\/td>" +
+            regs.map((r) => { const ms = AK.regionMissions(DATA, r.id), d = ms.filter((m) => c.s.includes(m.id)).length; return "<td>" + (d === ms.length ? "✔" : d + "/" + ms.length) + "<\/td>"; }).join("") +
+            "<td>🔥 " + c.k + "<\/td><td>" + c.b.length + "<\/td><td>" + esc((c.t || "").slice(0, 10)) + '<\/td><td><button class="btn small" data-rm="' + i + '" aria-label="Remove ' + esc(c.n || "student") + '">✕<\/button><\/td><\/tr>').join("") + "<\/tbody><\/table><\/div>" : '<p class="muted" style="margin-top:1rem">No students yet.<\/p>');
+      $("#addCards").onclick = () => {
+        let added = 0, bad = 0;
+        $("#cards").value.split(/\s+/).filter(Boolean).forEach((s) => { const c = AK.decodeCard(s); if (!c) { bad++; return; } const k = roster.findIndex((r) => r.n === c.n && r.c === c.c); if (k >= 0) roster[k] = c; else roster.push(c); added++; });
+        saveR(); draw(); $("#tmsg").textContent = added + " added" + (bad ? ", " + bad + " not recognised" : "");
+      };
+      $$("[data-rm]", v).forEach((b) => (b.onclick = () => { roster.splice(Number(b.dataset.rm), 1); saveR(); draw(); }));
+      $("#clearR").onclick = () => { if ($("#clearR").dataset.sure) { roster = []; saveR(); draw(); } else { $("#clearR").dataset.sure = "1"; $("#clearR").textContent = "Click again to clear"; } };
+      $("#csv").onclick = () => {
+        const q = (x) => '"' + String(x).replace(/"/g, '""') + '"', rows = [["name", "class", "rank", "xp", "missions", "streak", "badges", "updated"]].concat(roster.map((c) => [c.n, c.c, AK.rankFor(c.x).current.en, c.x, c.s.length, c.k, c.b.length, c.t]));
+        const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([rows.map((r) => r.map(q).join(",")).join("\n")], { type: "text/csv" })); a.download = "aatakode-class.csv"; a.click();
+      };
+    }
+    draw();
+  };
+
+  /* ---- about */
+  VIEWS.about = function (v) {
+    v.innerHTML = '<h2>About AataKode<\/h2><div class="grid g2"><div class="card"><h3>The promise<\/h3><p>Every lesson, project, badge and class tool is free, forever. No ads, no tracking, no locked missions.<\/p><p class="muted">Premium is planned only for things that cost money to run: cloud sync across devices, an unlimited AI tutor, human code review, and private groups. It is not available yet, and it will never gate learning.<\/p><\/div>' +
+      '<div class="card"><h3>How your data works<\/h3><p>Your progress is stored in this browser. Export it from your Profile to back it up or move it. Nothing is uploaded; the Python engine runs inside your browser.<\/p><\/div>' +
+      '<div class="card"><h3>Help build it<\/h3><p>Missions are plain JSON files, checked automatically in CI. Add a mission, a hint, or a translation.<\/p><a class="btn" href="' + REPO + '">Open the repository<\/a><\/div>' +
+      '<div class="card"><h3>About the Telugu interface<\/h3><p class="muted">The navigation, ranks and badges have a Telugu interface; lessons are in English for now. Corrections from native speakers are very welcome.<\/p><\/div><\/div>';
+  };
+
+  /* ------------------------------------------------------------ boot */
+  applySettings(); renderFooter();
+  $("#skip").onclick = () => $("#view").focus();
+  window.addEventListener("hashchange", route); route();
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js").catch(() => {});
+  window.AK_APP = { state: () => S, route: route };
+})();
+</script>
+</body>
+</html>

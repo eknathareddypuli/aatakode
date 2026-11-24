@@ -1,0 +1,14 @@
+{
+  "tracks": [
+    { "id": "python", "title": "Python Quest", "title_te": "పైథాన్ యాత్ర", "blurb": "From your first print() to writing your own functions." },
+    { "id": "ops", "title": "Debug the Outage", "title_te": "అంతరాయ పరిష్కారం", "blurb": "Fix broken servers in a simulated terminal." }
+  ],
+  "regions": [
+    { "id": "first-steps", "track": "python", "title": "First Steps", "title_te": "మొదటి అడుగులు", "blurb": "Say hello, remember things, read input.", "icon": "🌱" },
+    { "id": "decisions", "track": "python", "title": "Decisions", "title_te": "నిర్ణయాలు", "blurb": "Teach your program to choose.", "icon": "🔀" },
+    { "id": "loops", "track": "python", "title": "Loops", "title_te": "లూప్‌లు", "blurb": "Repeat work without repeating code.", "icon": "🔁" },
+    { "id": "collections", "track": "python", "title": "Collections", "title_te": "సేకరణలు", "blurb": "Lists and dictionaries hold many things.", "icon": "🎒" },
+    { "id": "functions", "track": "python", "title": "Functions", "title_te": "ఫంక్షన్లు", "blurb": "Write a spell once, cast it anywhere.", "icon": "✨" },
+    { "id": "debug-the-outage", "track": "ops", "title": "Debug the Outage", "title_te": "అంతరాయ పరిష్కారం", "blurb": "Linux troubleshooting, one outage at a time.", "icon": "🚨" }
+  ]
+}

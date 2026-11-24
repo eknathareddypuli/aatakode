@@ -1,0 +1,75 @@
+{
+  "id": "py-07-bugfix-2",
+  "region": "decisions",
+  "order": 3,
+  "title": "The Wrong Door",
+  "story": "The ticket machine should say Exact change for exactly 10 coins, Overpaid for more, Not enough for fewer. It is broken in two ways.",
+  "goal": "Fix the program so all three cases work.",
+  "type": "fix-the-bug",
+  "starter": "coins = int(input())\nif coins >= 10:\n    print(\"Exact change\")\nelif coins > 10\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "10 is exact",
+      "expect": "Exact change",
+      "stdin": [
+        "10"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "11 is overpaid",
+      "expect": "Overpaid",
+      "stdin": [
+        "11"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "25 is overpaid",
+      "expect": "Overpaid",
+      "stdin": [
+        "25"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "9 is not enough",
+      "expect": "Not enough",
+      "stdin": [
+        "9"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "0 is not enough",
+      "expect": "Not enough",
+      "stdin": [
+        "0"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Run it first. Python complains about one line. What is missing at the end of an elif line?",
+    "Once it runs, try 11 coins. Which branch answers? Is >= the same as \"exactly\"?",
+    "coins = int(input())\nif coins == 10:\n    print(\"Exact change\")\nelif coins > 10:\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")"
+  ],
+  "socratic": [
+    "What must every if/elif/else line end with?",
+    "For 11 coins, which condition is true first?",
+    "Which operator checks 'exactly equal'?"
+  ],
+  "explain": "In one sentence: what is the difference between >= and ==?",
+  "xp": 50,
+  "skills": [
+    "debugging",
+    "comparison"
+  ],
+  "requires": [
+    "py-06-elif"
+  ],
+  "solution": "coins = int(input())\nif coins == 10:\n    print(\"Exact change\")\nelif coins > 10:\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")\n",
+  "alt": "coins = int(input())\nif coins < 10:\n    print(\"Not enough\")\nelif coins == 10:\n    print(\"Exact change\")\nelse:\n    print(\"Overpaid\")\n",
+  "boss": true
+}

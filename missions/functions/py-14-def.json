@@ -1,0 +1,62 @@
+{
+  "id": "py-14-def",
+  "region": "functions",
+  "order": 1,
+  "title": "Spell: Double It",
+  "story": "Chilaka learns a spell. A function is a spell you write once and cast as many times as you like.",
+  "goal": "Define a function double(x) that gives back x times 2.",
+  "type": "write-code",
+  "starter": "# define double(x) so that double(4) gives back 8\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "double(4) is 8",
+      "expr": "double(4)",
+      "expect": "8"
+    },
+    {
+      "kind": "eval",
+      "label": "double(0) is 0",
+      "expr": "double(0)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "double(-3) is -6",
+      "expr": "double(-3)",
+      "expect": "-6"
+    },
+    {
+      "kind": "eval",
+      "label": "double(2.5) is 5.0",
+      "expr": "double(2.5)",
+      "expect": "5.0"
+    },
+    {
+      "kind": "source",
+      "label": "Defines a function",
+      "pattern": "def\\s+double\\s*\\("
+    }
+  ],
+  "hints": [
+    "A function starts with def, a name, brackets with parameters, and a colon.",
+    "Use return to hand the answer back to whoever called the function.",
+    "def double(x):\n    return x * 2"
+  ],
+  "socratic": [
+    "What keyword starts a function?",
+    "What is the difference between printing a value and returning it?",
+    "What is the parameter called in double(x)?"
+  ],
+  "explain": "In one sentence: what does return do?",
+  "xp": 30,
+  "skills": [
+    "functions",
+    "return"
+  ],
+  "requires": [
+    "py-13-bugfix-4"
+  ],
+  "solution": "def double(x):\n    return x * 2\n",
+  "alt": "def double(x):\n    return x + x\n"
+}
