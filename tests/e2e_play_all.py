@@ -38,7 +38,7 @@ with sync_playwright() as p:
         mid = m["id"]
         try:
             pg.evaluate(f"location.hash='#/mission/{mid}'")
-            pg.wait_for_selector("#midpane", timeout=10000)
+            pg.wait_for_selector("#midpane, #dopts", timeout=10000)
             if pg.locator("text=Locked").count() and not pg.locator("#midpane").count():
                 raise Exception("locked")
             t = m["type"]
@@ -51,9 +51,14 @@ with sync_playwright() as p:
                     pg.fill("#tin", c); pg.press("#tin", "Enter")
                 if pg.locator("#ans").count(): pg.fill("#ans", sol.get("answer", ""))
                 pg.click("#checkBtn")
+            elif t == "sql":
+                pg.wait_for_selector("#sqlcode", timeout=10000)
+                pg.fill("#sqlcode", m["solution"]); pg.click("#submitBtn")
             else:
+                if t == "pair":
+                    pg.locator(f'.opt[data-i="{m["diagnose"]["answer"]}"]').click(); pg.click("#toFix")
                 pg.wait_for_selector("#submitBtn", timeout=10000)
-                if t in ("write-code", "fix-the-bug"):
+                if t in ("write-code", "fix-the-bug", "pair"):
                     pg.fill("#code", m["solution"])
                 elif t == "fill":
                     for i, v in enumerate(aligned_blanks(m["starter"], m["solution"])):
@@ -66,7 +71,7 @@ with sync_playwright() as p:
                         for _ in range(j - k):
                             pg.locator(f'[data-up="{j}"]').click(); j -= 1
                 pg.click("#submitBtn")
-            pg.wait_for_selector("#reward .bigstars, #reward", timeout=20000)
+            pg.wait_for_selector("#rewardSlot .reward", timeout=25000)
             done += 1
         except Exception as e:
             fails.append((mid, t, str(e).split("\n")[0][:120]))

@@ -195,3 +195,118 @@ def _grade(code, tests_json):
         else:
             results.append(_res(t, False, got="unknown test kind"))
     return json.dumps(results)
+
+
+# ---------------------------------------------------------------- SQL missions (sqlite3 runs inside the browser too)
+import sqlite3
+
+
+def _sql_stmts(script):
+    out, cur = [], ""
+    for line in script.splitlines(True):
+        cur += line
+        if sqlite3.complete_statement(cur):
+            out.append(cur.strip())
+            cur = ""
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+
+def _sql_con(setup):
+    con = sqlite3.connect(":memory:")
+    con.executescript(setup or "")
+    ticks = [0]
+
+    def guard():
+        ticks[0] += 1
+        return 1 if ticks[0] > 6000 else 0
+
+    con.set_progress_handler(guard, 1000)
+    return con
+
+
+def _sql_play(con, query):
+    cols = rows = err = None
+    try:
+        for st in _sql_stmts(query):
+            cur = con.execute(st)
+            if cur.description is not None:
+                cols = [d[0] for d in cur.description]
+                rows = cur.fetchall()
+    except Exception as e:
+        err = {"type": type(e).__name__, "msg": str(e), "line": None}
+    return cols, rows, err
+
+
+def _nrow(r):
+    return [round(v, 4) if isinstance(v, float) else v for v in r]
+
+
+def _fmt_rows(cols, rows, limit=10):
+    if rows is None:
+        return "(no rows returned)"
+    lines = [" | ".join(cols or [])] if cols else []
+    for r in rows[:limit]:
+        lines.append(" | ".join("NULL" if v is None else str(v) for v in _nrow(r)))
+    if len(rows) > limit:
+        lines.append("… " + str(len(rows) - limit) + " more rows")
+    return "\n".join(lines) if lines else "(empty)"
+
+
+def _same_rows(got, exp, ordered):
+    g = [_nrow(r) for r in (got or [])]
+    e = [_nrow(r) for r in exp]
+    if not ordered:
+        g = sorted(g, key=repr)
+        e = sorted(e, key=repr)
+    return g == e
+
+
+def _sql_grade(query, setup, tests_json):
+    tests = json.loads(tests_json)
+    results = []
+    for t in tests:
+        k = t["kind"]
+        if k == "source":
+            found = re.search(t["pattern"], query, re.I | re.S) is not None
+            results.append(_res(t, (not found) if t.get("absent") else found))
+            continue
+        con = _sql_con(t.get("setup") or setup)
+        cols, rows, err = _sql_play(con, query)
+        if err:
+            results.append(_res(t, False, err=err))
+            continue
+        if k == "rows":
+            ok = _same_rows(rows, t["expect"], t.get("ordered", False)) and (not t.get("cols") or [c.lower() for c in (cols or [])] == [c.lower() for c in t["cols"]])
+            results.append(_res(t, ok, got=_fmt_rows(cols, rows), expect=_fmt_rows(t.get("cols"), [tuple(r) for r in t["expect"]])))
+        elif k == "cols":
+            ok = [c.lower() for c in (cols or [])] == [c.lower() for c in t["expect"]]
+            results.append(_res(t, ok, got=", ".join(cols or []) or "(no columns)", expect=", ".join(t["expect"])))
+        elif k == "after":
+            c2, r2, e2 = _sql_play(con, t["query"])
+            if e2:
+                results.append(_res(t, False, err=e2))
+            else:
+                ok = _same_rows(r2, t["expect"], t.get("ordered", False))
+                results.append(_res(t, ok, got=_fmt_rows(c2, r2), expect=_fmt_rows(c2, [tuple(r) for r in t["expect"]])))
+        else:
+            results.append(_res(t, False, got="unknown test kind"))
+    return json.dumps(results)
+
+
+def _sql_run(query, setup):
+    con = _sql_con(setup)
+    cols, rows, err = _sql_play(con, query)
+    return json.dumps({"cols": cols, "rows": [_nrow(r) for r in (rows or [])][:200], "count": len(rows or []), "err": err, "hasRows": rows is not None})
+
+
+def _sql_schema(setup):
+    con = _sql_con(setup)
+    out = []
+    for (name,) in con.execute("select name from sqlite_master where type='table' and name not like 'sqlite_%' order by name").fetchall():
+        info = con.execute("pragma table_info(" + name + ")").fetchall()
+        rows = con.execute("select * from " + name + " limit 5").fetchall()
+        total = con.execute("select count(*) from " + name).fetchone()[0]
+        out.append({"name": name, "cols": [{"name": c[1], "type": c[2], "pk": bool(c[5])} for c in info], "rows": [_nrow(r) for r in rows], "total": total})
+    return json.dumps(out)

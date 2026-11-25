@@ -36,3 +36,13 @@ Rules for authors: one concept per mission, 5–10 minutes, grade behaviour not 
 - Optional `clean`: `{label, tests}`, the third-star "clean-up challenge". The reference solution or the alternative must pass it. Missions without `clean` give the third star for a first-check solve without hints.
 - More test kinds: `raises` (`expr`, `exc`), `maxlines` (`max`, non-blank non-comment lines).
 - `alt` is required for `write-code` and `fix-the-bug`, optional for others.
+
+
+## v2 additions
+
+- `type: "sql"`: `setup` (SQL that builds the database), `solution`/`alt` (a query or statements). Tests: `rows` (`expect`, optional `ordered`, `cols`), `cols`, `after` (`query` run after the learner's statements), `source` (regex). Tests may carry their own `setup` for hidden alternative data. Expected rows are computed by running the reference solution.
+- `type: "pair"`: like a fix-the-bug mission plus `parrot: {says}` and `diagnose: {question, options[4], answer, why}`. Answering the diagnosis correctly first time gives a small XP bonus.
+- `golf: {par, best, parCode, bestCode}` on a write-code mission. Strokes count characters, ignoring comments, blank lines and trailing spaces. `parCode` and `bestCode` must pass the tests.
+- `fade: {example: {title, code, note}, partial, blanks[]}` on a write-code mission. `partial` contains `____`; filling the blanks in order must pass the tests.
+- Terminal missions: `tool: "git"` with `starter.git`, `mystery: true` for case files. Extra test kinds: `service-state`, `file-mode`, `file-owner`, `file-exists`, `file-missing`, `file-equals`, `file-regex`, `curl-ok`, `cond`, `history-has`, and `git` (with `check`). See `src/git.js` and `src/term_extra.js`.
+- `missions/placement.json`: ten predict-style questions, one per level 0 to 9, whose marked answers are checked against real Python.

@@ -18,8 +18,12 @@ for m in ms:
     for r in m.get("requires", []):
         if r not in ids: sys.exit(f"{m['id']}: unknown requires {r}")
 data = {"tracks": reg["tracks"], "regions": reg["regions"], "missions": ms}
+if os.path.exists(os.path.join(R, "missions", "placement.json")):
+    data["placement"] = json.loads(rd("missions/placement.json"))
 html = rd("src/template.html")
-parts = {"/*@CSS@*/": rd("src/styles.css"), "/*@ENGINE@*/": safe(rd("src/engine.js")),
+ENGINE = "\n".join(rd("src/" + f) for f in ("engine.js", "term_extra.js", "git.js", "play.js"))
+UI = "\n".join(rd("src/" + f) for f in ("fx.js", "modes.js") if os.path.exists(os.path.join(R, "src", f)))
+parts = {"/*@CSS@*/": rd("src/styles.css"), "/*@ENGINE@*/": safe(ENGINE), "/*@UI@*/": safe(UI),
          "/*@DATA@*/": safe(json.dumps(data, ensure_ascii=False, separators=(",", ":"))),
          "/*@RUNNER@*/": safe(json.dumps(rd("src/runner.py"))), "/*@APP@*/": safe(rd("src/app.js"))}
 for k, v in parts.items(): html = html.replace(k, v)

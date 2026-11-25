@@ -14,10 +14,10 @@
 
   /* ------------------------------------------------------------ i18n (interface only; lessons are English for now) */
   const I = {
-    en: { nav_home: "Home", nav_map: "Map", nav_arena: "Arena", nav_profile: "Profile", nav_daily: "Daily", nav_teacher: "Teachers", nav_about: "About",
+    en: { nav_home: "Home", nav_village: "Village", nav_map: "Map", nav_arena: "Arena", nav_profile: "Profile", nav_daily: "Daily", nav_teacher: "Teachers", nav_about: "About",
       play: "Play a mission now", map: "Map", run: "Run", submit: "Check my code", hint: "Hint", step: "Step through", reset: "Reset",
       back: "Back to map", next: "Next mission", headline: "Play your way to code.", free: "Free for everyone.", ask: "Nudge me with a question" },
-    te: { nav_home: "హోమ్", nav_map: "పటం", nav_arena: "అరేనా", nav_profile: "ప్రొఫైల్", nav_daily: "రోజువారీ", nav_teacher: "ఉపాధ్యాయులు", nav_about: "గురించి",
+    te: { nav_home: "హోమ్", nav_village: "గ్రామం", nav_map: "పటం", nav_arena: "అరేనా", nav_profile: "ప్రొఫైల్", nav_daily: "రోజువారీ", nav_teacher: "ఉపాధ్యాయులు", nav_about: "గురించి",
       play: "ఇప్పుడే ఆడండి", map: "పటం", run: "నడుపు", submit: "సమర్పించు", hint: "సూచన", step: "అడుగు అడుగుగా", reset: "రీసెట్",
       back: "పటానికి తిరిగి", next: "తరువాత మిషన్", headline: "ఆడుతూ కోడ్ నేర్చుకోండి.", free: "అందరికీ ఉచితం.", ask: "ప్రశ్నతో సాయం చేయండి" },
   };
@@ -88,7 +88,7 @@
   function nextMissionFor(m) {
     const w = weekly(), start = m ? orderedMissions.findIndex((x) => x.id === m.id) + 1 : 0;
     const pool = orderedMissions.slice(start).concat(orderedMissions.slice(0, start));
-    return pool.find((x) => !S.solved[x.id] && AK.isUnlocked(S, DATA, x, w && w.id)) || null;
+    return pool.find((x) => !S.solved[x.id] && AK.isUnlocked(S, DATA, x, featIds())) || null;
   }
 
   /* ------------------------------------------------------------ Python engine loader */
@@ -117,11 +117,11 @@
   /* ------------------------------------------------------------ header / footer */
   function renderHeader(page) {
     const st = AK.streakStatus(S, new Date()), rk = AK.rankFor(S.xp);
-    const nav = [["home", "nav_home"], ["map", "nav_map"], ["daily", "nav_daily"], ["arena", "nav_arena"], ["profile", "nav_profile"], ["teacher", "nav_teacher"], ["about", "nav_about"]];
+    const nav = [["home", "nav_home"], ["map", "nav_map"], ["village", "nav_village"], ["daily", "nav_daily"], ["arena", "nav_arena"], ["profile", "nav_profile"], ["teacher", "nav_teacher"], ["about", "nav_about"]];
     $("#hdr").innerHTML =
       '<a class="logo" href="#/home">' + parrot(30) + '<span>Aata<b>Kode</b></span></a>' +
       '<nav class="nav" aria-label="Main">' + nav.map((n) => '<a href="#/' + n[0] + '"' + (page === n[0] || (n[0] === "map" && page === "mission") ? ' aria-current="page"' : "") + ">" + t(n[1]) + "</a>").join("") + "</nav>" +
-      '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '</span><span class="chip gold" title="Experience points">' + S.xp + ' XP</span><span class="chip" title="Stars earned">⭐ ' + AK.totalStars(S) + '</span>' +
+      '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '</span><span class="chip" title="Seeds: spend them in the Village shop">🌱 ' + AK.seedBalance(S) + '</span><span class="chip gold" title="Experience points">' + S.xp + ' XP</span><span class="chip" title="Stars earned">⭐ ' + AK.totalStars(S) + '</span>' +
       '<span class="chip" title="Day streak' + (st.atRisk ? " (learn today to keep it)" : "") + '">🔥 ' + st.count + (S.streak.freezes ? " ❄" + S.streak.freezes : "") + "</span>" +
       '<button class="iconbtn" id="langBtn" aria-label="Switch language">' + (S.settings.lang === "te" ? "EN" : "తె") + "</button>" +
       '<button class="iconbtn" id="themeBtn" aria-label="Toggle light and dark theme">' + (S.settings.theme === "dark" ? "☀" : "🌙") + "</button></div>";
@@ -135,6 +135,9 @@
 
   /* ------------------------------------------------------------ views */
   const VIEWS = {};
+  const H = function (n) { try { const f = window.AK_UI && window.AK_UI.hooks && window.AK_UI.hooks[n]; return f ? f.apply(null, Array.prototype.slice.call(arguments, 1)) : undefined; } catch (e) { return undefined; } };
+  let dayMode = null; const diag = {};
+  const featIds = () => { const d = AK.outageOfDay(DATA.missions, new Date()), w = weekly(); return [w && w.id, d && d.id].filter(Boolean); };
   let cleanups = [];
   const onLeave = (fn) => cleanups.push(fn);
 
@@ -143,7 +146,7 @@
     const hash = location.hash.replace(/^#\/?/, "") || "home", parts = hash.split("/"), name = parts[0], arg = parts.slice(1).join("/");
     renderHeader(VIEWS[name] ? name : "home");
     const view = $("#view"); (VIEWS[name] || VIEWS.home)(view, arg);
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0); H("route", name);
   }
 
   /* ---- home */
@@ -174,17 +177,17 @@
     const restored = pyRegions.filter((r) => AK.regionComplete(S, DATA, r.id)).length;
     let html = '<div class="row spread"><h2>🗺 ' + esc(t("map")) + '</h2><span class="muted">' + Object.keys(S.solved).length + " / " + DATA.missions.length + " missions · ⭐ " + AK.totalStars(S) + " / " + DATA.missions.length * 3 + "</span></div>";
     html += '<div class="card village"><b>🏘 Aata-gram: ' + restored + " of " + pyRegions.length + ' places restored</b><div class="strip">' +
-      pyRegions.map((r) => '<span class="place' + (AK.regionComplete(S, DATA, r.id) ? " on" : "") + '" title="' + esc(r.place + (AK.regionComplete(S, DATA, r.id) ? " (restored)" : " (broken)")) + '">' + r.icon + "</span>").join("") + "</div></div>";
+      pyRegions.map((r) => '<span class="place' + (AK.regionComplete(S, DATA, r.id) ? " on" : "") + '" title="' + esc(r.place + (AK.regionComplete(S, DATA, r.id) ? " (restored)" : " (broken)")) + '">' + r.icon + "</span>").join("") + "</div><a class=\"btn small\" href=\"#/village\" style=\"margin-top:.5rem\">🏘 Open the village →</a></div>";
     DATA.tracks.forEach(function (tr) {
       html += '<div class="track"><h3>' + esc(lt(tr, "title")) + '</h3><div class="muted">' + esc(tr.blurb) + "</div></div>";
       DATA.regions.filter((r) => r.track === tr.id).forEach(function (r, ri) {
         const ms = AK.regionMissions(DATA, r.id), done = ms.filter((m) => S.solved[m.id]).length, complete = AK.regionComplete(S, DATA, r.id);
         const stars = ms.reduce((n, m) => n + AK.starsOf(S, m.id), 0);
-        const first = ms[0], locked = !AK.isUnlocked(S, DATA, first, w && w.id);
+        const first = ms[0], locked = !AK.isUnlocked(S, DATA, first, featIds());
         html += '<div class="region card' + (locked ? " locked" : "") + '"><div><div class="row"><span style="font-size:1.6rem">' + (complete ? "✅" : r.icon) + "</span><div><b class='mono'>" + esc(lt(r, "title")) + "</b><div class='muted' style='font-size:.85rem'>" + esc(r.blurb) + "</div><span class='tag'>" + done + "/" + ms.length + (complete ? " ✔" : "") + "</span> <span class='tag'>★ " + stars + "/" + ms.length * 3 + "</span></div></div>" +
           (r.story ? "<div class='muted' style='font-size:.8rem;margin-top:.4rem'><b>" + esc(r.place) + ":</b> " + esc(r.story) + "</div>" : "") + "</div><div class='nodes'>";
         ms.forEach(function (m, i) {
-          const solved = !!S.solved[m.id], open = AK.isUnlocked(S, DATA, m, w && w.id), cls = "node" + (m.boss ? " boss" : "") + (solved ? " done" : open ? " open" : " locked");
+          const solved = !!S.solved[m.id], open = AK.isUnlocked(S, DATA, m, featIds()), cls = "node" + (m.boss ? " boss" : "") + (solved ? " done" : open ? " open" : " locked");
           html += (i ? '<span class="link' + (solved ? " done" : "") + '"></span>' : "") +
             '<button class="' + cls + '" data-m="' + m.id + '" aria-label="' + esc("Mission " + (i + 1) + ": " + m.title + (solved ? ", done, " + AK.starsOf(S, m.id) + " stars" : open ? "" : ", locked")) + '" title="' + esc(m.title) + '">' + nodeIcon(m) + (w && w.id === m.id ? '<span class="star" title="Outage of the Week">⭐</span>' : "") + (solved ? '<i class="nstars">' + starRow(AK.starsOf(S, m.id)) + "</i>" : "") + "</button>";
         });
@@ -195,7 +198,7 @@
     v.innerHTML = html;
     $$(".node", v).forEach((b) => (b.onclick = () => {
       const m = byId[b.dataset.m];
-      if (AK.isUnlocked(S, DATA, m, w && w.id)) location.hash = "#/mission/" + m.id;
+      if (AK.isUnlocked(S, DATA, m, featIds())) location.hash = "#/mission/" + m.id;
       else { const need = (m.requires || []).map((r) => byId[r]).filter((x) => x && !S.solved[x.id])[0]; toast("Locked. Finish “" + (need ? need.title : "the previous mission") + "” first."); }
     }));
     $$("[data-testout]", v).forEach((b) => (b.onclick = () => { S.testOut[b.dataset.testout] = true; save(); toast("Boss unlocked! Beat it to skip this region."); VIEWS.map(v); }));
@@ -222,6 +225,22 @@
     }).join("") + "</ul>";
   }
 
+  /* Test-by-test lighting: checks light up one after another (instant with reduced motion). */
+  function lightTests(m, results, done) {
+    const list = $("#testlist"), tests = allTests(m);
+    if (!list || reducedMotion() || tests.length < 2) { if (list) list.outerHTML = renderTests(m, results); H("tests", results); done(); return; }
+    list.outerHTML = renderTests(m, null);
+    const items = $$("#testlist li"), step = Math.max(40, Math.min(160, Math.floor(900 / items.length)));
+    let i = 0;
+    const one = () => {
+      if (i >= items.length || !$("#testlist")) { const l2 = $("#testlist"); if (l2) l2.outerHTML = renderTests(m, results); H("tests", results); done(); return; }
+      const r = results[i], li = items[i], mark = li.querySelector("span"), star = tests[i].star;
+      li.classList.add("lit", r.ok ? "litok" : star ? "litstar" : "litno");
+      if (mark) { mark.className = r.ok ? "ok" : star ? "idle" : "no"; mark.textContent = r.ok ? "✔" : star ? "☆" : "✘"; }
+      H("test", r.ok ? "ok" : star ? "star" : "no", i, items.length); i++; setTimeout(one, step);
+    };
+    one();
+  }
   function hintsHtml(m) {
     const lvl = S.hintLvl[m.id] || 0, ask = (S.askLvl && S.askLvl[m.id]) || 0;
     const qs = m.socratic.slice(0, ask).map((q, i) => '<div class="hintbox">❓ <b>Question ' + (i + 1) + ":</b> " + esc(q) + "</div>").join("");
@@ -251,7 +270,8 @@
 
   function afterSolve(m, res, node) {
     save(); renderHeader("mission"); setHeadStatus(m);
-    node.innerHTML = rewardHtml(res, m); confetti();
+    if (node) node.innerHTML = rewardHtml(res, m);
+    confetti(); H("solved", m, res);
     const ex = $("#explainSlot"); if (ex) { ex.innerHTML = explainHtml(m); bindExplain(m); }
     refreshCompare(m);
     if (res.rankUp) toast("Rank up: " + rankName(S.xp));
@@ -259,7 +279,8 @@
   }
   /* Solving for the first time awards XP; re-checking a solved mission can upgrade stars. */
   function finishMission(m, w, o) {
-    const now = new Date(), common = { now: now, cleanPass: o.cleanPass, firstTry: !tries[m.id] };
+    const now = new Date(), common = { now: now, cleanPass: o.cleanPass, firstTry: !tries[m.id], dayId: dayMode === m.id ? m.id : undefined, diagFirst: m.type === "pair" ? !!diag[m.id] : undefined };
+    H("passed", m, o);
     if (!S.solved[m.id]) {
       afterSolve(m, AK.applySolve(S, DATA, m, Object.assign({ hintsUsed: S.hintLvl[m.id] || 0, code: o.code, weeklyId: w && w.id }, common)), $("#rewardSlot"));
     } else {
@@ -307,7 +328,7 @@
   }
 
   function missionFrame(m, extraRight) {
-    const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT" }[m.type];
+    const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT", sql: "SQL QUERY", pair: "PAIR PARROT" }[m.type] || (m.mystery ? "CASE FILE" : m.golf ? "CODE GOLF" : "");
     return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "</a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : m.project ? " · PROJECT" : kind ? " · " + kind : "") + "</span><h2>" + esc(m.title) + '</h2><span class="chip gold">' + m.xp + ' XP</span><span id="mstatus"></span><span class="pill load" id="pypill"></span></div>' +
       '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '</div><div class="goal"><b>Goal:</b> ' + esc(m.goal) + "</div>" + (m.type === "predict" ? "" : "<b>Checks</b>" + renderTests(m, null)) + '<div id="hintSlot"></div><div id="rewardSlot"></div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "</div></aside>" +
       '<section id="midpane"></section><section class="card" id="rightpane"><div class="tabs" role="tablist">' + extraRight.tabs + "</div>" + extraRight.panels + '<div id="tab-compare" hidden></div></section></div>';
@@ -322,15 +343,17 @@
 
   let refreshBlocks = function () {};
 
-  VIEWS.mission = function (v, id) {
+  VIEWS.mission = function (v, rawId) {
+    const bits = String(rawId).split("/"), id = bits[0], parts_day = bits[1] === "day";
     const m = byId[id], w = weekly();
     if (!m) { v.innerHTML = '<div class="card"><h2>Mission not found</h2><a class="btn" href="#/map">Back to the map</a></div>'; return; }
-    if (!AK.isUnlocked(S, DATA, m, w && w.id)) {
+    if (!AK.isUnlocked(S, DATA, m, featIds())) {
       const need = (m.requires || []).map((r) => byId[r]).find((x) => x && !S.solved[x.id]);
       v.innerHTML = '<div class="card"><h2>🔒 Locked</h2><p>Finish <b>' + esc(need ? need.title : "the previous mission") + '</b> first, or use “Test out” on the map to attempt the boss.</p><a class="btn primary" href="' + (need ? "#/mission/" + need.id : "#/map") + '">Go there</a></div>';
       return;
     }
-    if (m.type === "terminal") missionTerminal(v, m, w); else if (m.type === "predict") missionPredict(v, m, w); else missionPython(v, m, w);
+    dayMode = parts_day ? m.id : null;
+    if (window.AK_UI && window.AK_UI.mission && window.AK_UI.mission[m.type]) window.AK_UI.mission[m.type](v, m, w); else if (m.type === "terminal") missionTerminal(v, m, w); else if (m.type === "predict") missionPredict(v, m, w); else missionPython(v, m, w);
   };
 
   /* ---- predict-the-output card (used by missions and the Daily Quest) */
@@ -455,11 +478,12 @@
     bindHints(m); const show = bindTabs(m); setHeadStatus(m);
     const firstIn = (m.tests.find((x) => x.stdin) || {}).stdin; $("#stdin").value = firstIn ? firstIn.join("\n") : "";
     const changed = () => { if (!$("#tab-blocks").hidden) refreshBlocks(); };
-    const ed = (kind === "fill" ? buildFill : kind === "order" ? buildOrder : buildCodeEditor)(m, $("#midpane"), changed);
+    const mm = (kind === "code" && H("fade", m)) || m;
+    const ed = (kind === "fill" ? buildFill : kind === "order" ? buildOrder : buildCodeEditor)(mm, $("#midpane"), changed);
     const mid = $("#midpane");
     mid.insertAdjacentHTML("beforeend", '<div class="row" style="margin-top:.6rem"><button class="btn primary" id="runBtn">▶ ' + esc(t("run")) + '</button><button class="btn" id="stepBtn">👣 ' + esc(t("step")) + '</button><button class="btn good" id="submitBtn">✔ ' + esc(t("submit")) + '</button><button class="btn small" id="resetBtn">↺ ' + esc(t("reset")) + '</button></div>' + (kind === "code" ? '<p class="muted" style="font-size:.85rem">Tip: Ctrl+Enter runs. Press Esc then Tab to move out of the editor.</p>' : ""));
     refreshBlocks = () => { $("#blockbox").innerHTML = AK.toBlocks(ed.getCode()).map((b) => '<div class="blk ' + b.kind + '" style="margin-left:' + b.depth * 18 + 'px">' + esc(b.label) + "</div>").join("") || '<span class="muted">Write some code to see blocks.</span>'; };
-    refreshCompare(m);
+    refreshCompare(m); H("python", m, ed, mid);
     const grab = () => ({ code: ed.getCode(), stdin: $("#stdin").value === "" ? [] : $("#stdin").value.split("\n") });
     async function engine() { try { return await ensurePy(); } catch (e) { $("#outbox").textContent = PY_OFFLINE; return null; } }
     function showRun(r) {
@@ -472,10 +496,12 @@
     $("#resetBtn").onclick = () => { const b = $("#resetBtn"); if (b.dataset.sure) { ed.reset(); b.textContent = "↺ " + t("reset"); delete b.dataset.sure; } else { b.dataset.sure = "1"; b.textContent = "Click again to restore the starter"; } };
     $("#submitBtn").onclick = async () => {
       const api = await engine(); if (!api) return;
-      const code = ed.getCode(), results = api.grade(code, allTests(m)); $("#testlist").outerHTML = renderTests(m, results);
+      const code = ed.getCode(), results = api.grade(code, allTests(m));
       const main = results.filter((r) => !r.star), extra = results.filter((r) => r.star);
-      if (main.every((r) => r.ok)) finishMission(m, w, { code: code, cleanPass: m.clean ? extra.every((r) => r.ok) : null });
-      else { tries[m.id] = (tries[m.id] || 0) + 1; toast("Not yet. Read the failed checks and try again."); }
+      lightTests(m, results, () => {
+        if (main.every((r) => r.ok)) finishMission(m, w, { code: code, cleanPass: m.clean ? extra.every((r) => r.ok) : null });
+        else { tries[m.id] = (tries[m.id] || 0) + 1; toast("Not yet. Read the failed checks and try again."); H("failed", m); }
+      });
     };
     $("#rewardSlot").innerHTML = S.solved[m.id] ? '<div class="reward"><b>✔ You solved this mission.</b> <span class="muted">Improve your code and press Check again to earn more stars.</span> <a href="#/map">Back to the map</a></div>' : "";
     bindExplain(m); setPyPill();
@@ -509,7 +535,7 @@
       tabs: tabBtn("cheat", "Cheat sheet", true) + tabBtn("compare", "Compare"),
       panels: '<div id="tab-cheat"><p class="muted">Commands in this simulated server:</p><ul class="mono" style="font-size:.85rem;padding-left:1.1rem"><li>ls, cd, pwd, cat, head, tail</li><li>grep PATTERN FILE · wc -l</li><li>ps aux · top · kill PID</li><li>ss -ltnp · lsof -i :PORT</li><li>df -h · du -sh PATH</li><li>sed -i \'s/old/new/\' FILE</li><li>echo "text" &gt; FILE · history · clear</li></ul><p class="muted">Pipes (|) and redirects (&gt; &gt;&gt;) work. Nothing here touches your real computer.</p></div>',
     });
-    bindHints(m); bindTabs(m); refreshCompare(m);
+    bindHints(m); bindTabs(m); refreshCompare(m); H("terminal", m, T);
     $("#midpane").innerHTML = '<div class="term"><div class="log" id="tlog" role="log" aria-live="polite"></div><form id="tform"><span class="mono" id="tprompt"></span><input id="tin" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command"></form></div>' +
       (hasAnswer ? '<label class="muted" for="ans" style="display:block;margin-top:.6rem">Your answer</label><input class="input" id="ans" autocomplete="off" placeholder="Type what you found, e.g. a name or a path">' : "") +
       '<div class="row" style="margin-top:.6rem"><button class="btn good" id="checkBtn">✔ ' + esc(hasAnswer ? "Check my answer" : "Check my fix") + '</button><button class="btn small" id="treset">↺ Reset server</button></div>';
@@ -528,10 +554,11 @@
     });
     $("#treset").onclick = () => VIEWS.mission(v, m.id);
     $("#checkBtn").onclick = () => {
-      const results = AK.gradeTerminal(m, T, hasAnswer ? $("#ans").value : ""); $("#testlist").outerHTML = renderTests(m, results);
-      if (results.every((r) => r.ok)) {
-        finishMission(m, w, { code: T.history.join("\n"), cleanPass: null });
-      } else { tries[m.id] = (tries[m.id] || 0) + 1; toast("Not yet. Look at the failed checks."); }
+      const results = AK.gradeTerminal(m, T, hasAnswer ? $("#ans").value : "");
+      lightTests(m, results, () => {
+        if (results.every((r) => r.ok)) finishMission(m, w, { code: T.history.join("\n"), cleanPass: null });
+        else { tries[m.id] = (tries[m.id] || 0) + 1; toast("Not yet. Look at the failed checks."); H("failed", m); }
+      });
     };
     $("#rewardSlot").innerHTML = S.solved[m.id] ? '<div class="reward"><b>✔ You solved this mission.</b> <a href="#/map">Back to the map</a></div>' : "";
     bindExplain(m); setHeadStatus(m); $("#pypill").remove(); inp.focus();
@@ -642,7 +669,13 @@
   /* ------------------------------------------------------------ boot */
   applySettings(); renderFooter();
   $("#skip").onclick = () => $("#view").focus();
-  window.addEventListener("hashchange", route); route();
+  window.AK_CORE = {
+    state: () => S, save: save, toast: toast, esc: esc, $: $, $$: $$, t: t, lt: lt, DATA: DATA, byId: byId, regionById: regionById, VIEWS: VIEWS, route: route, renderHeader: renderHeader,
+    parrot: parrot, ensurePy: ensurePy, confetti: confetti, reducedMotion: reducedMotion, missionFrame: missionFrame, tabBtn: tabBtn, bindTabs: bindTabs, bindHints: bindHints, bindExplain: bindExplain,
+    setHeadStatus: setHeadStatus, renderTests: renderTests, allTests: allTests, lightTests: lightTests, finishMission: finishMission, tries: tries, refreshCompare: refreshCompare, setPyPill: setPyPill,
+    buildCodeEditor: buildCodeEditor, missionPython: missionPython, missionTerminal: missionTerminal, missionPredict: missionPredict, predictCard: predictCard, weekly: weekly, featIds: featIds,
+    diag: diag, setDay: (id) => { dayMode = id; }, PY_OFFLINE: PY_OFFLINE, applySettings: applySettings, rankName: rankName, badgeToasts: badgeToasts, nodeIcon: nodeIcon, orderedMissions: orderedMissions,
+  };
   if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js").catch(() => {});
   window.AK_APP = { state: () => S, route: route };
 })();

@@ -47,9 +47,18 @@
     return 7 - (((since % 7) + 7) % 7);
   };
   AK.featuredOutage = function (missions, d) {
-    const ops = missions.filter((m) => m.type === "terminal").sort((a, b) => a.order - b.order);
+    const ops = missions.filter((m) => m.type === "terminal" && m.region === "debug-the-outage").sort((a, b) => a.order - b.order);
     if (!ops.length) return null;
     return ops[((AK.weekIndex(d) % ops.length) + ops.length) % ops.length];
+  };
+  /* Outage of the Day: a different incident every date, never the same as the weekly one. */
+  AK.outageOfDay = function (missions, d) {
+    const ops = missions.filter((m) => m.type === "terminal" && m.region === "debug-the-outage").sort((a, b) => a.order - b.order);
+    if (!ops.length) return null;
+    const wk = AK.featuredOutage(missions, d);
+    let k = hash("outage-day-" + AK.dateKey(d)) % ops.length;
+    if (ops.length > 1 && wk && ops[k].id === wk.id) k = (k + 1) % ops.length;
+    return ops[k];
   };
 
   /* ---------------------------------------------------------------- 2. progress */
@@ -60,7 +69,9 @@
       streak: { count: 0, best: 0, last: "", freezes: 0 },
       badges: {}, weekly: {}, askLvl: {},
       dailyXp: 0, dailyDone: 0, daily: { date: "", done: {}, pts: 0, bonus: false },
-      settings: { lang: "en", theme: "dark", motion: "auto", socratic: false, outfit: "none", editor: "classic" },
+      seeds: { earned: 0, spent: 0 }, shop: {}, village: { plots: [], seen: {} }, companion: "",
+      placed: null, speed: {}, blitz: { best: 0, runs: 0 }, golf: {}, dungeon: { best: 0, runs: 0 }, outageDays: {}, fade: {}, pairDiag: {},
+      settings: { lang: "en", theme: "dark", motion: "auto", socratic: false, outfit: "none", editor: "classic", sound: "on", haptics: "on", buddy: "on" },
       created: new Date().toISOString(),
     };
   };
@@ -90,8 +101,9 @@
     if (S.solved[m.id]) return true;
     if ((m.requires || []).every((r) => S.solved[r])) return true;
     if (m.boss && S.testOut[m.region]) return true;
-    if (featuredId && m.id === featuredId) return true;
+    if (featuredId && [].concat(featuredId).indexOf(m.id) >= 0) return true;
     if (AK.regionComplete(S, data, m.region)) return true;
+    if (S.placed && AK.placedUnlock && AK.placedUnlock(S, data, m)) return true;
     return false;
   };
 
@@ -117,7 +129,7 @@
     }
     st.last = today;
     st.best = Math.max(st.best, st.count);
-    if (st.count > 0 && st.count % 7 === 0) st.freezes = Math.min(2, st.freezes + 1);
+    if (st.count > 0 && st.count % 7 === 0) { st.freezes = Math.min(2, st.freezes + 1); S.seeds = S.seeds || { earned: 0, spent: 0 }; S.seeds.earned += 10; }
   }
 
   AK.touchStreak = touchStreak;
@@ -139,6 +151,22 @@
     { id: "pest-control", icon: "🪲", en: "Pest Control", te: "పురుగుల వేట", desc: "Finish a Daily Quest." },
     { id: "daily-7", icon: "📅", en: "Daily Habit", te: "రోజువారీ అలవాటు", desc: "Finish 7 Daily Quests." },
     { id: "python-graduate", icon: "🎓", en: "Python Graduate", te: "పైథాన్ పట్టభద్రుడు", desc: "Complete every Python Quest region." },
+    { id: "sql-sage", icon: "🗃️", en: "SQL Sage", te: "SQL పండితుడు", desc: "Clear every SQL region." },
+    { id: "git-guardian", icon: "🌿", en: "Git Guardian", te: "గిట్ రక్షకుడు", desc: "Clear every Git region." },
+    { id: "career-ready", icon: "💼", en: "Career Ready", te: "ఉద్యోగ సిద్ధం", desc: "Clear Python for DevOps and Interview Prep." },
+    { id: "case-closed", icon: "🕵️", en: "Case Closed", te: "కేసు ముగిసింది", desc: "Solve a Mystery Case." },
+    { id: "detective", icon: "🔎", en: "Chief Detective", te: "ప్రధాన డిటెక్టివ్", desc: "Solve every Mystery Case." },
+    { id: "speedster", icon: "⏱️", en: "Speedster", te: "వేగవీరుడు", desc: "Set a Speed Run record on 3 missions." },
+    { id: "blitzer", icon: "⚡", en: "Blitz Brain", te: "మెరుపు మెదడు", desc: "Finish a Prediction Blitz with 5 of 5 right." },
+    { id: "birdie", icon: "⛳", en: "Birdie", te: "బర్డీ", desc: "Beat par on a Code Golf hole." },
+    { id: "golf-pro", icon: "🏌️", en: "Golf Pro", te: "గోల్ఫ్ ప్రో", desc: "Beat par on 5 Code Golf holes." },
+    { id: "pair-pro", icon: "🦜", en: "Pair Programmer", te: "జంట ప్రోగ్రామర్", desc: "Help Chilaka fix 5 bugs in Pair Parrot." },
+    { id: "dungeon-5", icon: "🕳️", en: "Dungeon Delver", te: "గుహ అన్వేషి", desc: "Reach floor 5 of the Endless Dungeon." },
+    { id: "dungeon-15", icon: "🐉", en: "Dungeon Master", te: "గుహ నాయకుడు", desc: "Reach floor 15 of the Endless Dungeon." },
+    { id: "placed", icon: "🧭", en: "Pathfinder", te: "మార్గదర్శి", desc: "Take the placement quiz." },
+    { id: "builder", icon: "🏗️", en: "Village Builder", te: "గ్రామ నిర్మాత", desc: "Place 6 buildings in Aata-gram." },
+    { id: "pal", icon: "🐿️", en: "Chilaka's Pal", te: "చిలుక స్నేహితుడు", desc: "Adopt a companion for Chilaka." },
+    { id: "day-outage", icon: "🌅", en: "On Call Today", te: "ఈ రోజు ఆన్-కాల్", desc: "Solve an Outage of the Day." },
   ];
   AK.regionBadge = function (region) {
     return { id: "region-" + region.id, icon: region.icon || "🏁", en: region.title + " cleared", te: (region.title_te || region.title) + " పూర్తి", desc: "Beat the boss of " + region.title + "." };
@@ -168,6 +196,25 @@
     const pyRegions = data.regions.filter((r) => r.track === "python");
     for (const r of data.regions) if (AK.regionComplete(S, data, r.id)) give("region-" + r.id);
     if (pyRegions.length && pyRegions.every((r) => AK.regionComplete(S, data, r.id))) give("python-graduate");
+    const trackDone = (id) => { const rs = data.regions.filter((r) => r.track === id); return rs.length > 0 && rs.every((r) => AK.regionComplete(S, data, r.id)); };
+    if (trackDone("sql")) give("sql-sage");
+    if (trackDone("git")) give("git-guardian");
+    if (trackDone("career")) give("career-ready");
+    const mys = data.missions.filter((m) => m.region === "mystery-cases");
+    if (mys.some((m) => S.solved[m.id])) give("case-closed");
+    if (mys.length && mys.every((m) => S.solved[m.id])) give("detective");
+    if (Object.keys(S.speed || {}).length >= 3) give("speedster");
+    if ((S.blitz || {}).perfect) give("blitzer");
+    const golfUnder = data.missions.filter((m) => m.golf && S.golf && S.golf[m.id] && S.golf[m.id].best < m.golf.par);
+    if (golfUnder.length >= 1) give("birdie");
+    if (golfUnder.length >= 5) give("golf-pro");
+    if (data.missions.filter((m) => m.type === "pair" && S.solved[m.id]).length >= 5) give("pair-pro");
+    if (((S.dungeon || {}).best || 0) >= 5) give("dungeon-5");
+    if (((S.dungeon || {}).best || 0) >= 15) give("dungeon-15");
+    if (S.placed) give("placed");
+    if (((S.village || {}).plots || []).filter(Boolean).length >= 6) give("builder");
+    if (S.companion) give("pal");
+    if (Object.keys(S.outageDays || {}).length) give("day-outage");
     return earned;
   };
 
@@ -185,15 +232,22 @@
     if (hints === 0) { breakdown.push({ label: "No-hints bonus", xp: 10 }); total += 10; }
     const stars = starsFor(m, hints, opts);
     if (stars === 3) { breakdown.push({ label: "Mastery star bonus", xp: 5 }); total += 5; }
+    let seeds = 2 + stars + (m.boss ? 3 : 0);
+    if (m.type === "pair" && opts.diagFirst) { breakdown.push({ label: "Spotted the misconception first try", xp: 5 }); total += 5; }
     if (opts.weeklyId && opts.weeklyId === m.id) {
-      breakdown.push({ label: "Outage of the Week", xp: 30 }); total += 30;
+      breakdown.push({ label: "Outage of the Week", xp: 30 }); total += 30; seeds += 5;
       S.weekly[String(AK.weekIndex(now))] = m.id;
+    }
+    if (opts.dayId && opts.dayId === m.id) {
+      breakdown.push({ label: "Outage of the Day", xp: 15 }); total += 15; seeds += 5;
+      S.outageDays = S.outageDays || {}; S.outageDays[AK.dateKey(now)] = m.id;
     }
     S.solved[m.id] = { xp: total, hints: hints, at: AK.dateKey(now), code: opts.code || "", stars: stars };
     touchStreak(S, now);
+    S.seeds = S.seeds || { earned: 0, spent: 0 }; S.seeds.earned += seeds;
     AK.recomputeXp(S);
     const newBadges = AK.checkBadges(S, data, now);
-    return { repeat: false, gained: total, stars: stars, breakdown: breakdown, newBadges: newBadges, rankUp: AK.rankFor(S.xp).index > before };
+    return { repeat: false, gained: total, seeds: seeds, stars: stars, breakdown: breakdown, newBadges: newBadges, rankUp: AK.rankFor(S.xp).index > before };
   };
 
   /* 1 star = solved; 2 = no hints; 3 = no hints and (clean-up challenge passed, or solved on the first check). */
@@ -231,7 +285,8 @@
     const pts = firstTry ? 5 : 2;
     S.daily.done[id] = true; S.daily.pts += pts; S.dailyXp += pts;
     let gained = pts, complete = false;
-    if (set.every((x) => S.daily.done[x]) && !S.daily.bonus) { complete = true; S.daily.bonus = true; S.dailyXp += 10; gained += 10; S.dailyDone += 1; }
+    S.seeds = S.seeds || { earned: 0, spent: 0 }; S.seeds.earned += 1;
+    if (set.every((x) => S.daily.done[x]) && !S.daily.bonus) { complete = true; S.daily.bonus = true; S.dailyXp += 10; gained += 10; S.dailyDone += 1; S.seeds.earned += 3; }
     touchStreak(S, now);
     AK.recomputeXp(S);
     return { gained: gained, complete: complete, newBadges: AK.checkBadges(S, data, now) };
@@ -263,6 +318,20 @@
     for (const id in inc.hintLvl || {}) out.hintLvl[id] = Math.max(out.hintLvl[id] || 0, inc.hintLvl[id]);
     if ((inc.streak || {}).best > out.streak.best) out.streak.best = inc.streak.best;
     if ((inc.streak || {}).last > out.streak.last) out.streak = Object.assign({}, inc.streak);
+    out.seeds = { earned: Math.max((out.seeds || {}).earned || 0, (inc.seeds || {}).earned || 0), spent: Math.max((out.seeds || {}).spent || 0, (inc.seeds || {}).spent || 0) };
+    out.shop = out.shop || {}; for (const id in inc.shop || {}) out.shop[id] = Math.max(out.shop[id] || 0, inc.shop[id]);
+    out.village = out.village || { plots: [], seen: {} };
+    if (((inc.village || {}).plots || []).filter(Boolean).length > (out.village.plots || []).filter(Boolean).length) out.village.plots = inc.village.plots.slice();
+    out.village.seen = Object.assign({}, (inc.village || {}).seen || {}, out.village.seen || {});
+    if (!out.companion && inc.companion) out.companion = inc.companion;
+    if (!out.placed && inc.placed) out.placed = inc.placed;
+    out.speed = out.speed || {}; for (const id in inc.speed || {}) if (!out.speed[id] || inc.speed[id].best < out.speed[id].best) out.speed[id] = inc.speed[id];
+    out.golf = out.golf || {}; for (const id in inc.golf || {}) if (!out.golf[id] || inc.golf[id].best < out.golf[id].best) out.golf[id] = inc.golf[id];
+    out.blitz = out.blitz || { best: 0, runs: 0 }; if (((inc.blitz || {}).best || 0) > out.blitz.best) out.blitz = Object.assign({}, inc.blitz);
+    out.dungeon = out.dungeon || { best: 0, runs: 0 }; if (((inc.dungeon || {}).best || 0) > out.dungeon.best) out.dungeon = Object.assign({}, inc.dungeon);
+    out.outageDays = Object.assign({}, inc.outageDays || {}, out.outageDays || {});
+    out.fade = Object.assign({}, inc.fade || {}, out.fade || {});
+    out.pairDiag = Object.assign({}, inc.pairDiag || {}, out.pairDiag || {});
     if (!out.name && inc.name) out.name = inc.name;
     if (!out.classCode && inc.classCode) out.classCode = inc.classCode;
     AK.recomputeXp(out);
@@ -326,6 +395,8 @@
       if (c === '"' || c === "'") { q = c; has = true; continue; }
       if (/\s/.test(c)) { push(); continue; }
       if (c === "|") { push(); toks.push({ t: "op", v: "|" }); continue; }
+      if (c === ";") { push(); toks.push({ t: "op", v: ";" }); continue; }
+      if (c === "&" && line[i + 1] === "&") { push(); toks.push({ t: "op", v: "&&" }); i++; continue; }
       if (c === ">") {
         push();
         if (line[i + 1] === ">") { toks.push({ t: "op", v: ">>" }); i++; } else toks.push({ t: "op", v: ">" });
@@ -342,6 +413,9 @@
     const T = {
       cwd: s.cwd || "/", files: s.files || {}, procs: s.processes || [],
       disks: s.disks || [], sizes: s.sizes || {}, history: [], cmds: [],
+      dirs: (s.dirs || []).slice(), modes: s.modes || {}, owners: s.owners || {}, services: s.services || {}, journal: s.journal || {},
+      http: s.http || {}, env: s.env || {}, date: s.date || "Mon Nov 24 02:07:31 UTC 2026", mem: s.mem || null, load: s.load || "0.15, 0.10, 0.05", user: s.user || "oncall",
+      gitSpec: s.git || null,
     };
     const abs = (p) => {
       const parts = [];
@@ -351,13 +425,21 @@
       });
       return "/" + parts.join("/");
     };
-    const allPaths = () => Object.keys(T.files).concat(Object.keys(T.sizes));
+    const allPaths = () => Object.keys(T.files).concat(Object.keys(T.sizes), T.dirs.map((d) => d + "/."));
     const children = (dir) => {
       const pre = dir === "/" ? "/" : dir + "/", set = {};
-      allPaths().forEach((p) => { if (p.startsWith(pre) && p.length > pre.length) set[p.slice(pre.length).split("/")[0]] = 1; });
+      allPaths().forEach((p) => { if (p.startsWith(pre) && p.length > pre.length) { const nm = p.slice(pre.length).split("/")[0]; if (nm !== ".") set[nm] = 1; } });
       return Object.keys(set).sort();
     };
     const isDir = (p) => p === "/" || allPaths().some((x) => x.startsWith(p + "/"));
+    const glob = (arg) => {
+      if (arg.indexOf("*") < 0 && arg.indexOf("?") < 0) return [arg];
+      const ap = abs(arg), dir = ap.slice(0, ap.lastIndexOf("/")) || "/", pat = ap.slice(ap.lastIndexOf("/") + 1);
+      const re = new RegExp("^" + pat.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*").replace(/\?/g, ".") + "$");
+      const hit = children(dir).filter((c) => re.test(c)).map((c) => (dir === "/" ? "" : dir) + "/" + c);
+      if (!hit.length) return [arg];
+      return arg[0] === "/" ? hit : hit.map((h) => h.slice(T.cwd === "/" ? 1 : T.cwd.length + 1));
+    };
     const expand = (arg) => {
       if (!arg.endsWith("/*")) return [arg];
       const dir = abs(arg.slice(0, -2));
@@ -456,28 +538,46 @@
       if (!line) return { out: "" };
       T.history.push(line);
       if (line === "clear") { T.cmds.push("clear"); return { out: "", clear: true }; }
-      const toks = tokenize(line), stages = [[]];
+      const toks = tokenize(line), seqs = [[]];
+      toks.forEach((t) => { if (t.t === "op" && (t.v === ";" || t.v === "&&")) seqs.push([]); else seqs[seqs.length - 1].push(t); });
+      const outs = [];
+      for (let q = 0; q < seqs.length; q++) {
+        const r = runPipeline(seqs[q]);
+        if (r.err) return { out: r.err };
+        if (r.out !== "") outs.push(r.out);
+      }
+      return { out: outs.join("\n") };
+    };
+    function runPipeline(toks) {
+      const stages = [[]];
       toks.forEach((t) => { if (t.t === "op" && t.v === "|") stages.push([]); else stages[stages.length - 1].push(t); });
       let data = "";
       for (let i = 0; i < stages.length; i++) {
-        const st = stages[i]; let redirect = null; const words = [];
+        const st = stages[i]; let redirect = null; let words = [];
         for (let j = 0; j < st.length; j++) {
           if (st[j].t === "op") { redirect = { mode: st[j].v, file: (st[j + 1] || {}).v }; break; }
           words.push(st[j].v);
         }
-        if (!words.length) continue;
-        const name = words[0]; T.cmds.push(name);
+        if (!words.length) {
+          if (redirect && redirect.file) { const p0 = abs(redirect.file); T.files[p0] = redirect.mode === ">>" ? (T.files[p0] || "") : ""; data = ""; }
+          continue;
+        }
+        const name = words[0]; T.cmds.push(name); T._noNl = false;
+        words = [name].concat(words.slice(1).reduce((acc, w) => acc.concat(name === "grep" && acc.length === 0 ? [w] : glob(w)), []));
         const fn = cmds[name];
         data = fn ? fn(words.slice(1), data) : name + ": command not found";
+        if (typeof data !== "string") data = String(data == null ? "" : data);
         if (redirect) {
-          if (!redirect.file) return { out: "syntax error: missing file after " + redirect.mode };
-          const p = abs(redirect.file), add = data + "\n";
+          if (!redirect.file) return { err: "syntax error: missing file after " + redirect.mode };
+          const p = abs(redirect.file), add = data === "" && T._noNl ? "" : data + "\n";
           T.files[p] = redirect.mode === ">>" ? (T.files[p] || "") + add : add;
           data = "";
         }
       }
       return { out: data };
-    };
+    }
+    T.abs = abs; T.isDir = isDir; T.children = children; T.glob = glob; T.lines = lines; T.pad = pad;
+    (AK._termExt || []).forEach((f) => f(T, cmds));
     return T;
   };
 
@@ -493,6 +593,7 @@
         case "file-not-contains": ok = t.path in T.files && !(T.files[t.path] || "").includes(t.text); break;
         case "process-gone": ok = !T.procs.some((p) => p.pid === t.pid); break;
         case "process-alive": ok = T.procs.some((p) => p.pid === t.pid); break;
+        default: ok = AK.termTest ? !!AK.termTest(t, T) : false;
       }
       return { label: t.label || t.note || t.kind, ok: ok, hidden: !!t.hidden };
     });
@@ -510,10 +611,13 @@
     setRunnerSource: function (src) { PY.runner = src; },
     init: function (pyodide) {
       pyodide.runPython(PY.runner);
-      PY.fns = { run: pyodide.globals.get("_run"), grade: pyodide.globals.get("_grade") };
+      PY.fns = { run: pyodide.globals.get("_run"), grade: pyodide.globals.get("_grade"), sqlGrade: pyodide.globals.get("_sql_grade"), sqlRun: pyodide.globals.get("_sql_run"), sqlSchema: pyodide.globals.get("_sql_schema") };
     },
     run: function (code, stdin, trace) { return JSON.parse(PY.fns.run(code, JSON.stringify(stdin || []), !!trace)); },
     grade: function (code, tests) { return JSON.parse(PY.fns.grade(code, JSON.stringify(tests))); },
+    sqlGrade: function (query, setup, tests) { return JSON.parse(PY.fns.sqlGrade(query, setup, JSON.stringify(tests))); },
+    sqlRun: function (query, setup) { return JSON.parse(PY.fns.sqlRun(query, setup)); },
+    sqlSchema: function (setup) { return JSON.parse(PY.fns.sqlSchema(setup)); },
   };
 
   /* ---------------------------------------------------------------- 6. teacher cards */

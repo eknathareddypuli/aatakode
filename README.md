@@ -5,15 +5,20 @@ Free, offline-first, gamified coding academy. **Aata** = "play" in Telugu. Live 
 No sign-up, no ads, no tracking. Progress lives in your browser; Python runs in your browser via Pyodide.
 
 ## What's in
-- **Python Quest: 12 regions, 137 missions** from your first `print()` to real-world tools: First Steps, Decisions, Loops, Strings, Collections, Functions, Files and Errors, Modules and Debugging, Objects, Clean Code, Problem Solving, Real-World Python. Each region ends in a bug-fix boss, and most have a mini-project.
-- **Debug the Outage**: 4 simulated-terminal incidents, plus a weekly Outage of the Week.
-- **Six mission types**: write code, fix the bug, predict the output, fill the blank, put lines in order, terminal.
+- **247 missions in 5 tracks.** Python Quest: 12 regions, 137 missions from your first `print()` to real-world tools: First Steps, Decisions, Loops, Strings, Collections, Functions, Files and Errors, Modules and Debugging, Objects, Clean Code, Problem Solving, Real-World Python. Each region ends in a bug-fix boss, and most have a mini-project.
+- **Eight mission types**: write code, fix the bug, predict the output, fill the blank, put lines in order, terminal, SQL, pair debugging.
 - **Teaching loop**: predict, fix, explain, compare solutions. 3-level hints, free Socratic questions, step-through visualizer, block view, friendly error messages.
 - **Gamification**: XP, 8 ranks (English + Telugu), 1 to 3 stars per mission (no hints, then a clean solution or first-try), streak with freezes, badges, Daily Quest "Pest Control", a story map where Aata-gram's places are restored as you clear regions, free parrot outfits and code colours, shareable region/graduate certificate cards (self-reported).
 - **Teachers**: offline dashboard (paste student cards, class table, class goal, CSV). Self-reported, not for exams.
 - Offline-first PWA, progress export/import, EN/Telugu interface, light/dark, reduced motion.
 
 Not built yet (premium/P2): cloud sync, AI tutor, human review, leagues, verifiable certificates. See `docs/ROADMAP.md`.
+
+- **Debug the Outage: 20 broken-server missions** in a simulated Linux terminal (permissions, services, logs, cron, DNS, OOM, 502s) plus **6 Mystery Cases** and a new *Outage of the Day*.
+- **SQL Market (25 missions):** real SQLite in your browser. **Git Garden (18):** a built-in Git simulator with branches, merge conflicts, reflog and stash.
+- **Career Boost:** Python for DevOps (14) and Interview Prep (11).
+- **Arena:** Code Golf Shrine, Pair Parrot (diagnose, then fix), Speed Run, Predict Blitz, Endless Dungeon, and a placement quiz.
+- **Feel:** parrot reactions and companions, test-by-test lighting, worked-example fading, sound (synthesised, can be silenced), phone haptics, a village you rebuild and decorate with Seeds, with day and night.
 
 ## Develop
 ```

@@ -189,3 +189,73 @@ html{--codeink:var(--ink)}
 .order li{min-width:0}
 .order code{min-width:0;overflow-x:auto}
 .fill,.codeview{max-width:100%}
+
+/* ===== v2: feel layer, village, modes ===== */
+.opt.right{border-color:var(--mint);background:rgba(74,222,159,.18)}
+.opt.wrong{border-color:var(--coral);opacity:.65}
+.opt:disabled{cursor:default}
+.tile{display:flex;flex-direction:column;gap:.2rem;text-decoration:none;color:inherit;transition:transform .15s}
+.tile:hover{transform:translateY(-3px);border-color:var(--gold)}
+.tile .tico{font-size:1.8rem}
+.tablewrap{overflow:auto;max-height:340px;border:1px solid var(--line);border-radius:6px}
+.sqlt{border-collapse:collapse;width:100%;font:.85rem var(--mono)}
+.sqlt th,.sqlt td{padding:.25rem .55rem;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.sqlt th{background:var(--panel2);position:sticky;top:0}
+.pairsay{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:.5rem .8rem;margin-top:.4rem}
+.golfbar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-top:.5rem}
+.fade-card{margin-bottom:.6rem}
+.shopitem{display:flex;gap:.6rem;align-items:center;padding:.4rem 0;border-bottom:1px dashed var(--line)}
+.shico{font-size:1.6rem;width:2rem;text-align:center}
+.grow{flex:1}
+/* test-by-test lighting */
+.tests li.lit{animation:litpop .28s ease-out}
+.tests li.litok{background:rgba(74,222,159,.12)}
+.tests li.litno{background:rgba(255,122,107,.12)}
+@keyframes litpop{0%{transform:translateX(-6px) scale(.98);opacity:.4}100%{transform:none;opacity:1}}
+/* typing feel */
+.editor.typing,.term.typing{box-shadow:0 0 0 2px rgba(242,181,49,.35),0 0 14px rgba(242,181,49,.25)}
+.editor{position:relative;transition:box-shadow .12s}
+#kwflash{position:absolute;right:10px;top:8px;font:700 .85rem var(--mono);color:var(--on-gold);background:var(--gold);padding:.1rem .5rem;border-radius:999px;opacity:0;pointer-events:none}
+#kwflash.go{animation:kw .8s ease-out}
+@keyframes kw{0%{opacity:0;transform:translateY(6px) scale(.9)}20%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-6px)}}
+#runBtn.charged,#sqlRun.charged{box-shadow:0 0 0 3px rgba(242,181,49,.45);animation:charge 1.4s ease-in-out infinite}
+@keyframes charge{50%{box-shadow:0 0 0 6px rgba(242,181,49,.15)}}
+/* parrot buddy */
+.buddy{position:fixed;left:12px;bottom:12px;z-index:30;display:flex;align-items:flex-end;gap:.4rem;pointer-events:none}
+.buddy .bpar{position:relative;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.3));transition:transform .25s}
+.buddy.mood-happy .bpar{animation:hop .6s ease-out 2}
+.buddy.mood-sad .bpar{transform:rotate(-8deg) translateY(3px);filter:saturate(.6) drop-shadow(2px 3px 0 rgba(0,0,0,.3))}
+.buddy.mood-think .bpar{animation:bob 1.6s ease-in-out infinite}
+.buddy .bub{background:var(--panel);border:2px solid var(--gold);border-radius:12px;padding:.35rem .7rem;max-width:230px;font-size:.88rem;box-shadow:var(--shadow);animation:bubin .25s ease-out}
+.buddy .bub.gone{opacity:0;transition:opacity .5s}
+.bcomp{position:absolute;right:-18px;bottom:-4px;font-size:1.1rem}
+.bcomp.s2{font-size:1.4rem}.bcomp.s3{font-size:1.7rem}
+@keyframes hop{40%{transform:translateY(-14px)}}
+@keyframes bob{50%{transform:translateY(-4px) rotate(3deg)}}
+@keyframes bubin{from{opacity:0;transform:translateY(6px)}}
+@media(max-width:700px){.buddy .bub{max-width:150px;font-size:.8rem}}
+/* village rebuild overlay */
+.rebuild-ov{position:fixed;inset:0;background:rgba(10,8,30,.7);display:grid;place-items:center;z-index:60;animation:bubin .3s}
+.rebuild-ov.out{opacity:0;transition:opacity .4s}
+.rb-card{background:var(--panel);border:3px solid var(--gold);border-radius:14px;padding:1.4rem 2rem;text-align:center;display:grid;gap:.4rem}
+.rb-icon{font-size:4.5rem;display:inline-block}
+.rb-icon.go{animation:rbuild 1.4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes rbuild{0%{transform:scale(.1) translateY(40px);filter:grayscale(1)}60%{transform:scale(1.25);filter:none}100%{transform:scale(1)}}
+/* village scene */
+.vscene{width:100%;height:auto;display:block;border-radius:8px}
+.vscene .land.down .lico{filter:grayscale(1)}
+.vscene .land.down .dim{opacity:.4}
+.vscene .land.up .lico{filter:drop-shadow(0 0 6px rgba(255,211,106,.6))}
+.vscene .land.rebuild .lico{transform-box:fill-box;transform-origin:center bottom;animation:rbuild 1.6s cubic-bezier(.3,1.6,.5,1) both}
+.vscene .plot{cursor:pointer;outline:none}
+.vscene .plot:hover rect,.vscene .plot:focus rect{stroke:var(--gold);stroke-width:2}
+.vscene .bld{transform-box:fill-box;transform-origin:center bottom;animation:sway 4s ease-in-out infinite}
+.vscene .star{fill:#fff;animation:twinkle 3s ease-in-out infinite}
+.vscene .ff{fill:#fff6a8;animation:firefly 5s ease-in-out infinite}
+.vscene .glow{animation:twinkle 3.4s ease-in-out infinite}
+.vscene .comp{animation:stroll 22s linear infinite}
+.vscene .comp.s2{font-size:42px}.vscene .comp.s3{font-size:52px}
+@keyframes sway{50%{transform:rotate(1.5deg)}}
+@keyframes twinkle{50%{opacity:.25}}
+@keyframes firefly{0%,100%{opacity:0;transform:translate(0,0)}30%{opacity:1}60%{opacity:.8;transform:translate(26px,-18px)}}
+@keyframes stroll{0%{transform:translateX(30px)}50%{transform:translateX(820px)}100%{transform:translateX(30px)}}

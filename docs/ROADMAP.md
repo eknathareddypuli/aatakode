@@ -6,12 +6,13 @@
 - [x] In-browser grader (tests run client-side)
 - [x] Simulated terminal for shell missions
 - [x] XP and progress in localStorage, export/import
-- [x] "Debug the Outage" region (4 missions so far; 6 more planned)
+- [x] "Debug the Outage" region (20 missions) and 6 Mystery Cases
 
 ## Phase 2: Alpha (weeks 4–8)
 - [x] Step-through visualizer (variables, loops, call stack)
 - [x] Streaks with freeze days, badges, skill-tree map
 - [ ] Verifiable certificates
+- [x] v2: SQL and Git tracks, Career Boost, Arena (golf, pair, speed, dungeon), placement quiz, Seeds, village building, companions, sound, haptics, day and night
 - [x] Mobile layout, accessibility pass (keyboard, contrast, reduced motion)
 - [x] 12 Python regions (137 missions) built and verified
 - [ ] Test with 10–20 real learners and tune difficulty
