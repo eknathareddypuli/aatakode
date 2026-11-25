@@ -1,0 +1,47 @@
+{
+  "id": "o-class-order",
+  "region": "objects",
+  "order": 9,
+  "title": "Order the Lamp",
+  "story": "A lamp class and its test run are shuffled. Put them in a working order.",
+  "goal": "Put the lines in order so the program prints True.",
+  "type": "order",
+  "starter": "class Light:\n    def __init__(self):\n        self.on = not self.on\nlamp.toggle()\nlamp = Light()\nprint(lamp.on)\n        self.on = False\n    def toggle(self):\n",
+  "lines": [
+    "class Light:",
+    "    def __init__(self):",
+    "        self.on = not self.on",
+    "lamp.toggle()",
+    "lamp = Light()",
+    "print(lamp.on)",
+    "        self.on = False",
+    "    def toggle(self):"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints True",
+      "expect": "True"
+    }
+  ],
+  "hints": [
+    "The class must be defined before you create a lamp from it.",
+    "Inside the class, __init__ comes before toggle. Use indentation to see which lines are inside.",
+    "class Light:\n    def __init__(self):\n        self.on = False\n    def toggle(self):\n        self.on = not self.on\nlamp = Light()\nlamp.toggle()\nprint(lamp.on)\n"
+  ],
+  "socratic": [
+    "What must exist before Light() runs?",
+    "Which lines belong inside each method?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "classes",
+    "order"
+  ],
+  "requires": [
+    "w-dunder"
+  ],
+  "solution": "class Light:\n    def __init__(self):\n        self.on = False\n    def toggle(self):\n        self.on = not self.on\nlamp = Light()\nlamp.toggle()\nprint(lamp.on)\n"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "f-sort",
+  "region": "problem-solving",
+  "order": 4,
+  "title": "Fill the Bubble Sort",
+  "story": "Bubble sort swaps neighbours that are in the wrong order until everything is sorted.",
+  "goal": "Print the list sorted from smallest to largest.",
+  "type": "fill",
+  "starter": "nums = [5, 2, 9, 1]\nfor i in range(len(nums)):\n    for j in range(len(nums) - 1 - i):\n        if nums[j] ___ nums[j + 1]:\n            nums[j], nums[j + 1] = nums[j + 1], nums[j]\nprint(nums)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Sorted",
+      "expect": "[1, 2, 5, 9]"
+    }
+  ],
+  "hints": [
+    "Swap when the left neighbour is bigger than the right one.",
+    "Use the > comparison.",
+    "nums = [5, 2, 9, 1]\nfor i in range(len(nums)):\n    for j in range(len(nums) - 1 - i):\n        if nums[j] > nums[j + 1]:\n            nums[j], nums[j + 1] = nums[j + 1], nums[j]\nprint(nums)\n"
+  ],
+  "socratic": [
+    "When are two neighbours in the wrong order?",
+    "What happens if you use < instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Bubble Sort”?",
+  "xp": 20,
+  "skills": [
+    "sorting"
+  ],
+  "requires": [
+    "w-binary"
+  ],
+  "solution": "nums = [5, 2, 9, 1]\nfor i in range(len(nums)):\n    for j in range(len(nums) - 1 - i):\n        if nums[j] > nums[j + 1]:\n            nums[j], nums[j + 1] = nums[j + 1], nums[j]\nprint(nums)\n"
+}

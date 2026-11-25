@@ -1,0 +1,59 @@
+{
+  "id": "md-boss",
+  "region": "modules-debug",
+  "order": 11,
+  "title": "Boss: The Calendar Crash",
+  "story": "The village birthday board shows wrong ages on exactly the days around a birthday. Find the logic bug.",
+  "goal": "Fix age_in_years(born, today): the age goes up only on or after the birthday.",
+  "type": "fix-the-bug",
+  "starter": "from datetime import date\n\n\ndef age_in_years(born, today):\n    b = date.fromisoformat(born)\n    t = date.fromisoformat(today)\n    years = t.year - b.year\n    if (t.month, t.day) > (b.month, b.day):\n        years -= 1\n    return years\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Day before birthday",
+      "expr": "age_in_years(\"2000-06-15\", \"2024-06-14\")",
+      "expect": "23"
+    },
+    {
+      "kind": "eval",
+      "label": "On the birthday",
+      "expr": "age_in_years(\"2000-06-15\", \"2024-06-15\")",
+      "expect": "24"
+    },
+    {
+      "kind": "eval",
+      "label": "After the birthday",
+      "expr": "age_in_years(\"2000-06-15\", \"2024-12-01\")",
+      "expect": "24"
+    },
+    {
+      "kind": "eval",
+      "label": "Early in the year",
+      "expr": "age_in_years(\"2000-06-15\", \"2024-01-02\")",
+      "expect": "23",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Test three dates by hand: before, on and after the birthday. When should years be reduced by one?",
+    "You subtract one only if the birthday has NOT happened yet this year.",
+    "from datetime import date\n\n\ndef age_in_years(born, today):\n    b = date.fromisoformat(born)\n    t = date.fromisoformat(today)\n    years = t.year - b.year\n    if (t.month, t.day) < (b.month, b.day):\n        years -= 1\n    return years\n"
+  ],
+  "socratic": [
+    "What should the age be on the birthday itself?",
+    "Which comparison sign is the wrong way round?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 65,
+  "skills": [
+    "debugging",
+    "datetime"
+  ],
+  "requires": [
+    "proj-diceduel"
+  ],
+  "solution": "from datetime import date\n\n\ndef age_in_years(born, today):\n    b = date.fromisoformat(born)\n    t = date.fromisoformat(today)\n    years = t.year - b.year\n    if (t.month, t.day) < (b.month, b.day):\n        years -= 1\n    return years\n",
+  "alt": "from datetime import date\n\n\ndef age_in_years(born, today):\n    b = date.fromisoformat(born)\n    t = date.fromisoformat(today)\n    had_birthday = (t.month, t.day) >= (b.month, b.day)\n    return t.year - b.year - (0 if had_birthday else 1)\n",
+  "boss": true
+}

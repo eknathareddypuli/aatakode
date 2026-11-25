@@ -1,0 +1,44 @@
+{
+  "id": "p-scope",
+  "region": "functions",
+  "order": 2,
+  "title": "Inside or Outside?",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "x = 10\ndef change():\n    x = 99\nchange()\nprint(x)",
+  "options": [
+    "99",
+    "Error: NameError",
+    "None",
+    "10"
+  ],
+  "answer": 3,
+  "why": "Assigning x inside the function creates a new local variable. The outer x is untouched.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Which x does the function change?",
+    "The output is:\n10"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "scope"
+  ],
+  "requires": [
+    "py-14-def"
+  ],
+  "solution": "10"
+}

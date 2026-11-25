@@ -1,0 +1,52 @@
+{
+  "id": "w-api",
+  "region": "real-world",
+  "order": 2,
+  "title": "Read the Weather API",
+  "story": "The control room receives weather reports from an API as JSON text. Turn each into a friendly line.",
+  "goal": "Write parse_weather(text) for JSON like {\"city\": \"Pune\", \"temp_c\": 31.5, \"rain\": false}. Return Pune: 31.5C, dry (or wet if rain is true; a missing rain key counts as dry).",
+  "type": "write-code",
+  "starter": "import json\n# define parse_weather\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Dry day",
+      "expr": "parse_weather('{\"city\": \"Pune\", \"temp_c\": 31.5, \"rain\": false}')",
+      "expect": "'Pune: 31.5C, dry'"
+    },
+    {
+      "kind": "eval",
+      "label": "Wet day",
+      "expr": "parse_weather('{\"city\": \"Goa\", \"temp_c\": 29, \"rain\": true}')",
+      "expect": "'Goa: 29C, wet'"
+    },
+    {
+      "kind": "eval",
+      "label": "Missing rain key",
+      "expr": "parse_weather('{\"city\": \"Leh\", \"temp_c\": 1}')",
+      "expect": "'Leh: 1C, dry'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Parse the text with json.loads first. Then pick out the fields from the dict.",
+    "data.get(\"rain\", False) returns False when the key is missing.",
+    "import json\n\n\ndef parse_weather(text):\n    data = json.loads(text)\n    sky = \"wet\" if data.get(\"rain\", False) else \"dry\"\n    return f\"{data['city']}: {data['temp_c']}C, {sky}\"\n"
+  ],
+  "socratic": [
+    "What type is the result of json.loads?",
+    "How do you read a key that may not exist?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Read the Weather API”?",
+  "xp": 30,
+  "skills": [
+    "json",
+    "dicts"
+  ],
+  "requires": [
+    "p-json"
+  ],
+  "solution": "import json\n\n\ndef parse_weather(text):\n    data = json.loads(text)\n    sky = \"wet\" if data.get(\"rain\", False) else \"dry\"\n    return f\"{data['city']}: {data['temp_c']}C, {sky}\"\n",
+  "alt": "import json\n\n\ndef parse_weather(text):\n    d = json.loads(text)\n    if d.get(\"rain\"):\n        sky = \"wet\"\n    else:\n        sky = \"dry\"\n    return d[\"city\"] + \": \" + str(d[\"temp_c\"]) + \"C, \" + sky\n"
+}

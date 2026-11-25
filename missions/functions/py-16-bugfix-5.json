@@ -1,7 +1,7 @@
 {
   "id": "py-16-bugfix-5",
   "region": "functions",
-  "order": 3,
+  "order": 14,
   "title": "The Silent Function",
   "story": "average() should hand back the mean of a list, but it prints instead, adds wrongly and crashes on an empty list.",
   "goal": "Fix average(numbers): return the mean, or 0 for an empty list.",
@@ -51,7 +51,7 @@
     "edge-cases"
   ],
   "requires": [
-    "py-15-args"
+    "proj-toolkit"
   ],
   "solution": "def average(numbers):\n    if len(numbers) == 0:\n        return 0\n    total = 0\n    for n in numbers:\n        total += n\n    return total / len(numbers)\n",
   "alt": "def average(numbers):\n    return sum(numbers) / len(numbers) if numbers else 0\n",

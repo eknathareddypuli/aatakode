@@ -1,0 +1,71 @@
+{
+  "id": "proj-diceduel",
+  "region": "modules-debug",
+  "order": 10,
+  "title": "Project: Dice Duel",
+  "story": "Two players each roll a handful of dice. Highest total wins.",
+  "goal": "Write roll_many(n, sides=6) returning a list of n random rolls, and play(rolls_a, rolls_b) returning A, B or draw by comparing totals.",
+  "type": "write-code",
+  "starter": "import random\n# define roll_many and play\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "A wins",
+      "expr": "play([6, 6], [1, 2])",
+      "expect": "'A'"
+    },
+    {
+      "kind": "eval",
+      "label": "B wins",
+      "expr": "play([1], [2])",
+      "expect": "'B'"
+    },
+    {
+      "kind": "eval",
+      "label": "Draw",
+      "expr": "play([3, 3], [2, 4])",
+      "expect": "'draw'"
+    },
+    {
+      "kind": "eval",
+      "label": "Right number of rolls",
+      "expr": "len(roll_many(5))",
+      "expect": "5"
+    },
+    {
+      "kind": "eval",
+      "label": "Rolls stay in range",
+      "expr": "all(1 <= x <= 6 for x in roll_many(100))",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Custom die",
+      "expr": "all(1 <= x <= 3 for x in roll_many(60, 3))",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Split the job: one function creates rolls, the other compares totals.",
+    "A list comprehension can create the rolls: [random.randint(1, sides) for _ in range(n)].",
+    "import random\n\n\ndef roll_many(n, sides=6):\n    return [random.randint(1, sides) for _ in range(n)]\n\n\ndef play(rolls_a, rolls_b):\n    a, b = sum(rolls_a), sum(rolls_b)\n    if a > b:\n        return \"A\"\n    if b > a:\n        return \"B\"\n    return \"draw\"\n"
+  ],
+  "socratic": [
+    "Which function handles randomness?",
+    "How do you compare two totals?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Dice Duel”?",
+  "xp": 60,
+  "skills": [
+    "random",
+    "functions"
+  ],
+  "requires": [
+    "w-groups"
+  ],
+  "solution": "import random\n\n\ndef roll_many(n, sides=6):\n    return [random.randint(1, sides) for _ in range(n)]\n\n\ndef play(rolls_a, rolls_b):\n    a, b = sum(rolls_a), sum(rolls_b)\n    if a > b:\n        return \"A\"\n    if b > a:\n        return \"B\"\n    return \"draw\"\n",
+  "alt": "import random\n\n\ndef roll_many(n, sides=6):\n    rolls = []\n    for _ in range(n):\n        rolls.append(random.randint(1, sides))\n    return rolls\n\n\ndef play(rolls_a, rolls_b):\n    diff = sum(rolls_a) - sum(rolls_b)\n    return \"A\" if diff > 0 else \"B\" if diff < 0 else \"draw\"\n",
+  "project": true
+}

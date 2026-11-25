@@ -1,0 +1,59 @@
+{
+  "id": "ob-boss",
+  "region": "objects",
+  "order": 11,
+  "title": "Boss: The Leaky Wallet",
+  "story": "A wallet class forgets its cash and refuses to spend every last rupee. Two bugs hide inside.",
+  "goal": "Fix Wallet so cash is stored, and spending exactly all the cash works.",
+  "type": "fix-the-bug",
+  "starter": "class Wallet:\n    def __init__(self, cash):\n        cash = cash\n\n    def spend(self, amount):\n        if amount >= self.cash:\n            return False\n        self.cash -= amount\n        return True\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Stores cash",
+      "expr": "Wallet(10).cash",
+      "expect": "10"
+    },
+    {
+      "kind": "eval",
+      "label": "Spend some",
+      "expr": "(lambda w: (w.spend(4), w.cash))(Wallet(10))",
+      "expect": "(True, 6)"
+    },
+    {
+      "kind": "eval",
+      "label": "Refuse overspending",
+      "expr": "(lambda w: (w.spend(50), w.cash))(Wallet(10))",
+      "expect": "(False, 10)"
+    },
+    {
+      "kind": "eval",
+      "label": "Spend everything",
+      "expr": "(lambda w: (w.spend(10), w.cash))(Wallet(10))",
+      "expect": "(True, 0)",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "The first bug is in __init__: assigning to plain cash creates a local variable that vanishes.",
+    "The second bug is a comparison: is spending exactly all the cash allowed? Check >= against >.",
+    "class Wallet:\n    def __init__(self, cash):\n        self.cash = cash\n\n    def spend(self, amount):\n        if amount > self.cash:\n            return False\n        self.cash -= amount\n        return True\n"
+  ],
+  "socratic": [
+    "What is the difference between cash and self.cash?",
+    "Should spending exactly all your cash be allowed?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 60,
+  "skills": [
+    "debugging",
+    "classes"
+  ],
+  "requires": [
+    "proj-inventory"
+  ],
+  "solution": "class Wallet:\n    def __init__(self, cash):\n        self.cash = cash\n\n    def spend(self, amount):\n        if amount > self.cash:\n            return False\n        self.cash -= amount\n        return True\n",
+  "alt": "class Wallet:\n    def __init__(self, cash):\n        self.cash = cash\n\n    def spend(self, amount):\n        if self.cash - amount < 0:\n            return False\n        self.cash = self.cash - amount\n        return True\n",
+  "boss": true
+}

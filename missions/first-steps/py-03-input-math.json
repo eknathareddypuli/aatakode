@@ -1,7 +1,7 @@
 {
   "id": "py-03-input-math",
   "region": "first-steps",
-  "order": 3,
+  "order": 4,
   "title": "Snack Calculator",
   "story": "Chilaka runs a snack stall. Each snack costs 5 rupees, and customers tell you how many they want.",
   "goal": "Read a number of snacks with input() and print the total cost (5 rupees each).",
@@ -51,7 +51,7 @@
     "arithmetic"
   ],
   "requires": [
-    "py-02-variables"
+    "p-types"
   ],
   "solution": "snacks = int(input())\nprint(snacks * 5)\n",
   "alt": "n = input()\ntotal = int(n) * 5\nprint(total)\n"

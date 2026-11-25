@@ -1,0 +1,68 @@
+{
+  "id": "proj-guess",
+  "region": "loops",
+  "order": 11,
+  "title": "Project: Guess the Number",
+  "story": "Chilaka hides a number. You keep guessing until you find it, and the game counts your tries.",
+  "goal": "Read the secret number, then keep reading guesses. Print Too low or Too high after each wrong guess. When right, print: Got it in N tries",
+  "type": "write-code",
+  "starter": "secret = int(input())\n# keep reading guesses until one is right\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Three tries",
+      "expect": "Too low\nToo high\nGot it in 3 tries",
+      "stdin": [
+        "7",
+        "3",
+        "9",
+        "7"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "First try",
+      "expect": "Got it in 1 tries",
+      "stdin": [
+        "5",
+        "5"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Many tries",
+      "expect": "Too high\nToo high\nToo low\nGot it in 4 tries",
+      "stdin": [
+        "4",
+        "9",
+        "8",
+        "1",
+        "4"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "You do not know how many guesses are coming, so use while True and stop with break.",
+    "Count tries with a variable that goes up by 1 on every guess.",
+    "secret = int(input())\ntries = 0\nwhile True:\n    guess = int(input())\n    tries += 1\n    if guess < secret:\n        print(\"Too low\")\n    elif guess > secret:\n        print(\"Too high\")\n    else:\n        print(\"Got it in \" + str(tries) + \" tries\")\n        break\n"
+  ],
+  "socratic": [
+    "How does the loop know when to stop?",
+    "Where should the tries counter go up?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Guess the Number”?",
+  "xp": 50,
+  "skills": [
+    "while",
+    "break",
+    "if"
+  ],
+  "requires": [
+    "w-star-pyramid"
+  ],
+  "solution": "secret = int(input())\ntries = 0\nwhile True:\n    guess = int(input())\n    tries += 1\n    if guess < secret:\n        print(\"Too low\")\n    elif guess > secret:\n        print(\"Too high\")\n    else:\n        print(\"Got it in \" + str(tries) + \" tries\")\n        break\n",
+  "alt": "secret = int(input())\ntries = 0\nguess = None\nwhile guess != secret:\n    guess = int(input())\n    tries += 1\n    if guess < secret:\n        print(\"Too low\")\n    elif guess > secret:\n        print(\"Too high\")\nprint(f\"Got it in {tries} tries\")\n",
+  "project": true
+}

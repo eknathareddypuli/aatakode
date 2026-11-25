@@ -1,0 +1,58 @@
+{
+  "id": "w-dunder",
+  "region": "objects",
+  "order": 8,
+  "title": "Pretty Points",
+  "story": "The guild hall plots points on a map. Make them print nicely, compare, and add.",
+  "goal": "Write class Point(x, y) with __repr__ (like Point(1, 2)), __eq__ and __add__ (adds coordinates, returns a new Point).",
+  "type": "write-code",
+  "starter": "# define class Point\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Readable repr",
+      "expr": "repr(Point(1, 2))",
+      "expect": "'Point(1, 2)'"
+    },
+    {
+      "kind": "eval",
+      "label": "Equal points",
+      "expr": "Point(1, 2) == Point(1, 2)",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Different points",
+      "expr": "Point(1, 2) == Point(2, 1)",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "Adding",
+      "expr": "Point(1, 2) + Point(3, 4) == Point(4, 6)",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Special methods have double underscores on both sides. Python calls them for you.",
+    "__repr__ returns a string. __eq__(self, other) compares fields. __add__ returns a new Point.",
+    "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __repr__(self):\n        return f\"Point({self.x}, {self.y})\"\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n"
+  ],
+  "socratic": [
+    "When does Python call __repr__?",
+    "What should __add__ return?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Pretty Points”?",
+  "xp": 45,
+  "skills": [
+    "dunder methods",
+    "classes"
+  ],
+  "requires": [
+    "w-inherit"
+  ],
+  "solution": "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __repr__(self):\n        return f\"Point({self.x}, {self.y})\"\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n",
+  "alt": "class Point:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n\n    def __repr__(self):\n        return \"Point(\" + str(self.x) + \", \" + str(self.y) + \")\"\n\n    def __eq__(self, other):\n        return isinstance(other, Point) and (self.x, self.y) == (other.x, other.y)\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n"
+}

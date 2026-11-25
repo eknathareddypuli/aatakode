@@ -1,0 +1,60 @@
+{
+  "id": "proj-inventory",
+  "region": "objects",
+  "order": 10,
+  "title": "Project: Shop Inventory",
+  "story": "The guild shop needs a stock tracker you can trust.",
+  "goal": "Write class Inventory with add(item, qty=1), remove(item, qty=1) and report(). remove raises ValueError if there is not enough stock (or the item is unknown). report returns a sorted list of \"item: qty\" strings and skips items with zero stock.",
+  "type": "write-code",
+  "starter": "# define class Inventory\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Report",
+      "expr": "(lambda i: (i.add(\"pen\", 5), i.add(\"ink\", 2), i.remove(\"pen\", 3), i.report())[3])(Inventory())",
+      "expect": "['ink: 2', 'pen: 2']"
+    },
+    {
+      "kind": "raises",
+      "label": "Unknown item",
+      "expr": "Inventory().remove(\"pen\")",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Not enough stock",
+      "expr": "(lambda i: (i.add(\"a\", 2), i.remove(\"a\", 3)))(Inventory())",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "eval",
+      "label": "Zero stock is hidden",
+      "expr": "(lambda i: (i.add(\"a\"), i.remove(\"a\"), i.report())[2])(Inventory())",
+      "expect": "[]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Keep a dictionary on self: item name to quantity.",
+    "In remove, check self.stock.get(item, 0) < qty first and raise. In report, loop over sorted items and skip zeros.",
+    "class Inventory:\n    def __init__(self):\n        self.stock = {}\n\n    def add(self, item, qty=1):\n        self.stock[item] = self.stock.get(item, 0) + qty\n\n    def remove(self, item, qty=1):\n        if self.stock.get(item, 0) < qty:\n            raise ValueError(\"not enough \" + item)\n        self.stock[item] -= qty\n\n    def report(self):\n        return [f\"{k}: {v}\" for k, v in sorted(self.stock.items()) if v > 0]\n"
+  ],
+  "socratic": [
+    "What data structure holds the stock?",
+    "When must remove refuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Shop Inventory”?",
+  "xp": 70,
+  "skills": [
+    "classes",
+    "dicts",
+    "raise"
+  ],
+  "requires": [
+    "o-class-order"
+  ],
+  "solution": "class Inventory:\n    def __init__(self):\n        self.stock = {}\n\n    def add(self, item, qty=1):\n        self.stock[item] = self.stock.get(item, 0) + qty\n\n    def remove(self, item, qty=1):\n        if self.stock.get(item, 0) < qty:\n            raise ValueError(\"not enough \" + item)\n        self.stock[item] -= qty\n\n    def report(self):\n        return [f\"{k}: {v}\" for k, v in sorted(self.stock.items()) if v > 0]\n",
+  "alt": "class Inventory:\n    def __init__(self):\n        self.stock = {}\n\n    def add(self, item, qty=1):\n        if item in self.stock:\n            self.stock[item] += qty\n        else:\n            self.stock[item] = qty\n\n    def remove(self, item, qty=1):\n        have = self.stock.get(item, 0)\n        if qty > have:\n            raise ValueError(f\"only {have} of {item}\")\n        self.stock[item] = have - qty\n\n    def report(self):\n        lines = []\n        for name in sorted(self.stock):\n            if self.stock[name] > 0:\n                lines.append(name + \": \" + str(self.stock[name]))\n        return lines\n",
+  "project": true
+}

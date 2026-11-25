@@ -1,0 +1,45 @@
+{
+  "id": "p-continue",
+  "region": "loops",
+  "order": 8,
+  "title": "Skip with Continue",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "for n in range(5):\n    if n % 2 == 0:\n        continue\n    print(n)",
+  "options": [
+    "1\n3",
+    "0\n2\n4",
+    "1\n2\n3",
+    "1"
+  ],
+  "answer": 0,
+  "why": "continue jumps straight to the next round, skipping the print. Only odd numbers get printed.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "When n is even, does the print line run?",
+    "The output is:\n1\n3"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "for",
+    "continue"
+  ],
+  "requires": [
+    "p-break"
+  ],
+  "solution": "1\n3"
+}

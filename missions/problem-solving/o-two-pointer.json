@@ -1,0 +1,48 @@
+{
+  "id": "o-two-pointer",
+  "region": "problem-solving",
+  "order": 8,
+  "title": "Order the Two Pointers",
+  "story": "Check a palindrome with two markers moving toward the middle. The lines are shuffled.",
+  "goal": "Put the lines in order so the program prints True.",
+  "type": "order",
+  "starter": "ok = True\n    if word[left] != word[right]:\n    left += 1\n    right -= 1\n        ok = False\nwhile left < right:\nprint(ok)\nword = \"level\"\nleft, right = 0, len(word) - 1\n",
+  "lines": [
+    "ok = True",
+    "    if word[left] != word[right]:",
+    "    left += 1",
+    "    right -= 1",
+    "        ok = False",
+    "while left < right:",
+    "print(ok)",
+    "word = \"level\"",
+    "left, right = 0, len(word) - 1"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints True",
+      "expect": "True"
+    }
+  ],
+  "hints": [
+    "Set up the variables first, loop in the middle, print at the end.",
+    "Both markers move inside the loop, after the comparison.",
+    "word = \"level\"\nleft, right = 0, len(word) - 1\nok = True\nwhile left < right:\n    if word[left] != word[right]:\n        ok = False\n    left += 1\n    right -= 1\nprint(ok)\n"
+  ],
+  "socratic": [
+    "What must exist before the loop starts?",
+    "Which lines are inside the loop?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "two pointers",
+    "order"
+  ],
+  "requires": [
+    "w-anagram"
+  ],
+  "solution": "word = \"level\"\nleft, right = 0, len(word) - 1\nok = True\nwhile left < right:\n    if word[left] != word[right]:\n        ok = False\n    left += 1\n    right -= 1\nprint(ok)\n"
+}

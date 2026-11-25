@@ -1,0 +1,44 @@
+{
+  "id": "p-super",
+  "region": "objects",
+  "order": 6,
+  "title": "Calling the Parent",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "class A:\n    def hi(self):\n        return \"A\"\nclass B(A):\n    def hi(self):\n        return super().hi() + \"B\"\nprint(B().hi())",
+  "options": [
+    "B",
+    "A",
+    "AB",
+    "BA"
+  ],
+  "answer": 2,
+  "why": "super().hi() runs the parent's version first, giving \"A\", and then \"B\" is added to the end.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "What does super() refer to?",
+    "The output is:\nAB"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "inheritance"
+  ],
+  "requires": [
+    "w-account"
+  ],
+  "solution": "AB"
+}

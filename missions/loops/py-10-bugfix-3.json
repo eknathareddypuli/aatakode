@@ -1,7 +1,7 @@
 {
   "id": "py-10-bugfix-3",
   "region": "loops",
-  "order": 3,
+  "order": 12,
   "title": "The Endless Climb",
   "story": "Chilaka climbs a tree, calling out each step. The program never stops and floods the screen.",
   "goal": "Fix the loop so it prints Step 1 up to Step n, then stops.",
@@ -52,7 +52,7 @@
     "infinite-loop"
   ],
   "requires": [
-    "py-09-accumulate"
+    "proj-guess"
   ],
   "solution": "steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n    count += 1\n",
   "alt": "steps = int(input())\nfor count in range(1, steps + 1):\n    print(\"Step\", count)\n",

@@ -1,0 +1,63 @@
+{
+  "id": "w-inherit",
+  "region": "objects",
+  "order": 7,
+  "title": "Pet Family",
+  "story": "The guild hall keeps pets. They share a base, but each speaks differently.",
+  "goal": "Add class Dog and class Cat that inherit from Animal. Dog.speak() returns Woof and Cat.speak() returns Meow. Animal.speak() stays ...",
+  "type": "write-code",
+  "starter": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\n# add Dog and Cat\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Dog speaks",
+      "expr": "Dog(\"rex\").speak()",
+      "expect": "'Woof'"
+    },
+    {
+      "kind": "eval",
+      "label": "Cat speaks",
+      "expr": "Cat(\"tom\").speak()",
+      "expect": "'Meow'"
+    },
+    {
+      "kind": "eval",
+      "label": "Animal stays quiet",
+      "expr": "Animal(\"x\").speak()",
+      "expect": "'...'"
+    },
+    {
+      "kind": "eval",
+      "label": "Dog is an Animal",
+      "expr": "isinstance(Dog(\"a\"), Animal)",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Name is inherited",
+      "expr": "Dog(\"rex\").name",
+      "expect": "'rex'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "class Dog(Animal): makes Dog a child of Animal. Override the method you want to change.",
+    "Do not rewrite __init__: the child inherits it.",
+    "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\n\nclass Dog(Animal):\n    def speak(self):\n        return \"Woof\"\n\n\nclass Cat(Animal):\n    def speak(self):\n        return \"Meow\"\n"
+  ],
+  "socratic": [
+    "What goes in the brackets after the class name?",
+    "Which parts do the children not need to rewrite?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Pet Family”?",
+  "xp": 30,
+  "skills": [
+    "inheritance"
+  ],
+  "requires": [
+    "p-super"
+  ],
+  "solution": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\n\nclass Dog(Animal):\n    def speak(self):\n        return \"Woof\"\n\n\nclass Cat(Animal):\n    def speak(self):\n        return \"Meow\"\n",
+  "alt": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\n\nclass Dog(Animal):\n    sound = \"Woof\"\n\n    def speak(self):\n        return self.sound\n\n\nclass Cat(Animal):\n    sound = \"Meow\"\n\n    def speak(self):\n        return self.sound\n"
+}

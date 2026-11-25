@@ -1,0 +1,58 @@
+{
+  "id": "w-title-maker",
+  "region": "strings",
+  "order": 10,
+  "title": "Title Maker",
+  "story": "The market sign painter capitalises every word on a sign.",
+  "goal": "Read a sentence and print it with each word capitalised.",
+  "type": "write-code",
+  "starter": "sentence = input()\n# capitalise every word\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Three words",
+      "expect": "Hello Wide World",
+      "stdin": [
+        "hello wide world"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "One word",
+      "expect": "Aata",
+      "stdin": [
+        "aata"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Mixed case",
+      "expect": "Python Is Fun",
+      "stdin": [
+        "pYTHON iS fUN"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Split the sentence into words, fix each word, then join them back with spaces.",
+    "words = sentence.split() gives a list. \" \".join(list) glues it back.",
+    "sentence = input()\nwords = sentence.split()\nfixed = []\nfor w in words:\n    fixed.append(w.capitalize())\nprint(\" \".join(fixed))\n"
+  ],
+  "socratic": [
+    "How do you break a sentence into words?",
+    "Which method fixes the capitals of one word?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Title Maker”?",
+  "xp": 30,
+  "skills": [
+    "split",
+    "join"
+  ],
+  "requires": [
+    "o-initials"
+  ],
+  "solution": "sentence = input()\nwords = sentence.split()\nfixed = []\nfor w in words:\n    fixed.append(w.capitalize())\nprint(\" \".join(fixed))\n",
+  "alt": "print(input().title())\n"
+}

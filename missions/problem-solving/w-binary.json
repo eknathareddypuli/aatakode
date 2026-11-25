@@ -1,0 +1,64 @@
+{
+  "id": "w-binary",
+  "region": "problem-solving",
+  "order": 3,
+  "title": "Binary Search",
+  "story": "The gate numbers are sorted. Halve the search each time and find a gate among a million in about twenty steps.",
+  "goal": "Write binary_search(items, target) for a sorted list: return the index or -1. It must be fast: a hidden check searches half a million items.",
+  "type": "write-code",
+  "starter": "# define binary_search\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Found",
+      "expr": "binary_search([1, 3, 5, 7], 5)",
+      "expect": "2"
+    },
+    {
+      "kind": "eval",
+      "label": "Not found",
+      "expr": "binary_search([1, 3, 5, 7], 4)",
+      "expect": "-1"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty list",
+      "expr": "binary_search([], 1)",
+      "expect": "-1"
+    },
+    {
+      "kind": "eval",
+      "label": "Huge list, fast",
+      "expr": "binary_search(list(range(0, 1000000, 2)), 999998)",
+      "expect": "499999",
+      "hidden": true
+    },
+    {
+      "kind": "source",
+      "label": "No .index()",
+      "pattern": "\\.index\\(",
+      "absent": true
+    }
+  ],
+  "hints": [
+    "Look at the middle item. If it is too small, throw away the left half. If too big, throw away the right half.",
+    "Keep low and high markers. Loop while low <= high and move one marker past mid each time.",
+    "def binary_search(items, target):\n    low, high = 0, len(items) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if items[mid] == target:\n            return mid\n        if items[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n"
+  ],
+  "socratic": [
+    "What do you learn by checking the middle item?",
+    "Why must you move a marker past mid, not onto it?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Binary Search”?",
+  "xp": 55,
+  "skills": [
+    "search",
+    "complexity"
+  ],
+  "requires": [
+    "w-linear"
+  ],
+  "solution": "def binary_search(items, target):\n    low, high = 0, len(items) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if items[mid] == target:\n            return mid\n        if items[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n",
+  "alt": "def binary_search(items, target):\n    lo, hi = 0, len(items)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if items[mid] < target:\n            lo = mid + 1\n        elif items[mid] > target:\n            hi = mid\n        else:\n            return mid\n    return -1\n"
+}

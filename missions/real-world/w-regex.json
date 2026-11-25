@@ -1,0 +1,53 @@
+{
+  "id": "w-regex",
+  "region": "real-world",
+  "order": 3,
+  "title": "Log Hunter",
+  "story": "The control room keeps logs as lines like 2024-05-01 10:00:02 ERROR disk full. Count how many lines each level has.",
+  "goal": "Write count_levels(log) returning a dict from level (the third word on each line) to how many lines have it. Ignore blank lines.",
+  "type": "write-code",
+  "starter": "# define count_levels\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Counts",
+      "expr": "count_levels(\"2024-05-01 10:00:01 INFO ok\\n2024-05-01 10:00:02 ERROR disk full\\n2024-05-01 10:00:03 ERROR db down\\n\")",
+      "expect": "{'INFO': 1, 'ERROR': 2}"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty log",
+      "expr": "count_levels(\"\")",
+      "expect": "{}"
+    },
+    {
+      "kind": "eval",
+      "label": "Blank lines ignored",
+      "expr": "count_levels(\"\\n2024-05-01 10:00:01 WARN slow\\n\\n\")",
+      "expect": "{'WARN': 1}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Split the log into lines, then each line into words. The level is the third word.",
+    "log.splitlines() gives lines. counts.get(level, 0) + 1 keeps the tally.",
+    "def count_levels(log):\n    counts = {}\n    for line in log.splitlines():\n        parts = line.split()\n        if len(parts) >= 3:\n            counts[parts[2]] = counts.get(parts[2], 0) + 1\n    return counts\n"
+  ],
+  "socratic": [
+    "Which word on each line is the level?",
+    "What should happen to a blank line?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Log Hunter”?",
+  "xp": 30,
+  "skills": [
+    "split",
+    "dicts",
+    "logs"
+  ],
+  "requires": [
+    "w-api"
+  ],
+  "solution": "def count_levels(log):\n    counts = {}\n    for line in log.splitlines():\n        parts = line.split()\n        if len(parts) >= 3:\n            counts[parts[2]] = counts.get(parts[2], 0) + 1\n    return counts\n",
+  "alt": "import re\nfrom collections import Counter\n\n\ndef count_levels(log):\n    return dict(Counter(re.findall(r\"^\\S+ \\S+ (\\w+)\", log, re.M)))\n"
+}

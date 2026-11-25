@@ -1,0 +1,66 @@
+{
+  "id": "w-palindrome",
+  "region": "strings",
+  "order": 8,
+  "title": "Palindrome Gate",
+  "story": "The temple gate opens only to words that read the same both ways. Spaces and capitals do not count.",
+  "goal": "Read a phrase. Print yes if it is a palindrome (ignoring spaces and case), otherwise no.",
+  "type": "write-code",
+  "starter": "text = input()\n# yes or no\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "level",
+      "expect": "yes",
+      "stdin": [
+        "level"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Nurses Run",
+      "expect": "yes",
+      "stdin": [
+        "Nurses Run"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "python",
+      "expect": "no",
+      "stdin": [
+        "python"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "A man a plan a canal Panama",
+      "expect": "yes",
+      "stdin": [
+        "A man a plan a canal Panama"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "First clean the text: remove spaces and lowercase it. Then compare it with its reverse.",
+    "text.replace(\" \", \"\").lower() cleans it; [::-1] reverses.",
+    "text = input()\nclean = text.replace(\" \", \"\").lower()\nprint(\"yes\" if clean == clean[::-1] else \"no\")\n"
+  ],
+  "socratic": [
+    "What should you remove before comparing?",
+    "How do you get the reverse of a string?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Palindrome Gate”?",
+  "xp": 30,
+  "skills": [
+    "slicing",
+    "methods"
+  ],
+  "requires": [
+    "p-format"
+  ],
+  "solution": "text = input()\nclean = text.replace(\" \", \"\").lower()\nprint(\"yes\" if clean == clean[::-1] else \"no\")\n",
+  "alt": "text = input().replace(\" \", \"\").lower()\nif text == text[::-1]:\n    print(\"yes\")\nelse:\n    print(\"no\")\n"
+}

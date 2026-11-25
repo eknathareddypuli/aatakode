@@ -1,0 +1,58 @@
+{
+  "id": "w-shout",
+  "region": "strings",
+  "order": 1,
+  "title": "Shout It",
+  "story": "The market crier announces each word in capitals, along with how long it is.",
+  "goal": "Read a word. Print it in capitals, a space, then its length (like ALICE 5).",
+  "type": "write-code",
+  "starter": "word = input()\n# print the word in capitals and its length\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "alice",
+      "expect": "ALICE 5",
+      "stdin": [
+        "alice"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Python",
+      "expect": "PYTHON 6",
+      "stdin": [
+        "Python"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "empty-ish",
+      "expect": "A 1",
+      "stdin": [
+        "a"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Strings have built-in tools called methods. word.upper() gives the capital version.",
+    "len(word) counts the characters. print() can show two things separated by a space.",
+    "word = input()\nprint(word.upper(), len(word))\n"
+  ],
+  "socratic": [
+    "Which method makes capital letters?",
+    "Which function counts characters?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Shout It”?",
+  "xp": 30,
+  "skills": [
+    "strings",
+    "methods"
+  ],
+  "requires": [
+    "py-10-bugfix-3"
+  ],
+  "solution": "word = input()\nprint(word.upper(), len(word))\n",
+  "alt": "word = input()\nprint(word.upper() + \" \" + str(len(word)))\n"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "f-methods",
+  "region": "strings",
+  "order": 5,
+  "title": "Fill the Cleaner",
+  "story": "Text copied from a form has stray spaces and mixed capitals.",
+  "goal": "Print the cleaned text: hello world",
+  "type": "fill",
+  "starter": "raw = \"  Hello World  \"\nclean = raw.___().lower()\nprint(clean)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Cleans the text",
+      "expect": "hello world"
+    }
+  ],
+  "hints": [
+    "Which string method removes spaces from both ends?",
+    "The method is strip.",
+    "raw = \"  Hello World  \"\nclean = raw.strip().lower()\nprint(clean)\n"
+  ],
+  "socratic": [
+    "Which characters need removing?",
+    "Can you chain two methods on one string?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Cleaner”?",
+  "xp": 20,
+  "skills": [
+    "methods"
+  ],
+  "requires": [
+    "p-immutable"
+  ],
+  "solution": "raw = \"  Hello World  \"\nclean = raw.strip().lower()\nprint(clean)\n"
+}

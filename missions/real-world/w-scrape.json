@@ -1,0 +1,52 @@
+{
+  "id": "w-scrape",
+  "region": "real-world",
+  "order": 6,
+  "title": "Price Scraper",
+  "story": "A shop page lists prices in HTML. Pull them out as numbers.",
+  "goal": "Write prices(html) returning a list of ints found in tags like <span class=\"price\">Rs 120</span>, in order.",
+  "type": "write-code",
+  "starter": "import re\n# define prices\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Two prices",
+      "expr": "prices('<p>x</p><span class=\"price\">Rs 120</span><span class=\"price\">Rs 45</span>')",
+      "expect": "[120, 45]"
+    },
+    {
+      "kind": "eval",
+      "label": "No prices",
+      "expr": "prices('<p>nothing</p>')",
+      "expect": "[]"
+    },
+    {
+      "kind": "eval",
+      "label": "Ignores other numbers",
+      "expr": "prices('<b>Rs 9</b><span class=\"price\">Rs 7</span>')",
+      "expect": "[7]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A regular expression can describe the pattern around the number.",
+    "re.findall(r'class=\"price\">Rs (\\d+)<', html) returns the captured digits as strings.",
+    "import re\n\n\ndef prices(html):\n    found = re.findall(r'class=\"price\">Rs (\\d+)<', html)\n    return [int(p) for p in found]\n"
+  ],
+  "socratic": [
+    "What text surrounds each price?",
+    "What turns the matched text into a number?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Price Scraper”?",
+  "xp": 30,
+  "skills": [
+    "regex",
+    "parsing"
+  ],
+  "requires": [
+    "p-html"
+  ],
+  "solution": "import re\n\n\ndef prices(html):\n    found = re.findall(r'class=\"price\">Rs (\\d+)<', html)\n    return [int(p) for p in found]\n",
+  "alt": "import re\n\n\ndef prices(html):\n    result = []\n    for m in re.finditer(r'<span class=\"price\">Rs\\s*(\\d+)</span>', html):\n        result.append(int(m.group(1)))\n    return result\n"
+}

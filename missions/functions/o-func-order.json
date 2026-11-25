@@ -1,0 +1,44 @@
+{
+  "id": "o-func-order",
+  "region": "functions",
+  "order": 10,
+  "title": "Order the Machines",
+  "story": "Two machines are built from one another. Put them in a working order.",
+  "goal": "Put the lines in order so the program prints 27.",
+  "type": "order",
+  "starter": "def cube(n):\n    return n * n\ndef square(n):\n    return n * square(n)\nprint(cube(3))\n",
+  "lines": [
+    "def cube(n):",
+    "    return n * n",
+    "def square(n):",
+    "    return n * square(n)",
+    "print(cube(3))"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints 27",
+      "expect": "27"
+    }
+  ],
+  "hints": [
+    "A function must be defined before the line that calls it runs.",
+    "square comes before cube because cube uses it. The print comes last.",
+    "def square(n):\n    return n * n\ndef cube(n):\n    return n * square(n)\nprint(cube(3))\n"
+  ],
+  "socratic": [
+    "What must exist before a call?",
+    "Why does cube need square defined first?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "def",
+    "order"
+  ],
+  "requires": [
+    "w-star-args"
+  ],
+  "solution": "def square(n):\n    return n * n\ndef cube(n):\n    return n * square(n)\nprint(cube(3))\n"
+}

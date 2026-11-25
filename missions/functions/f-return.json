@@ -1,0 +1,36 @@
+{
+  "id": "f-return",
+  "region": "functions",
+  "order": 4,
+  "title": "Fill the Return",
+  "story": "The workshop's doubling machine hands back its answer.",
+  "goal": "Print 8",
+  "type": "fill",
+  "starter": "def double(n):\n    ___ n * 2\n\nprint(double(4))\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints 8",
+      "expect": "8"
+    }
+  ],
+  "hints": [
+    "A function hands a value back to the caller with a special keyword.",
+    "The keyword is return.",
+    "def double(n):\n    return n * 2\n\nprint(double(4))\n"
+  ],
+  "socratic": [
+    "What does the caller receive?",
+    "Which word sends a value back?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Return”?",
+  "xp": 20,
+  "skills": [
+    "return"
+  ],
+  "requires": [
+    "w-area"
+  ],
+  "solution": "def double(n):\n    return n * 2\n\nprint(double(4))\n"
+}

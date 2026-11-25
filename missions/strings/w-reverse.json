@@ -1,0 +1,67 @@
+{
+  "id": "w-reverse",
+  "region": "strings",
+  "order": 3,
+  "title": "Reverse Echo",
+  "story": "Chilaka's echo repeats your word backwards.",
+  "goal": "Read a word and print it reversed.",
+  "type": "write-code",
+  "starter": "word = input()\n# print it backwards\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "parrot",
+      "expect": "torrap",
+      "stdin": [
+        "parrot"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "a",
+      "expect": "a",
+      "stdin": [
+        "a"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Aata",
+      "expect": "ataA",
+      "stdin": [
+        "Aata"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A slice can have a step: text[start:stop:step]. What step walks backwards?",
+    "word[::-1] reads the whole word with a step of -1.",
+    "word = input()\nprint(word[::-1])\n"
+  ],
+  "socratic": [
+    "What does a negative step do in a slice?",
+    "Which letter should appear first in the output?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Reverse Echo”?",
+  "xp": 30,
+  "skills": [
+    "slicing"
+  ],
+  "requires": [
+    "p-index"
+  ],
+  "solution": "word = input()\nprint(word[::-1])\n",
+  "alt": "word = input()\nrev = \"\"\nfor ch in word:\n    rev = ch + rev\nprint(rev)\n",
+  "clean": {
+    "label": "Do it in 2 lines (use slicing, no loop)",
+    "tests": [
+      {
+        "kind": "maxlines",
+        "max": 2,
+        "label": "2 lines or fewer"
+      }
+    ]
+  }
+}

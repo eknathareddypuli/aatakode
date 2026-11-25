@@ -1,7 +1,7 @@
 {
   "id": "py-09-accumulate",
   "region": "loops",
-  "order": 2,
+  "order": 3,
   "title": "Fruit Basket Total",
   "story": "Fruits arrive one by one with their weights in grams. Chilaka needs the running total.",
   "goal": "The first input is how many weights follow. Read them all and print their sum.",
@@ -67,7 +67,7 @@
     "input"
   ],
   "requires": [
-    "py-08-for-range"
+    "p-range"
   ],
   "solution": "count = int(input())\ntotal = 0\nfor _ in range(count):\n    total += int(input())\nprint(total)\n",
   "alt": "count = int(input())\nprint(sum(int(input()) for _ in range(count)))\n"

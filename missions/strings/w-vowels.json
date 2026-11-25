@@ -1,0 +1,67 @@
+{
+  "id": "w-vowels",
+  "region": "strings",
+  "order": 6,
+  "title": "Vowel Counter",
+  "story": "A poet wants to know how musical a word is.",
+  "goal": "Read a word. Print how many vowels (a, e, i, o, u, any case) it has.",
+  "type": "write-code",
+  "starter": "word = input()\n# count the vowels\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "banana",
+      "expect": "3",
+      "stdin": [
+        "banana"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "rhythm",
+      "expect": "0",
+      "stdin": [
+        "rhythm"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "AEIOU",
+      "expect": "5",
+      "stdin": [
+        "AEIOU"
+      ],
+      "hidden": true
+    },
+    {
+      "kind": "stdout",
+      "label": "Sky",
+      "expect": "0",
+      "stdin": [
+        "Sky"
+      ]
+    }
+  ],
+  "hints": [
+    "Go through each letter with a for loop and keep a counter.",
+    "Make the word lowercase first, then check if a letter is in \"aeiou\".",
+    "word = input().lower()\ncount = 0\nfor ch in word:\n    if ch in \"aeiou\":\n        count += 1\nprint(count)\n"
+  ],
+  "socratic": [
+    "How can you look at one letter at a time?",
+    "Why lowercase the word first?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Vowel Counter”?",
+  "xp": 30,
+  "skills": [
+    "for",
+    "strings",
+    "in"
+  ],
+  "requires": [
+    "f-methods"
+  ],
+  "solution": "word = input().lower()\ncount = 0\nfor ch in word:\n    if ch in \"aeiou\":\n        count += 1\nprint(count)\n",
+  "alt": "word = input().lower()\nprint(sum(1 for ch in word if ch in \"aeiou\"))\n"
+}

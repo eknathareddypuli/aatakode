@@ -1,0 +1,65 @@
+{
+  "id": "proj-maze",
+  "region": "problem-solving",
+  "order": 9,
+  "title": "Project: Maze Walker",
+  "story": "The maze garden is a grid. S is where you start, E is the exit, # is a hedge. Is there a way out?",
+  "goal": "Write solvable(grid) for a list of strings. Move up, down, left or right through any cell that is not #. Return True if E can be reached from S.",
+  "type": "write-code",
+  "starter": "# define solvable (a queue or a stack both work)\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Straight corridor",
+      "expr": "solvable([\"S.E\"])",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Blocked",
+      "expr": "solvable([\"S#E\"])",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "Winding path",
+      "expr": "solvable([\"S.#\", \"..#\", \"#.E\"])",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "No way out",
+      "expr": "solvable([\"S.#\", \"##.\", \".#E\"])",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "Big open garden",
+      "expr": "solvable([\"S\" + \".\" * 29] + [\".\" * 30] * 28 + [\".\" * 29 + \"E\"])",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Explore from S, remembering which cells you have visited so you never go in circles.",
+    "Keep a queue of cells to explore. Take one, add its unvisited open neighbours, repeat. If you reach E, return True; if the queue empties, return False.",
+    "from collections import deque\n\n\ndef solvable(grid):\n    rows, cols = len(grid), len(grid[0])\n    start = None\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == \"S\":\n                start = (r, c)\n    queue = deque([start])\n    seen = {start}\n    while queue:\n        r, c = queue.popleft()\n        if grid[r][c] == \"E\":\n            return True\n        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] != \"#\" and (nr, nc) not in seen:\n                seen.add((nr, nc))\n                queue.append((nr, nc))\n    return False\n"
+  ],
+  "socratic": [
+    "How do you avoid walking in circles?",
+    "When can you be sure there is no way out?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Maze Walker”?",
+  "xp": 80,
+  "skills": [
+    "BFS",
+    "grids"
+  ],
+  "requires": [
+    "o-two-pointer"
+  ],
+  "solution": "from collections import deque\n\n\ndef solvable(grid):\n    rows, cols = len(grid), len(grid[0])\n    start = None\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == \"S\":\n                start = (r, c)\n    queue = deque([start])\n    seen = {start}\n    while queue:\n        r, c = queue.popleft()\n        if grid[r][c] == \"E\":\n            return True\n        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] != \"#\" and (nr, nc) not in seen:\n                seen.add((nr, nc))\n                queue.append((nr, nc))\n    return False\n",
+  "alt": "def solvable(grid):\n    rows, cols = len(grid), len(grid[0])\n    stack = [(r, c) for r in range(rows) for c in range(cols) if grid[r][c] == \"S\"]\n    seen = set(stack)\n    while stack:\n        r, c = stack.pop()\n        if grid[r][c] == \"E\":\n            return True\n        for nr, nc in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] != \"#\" and (nr, nc) not in seen:\n                seen.add((nr, nc))\n                stack.append((nr, nc))\n    return False\n",
+  "project": true
+}

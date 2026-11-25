@@ -1,0 +1,46 @@
+{
+  "id": "o-while-sum",
+  "region": "loops",
+  "order": 9,
+  "title": "Order the Adder",
+  "story": "Add up 1 to 5 with a while loop. The lines are shuffled.",
+  "goal": "Put the lines in order so the program prints 15.",
+  "type": "order",
+  "starter": "    count += 1\n    total += count\ntotal = 0\ncount = 0\nwhile count < 5:\nprint(total)\n",
+  "lines": [
+    "    count += 1",
+    "    total += count",
+    "total = 0",
+    "count = 0",
+    "while count < 5:",
+    "print(total)"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints 15",
+      "expect": "15"
+    }
+  ],
+  "hints": [
+    "Both counters must exist before the loop starts. The print belongs after the loop.",
+    "Inside the loop, increase count first, then add it to total.",
+    "total = 0\ncount = 0\nwhile count < 5:\n    count += 1\n    total += count\nprint(total)\n"
+  ],
+  "socratic": [
+    "What must exist before the loop?",
+    "Which lines are inside the loop (indented)?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "while",
+    "accumulate",
+    "order"
+  ],
+  "requires": [
+    "p-continue"
+  ],
+  "solution": "total = 0\ncount = 0\nwhile count < 5:\n    count += 1\n    total += count\nprint(total)\n"
+}

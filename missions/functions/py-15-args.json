@@ -1,7 +1,7 @@
 {
   "id": "py-15-args",
   "region": "functions",
-  "order": 2,
+  "order": 6,
   "title": "The Greeter",
   "story": "A good greeter can be calm or excited. Some functions have optional settings with default values.",
   "goal": "Define greet(name, excited=False) that returns Hello, <name> or Hello, <name>! when excited.",
@@ -52,7 +52,7 @@
     "if"
   ],
   "requires": [
-    "py-14-def"
+    "p-return-none"
   ],
   "solution": "def greet(name, excited=False):\n    if excited:\n        return \"Hello, \" + name + \"!\"\n    return \"Hello, \" + name\n",
   "alt": "def greet(name, excited=False):\n    return f\"Hello, {name}\" + (\"!\" if excited else \"\")\n"

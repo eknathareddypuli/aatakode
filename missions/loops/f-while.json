@@ -1,0 +1,36 @@
+{
+  "id": "f-while",
+  "region": "loops",
+  "order": 5,
+  "title": "Fill the Countdown",
+  "story": "Mission control needs a launch countdown that stops before zero.",
+  "goal": "Print 3, 2, 1 and then Liftoff.",
+  "type": "fill",
+  "starter": "n = 3\nwhile n ___ 0:\n    print(n)\n    n -= 1\nprint(\"Liftoff\")\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Counts down",
+      "expect": "3\n2\n1\nLiftoff"
+    }
+  ],
+  "hints": [
+    "The loop should continue while n is still bigger than zero.",
+    "Use the > comparison.",
+    "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1\nprint(\"Liftoff\")\n"
+  ],
+  "socratic": [
+    "When should the loop stop?",
+    "What happens if n never changes?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Countdown”?",
+  "xp": 20,
+  "skills": [
+    "while"
+  ],
+  "requires": [
+    "p-offbyone"
+  ],
+  "solution": "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1\nprint(\"Liftoff\")\n"
+}

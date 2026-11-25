@@ -1,0 +1,61 @@
+{
+  "id": "w-recursion",
+  "region": "functions",
+  "order": 11,
+  "title": "Factorial Spell",
+  "story": "A spell multiplies a number by every smaller number, down to 1. It calls itself!",
+  "goal": "Write fact(n) so that fact(0) is 1 and fact(5) is 120.",
+  "type": "write-code",
+  "starter": "# define fact\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "0! is 1",
+      "expr": "fact(0)",
+      "expect": "1"
+    },
+    {
+      "kind": "eval",
+      "label": "5! is 120",
+      "expr": "fact(5)",
+      "expect": "120"
+    },
+    {
+      "kind": "eval",
+      "label": "10!",
+      "expr": "fact(10)",
+      "expect": "3628800",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A recursive function needs a stopping case. What is fact(0)?",
+    "For other n, return n * fact(n - 1).",
+    "def fact(n):\n    if n == 0:\n        return 1\n    return n * fact(n - 1)\n"
+  ],
+  "socratic": [
+    "What is the smallest case you already know?",
+    "How does fact(5) relate to fact(4)?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Factorial Spell”?",
+  "xp": 30,
+  "skills": [
+    "recursion"
+  ],
+  "requires": [
+    "o-func-order"
+  ],
+  "solution": "def fact(n):\n    if n == 0:\n        return 1\n    return n * fact(n - 1)\n",
+  "alt": "def fact(n):\n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result\n",
+  "clean": {
+    "label": "Solve it with recursion: fact calls itself",
+    "tests": [
+      {
+        "kind": "source",
+        "label": "Calls itself",
+        "pattern": "fact\\(\\s*n\\s*-\\s*1\\s*\\)"
+      }
+    ]
+  }
+}

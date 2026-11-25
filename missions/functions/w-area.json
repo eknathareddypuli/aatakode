@@ -1,0 +1,52 @@
+{
+  "id": "w-area",
+  "region": "functions",
+  "order": 3,
+  "title": "Rectangle Area",
+  "story": "The workshop sells rectangular rugs. Write the function that prices the cloth.",
+  "goal": "Write rect_area(width, height) that returns width times height.",
+  "type": "write-code",
+  "starter": "# define rect_area\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "3 by 4",
+      "expr": "rect_area(3, 4)",
+      "expect": "12"
+    },
+    {
+      "kind": "eval",
+      "label": "2.5 by 2",
+      "expr": "rect_area(2.5, 2)",
+      "expect": "5.0"
+    },
+    {
+      "kind": "eval",
+      "label": "zero side",
+      "expr": "rect_area(0, 9)",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Start with def rect_area(width, height): and give back the product.",
+    "Use return so the answer can be used elsewhere, not print.",
+    "def rect_area(width, height):\n    return width * height\n"
+  ],
+  "socratic": [
+    "What goes in the brackets after the function name?",
+    "Why return instead of print?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Rectangle Area”?",
+  "xp": 30,
+  "skills": [
+    "def",
+    "return"
+  ],
+  "requires": [
+    "p-scope"
+  ],
+  "solution": "def rect_area(width, height):\n    return width * height\n",
+  "alt": "def rect_area(width, height):\n    area = width * height\n    return area\n"
+}

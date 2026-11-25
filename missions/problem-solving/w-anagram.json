@@ -1,0 +1,62 @@
+{
+  "id": "w-anagram",
+  "region": "problem-solving",
+  "order": 7,
+  "title": "Anagram Check",
+  "story": "Two words are anagrams if they use the same letters. The garden gate checks for them.",
+  "goal": "Write is_anagram(a, b) ignoring case and spaces.",
+  "type": "write-code",
+  "starter": "# define is_anagram\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Classic",
+      "expr": "is_anagram(\"Listen\", \"Silent\")",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Not anagrams",
+      "expr": "is_anagram(\"hello\", \"world\")",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "Spaces ignored",
+      "expr": "is_anagram(\"Dormitory\", \"dirty room\")",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Two words are anagrams if their letters, when sorted, are identical.",
+    "Clean both words (lowercase, no spaces), then compare sorted(...) of each.",
+    "def is_anagram(a, b):\n    return sorted(a.replace(\" \", \"\").lower()) == sorted(b.replace(\" \", \"\").lower())\n"
+  ],
+  "socratic": [
+    "What is the same about the letters of two anagrams?",
+    "What must you ignore?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Anagram Check”?",
+  "xp": 30,
+  "skills": [
+    "sorting",
+    "strings"
+  ],
+  "requires": [
+    "w-two-sum"
+  ],
+  "solution": "def is_anagram(a, b):\n    return sorted(a.replace(\" \", \"\").lower()) == sorted(b.replace(\" \", \"\").lower())\n",
+  "alt": "from collections import Counter\n\n\ndef is_anagram(a, b):\n    ca = Counter(a.replace(\" \", \"\").lower())\n    cb = Counter(b.replace(\" \", \"\").lower())\n    return ca == cb\n",
+  "clean": {
+    "label": "Solve it in 3 lines or fewer",
+    "tests": [
+      {
+        "kind": "maxlines",
+        "max": 3,
+        "label": "3 lines or fewer"
+      }
+    ]
+  }
+}

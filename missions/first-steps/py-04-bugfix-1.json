@@ -1,7 +1,7 @@
 {
   "id": "py-04-bugfix-1",
   "region": "first-steps",
-  "order": 4,
+  "order": 11,
   "title": "Chilaka's Broken Greeting",
   "story": "Chilaka greets visitors and tells them their age next year, but the program refuses to run. Boss fight: find every bug.",
   "goal": "Fix the program: it should print Hello <name>! and then Next year you will be <age + 1>.",
@@ -55,7 +55,7 @@
     "syntax"
   ],
   "requires": [
-    "py-03-input-math"
+    "proj-receipt"
   ],
   "solution": "name = input()\nage = int(input())\nprint(\"Hello \" + name + \"!\")\nprint(\"Next year you will be \" + str(age + 1))\n",
   "alt": "name = input()\nage = int(input())\nprint(f\"Hello {name}!\")\nprint(f\"Next year you will be {age + 1}\")\n",

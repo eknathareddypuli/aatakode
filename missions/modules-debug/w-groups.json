@@ -1,0 +1,52 @@
+{
+  "id": "w-groups",
+  "region": "modules-debug",
+  "order": 9,
+  "title": "Group by Length",
+  "story": "The toolshed sorts nails by length.",
+  "goal": "Write group_by_length(words) returning a dict from length to the list of words of that length, in input order.",
+  "type": "write-code",
+  "starter": "from collections import defaultdict\n# define group_by_length\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Two groups",
+      "expr": "group_by_length([\"a\", \"bb\", \"c\"])",
+      "expect": "{1: ['a', 'c'], 2: ['bb']}"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty",
+      "expr": "group_by_length([])",
+      "expect": "{}"
+    },
+    {
+      "kind": "eval",
+      "label": "Order is kept",
+      "expr": "group_by_length([\"xx\", \"yy\", \"z\"])",
+      "expect": "{2: ['xx', 'yy'], 1: ['z']}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "defaultdict(list) creates an empty list the first time a key is used.",
+    "Append each word to groups[len(word)].",
+    "from collections import defaultdict\n\n\ndef group_by_length(words):\n    groups = defaultdict(list)\n    for w in words:\n        groups[len(w)].append(w)\n    return dict(groups)\n"
+  ],
+  "socratic": [
+    "What should the key be?",
+    "What happens the first time a length appears?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Group by Length”?",
+  "xp": 30,
+  "skills": [
+    "collections",
+    "dicts"
+  ],
+  "requires": [
+    "p-shadow"
+  ],
+  "solution": "from collections import defaultdict\n\n\ndef group_by_length(words):\n    groups = defaultdict(list)\n    for w in words:\n        groups[len(w)].append(w)\n    return dict(groups)\n",
+  "alt": "def group_by_length(words):\n    groups = {}\n    for w in words:\n        if len(w) not in groups:\n            groups[len(w)] = []\n        groups[len(w)].append(w)\n    return groups\n"
+}

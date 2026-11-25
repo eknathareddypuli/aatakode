@@ -1,0 +1,44 @@
+{
+  "id": "p-json",
+  "region": "real-world",
+  "order": 1,
+  "title": "Read the Payload",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "import json\ndata = json.loads('{\"name\": \"Asha\", \"tags\": [\"a\", \"b\"]}')\nprint(data[\"name\"], len(data[\"tags\"]))",
+  "options": [
+    "Asha 1",
+    "name 2",
+    "Asha 2",
+    "Error: KeyError"
+  ],
+  "answer": 2,
+  "why": "json.loads turns JSON text into Python dicts and lists. data[\"name\"] is Asha, and tags is a list of two items.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "What type does json.loads give back?",
+    "The output is:\nAsha 2"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "json"
+  ],
+  "requires": [
+    "ps-boss"
+  ],
+  "solution": "Asha 2"
+}

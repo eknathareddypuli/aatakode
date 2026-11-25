@@ -1,0 +1,45 @@
+{
+  "id": "p-default",
+  "region": "functions",
+  "order": 8,
+  "title": "The Shared Bag",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "def add(item, bag=[]):\n    bag.append(item)\n    return bag\nadd(1)\nprint(add(2))",
+  "options": [
+    "[2]",
+    "[1, 2]",
+    "[1]",
+    "Error: TypeError"
+  ],
+  "answer": 1,
+  "why": "The default list is created once, when the function is defined, and shared by every call. This is a famous trap: use None as the default instead.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "When is the default value created?",
+    "The output is:\n[1, 2]"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "defaults",
+    "mutability"
+  ],
+  "requires": [
+    "w-kwargs"
+  ],
+  "solution": "[1, 2]"
+}

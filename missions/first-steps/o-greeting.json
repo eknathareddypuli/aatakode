@@ -1,0 +1,63 @@
+{
+  "id": "o-greeting",
+  "region": "first-steps",
+  "order": 9,
+  "title": "Line Up the Program",
+  "story": "Chilaka dropped the program lines on the floor. Put them back in an order that works.",
+  "goal": "Greet the person, then print how many letters are in their name.",
+  "type": "order",
+  "starter": "greeting = \"Hello, \" + name\nprint(len(name))\nname = input()\nprint(greeting)\n",
+  "lines": [
+    "greeting = \"Hello, \" + name",
+    "print(len(name))",
+    "name = input()",
+    "print(greeting)"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Asha",
+      "expect": "Hello, Asha\n4",
+      "stdin": [
+        "Asha"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Ravi",
+      "expect": "Hello, Ravi\n4",
+      "stdin": [
+        "Ravi"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Meera",
+      "expect": "Hello, Meera\n5",
+      "stdin": [
+        "Meera"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A variable must exist before a later line uses it. Which line creates name?",
+    "Read first, build the greeting, then print.",
+    "name = input()\ngreeting = \"Hello, \" + name\nprint(greeting)\nprint(len(name))\n"
+  ],
+  "socratic": [
+    "Which line must come first, and why?",
+    "Which lines need a variable that another line creates?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "input",
+    "order"
+  ],
+  "requires": [
+    "p-print-sep"
+  ],
+  "solution": "name = input()\ngreeting = \"Hello, \" + name\nprint(greeting)\nprint(len(name))\n"
+}

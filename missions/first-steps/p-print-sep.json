@@ -1,0 +1,44 @@
+{
+  "id": "p-print-sep",
+  "region": "first-steps",
+  "order": 8,
+  "title": "Print Tricks",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "print(\"a\", \"b\", sep=\"-\")\nprint(\"x\", end=\"!\")\nprint(\"y\")",
+  "options": [
+    "a-b\nx!y",
+    "a b\nx!y",
+    "a-b\nx\ny",
+    "a-b\nx!\ny"
+  ],
+  "answer": 0,
+  "why": "sep changes what goes between items. end changes what print adds at the finish. The second print ends with ! instead of a new line, so y joins it.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Normally print ends with a new line. What did end change?",
+    "The output is:\na-b\nx!y"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "print"
+  ],
+  "requires": [
+    "w-swap"
+  ],
+  "solution": "a-b\nx!y"
+}

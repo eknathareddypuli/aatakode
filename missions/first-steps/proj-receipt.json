@@ -1,0 +1,76 @@
+{
+  "id": "proj-receipt",
+  "region": "first-steps",
+  "order": 10,
+  "title": "Project: Stall Receipt",
+  "story": "Chilaka's snack stall needs receipts. Read the item, the price and how many, then print one tidy receipt line.",
+  "goal": "Read item, price and quantity (three inputs). Print: <item> x<quantity> = <total>",
+  "type": "write-code",
+  "starter": "item = input()\n# read the price and the quantity as whole numbers, then print the receipt line\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Samosa",
+      "expect": "Samosa x3 = 30",
+      "stdin": [
+        "Samosa",
+        "10",
+        "3"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Tea",
+      "expect": "Tea x2 = 30",
+      "stdin": [
+        "Tea",
+        "15",
+        "2"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Zero",
+      "expect": "Laddu x0 = 0",
+      "stdin": [
+        "Laddu",
+        "7",
+        "0"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "You need three input() calls. Two of them must become whole numbers.",
+    "Multiply price by quantity, and put everything into one print using an f-string.",
+    "item = input()\nprice = int(input())\nqty = int(input())\nprint(f\"{item} x{qty} = {price * qty}\")\n"
+  ],
+  "socratic": [
+    "Which inputs should be numbers?",
+    "What goes inside the f-string braces?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Stall Receipt”?",
+  "xp": 40,
+  "skills": [
+    "input",
+    "f-strings",
+    "arithmetic"
+  ],
+  "requires": [
+    "o-greeting"
+  ],
+  "solution": "item = input()\nprice = int(input())\nqty = int(input())\nprint(f\"{item} x{qty} = {price * qty}\")\n",
+  "alt": "item = input()\nprice = int(input())\nqty = int(input())\ntotal = price * qty\nprint(item + \" x\" + str(qty) + \" = \" + str(total))\n",
+  "project": true,
+  "clean": {
+    "label": "Finish in 4 lines (use an f-string and skip the extra variable)",
+    "tests": [
+      {
+        "kind": "maxlines",
+        "max": 4,
+        "label": "4 lines or fewer"
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "p-traceback",
+  "region": "modules-debug",
+  "order": 5,
+  "title": "Read the Traceback",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "def a():\n    return b()\ndef b():\n    return int(\"x\")\nprint(\"start\")\na()",
+  "options": [
+    "start\nError: ValueError",
+    "Error: ValueError",
+    "start",
+    "start\nError: TypeError"
+  ],
+  "answer": 0,
+  "why": "start prints first. Then a() calls b(), which calls int(\"x\"): a ValueError. Tracebacks read bottom to top: the last line names the error, the lines above show who called whom.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "What happens before the crash, and which error does int(\"x\") raise?",
+    "The output is:\nstart\nError: ValueError"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "debugging",
+    "tracebacks"
+  ],
+  "requires": [
+    "w-counter"
+  ],
+  "solution": "start\nError: ValueError"
+}

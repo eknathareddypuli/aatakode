@@ -1,0 +1,59 @@
+{
+  "id": "w-swap",
+  "region": "first-steps",
+  "order": 7,
+  "title": "Swap the Seats",
+  "story": "Two parrots sit on the wrong perches. Without retyping their names, swap them.",
+  "goal": "Swap the values: afterwards a must be \"right\" and b must be \"left\".",
+  "type": "write-code",
+  "starter": "a = \"left\"\nb = \"right\"\n# swap them using only a and b (and maybe one helper variable)\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "a is now \"right\"",
+      "expr": "a",
+      "expect": "'right'"
+    },
+    {
+      "kind": "eval",
+      "label": "b is now \"left\"",
+      "expr": "b",
+      "expect": "'left'"
+    },
+    {
+      "kind": "source",
+      "label": "Starts from the same values",
+      "pattern": "a\\s*=\\s*\"left\""
+    }
+  ],
+  "hints": [
+    "If you overwrite a first, the old value is gone. Where could you park it for a moment?",
+    "Use a third variable, temp: save one value in it, move the other, then use temp.",
+    "a = \"left\"\nb = \"right\"\ntemp = a\na = b\nb = temp\n"
+  ],
+  "socratic": [
+    "What happens to a if you write a = b first?",
+    "Where can the old value of a wait safely?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Swap the Seats”?",
+  "xp": 30,
+  "skills": [
+    "variables"
+  ],
+  "requires": [
+    "p-division"
+  ],
+  "solution": "a = \"left\"\nb = \"right\"\ntemp = a\na = b\nb = temp\n",
+  "alt": "a = \"left\"\nb = \"right\"\na, b = b, a\n",
+  "clean": {
+    "label": "Do the swap in one line (Python can assign two names at once)",
+    "tests": [
+      {
+        "kind": "maxlines",
+        "max": 3,
+        "label": "3 lines in total, including the two starting lines"
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "f-argparse",
+  "region": "real-world",
+  "order": 4,
+  "title": "Fill the Command Line",
+  "story": "Real tools take options from the command line. Pretend the user typed --name Asha.",
+  "goal": "Print Hello, Asha",
+  "type": "fill",
+  "starter": "import argparse\nparser = argparse.ArgumentParser()\nparser.add_argument(\"--name\", default=\"world\")\nargs = parser.parse_args(___)\nprint(\"Hello, \" + args.name)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints the greeting",
+      "expect": "Hello, Asha"
+    }
+  ],
+  "hints": [
+    "parse_args takes a list of the words the user typed.",
+    "The list is [\"--name\", \"Asha\"].",
+    "import argparse\nparser = argparse.ArgumentParser()\nparser.add_argument(\"--name\", default=\"world\")\nargs = parser.parse_args([\"--name\", \"Asha\"])\nprint(\"Hello, \" + args.name)\n"
+  ],
+  "socratic": [
+    "What does parse_args normally read?",
+    "How would the user's typing look as a list?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Command Line”?",
+  "xp": 20,
+  "skills": [
+    "argparse"
+  ],
+  "requires": [
+    "w-regex"
+  ],
+  "solution": "import argparse\nparser = argparse.ArgumentParser()\nparser.add_argument(\"--name\", default=\"world\")\nargs = parser.parse_args([\"--name\", \"Asha\"])\nprint(\"Hello, \" + args.name)\n"
+}

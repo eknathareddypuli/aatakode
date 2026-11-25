@@ -1,0 +1,51 @@
+{
+  "id": "w-counter",
+  "region": "modules-debug",
+  "order": 4,
+  "title": "Popular Word",
+  "story": "Which word does the toolshed hear most often?",
+  "goal": "Write most_common(words) returning the word that appears most often in a list.",
+  "type": "write-code",
+  "starter": "from collections import Counter\n# define most_common\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Simple",
+      "expr": "most_common([\"a\", \"b\", \"a\"])",
+      "expect": "'a'"
+    },
+    {
+      "kind": "eval",
+      "label": "Clear winner",
+      "expr": "most_common([\"x\", \"y\", \"y\", \"z\", \"z\", \"z\"])",
+      "expect": "'z'"
+    },
+    {
+      "kind": "eval",
+      "label": "Single",
+      "expr": "most_common([\"only\"])",
+      "expect": "'only'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Counter counts items for you. Counter(words) is like a dictionary of counts.",
+    "Counter has a .most_common(1) method returning a list of (item, count) pairs.",
+    "from collections import Counter\n\n\ndef most_common(words):\n    return Counter(words).most_common(1)[0][0]\n"
+  ],
+  "socratic": [
+    "What does Counter store?",
+    "How do you pick just the top item?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Popular Word”?",
+  "xp": 30,
+  "skills": [
+    "collections"
+  ],
+  "requires": [
+    "w-dates"
+  ],
+  "solution": "from collections import Counter\n\n\ndef most_common(words):\n    return Counter(words).most_common(1)[0][0]\n",
+  "alt": "def most_common(words):\n    best = None\n    best_count = 0\n    for w in set(words):\n        if words.count(w) > best_count:\n            best, best_count = w, words.count(w)\n    return best\n"
+}

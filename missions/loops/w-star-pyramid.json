@@ -1,0 +1,69 @@
+{
+  "id": "w-star-pyramid",
+  "region": "loops",
+  "order": 10,
+  "title": "Star Pyramid",
+  "story": "The festival stage lights form a pyramid. Print it for any height.",
+  "goal": "Read n. Print n rows: row 1 has 1 star, row 2 has 2 stars, up to n.",
+  "type": "write-code",
+  "starter": "n = int(input())\n# print a pyramid of stars\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Height 3",
+      "expect": "*\n**\n***",
+      "stdin": [
+        "3"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Height 1",
+      "expect": "*",
+      "stdin": [
+        "1"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Height 5",
+      "expect": "*\n**\n***\n****\n*****",
+      "stdin": [
+        "5"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "One loop runs once per row. How many stars does row i need?",
+    "You can multiply text: \"*\" * 3 gives \"***\".",
+    "n = int(input())\nfor i in range(1, n + 1):\n    print(\"*\" * i)\n"
+  ],
+  "socratic": [
+    "How many stars belong in row 4?",
+    "Is there a shortcut to repeat a string?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Star Pyramid”?",
+  "xp": 30,
+  "skills": [
+    "for",
+    "nested loops"
+  ],
+  "requires": [
+    "o-while-sum"
+  ],
+  "solution": "n = int(input())\nfor i in range(1, n + 1):\n    print(\"*\" * i)\n",
+  "alt": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for j in range(i):\n        row += \"*\"\n    print(row)\n",
+  "clean": {
+    "label": "Use one loop only (skip the inner loop)",
+    "tests": [
+      {
+        "kind": "source",
+        "label": "No nested loop",
+        "pattern": "for[^\\n]*:\\s*\\n\\s+for",
+        "absent": true
+      }
+    ]
+  }
+}

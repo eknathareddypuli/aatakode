@@ -1,0 +1,59 @@
+{
+  "id": "str-boss",
+  "region": "strings",
+  "order": 12,
+  "title": "Boss: The Jumbled Label",
+  "story": "A name label printer is broken. It should print names as Last, First with proper capitals. Find both bugs.",
+  "goal": "Fix the program: for input asha rao it must print Rao, Asha.",
+  "type": "fix-the-bug",
+  "starter": "name = input()\nparts = name.split()\nfirst = parts[0].capitalize()\nlast = parts[1].capitalize\nprint(first + \" \" + last)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "asha rao",
+      "expect": "Rao, Asha",
+      "stdin": [
+        "asha rao"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "RAVI KUMAR",
+      "expect": "Kumar, Ravi",
+      "stdin": [
+        "RAVI KUMAR"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "mEEra rEDDY",
+      "expect": "Reddy, Meera",
+      "stdin": [
+        "mEEra rEDDY"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "One method call is missing something that makes it actually run. Compare it with the line above.",
+    "After fixing that, check the order and the separator between the two names.",
+    "name = input()\nparts = name.split()\nfirst = parts[0].capitalize()\nlast = parts[1].capitalize()\nprint(last + \", \" + first)\n"
+  ],
+  "socratic": [
+    "What is the difference between last.capitalize and last.capitalize()?",
+    "Which part of the output order is wrong?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 55,
+  "skills": [
+    "debugging",
+    "methods"
+  ],
+  "requires": [
+    "proj-password"
+  ],
+  "solution": "name = input()\nparts = name.split()\nfirst = parts[0].capitalize()\nlast = parts[1].capitalize()\nprint(last + \", \" + first)\n",
+  "alt": "first, last = input().split()\nprint(f\"{last.capitalize()}, {first.capitalize()}\")\n",
+  "boss": true
+}

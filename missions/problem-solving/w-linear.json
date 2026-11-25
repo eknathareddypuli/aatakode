@@ -1,0 +1,57 @@
+{
+  "id": "w-linear",
+  "region": "problem-solving",
+  "order": 2,
+  "title": "Find It",
+  "story": "The maze garden hides a gate number in a long list. Search it yourself, without shortcuts.",
+  "goal": "Write find_index(items, target) returning the position of the first match, or -1. Do not use .index().",
+  "type": "write-code",
+  "starter": "# define find_index\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Found",
+      "expr": "find_index([5, 7, 9], 9)",
+      "expect": "2"
+    },
+    {
+      "kind": "eval",
+      "label": "Not found",
+      "expr": "find_index([5, 7, 9], 4)",
+      "expect": "-1"
+    },
+    {
+      "kind": "eval",
+      "label": "First match wins",
+      "expr": "find_index([1, 2, 2], 2)",
+      "expect": "1",
+      "hidden": true
+    },
+    {
+      "kind": "source",
+      "label": "No .index()",
+      "pattern": "\\.index\\(",
+      "absent": true
+    }
+  ],
+  "hints": [
+    "Walk the list from the start and compare each item.",
+    "enumerate(items) gives (position, value) pairs.",
+    "def find_index(items, target):\n    for i, item in enumerate(items):\n        if item == target:\n            return i\n    return -1\n"
+  ],
+  "socratic": [
+    "What should you return when you reach the end?",
+    "Which loop gives you the position and the value?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Find It”?",
+  "xp": 30,
+  "skills": [
+    "search"
+  ],
+  "requires": [
+    "p-big-o"
+  ],
+  "solution": "def find_index(items, target):\n    for i, item in enumerate(items):\n        if item == target:\n            return i\n    return -1\n",
+  "alt": "def find_index(items, target):\n    i = 0\n    while i < len(items):\n        if items[i] == target:\n            return i\n        i += 1\n    return -1\n"
+}

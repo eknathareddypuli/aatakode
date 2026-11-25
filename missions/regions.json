@@ -1,14 +1,148 @@
 {
   "tracks": [
-    { "id": "python", "title": "Python Quest", "title_te": "పైథాన్ యాత్ర", "blurb": "From your first print() to writing your own functions." },
-    { "id": "ops", "title": "Debug the Outage", "title_te": "అంతరాయ పరిష్కారం", "blurb": "Fix broken servers in a simulated terminal." }
+    {
+      "id": "python",
+      "title": "Python Quest",
+      "title_te": "పైథాన్ యాత్ర",
+      "blurb": "From your first print() to writing your own functions."
+    },
+    {
+      "id": "ops",
+      "title": "Debug the Outage",
+      "title_te": "అంతరాయ పరిష్కారం",
+      "blurb": "Fix broken servers in a simulated terminal."
+    }
   ],
   "regions": [
-    { "id": "first-steps", "track": "python", "title": "First Steps", "title_te": "మొదటి అడుగులు", "blurb": "Say hello, remember things, read input.", "icon": "🌱" },
-    { "id": "decisions", "track": "python", "title": "Decisions", "title_te": "నిర్ణయాలు", "blurb": "Teach your program to choose.", "icon": "🔀" },
-    { "id": "loops", "track": "python", "title": "Loops", "title_te": "లూప్‌లు", "blurb": "Repeat work without repeating code.", "icon": "🔁" },
-    { "id": "collections", "track": "python", "title": "Collections", "title_te": "సేకరణలు", "blurb": "Lists and dictionaries hold many things.", "icon": "🎒" },
-    { "id": "functions", "track": "python", "title": "Functions", "title_te": "ఫంక్షన్లు", "blurb": "Write a spell once, cast it anywhere.", "icon": "✨" },
-    { "id": "debug-the-outage", "track": "ops", "title": "Debug the Outage", "title_te": "అంతరాయ పరిష్కారం", "blurb": "Linux troubleshooting, one outage at a time.", "icon": "🚨" }
+    {
+      "id": "first-steps",
+      "track": "python",
+      "title": "First Steps",
+      "title_te": "మొదటి అడుగులు",
+      "blurb": "Say hello, remember things, read input.",
+      "icon": "🌱",
+      "place": "The Welcome Gate",
+      "story": "Chilaka's village, Aata-gram, lost its welcome gate. Learn print, variables and input to rebuild it."
+    },
+    {
+      "id": "decisions",
+      "track": "python",
+      "title": "Decisions",
+      "title_te": "నిర్ణయాలు",
+      "blurb": "Teach your program to choose.",
+      "icon": "🔀",
+      "place": "The Crossroads",
+      "story": "The signposts at the crossroads are tangled. Use if, elif and else to point every traveller the right way."
+    },
+    {
+      "id": "loops",
+      "track": "python",
+      "title": "Loops",
+      "title_te": "పునరావృతాలు",
+      "blurb": "Repeat work without repeating code.",
+      "icon": "🔁",
+      "place": "The Water Wheel",
+      "story": "The village water wheel has stopped. Loops keep it turning without writing the same line a hundred times."
+    },
+    {
+      "id": "strings",
+      "track": "python",
+      "title": "Strings",
+      "title_te": "అక్షరాల సంత",
+      "blurb": "Slice, search and tidy text.",
+      "icon": "🔤",
+      "place": "The Market of Words",
+      "story": "The market stalls sell words, and the labels are jumbled. Text tools will sort them out."
+    },
+    {
+      "id": "collections",
+      "track": "python",
+      "title": "Collections",
+      "title_te": "గ్రంథాలయం",
+      "blurb": "Lists, tuples, sets and dictionaries.",
+      "icon": "📚",
+      "place": "The Library",
+      "story": "The library shelves have collapsed. Collections hold many things in an order you choose."
+    },
+    {
+      "id": "functions",
+      "track": "python",
+      "title": "Functions",
+      "title_te": "పనిశాల",
+      "blurb": "Build reusable machines.",
+      "icon": "🛠️",
+      "place": "The Workshop",
+      "story": "The workshop needs tools that can be used again and again. Build your own functions."
+    },
+    {
+      "id": "files-errors",
+      "track": "python",
+      "title": "Files and Errors",
+      "title_te": "తపాలా కార్యాలయం",
+      "blurb": "Read, write and survive mistakes.",
+      "icon": "📮",
+      "place": "The Post Office",
+      "story": "Letters are piling up at the post office. Files store them, and error handling keeps one bad letter from stopping everything."
+    },
+    {
+      "id": "modules-debug",
+      "track": "python",
+      "title": "Modules and Debugging",
+      "title_te": "పనిముట్ల గది",
+      "blurb": "Borrow tools, then hunt bugs.",
+      "icon": "🧰",
+      "place": "The Toolshed",
+      "story": "The toolshed is full of ready-made tools. Learn to import them, and to track down bugs when something breaks."
+    },
+    {
+      "id": "objects",
+      "track": "python",
+      "title": "Objects",
+      "title_te": "వస్తు మందిరం",
+      "blurb": "Bundle data and behaviour in classes.",
+      "icon": "🏛️",
+      "place": "The Guild Hall",
+      "story": "The guild hall keeps records of every member. Classes let you model real things in code."
+    },
+    {
+      "id": "clean-code",
+      "track": "python",
+      "title": "Clean Code",
+      "title_te": "శుభ్రత గోపురం",
+      "blurb": "Write code people enjoy reading.",
+      "icon": "🧹",
+      "place": "The Tidy Tower",
+      "story": "The tower is messy. Names, tests and small functions make code clear for the next reader."
+    },
+    {
+      "id": "problem-solving",
+      "track": "python",
+      "title": "Problem Solving",
+      "title_te": "పజిల్ తోట",
+      "blurb": "Think in steps, search, sort, solve.",
+      "icon": "🧩",
+      "place": "The Maze Garden",
+      "story": "The garden maze hides the way out. Algorithms are how you find it quickly."
+    },
+    {
+      "id": "real-world",
+      "track": "python",
+      "title": "Real-World Python",
+      "title_te": "నియంత్రణ గది",
+      "blurb": "Parse logs, read APIs, build tools.",
+      "icon": "📡",
+      "place": "The Control Room",
+      "story": "The control room watches the whole village. Use Python to read logs, parse data and build command-line tools."
+    },
+    {
+      "id": "debug-the-outage",
+      "track": "ops",
+      "title": "Debug the Outage",
+      "title_te": "అంతరాయ పరిష్కారం",
+      "blurb": "Linux troubleshooting, one outage at a time.",
+      "icon": "🚨",
+      "place": "The Pager",
+      "story": "A pager buzzes at 3 a.m. Fix the broken server before the village wakes."
+    }
   ]
 }

@@ -1,0 +1,52 @@
+{
+  "id": "w-dice",
+  "region": "modules-debug",
+  "order": 2,
+  "title": "Roll the Dice",
+  "story": "The toolshed hosts a dice game. Use the random module for fair rolls.",
+  "goal": "Write roll(sides=6) that returns a random whole number from 1 to sides.",
+  "type": "write-code",
+  "starter": "import random\n# define roll\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Always within 1 to 6",
+      "expr": "all(1 <= roll() <= 6 for _ in range(200))",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Two-sided die gives both faces",
+      "expr": "set(roll(2) for _ in range(200)) == {1, 2}",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "One-sided die",
+      "expr": "roll(1)",
+      "expect": "1",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "random.randint(a, b) includes both ends.",
+    "Use sides as the upper limit, with a default of 6.",
+    "import random\n\n\ndef roll(sides=6):\n    return random.randint(1, sides)\n"
+  ],
+  "socratic": [
+    "Does randint include its last number?",
+    "Where does the 6 come from?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Roll the Dice”?",
+  "xp": 30,
+  "skills": [
+    "random",
+    "defaults"
+  ],
+  "requires": [
+    "p-import"
+  ],
+  "solution": "import random\n\n\ndef roll(sides=6):\n    return random.randint(1, sides)\n",
+  "alt": "import random\n\n\ndef roll(sides=6):\n    return random.choice(range(1, sides + 1))\n"
+}

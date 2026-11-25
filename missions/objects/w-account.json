@@ -1,0 +1,64 @@
+{
+  "id": "w-account",
+  "region": "objects",
+  "order": 5,
+  "title": "Piggy Bank",
+  "story": "The guild hall's piggy bank must never go below zero and never accept silly deposits.",
+  "goal": "Write class Account(balance=0) with deposit(amount) and withdraw(amount). Deposits must be positive. Withdrawals cannot exceed the balance. Both raise ValueError when refused.",
+  "type": "write-code",
+  "starter": "# define class Account\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Starting balance",
+      "expr": "Account(100).balance",
+      "expect": "100"
+    },
+    {
+      "kind": "eval",
+      "label": "Deposit and withdraw",
+      "expr": "(lambda a: (a.deposit(50), a.withdraw(20), a.balance))(Account())[2]",
+      "expect": "30"
+    },
+    {
+      "kind": "raises",
+      "label": "Negative deposit refused",
+      "expr": "Account().deposit(-5)",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Overdraft refused",
+      "expr": "Account(10).withdraw(50)",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "eval",
+      "label": "Can empty the account",
+      "expr": "(lambda a: (a.withdraw(5), a.balance))(Account(5))[1]",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Store the balance on self. Each method checks the rule first, then changes self.balance.",
+    "Use raise ValueError(...) when the rule is broken.",
+    "class Account:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"deposit must be positive\")\n        self.balance += amount\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError(\"insufficient funds\")\n        self.balance -= amount\n"
+  ],
+  "socratic": [
+    "Which rule belongs to deposit, and which to withdraw?",
+    "What should happen when a rule is broken?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Piggy Bank”?",
+  "xp": 30,
+  "skills": [
+    "classes",
+    "raise"
+  ],
+  "requires": [
+    "p-shared"
+  ],
+  "solution": "class Account:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"deposit must be positive\")\n        self.balance += amount\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError(\"insufficient funds\")\n        self.balance -= amount\n",
+  "alt": "class Account:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        if not amount > 0:\n            raise ValueError(f\"bad amount {amount}\")\n        self.balance = self.balance + amount\n\n    def withdraw(self, amount):\n        if self.balance - amount < 0:\n            raise ValueError(\"cannot go below zero\")\n        self.balance = self.balance - amount\n"
+}

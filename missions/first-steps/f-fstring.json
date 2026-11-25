@@ -1,0 +1,42 @@
+{
+  "id": "f-fstring",
+  "region": "first-steps",
+  "order": 5,
+  "title": "Fill the Banner",
+  "story": "Chilaka is printing the scoreboard. Fill the gaps so the variables appear inside the sentence.",
+  "goal": "Print: Asha scored 42 points",
+  "type": "fill",
+  "starter": "name = \"Asha\"\nscore = 42\nprint(f\"{___} scored {___} points\")\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints the banner",
+      "expect": "Asha scored 42 points"
+    },
+    {
+      "kind": "source",
+      "label": "Uses an f-string",
+      "pattern": "f\""
+    }
+  ],
+  "hints": [
+    "Inside an f-string, curly brackets hold the name of a variable.",
+    "The first blank is the name variable, the second is the score variable.",
+    "name = \"Asha\"\nscore = 42\nprint(f\"{name} scored {score} points\")\n"
+  ],
+  "socratic": [
+    "What do the curly brackets do inside an f-string?",
+    "Which variable belongs in each gap?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Banner”?",
+  "xp": 20,
+  "skills": [
+    "f-strings",
+    "variables"
+  ],
+  "requires": [
+    "py-03-input-math"
+  ],
+  "solution": "name = \"Asha\"\nscore = 42\nprint(f\"{name} scored {score} points\")\n"
+}

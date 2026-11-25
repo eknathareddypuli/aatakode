@@ -1,0 +1,44 @@
+{
+  "id": "p-class",
+  "region": "objects",
+  "order": 1,
+  "title": "Meet the Dog",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n    def speak(self):\n        return self.name + \" says woof\"\nd = Dog(\"Tuffy\")\nprint(d.speak())",
+  "options": [
+    "name says woof",
+    "Error: TypeError",
+    "Dog says woof",
+    "Tuffy says woof"
+  ],
+  "answer": 3,
+  "why": "Dog(\"Tuffy\") runs __init__, which stores the name on that object. speak() reads it back through self.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "What does self refer to inside speak?",
+    "The output is:\nTuffy says woof"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "classes"
+  ],
+  "requires": [
+    "md-boss"
+  ],
+  "solution": "Tuffy says woof"
+}

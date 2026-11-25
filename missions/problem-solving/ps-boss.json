@@ -1,0 +1,59 @@
+{
+  "id": "ps-boss",
+  "region": "problem-solving",
+  "order": 10,
+  "title": "Boss: The Endless Search",
+  "story": "This binary search sometimes loops forever and sometimes misses an item that is really there.",
+  "goal": "Fix binary_search so it finds every item and always stops.",
+  "type": "fix-the-bug",
+  "starter": "def binary_search(items, target):\n    low, high = 0, len(items) - 1\n    while low < high:\n        mid = (low + high) // 2\n        if items[mid] == target:\n            return mid\n        elif items[mid] < target:\n            low = mid\n        else:\n            high = mid - 1\n    return -1\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Found at the end",
+      "expr": "binary_search([1, 3, 5, 7], 7)",
+      "expect": "3"
+    },
+    {
+      "kind": "eval",
+      "label": "Single item",
+      "expr": "binary_search([1], 1)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Missing",
+      "expr": "binary_search([1, 3], 4)",
+      "expect": "-1"
+    },
+    {
+      "kind": "eval",
+      "label": "Found at the start",
+      "expr": "binary_search([1, 3, 5], 1)",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Two bugs. One makes the loop stop too early when low and high meet. The other fails to shrink the range, so it can repeat forever.",
+    "Use while low <= high, and move low to mid + 1 (not mid).",
+    "def binary_search(items, target):\n    low, high = 0, len(items) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if items[mid] == target:\n            return mid\n        elif items[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n"
+  ],
+  "socratic": [
+    "What happens when low and high are the same position?",
+    "Does low = mid shrink the range when mid equals low?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 70,
+  "skills": [
+    "debugging",
+    "search"
+  ],
+  "requires": [
+    "proj-maze"
+  ],
+  "solution": "def binary_search(items, target):\n    low, high = 0, len(items) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if items[mid] == target:\n            return mid\n        elif items[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n",
+  "alt": "def binary_search(items, target):\n    low, high = 0, len(items)\n    while low < high:\n        mid = (low + high) // 2\n        if items[mid] == target:\n            return mid\n        if items[mid] < target:\n            low = mid + 1\n        else:\n            high = mid\n    return -1\n",
+  "boss": true
+}

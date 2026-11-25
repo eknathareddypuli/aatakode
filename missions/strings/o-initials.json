@@ -1,0 +1,57 @@
+{
+  "id": "o-initials",
+  "region": "strings",
+  "order": 9,
+  "title": "Order the Initials",
+  "story": "Print a person's initials in capitals. The lines are shuffled.",
+  "goal": "Put the lines in order: read first and last name, build the initials, print them in capitals.",
+  "type": "order",
+  "starter": "initials = first[0] + last[0]\nprint(initials.upper())\nlast = input()\nfirst = input()\n",
+  "lines": [
+    "initials = first[0] + last[0]",
+    "print(initials.upper())",
+    "last = input()",
+    "first = input()"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "asha rao",
+      "expect": "AR",
+      "stdin": [
+        "asha",
+        "rao"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "ravi kumar",
+      "expect": "RK",
+      "stdin": [
+        "ravi",
+        "kumar"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "initials needs first and last to exist already.",
+    "Read both names first, then build, then print.",
+    "first = input()\nlast = input()\ninitials = first[0] + last[0]\nprint(initials.upper())\n"
+  ],
+  "socratic": [
+    "Which lines create variables?",
+    "Which line uses them?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "strings",
+    "order"
+  ],
+  "requires": [
+    "w-palindrome"
+  ],
+  "solution": "first = input()\nlast = input()\ninitials = first[0] + last[0]\nprint(initials.upper())\n"
+}

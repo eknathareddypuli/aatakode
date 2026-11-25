@@ -1,0 +1,45 @@
+{
+  "id": "p-format",
+  "region": "strings",
+  "order": 7,
+  "title": "Format Magic",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "print(f\"{3.14159:.2f}|{7:03d}|{'hi':>4}\")",
+  "options": [
+    "3.14|7|  hi",
+    "3.14|007|  hi",
+    "3.1|007|hi",
+    "3|007|  hi"
+  ],
+  "answer": 1,
+  "why": ".2f keeps two decimals, 03d pads with zeros to width 3, and >4 right-aligns in a field of width 4.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "After the colon, each code tells Python how to format the value.",
+    "The output is:\n3.14|007|  hi"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "f-strings",
+    "formatting"
+  ],
+  "requires": [
+    "w-vowels"
+  ],
+  "solution": "3.14|007|  hi"
+}

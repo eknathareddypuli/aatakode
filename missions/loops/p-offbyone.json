@@ -1,0 +1,45 @@
+{
+  "id": "p-offbyone",
+  "region": "loops",
+  "order": 4,
+  "title": "Off by One",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "total = 0\nfor n in range(1, 5):\n    total += n\nprint(total)",
+  "options": [
+    "15",
+    "10",
+    "6",
+    "4"
+  ],
+  "answer": 1,
+  "why": "range(1, 5) is 1, 2, 3, 4. The sum is 10, because 5 is never included.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "List the values n takes. Does it ever equal 5?",
+    "The output is:\n10"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "range",
+    "accumulate"
+  ],
+  "requires": [
+    "py-09-accumulate"
+  ],
+  "solution": "10"
+}

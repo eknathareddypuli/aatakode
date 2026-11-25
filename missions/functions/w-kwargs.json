@@ -1,0 +1,52 @@
+{
+  "id": "w-kwargs",
+  "region": "functions",
+  "order": 7,
+  "title": "Flexible Greeter",
+  "story": "The workshop greeter can change its words and punctuation.",
+  "goal": "Write greet(name, greeting=\"Hello\", punctuation=\"!\") returning for example Hello, Asha!",
+  "type": "write-code",
+  "starter": "# define greet\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Defaults",
+      "expr": "greet(\"Asha\")",
+      "expect": "'Hello, Asha!'"
+    },
+    {
+      "kind": "eval",
+      "label": "Custom greeting",
+      "expr": "greet(\"Ravi\", \"Namaste\")",
+      "expect": "'Namaste, Ravi!'"
+    },
+    {
+      "kind": "eval",
+      "label": "Keyword argument",
+      "expr": "greet(\"Meera\", punctuation=\"?\")",
+      "expect": "'Hello, Meera?'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Parameters with = have default values. Callers can skip them.",
+    "Return an f-string: f\"{greeting}, {name}{punctuation}\".",
+    "def greet(name, greeting=\"Hello\", punctuation=\"!\"):\n    return f\"{greeting}, {name}{punctuation}\"\n"
+  ],
+  "socratic": [
+    "What happens if the caller leaves out greeting?",
+    "How can a caller change only punctuation?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Flexible Greeter”?",
+  "xp": 30,
+  "skills": [
+    "defaults",
+    "kwargs"
+  ],
+  "requires": [
+    "py-15-args"
+  ],
+  "solution": "def greet(name, greeting=\"Hello\", punctuation=\"!\"):\n    return f\"{greeting}, {name}{punctuation}\"\n",
+  "alt": "def greet(name, greeting=\"Hello\", punctuation=\"!\"):\n    return greeting + \", \" + name + punctuation\n"
+}

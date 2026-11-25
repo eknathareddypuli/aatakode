@@ -1,0 +1,45 @@
+{
+  "id": "p-types",
+  "region": "first-steps",
+  "order": 3,
+  "title": "Type Detective",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "a = 5\nb = \"5\"\nc = 5.0\nprint(a + a, b + b, c + c)",
+  "options": [
+    "10 55 10.0",
+    "10 10 10.0",
+    "10 55 10",
+    "Error: TypeError"
+  ],
+  "answer": 0,
+  "why": "Quotes make \"5\" text, so + glues text together (55). A decimal point makes 5.0 a float, and floats add to floats (10.0).",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Is b a number or text? What does + do to text?",
+    "The output is:\n10 55 10.0"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "types",
+    "print"
+  ],
+  "requires": [
+    "py-02-variables"
+  ],
+  "solution": "10 55 10.0"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "w-star-args",
+  "region": "functions",
+  "order": 9,
+  "title": "Sum Any",
+  "story": "The workshop adds up however many numbers a customer brings.",
+  "goal": "Write total(*nums) that returns the sum of all its arguments (0 for none).",
+  "type": "write-code",
+  "starter": "# define total\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "No numbers",
+      "expr": "total()",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Three numbers",
+      "expr": "total(1, 2, 3)",
+      "expect": "6"
+    },
+    {
+      "kind": "eval",
+      "label": "Floats",
+      "expr": "total(0.5, 0.25)",
+      "expect": "0.75",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A parameter starting with * collects extra arguments into a tuple.",
+    "Loop over the tuple, or use the built-in sum().",
+    "def total(*nums):\n    return sum(nums)\n"
+  ],
+  "socratic": [
+    "What type is nums inside the function?",
+    "What should total() return with no arguments?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Sum Any”?",
+  "xp": 30,
+  "skills": [
+    "args"
+  ],
+  "requires": [
+    "p-default"
+  ],
+  "solution": "def total(*nums):\n    return sum(nums)\n",
+  "alt": "def total(*nums):\n    result = 0\n    for n in nums:\n        result += n\n    return result\n"
+}

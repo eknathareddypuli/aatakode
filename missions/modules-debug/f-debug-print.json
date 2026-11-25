@@ -1,0 +1,36 @@
+{
+  "id": "f-debug-print",
+  "region": "modules-debug",
+  "order": 6,
+  "title": "Fill the Print Detective",
+  "story": "Print debugging means printing variables to watch them change. Complete the detective's trace.",
+  "goal": "Show n and total on every round.",
+  "type": "fill",
+  "starter": "total = 0\nfor n in [1, 2, 3]:\n    total += n\n    print(\"n =\", ___, \"total =\", ___)\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Trace output",
+      "expect": "n = 1 total = 1\nn = 2 total = 3\nn = 3 total = 6"
+    }
+  ],
+  "hints": [
+    "Print the two variables themselves, not their names in quotes.",
+    "The first blank is n, the second is total.",
+    "total = 0\nfor n in [1, 2, 3]:\n    total += n\n    print(\"n =\", n, \"total =\", total)\n"
+  ],
+  "socratic": [
+    "Which two variables change each round?",
+    "Why print inside the loop?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Print Detective”?",
+  "xp": 20,
+  "skills": [
+    "debugging"
+  ],
+  "requires": [
+    "p-traceback"
+  ],
+  "solution": "total = 0\nfor n in [1, 2, 3]:\n    total += n\n    print(\"n =\", n, \"total =\", total)\n"
+}

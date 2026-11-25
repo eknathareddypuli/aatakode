@@ -1,0 +1,45 @@
+{
+  "id": "p-index",
+  "region": "strings",
+  "order": 2,
+  "title": "Pick the Letter",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "s = \"python\"\nprint(s[0], s[-1], s[1:3])",
+  "options": [
+    "p n yth",
+    "p n yt",
+    "y n yt",
+    "p o yt"
+  ],
+  "answer": 1,
+  "why": "Index 0 is the first letter, -1 is the last. A slice s[1:3] starts at 1 and stops before 3, giving yt.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Count positions from zero. What does -1 mean?",
+    "The output is:\np n yt"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "indexing",
+    "slicing"
+  ],
+  "requires": [
+    "w-shout"
+  ],
+  "solution": "p n yt"
+}

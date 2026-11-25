@@ -1,0 +1,45 @@
+{
+  "id": "p-range",
+  "region": "loops",
+  "order": 2,
+  "title": "Where Does Range Stop?",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "for i in range(3):\n    print(i)",
+  "options": [
+    "1\n2\n3",
+    "0\n1\n2",
+    "0\n1\n2\n3",
+    "1\n2"
+  ],
+  "answer": 1,
+  "why": "range(3) starts at 0 and stops before 3, so you get 0, 1, 2. Computers count from zero.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Does range include its end number?",
+    "The output is:\n0\n1\n2"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "for",
+    "range"
+  ],
+  "requires": [
+    "py-08-for-range"
+  ],
+  "solution": "0\n1\n2"
+}

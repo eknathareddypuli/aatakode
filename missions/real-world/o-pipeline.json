@@ -1,0 +1,43 @@
+{
+  "id": "o-pipeline",
+  "region": "real-world",
+  "order": 8,
+  "title": "Order the Log Pipeline",
+  "story": "A tiny pipeline counts the error lines in a log. Put it in order.",
+  "goal": "Put the lines in order so the program prints 2.",
+  "type": "order",
+  "starter": "lines = log.split(\"\\n\")\nlog = \"ok\\nerror a\\nok\\nerror b\"\nerrors = [l for l in lines if l.startswith(\"error\")]\nprint(len(errors))\n",
+  "lines": [
+    "lines = log.split(\"\\n\")",
+    "log = \"ok\\nerror a\\nok\\nerror b\"",
+    "errors = [l for l in lines if l.startswith(\"error\")]",
+    "print(len(errors))"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints 2",
+      "expect": "2"
+    }
+  ],
+  "hints": [
+    "Each line uses the variable made by the line before it.",
+    "log first, then lines, then errors, then print.",
+    "log = \"ok\\nerror a\\nok\\nerror b\"\nlines = log.split(\"\\n\")\nerrors = [l for l in lines if l.startswith(\"error\")]\nprint(len(errors))\n"
+  ],
+  "socratic": [
+    "Which variable does lines depend on?",
+    "Which line can only run last?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "pipelines",
+    "order"
+  ],
+  "requires": [
+    "w-cli"
+  ],
+  "solution": "log = \"ok\\nerror a\\nok\\nerror b\"\nlines = log.split(\"\\n\")\nerrors = [l for l in lines if l.startswith(\"error\")]\nprint(len(errors))\n"
+}

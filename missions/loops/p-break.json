@@ -1,0 +1,44 @@
+{
+  "id": "p-break",
+  "region": "loops",
+  "order": 7,
+  "title": "Break vs Continue",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "for n in [4, 8, 15, 16]:\n    if n % 5 == 0:\n        break\n    print(n)\nprint(\"done\")",
+  "options": [
+    "4\n8\n15\ndone",
+    "4\n8\n16\ndone",
+    "4\n8\ndone",
+    "done"
+  ],
+  "answer": 2,
+  "why": "break leaves the whole loop at 15. 16 is never reached. The last print runs once, after the loop.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Which number triggers break, and what happens to the numbers after it?",
+    "The output is:\n4\n8\ndone"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "break"
+  ],
+  "requires": [
+    "w-times-table"
+  ],
+  "solution": "4\n8\ndone"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "p-html",
+  "region": "real-world",
+  "order": 5,
+  "title": "Peek Inside HTML",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "html = \"<ul><li>tea</li><li>coffee</li></ul>\"\nprint(html.count(\"<li>\"), html.split(\"<li>\")[1].split(\"</li>\")[0])",
+  "options": [
+    "2 coffee",
+    "1 tea",
+    "2 tea",
+    "3 tea"
+  ],
+  "answer": 2,
+  "why": "There are two <li> tags. Splitting on <li> gives pieces; piece number 1 starts with tea</li>..., and splitting that on </li> leaves tea.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "What are the pieces after split(\"<li>\")?",
+    "The output is:\n2 tea"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "parsing"
+  ],
+  "requires": [
+    "f-argparse"
+  ],
+  "solution": "2 tea"
+}

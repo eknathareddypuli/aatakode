@@ -1,0 +1,54 @@
+{
+  "id": "proj-log-analyser",
+  "region": "real-world",
+  "order": 9,
+  "title": "Project: Log Analyser",
+  "story": "The control room gets logs like the ones you searched in the Debug the Outage missions. Build an analyser the night shift can trust.",
+  "goal": "Write analyse(log): a dict with total (non-empty lines), errors (lines starting with ERROR) and top_error (the most common error message, or None if there are no errors). Lines look like LEVEL message.",
+  "type": "write-code",
+  "starter": "# define analyse\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Mixed log",
+      "expr": "analyse(\"INFO started\\nERROR disk full\\nWARN slow\\nERROR disk full\\nERROR db down\\n\")",
+      "expect": "{'total': 5, 'errors': 3, 'top_error': 'disk full'}"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty",
+      "expr": "analyse(\"\")",
+      "expect": "{'total': 0, 'errors': 0, 'top_error': None}"
+    },
+    {
+      "kind": "eval",
+      "label": "No errors",
+      "expr": "analyse(\"INFO a\\nINFO b\")",
+      "expect": "{'total': 2, 'errors': 0, 'top_error': None}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "First keep only the non-empty lines. Then collect the messages of the ERROR lines.",
+    "line.split(\" \", 1)[1] is the message after the level. Counter(messages).most_common(1) finds the top one.",
+    "from collections import Counter\n\n\ndef analyse(log):\n    lines = [l for l in log.splitlines() if l.strip()]\n    errors = [l.split(\" \", 1)[1] for l in lines if l.startswith(\"ERROR \")]\n    top = Counter(errors).most_common(1)[0][0] if errors else None\n    return {\"total\": len(lines), \"errors\": len(errors), \"top_error\": top}\n"
+  ],
+  "socratic": [
+    "Which lines count towards total?",
+    "How do you find the most common message?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Log Analyser”?",
+  "xp": 85,
+  "skills": [
+    "logs",
+    "dicts",
+    "Counter"
+  ],
+  "requires": [
+    "o-pipeline"
+  ],
+  "solution": "from collections import Counter\n\n\ndef analyse(log):\n    lines = [l for l in log.splitlines() if l.strip()]\n    errors = [l.split(\" \", 1)[1] for l in lines if l.startswith(\"ERROR \")]\n    top = Counter(errors).most_common(1)[0][0] if errors else None\n    return {\"total\": len(lines), \"errors\": len(errors), \"top_error\": top}\n",
+  "alt": "def analyse(log):\n    total = 0\n    counts = {}\n    n_errors = 0\n    for line in log.splitlines():\n        if not line.strip():\n            continue\n        total += 1\n        if line.startswith(\"ERROR \"):\n            n_errors += 1\n            msg = line[6:]\n            counts[msg] = counts.get(msg, 0) + 1\n    top = max(counts, key=counts.get) if counts else None\n    return {\"total\": total, \"errors\": n_errors, \"top_error\": top}\n",
+  "project": true
+}

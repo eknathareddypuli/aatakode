@@ -1,0 +1,53 @@
+{
+  "id": "rw-boss",
+  "region": "real-world",
+  "order": 10,
+  "title": "Boss: The Wrong Alarm",
+  "story": "The health checker raises alarms for redirects (301) and lists the broken services in a random order.",
+  "goal": "Fix unhealthy(statuses): a service is healthy for status codes 200 to 399. Return the names of the unhealthy services, sorted alphabetically.",
+  "type": "fix-the-bug",
+  "starter": "def unhealthy(statuses):\n    bad = []\n    for name, code in statuses.items():\n        if code != 200:\n            bad.append(name)\n    return bad\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Redirects are fine, result sorted",
+      "expr": "unhealthy({\"web\": 200, \"db\": 500, \"api\": 301, \"cache\": 404})",
+      "expect": "['cache', 'db']"
+    },
+    {
+      "kind": "eval",
+      "label": "All healthy",
+      "expr": "unhealthy({\"web\": 204})",
+      "expect": "[]"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty",
+      "expr": "unhealthy({})",
+      "expect": "[]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Which status codes count as healthy? Is 301 one of them?",
+    "Healthy is 200 <= code < 400. Also sort the result before returning it.",
+    "def unhealthy(statuses):\n    bad = []\n    for name, code in statuses.items():\n        if not 200 <= code < 400:\n            bad.append(name)\n    return sorted(bad)\n"
+  ],
+  "socratic": [
+    "Which codes are healthy?",
+    "Does dictionary order match alphabetical order?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 70,
+  "skills": [
+    "debugging",
+    "logs"
+  ],
+  "requires": [
+    "proj-log-analyser"
+  ],
+  "solution": "def unhealthy(statuses):\n    bad = []\n    for name, code in statuses.items():\n        if not 200 <= code < 400:\n            bad.append(name)\n    return sorted(bad)\n",
+  "alt": "def unhealthy(statuses):\n    return sorted(name for name, code in statuses.items() if code < 200 or code >= 400)\n",
+  "boss": true
+}

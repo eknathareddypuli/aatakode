@@ -1,0 +1,57 @@
+{
+  "id": "w-class-basic",
+  "region": "objects",
+  "order": 2,
+  "title": "Parrot Class",
+  "story": "Chilaka wants to be an object: a parrot with a name that can learn words.",
+  "goal": "Write class Parrot with __init__(self, name), teach(word) to remember a word and speak() returning the words joined by comma and space.",
+  "type": "write-code",
+  "starter": "# define class Parrot\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Learns words",
+      "expr": "(lambda p: (p.teach(\"hi\"), p.teach(\"aata\"), p.speak())[2])(Parrot(\"Chilaka\"))",
+      "expect": "'hi, aata'"
+    },
+    {
+      "kind": "eval",
+      "label": "Silent at first",
+      "expr": "Parrot(\"Mynah\").speak()",
+      "expect": "''"
+    },
+    {
+      "kind": "eval",
+      "label": "Keeps its name",
+      "expr": "Parrot(\"x\").name",
+      "expect": "'x'"
+    },
+    {
+      "kind": "eval",
+      "label": "Parrots do not share words",
+      "expr": "(lambda a, b: (a.teach(\"x\"), b.speak())[1])(Parrot(\"a\"), Parrot(\"b\"))",
+      "expect": "''",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "In __init__ create self.name and an empty list self.words.",
+    "teach appends to self.words. speak joins them with \", \".join(...).",
+    "class Parrot:\n    def __init__(self, name):\n        self.name = name\n        self.words = []\n\n    def teach(self, word):\n        self.words.append(word)\n\n    def speak(self):\n        return \", \".join(self.words)\n"
+  ],
+  "socratic": [
+    "Which data does each parrot need of its own?",
+    "Why must the words list be created inside __init__?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Parrot Class”?",
+  "xp": 30,
+  "skills": [
+    "classes"
+  ],
+  "requires": [
+    "p-class"
+  ],
+  "solution": "class Parrot:\n    def __init__(self, name):\n        self.name = name\n        self.words = []\n\n    def teach(self, word):\n        self.words.append(word)\n\n    def speak(self):\n        return \", \".join(self.words)\n",
+  "alt": "class Parrot:\n    def __init__(self, name, words=None):\n        self.name = name\n        self.words = words or []\n\n    def teach(self, word):\n        self.words = self.words + [word]\n\n    def speak(self):\n        return \", \".join(self.words)\n"
+}

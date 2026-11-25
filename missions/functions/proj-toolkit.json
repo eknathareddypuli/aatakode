@@ -1,0 +1,77 @@
+{
+  "id": "proj-toolkit",
+  "region": "functions",
+  "order": 13,
+  "title": "Project: Text Toolkit",
+  "story": "The workshop's final order: a toolkit of three text helpers.",
+  "goal": "Write word_count(text), longest_word(text) (first one wins a tie, empty text gives \"\") and is_palindrome(text) (ignore case and spaces).",
+  "type": "write-code",
+  "starter": "# define the three functions\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "word_count",
+      "expr": "word_count(\"a bb ccc\")",
+      "expect": "3"
+    },
+    {
+      "kind": "eval",
+      "label": "word_count empty",
+      "expr": "word_count(\"\")",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "longest_word",
+      "expr": "longest_word(\"go to market now\")",
+      "expect": "'market'"
+    },
+    {
+      "kind": "eval",
+      "label": "longest tie",
+      "expr": "longest_word(\"ab cd\")",
+      "expect": "'ab'"
+    },
+    {
+      "kind": "eval",
+      "label": "longest empty",
+      "expr": "longest_word(\"\")",
+      "expect": "''",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "palindrome yes",
+      "expr": "is_palindrome(\"Never odd or even\")",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "palindrome no",
+      "expr": "is_palindrome(\"hello\")",
+      "expect": "False"
+    }
+  ],
+  "hints": [
+    "Each function is small. word_count can use split().",
+    "For longest_word loop with a variable that remembers the best so far. For the palindrome, reuse the cleaning idea from earlier.",
+    "def word_count(text):\n    return len(text.split())\n\n\ndef longest_word(text):\n    best = \"\"\n    for w in text.split():\n        if len(w) > len(best):\n            best = w\n    return best\n\n\ndef is_palindrome(text):\n    clean = text.replace(\" \", \"\").lower()\n    return clean == clean[::-1]\n"
+  ],
+  "socratic": [
+    "Which built-in splits text into words?",
+    "How can a loop remember the longest word so far?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Text Toolkit”?",
+  "xp": 60,
+  "skills": [
+    "functions",
+    "strings"
+  ],
+  "requires": [
+    "w-fib"
+  ],
+  "solution": "def word_count(text):\n    return len(text.split())\n\n\ndef longest_word(text):\n    best = \"\"\n    for w in text.split():\n        if len(w) > len(best):\n            best = w\n    return best\n\n\ndef is_palindrome(text):\n    clean = text.replace(\" \", \"\").lower()\n    return clean == clean[::-1]\n",
+  "alt": "def word_count(text):\n    return len(text.split())\n\n\ndef longest_word(text):\n    words = text.split()\n    return max(words, key=len) if words else \"\"\n\n\ndef is_palindrome(text):\n    t = \"\".join(text.lower().split())\n    return t == t[::-1]\n",
+  "project": true
+}
