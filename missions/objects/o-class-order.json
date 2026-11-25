@@ -43,5 +43,6 @@
   "requires": [
     "w-dunder"
   ],
-  "solution": "class Light:\n    def __init__(self):\n        self.on = False\n    def toggle(self):\n        self.on = not self.on\nlamp = Light()\nlamp.toggle()\nprint(lamp.on)\n"
+  "solution": "class Light:\n    def __init__(self):\n        self.on = False\n    def toggle(self):\n        self.on = not self.on\nlamp = Light()\nlamp.toggle()\nprint(lamp.on)\n",
+  "learn": "class-basics"
 }

@@ -55,5 +55,6 @@
   ],
   "solution": "class Wallet:\n    def __init__(self, cash):\n        self.cash = cash\n\n    def spend(self, amount):\n        if amount > self.cash:\n            return False\n        self.cash -= amount\n        return True\n",
   "alt": "class Wallet:\n    def __init__(self, cash):\n        self.cash = cash\n\n    def spend(self, amount):\n        if self.cash - amount < 0:\n            return False\n        self.cash = self.cash - amount\n        return True\n",
-  "boss": true
+  "boss": true,
+  "learn": "dunder"
 }

@@ -41,5 +41,6 @@
   "requires": [
     "p-break"
   ],
-  "solution": "1\n3"
+  "solution": "1\n3",
+  "learn": "break-continue"
 }

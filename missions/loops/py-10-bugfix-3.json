@@ -56,5 +56,6 @@
   ],
   "solution": "steps = int(input())\ncount = 1\nwhile count <= steps:\n    print(\"Step\", count)\n    count += 1\n",
   "alt": "steps = int(input())\nfor count in range(1, steps + 1):\n    print(\"Step\", count)\n",
-  "boss": true
+  "boss": true,
+  "learn": "endless-loop"
 }

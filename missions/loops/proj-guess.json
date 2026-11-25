@@ -64,5 +64,6 @@
   ],
   "solution": "secret = int(input())\ntries = 0\nwhile True:\n    guess = int(input())\n    tries += 1\n    if guess < secret:\n        print(\"Too low\")\n    elif guess > secret:\n        print(\"Too high\")\n    else:\n        print(\"Got it in \" + str(tries) + \" tries\")\n        break\n",
   "alt": "secret = int(input())\ntries = 0\nguess = None\nwhile guess != secret:\n    guess = int(input())\n    tries += 1\n    if guess < secret:\n        print(\"Too low\")\n    elif guess > secret:\n        print(\"Too high\")\nprint(f\"Got it in {tries} tries\")\n",
-  "project": true
+  "project": true,
+  "learn": "while"
 }

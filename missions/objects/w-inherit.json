@@ -59,5 +59,6 @@
     "p-super"
   ],
   "solution": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\n\nclass Dog(Animal):\n    def speak(self):\n        return \"Woof\"\n\n\nclass Cat(Animal):\n    def speak(self):\n        return \"Meow\"\n",
-  "alt": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\n\nclass Dog(Animal):\n    sound = \"Woof\"\n\n    def speak(self):\n        return self.sound\n\n\nclass Cat(Animal):\n    sound = \"Meow\"\n\n    def speak(self):\n        return self.sound\n"
+  "alt": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\n\nclass Dog(Animal):\n    sound = \"Woof\"\n\n    def speak(self):\n        return self.sound\n\n\nclass Cat(Animal):\n    sound = \"Meow\"\n\n    def speak(self):\n        return self.sound\n",
+  "learn": "inherit"
 }

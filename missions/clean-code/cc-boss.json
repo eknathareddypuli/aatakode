@@ -49,5 +49,6 @@
   ],
   "solution": "def sorted_top(nums, n=3):\n    return sorted(set(nums), reverse=True)[:n]\n",
   "alt": "def sorted_top(nums, n=3):\n    unique = list(set(nums))\n    unique.sort(reverse=True)\n    return unique[:n]\n",
-  "boss": true
+  "boss": true,
+  "learn": "clean-code"
 }

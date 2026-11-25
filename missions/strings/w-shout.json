@@ -54,5 +54,6 @@
     "py-10-bugfix-3"
   ],
   "solution": "word = input()\nprint(word.upper(), len(word))\n",
-  "alt": "word = input()\nprint(word.upper() + \" \" + str(len(word)))\n"
+  "alt": "word = input()\nprint(word.upper() + \" \" + str(len(word)))\n",
+  "learn": "str-methods"
 }

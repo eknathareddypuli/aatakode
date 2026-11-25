@@ -63,5 +63,6 @@
         "label": "2 lines or fewer"
       }
     ]
-  }
+  },
+  "learn": "str-index"
 }

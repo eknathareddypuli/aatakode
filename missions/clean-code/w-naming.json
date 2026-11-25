@@ -50,5 +50,6 @@
     "ob-boss"
   ],
   "solution": "def percent_of(percent, amount):\n    return amount * percent / 100\n",
-  "alt": "def percent_of(percent, amount):\n    fraction = percent / 100\n    return amount * fraction\n"
+  "alt": "def percent_of(percent, amount):\n    fraction = percent / 100\n    return amount * fraction\n",
+  "learn": "clean-code"
 }

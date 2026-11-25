@@ -37,5 +37,6 @@
   "requires": [
     "w-assert"
   ],
-  "solution": "def add(a: int, b: int) -> int:\n    return a + b\n\nprint(add(2, 3))\n"
+  "solution": "def add(a: int, b: int) -> int:\n    return a + b\n\nprint(add(2, 3))\n",
+  "learn": "typehints"
 }

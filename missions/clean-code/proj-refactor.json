@@ -66,5 +66,6 @@
   ],
   "solution": "import math\n\n\ndef shipping(weight, express=False):\n    cost = 40 + 10 * max(0, math.ceil(weight) - 1)\n    return cost * 2 if express else cost\n",
   "alt": "from math import ceil\n\n\ndef shipping(weight, express=False):\n    cost = 40 + 10 * (ceil(weight) - 1) if weight > 1 else 40\n    return 2 * cost if express else cost\n",
-  "project": true
+  "project": true,
+  "learn": "clean-code"
 }

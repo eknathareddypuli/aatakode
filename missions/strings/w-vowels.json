@@ -74,5 +74,6 @@
     "blanks": [
       "count += 1"
     ]
-  }
+  },
+  "learn": "str-search"
 }

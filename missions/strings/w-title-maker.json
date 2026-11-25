@@ -65,5 +65,6 @@
     "blanks": [
       "fixed = []"
     ]
-  }
+  },
+  "learn": "str-methods"
 }

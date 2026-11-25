@@ -32,5 +32,6 @@
   "requires": [
     "p-immutable"
   ],
-  "solution": "raw = \"  Hello World  \"\nclean = raw.strip().lower()\nprint(clean)\n"
+  "solution": "raw = \"  Hello World  \"\nclean = raw.strip().lower()\nprint(clean)\n",
+  "learn": "str-methods"
 }

@@ -41,5 +41,6 @@
   "requires": [
     "py-08-for-range"
   ],
-  "solution": "0\n1\n2"
+  "solution": "0\n1\n2",
+  "learn": "range-offbyone"
 }

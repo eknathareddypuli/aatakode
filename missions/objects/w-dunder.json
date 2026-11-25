@@ -54,5 +54,6 @@
     "w-inherit"
   ],
   "solution": "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __repr__(self):\n        return f\"Point({self.x}, {self.y})\"\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n",
-  "alt": "class Point:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n\n    def __repr__(self):\n        return \"Point(\" + str(self.x) + \", \" + str(self.y) + \")\"\n\n    def __eq__(self, other):\n        return isinstance(other, Point) and (self.x, self.y) == (other.x, other.y)\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n"
+  "alt": "class Point:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n\n    def __repr__(self):\n        return \"Point(\" + str(self.x) + \", \" + str(self.y) + \")\"\n\n    def __eq__(self, other):\n        return isinstance(other, Point) and (self.x, self.y) == (other.x, other.y)\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n",
+  "learn": "dunder"
 }

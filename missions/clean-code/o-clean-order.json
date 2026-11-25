@@ -42,5 +42,6 @@
   "requires": [
     "w-dry"
   ],
-  "solution": "def grade(score):\n    if score >= 90:\n        return \"A\"\n    if score >= 75:\n        return \"B\"\n    return \"C\"\nprint(grade(80))\n"
+  "solution": "def grade(score):\n    if score >= 90:\n        return \"A\"\n    if score >= 75:\n        return \"B\"\n    return \"C\"\nprint(grade(80))\n",
+  "learn": "early-return"
 }

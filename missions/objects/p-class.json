@@ -40,5 +40,6 @@
   "requires": [
     "md-boss"
   ],
-  "solution": "Tuffy says woof"
+  "solution": "Tuffy says woof",
+  "learn": "class-basics"
 }

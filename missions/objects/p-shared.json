@@ -41,5 +41,6 @@
   "requires": [
     "f-self"
   ],
-  "solution": "[1]"
+  "solution": "[1]",
+  "learn": "class-shared"
 }

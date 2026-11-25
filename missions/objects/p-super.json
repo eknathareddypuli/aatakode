@@ -40,5 +40,6 @@
   "requires": [
     "w-account"
   ],
-  "solution": "AB"
+  "solution": "AB",
+  "learn": "inherit"
 }

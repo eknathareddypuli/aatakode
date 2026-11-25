@@ -41,5 +41,6 @@
   "requires": [
     "w-shout"
   ],
-  "solution": "p n yt"
+  "solution": "p n yt",
+  "learn": "str-index"
 }

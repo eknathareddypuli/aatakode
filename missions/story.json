@@ -1,0 +1,112 @@
+{
+ "chapters": [
+  {
+   "n": 1,
+   "title": "The Egg in the Mango Tree",
+   "lines": [
+    "A storm shakes Aata-gram. An egg rolls out of the old mango tree.",
+    "Chilaka the parrot hatches and blinks at you. Its first word is 'print'.",
+    "Grandmother Ammamma smiles: 'A village grows one small spell at a time.'"
+   ]
+  },
+  {
+   "n": 2,
+   "title": "The Broken Gate",
+   "lines": [
+    "The village gate will not open. A sign says: age 18 or more.",
+    "Chilaka squawks that the sign says 'age = 18', not 'age >= 18'.",
+    "You fix the condition and the gate swings wide. Doors are logic."
+   ]
+  },
+  {
+   "n": 3,
+   "title": "The Water Wheel",
+   "lines": [
+    "The wheel stopped turning and the fields are dry.",
+    "The old keeper counted rounds by hand and lost track.",
+    "Loops keep it moving. You write one and water runs again."
+   ]
+  },
+  {
+   "n": 4,
+   "title": "The Letter Market",
+   "lines": [
+    "Traders shout names in a hundred ways: RAVI, ravi, Ravi.",
+    "Chilaka learns that text can be cleaned, cut and joined.",
+    "By evening every stall sign is neat and the market sings."
+   ]
+  },
+  {
+   "n": 5,
+   "title": "The Granary Lists",
+   "lines": [
+    "The granary overflows with sacks nobody has counted.",
+    "Lists keep order, dictionaries keep labels, sets keep only one of each.",
+    "You sort the sacks. Ammamma nods: 'Now we know what we have.'"
+   ]
+  },
+  {
+   "n": 6,
+   "title": "The Machine Shed",
+   "lines": [
+    "Ammamma's tools repeat the same job all day.",
+    "You teach a machine to do a job once and call it any time.",
+    "The shed hums. Functions are tools that remember how."
+   ]
+  },
+  {
+   "n": 7,
+   "title": "The Mistake Pond",
+   "lines": [
+    "Things fall into the pond: bad numbers, missing files, wrong guesses.",
+    "Chilaka does not panic. It catches each one and carries on.",
+    "You learn that errors are messages, not enemies."
+   ]
+  },
+  {
+   "n": 8,
+   "title": "The Helper Library",
+   "lines": [
+    "A traveling librarian arrives with shelves of ready-made tools.",
+    "'Why build a wheel twice?' she asks, and lends you import.",
+    "You also learn to read a traceback like a map of where it hurt."
+   ]
+  },
+  {
+   "n": 9,
+   "title": "The Workshop of Things",
+   "lines": [
+    "Villagers want a Dog that barks and a Wallet that remembers.",
+    "Classes let you make many things from one plan.",
+    "Chilaka chirps: each thing has its own memory, called self."
+   ]
+  },
+  {
+   "n": 10,
+   "title": "The Tidy House",
+   "lines": [
+    "Your code works, but it looks like a nest after a storm.",
+    "Names, small functions and honest comments make it kind to the next reader.",
+    "Ammamma says: 'Write for the person who reads it next. That is often you.'"
+   ]
+  },
+  {
+   "n": 11,
+   "title": "The Puzzle Fair",
+   "lines": [
+    "Travelers bring riddles: find the pair, guess the number, escape the maze.",
+    "You learn that speed comes from clever steps, not just fast hands.",
+    "Chilaka wins a ribbon for the neatest trick."
+   ]
+  },
+  {
+   "n": 12,
+   "title": "The Bigger World",
+   "lines": [
+    "A road leaves the village toward real servers, real logs and real APIs.",
+    "Chilaka sits on your shoulder, grown and bright.",
+    "'Go,' says Ammamma. 'The village will be here. Aata-gram lives in what you build.'"
+   ]
+  }
+ ]
+}

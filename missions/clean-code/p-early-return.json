@@ -41,5 +41,6 @@
   "requires": [
     "w-naming"
   ],
-  "solution": "None"
+  "solution": "None",
+  "learn": "early-return"
 }

@@ -33,5 +33,6 @@
   "requires": [
     "w-class-basic"
   ],
-  "solution": "class Counter:\n    def __init__(self):\n        self.count = 0\n    def hit(self):\n        self.count += 1\n\nc = Counter()\nc.hit()\nc.hit()\nprint(c.count)\n"
+  "solution": "class Counter:\n    def __init__(self):\n        self.count = 0\n    def hit(self):\n        self.count += 1\n\nc = Counter()\nc.hit()\nc.hit()\nprint(c.count)\n",
+  "learn": "class-basics"
 }

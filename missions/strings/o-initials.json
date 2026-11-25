@@ -53,5 +53,6 @@
   "requires": [
     "w-palindrome"
   ],
-  "solution": "first = input()\nlast = input()\ninitials = first[0] + last[0]\nprint(initials.upper())\n"
+  "solution": "first = input()\nlast = input()\ninitials = first[0] + last[0]\nprint(initials.upper())\n",
+  "learn": "str-index"
 }

@@ -53,5 +53,6 @@
     "p-class"
   ],
   "solution": "class Parrot:\n    def __init__(self, name):\n        self.name = name\n        self.words = []\n\n    def teach(self, word):\n        self.words.append(word)\n\n    def speak(self):\n        return \", \".join(self.words)\n",
-  "alt": "class Parrot:\n    def __init__(self, name, words=None):\n        self.name = name\n        self.words = words or []\n\n    def teach(self, word):\n        self.words = self.words + [word]\n\n    def speak(self):\n        return \", \".join(self.words)\n"
+  "alt": "class Parrot:\n    def __init__(self, name, words=None):\n        self.name = name\n        self.words = words or []\n\n    def teach(self, word):\n        self.words = self.words + [word]\n\n    def speak(self):\n        return \", \".join(self.words)\n",
+  "learn": "class-basics"
 }

@@ -66,5 +66,6 @@
     "blanks": [
       "print(f\"{n} x {i} = {n * i}\")"
     ]
-  }
+  },
+  "learn": "nested-loops"
 }

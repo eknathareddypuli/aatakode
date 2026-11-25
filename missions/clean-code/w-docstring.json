@@ -40,5 +40,6 @@
     "p-early-return"
   ],
   "solution": "def mean(nums):\n    \"\"\"Return the average of a list of numbers.\"\"\"\n    return sum(nums) / len(nums)\n",
-  "alt": "def mean(nums):\n    \"\"\"Average of nums as a float (the list must not be empty).\"\"\"\n    total = 0\n    for n in nums:\n        total += n\n    return total / len(nums)\n"
+  "alt": "def mean(nums):\n    \"\"\"Average of nums as a float (the list must not be empty).\"\"\"\n    total = 0\n    for n in nums:\n        total += n\n    return total / len(nums)\n",
+  "learn": "clean-code"
 }

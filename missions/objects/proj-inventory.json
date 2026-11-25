@@ -56,5 +56,6 @@
   ],
   "solution": "class Inventory:\n    def __init__(self):\n        self.stock = {}\n\n    def add(self, item, qty=1):\n        self.stock[item] = self.stock.get(item, 0) + qty\n\n    def remove(self, item, qty=1):\n        if self.stock.get(item, 0) < qty:\n            raise ValueError(\"not enough \" + item)\n        self.stock[item] -= qty\n\n    def report(self):\n        return [f\"{k}: {v}\" for k, v in sorted(self.stock.items()) if v > 0]\n",
   "alt": "class Inventory:\n    def __init__(self):\n        self.stock = {}\n\n    def add(self, item, qty=1):\n        if item in self.stock:\n            self.stock[item] += qty\n        else:\n            self.stock[item] = qty\n\n    def remove(self, item, qty=1):\n        have = self.stock.get(item, 0)\n        if qty > have:\n            raise ValueError(f\"only {have} of {item}\")\n        self.stock[item] = have - qty\n\n    def report(self):\n        lines = []\n        for name in sorted(self.stock):\n            if self.stock[name] > 0:\n                lines.append(name + \": \" + str(self.stock[name]))\n        return lines\n",
-  "project": true
+  "project": true,
+  "learn": "class-shared"
 }

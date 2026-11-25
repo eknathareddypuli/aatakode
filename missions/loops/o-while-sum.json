@@ -42,5 +42,6 @@
   "requires": [
     "p-continue"
   ],
-  "solution": "total = 0\ncount = 0\nwhile count < 5:\n    count += 1\n    total += count\nprint(total)\n"
+  "solution": "total = 0\ncount = 0\nwhile count < 5:\n    count += 1\n    total += count\nprint(total)\n",
+  "learn": "while"
 }

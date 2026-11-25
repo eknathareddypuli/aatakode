@@ -41,5 +41,6 @@
   "requires": [
     "w-reverse"
   ],
-  "solution": "Error: TypeError"
+  "solution": "Error: TypeError",
+  "learn": "str-immutable"
 }

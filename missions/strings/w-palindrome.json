@@ -62,5 +62,6 @@
     "p-format"
   ],
   "solution": "text = input()\nclean = text.replace(\" \", \"\").lower()\nprint(\"yes\" if clean == clean[::-1] else \"no\")\n",
-  "alt": "text = input().replace(\" \", \"\").lower()\nif text == text[::-1]:\n    print(\"yes\")\nelse:\n    print(\"no\")\n"
+  "alt": "text = input().replace(\" \", \"\").lower()\nif text == text[::-1]:\n    print(\"yes\")\nelse:\n    print(\"no\")\n",
+  "learn": "str-search"
 }

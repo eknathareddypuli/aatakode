@@ -69,5 +69,6 @@
     "blanks": [
       "print(i)"
     ]
-  }
+  },
+  "learn": "range-offbyone"
 }

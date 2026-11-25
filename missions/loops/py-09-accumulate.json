@@ -81,5 +81,6 @@
     "blanks": [
       "total += int(input())"
     ]
-  }
+  },
+  "learn": "accumulator"
 }

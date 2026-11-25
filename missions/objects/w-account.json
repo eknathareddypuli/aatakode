@@ -60,5 +60,6 @@
     "p-shared"
   ],
   "solution": "class Account:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"deposit must be positive\")\n        self.balance += amount\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError(\"insufficient funds\")\n        self.balance -= amount\n",
-  "alt": "class Account:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        if not amount > 0:\n            raise ValueError(f\"bad amount {amount}\")\n        self.balance = self.balance + amount\n\n    def withdraw(self, amount):\n        if self.balance - amount < 0:\n            raise ValueError(\"cannot go below zero\")\n        self.balance = self.balance - amount\n"
+  "alt": "class Account:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        if not amount > 0:\n            raise ValueError(f\"bad amount {amount}\")\n        self.balance = self.balance + amount\n\n    def withdraw(self, amount):\n        if self.balance - amount < 0:\n            raise ValueError(\"cannot go below zero\")\n        self.balance = self.balance - amount\n",
+  "learn": "dunder"
 }

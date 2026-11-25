@@ -40,5 +40,6 @@
   "requires": [
     "w-times-table"
   ],
-  "solution": "4\n8\ndone"
+  "solution": "4\n8\ndone",
+  "learn": "break-continue"
 }

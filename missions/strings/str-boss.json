@@ -55,5 +55,6 @@
   ],
   "solution": "name = input()\nparts = name.split()\nfirst = parts[0].capitalize()\nlast = parts[1].capitalize()\nprint(last + \", \" + first)\n",
   "alt": "first, last = input().split()\nprint(f\"{last.capitalize()}, {first.capitalize()}\")\n",
-  "boss": true
+  "boss": true,
+  "learn": "split-join"
 }

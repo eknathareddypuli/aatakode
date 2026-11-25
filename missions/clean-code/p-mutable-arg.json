@@ -41,5 +41,6 @@
   "requires": [
     "f-typehint"
   ],
-  "solution": "[0, 1]"
+  "solution": "[0, 1]",
+  "learn": "mutable-arg"
 }
