@@ -1,0 +1,126 @@
+{
+  "id": "proj-shortener-04",
+  "region": "proj-shortener",
+  "order": 4,
+  "title": "Step 4: Refuse Bad Links",
+  "story": "A shortener that accepts javascript: links is an attack tool. Only plain web links are allowed.",
+  "goal": "Make shorten raise ValueError unless the link is http or https with a host.",
+  "type": "write-code",
+  "starter": "# edit shorten() so it checks the link first\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Zero",
+      "expr": "encode(0)",
+      "expect": "'0'"
+    },
+    {
+      "kind": "eval",
+      "label": "Small",
+      "expr": "encode(61)",
+      "expect": "'Z'"
+    },
+    {
+      "kind": "eval",
+      "label": "Carries",
+      "expr": "encode(62)",
+      "expect": "'10'"
+    },
+    {
+      "kind": "eval",
+      "label": "Big hidden",
+      "expr": "encode(125)",
+      "expect": "'21'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Decode back",
+      "expr": "decode('10')",
+      "expect": "62"
+    },
+    {
+      "kind": "eval",
+      "label": "Round trip",
+      "expr": "[decode(encode(n)) for n in (0, 5, 61, 62, 9999)]",
+      "expect": "[0, 5, 61, 62, 9999]"
+    },
+    {
+      "kind": "eval",
+      "label": "Round trip big hidden",
+      "expr": "decode(encode(10**9))",
+      "expect": "1000000000",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "First link gets code 1",
+      "expr": "Shortener().shorten('http://a.com')",
+      "expect": "'1'"
+    },
+    {
+      "kind": "eval",
+      "label": "Same link, same code",
+      "expr": "(lambda s: [s.shorten('http://a.com'), s.shorten('http://b.com'), s.shorten('http://a.com')])(Shortener())",
+      "expect": "['1', '2', '1']"
+    },
+    {
+      "kind": "eval",
+      "label": "Expands",
+      "expr": "(lambda s: s.expand(s.shorten('http://a.com/x')))(Shortener())",
+      "expect": "'http://a.com/x'"
+    },
+    {
+      "kind": "eval",
+      "label": "Unknown code hidden",
+      "expr": "Shortener().expand('zz')",
+      "expect": "None",
+      "hidden": true
+    },
+    {
+      "kind": "raises",
+      "label": "Rejects javascript links",
+      "expr": "Shortener().shorten('javascript:alert(1)')",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Rejects missing host",
+      "expr": "Shortener().shorten('http://')",
+      "exc": "ValueError",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "https is fine",
+      "expr": "Shortener().shorten('https://a.com')",
+      "expect": "'1'"
+    }
+  ],
+  "hints": [
+    "urllib.parse.urlparse splits a URL into scheme and netloc.",
+    "Check scheme and netloc before storing anything.",
+    "from urllib.parse import urlparse\n\nALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n\ndef decode(s):\n    n = 0\n    for ch in s:\n        n = n * 62 + ALPHABET.index(ch)\n    return n\n\nclass Shortener:\n    def __init__(self):\n        self.urls = []\n        self.ids = {}\n\n    def shorten(self, url):\n        p = urlparse(url)\n        if p.scheme not in (\"http\", \"https\") or not p.netloc:\n            raise ValueError(\"only http and https links\")\n        if url not in self.ids:\n            self.urls.append(url)\n            self.ids[url] = len(self.urls)\n        return encode(self.ids[url])\n\n    def expand(self, code):\n        i = decode(code)\n        if 1 <= i <= len(self.urls):\n            return self.urls[i - 1]\n        return None\n"
+  ],
+  "socratic": [
+    "What should this new piece take in, and give back?",
+    "Which earlier piece can you reuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "security",
+    "urllib",
+    "project"
+  ],
+  "requires": [
+    "proj-shortener-03"
+  ],
+  "solution": "from urllib.parse import urlparse\n\nALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n\ndef decode(s):\n    n = 0\n    for ch in s:\n        n = n * 62 + ALPHABET.index(ch)\n    return n\n\nclass Shortener:\n    def __init__(self):\n        self.urls = []\n        self.ids = {}\n\n    def shorten(self, url):\n        p = urlparse(url)\n        if p.scheme not in (\"http\", \"https\") or not p.netloc:\n            raise ValueError(\"only http and https links\")\n        if url not in self.ids:\n            self.urls.append(url)\n            self.ids[url] = len(self.urls)\n        return encode(self.ids[url])\n\n    def expand(self, code):\n        i = decode(code)\n        if 1 <= i <= len(self.urls):\n            return self.urls[i - 1]\n        return None\n",
+  "project_step": true,
+  "carry": {
+    "from": "proj-shortener-03",
+    "stub": "# edit shorten() so it checks the link first\n"
+  }
+}

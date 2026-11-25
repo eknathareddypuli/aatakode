@@ -1,0 +1,61 @@
+{
+  "id": "sec-ops-04-gitignore",
+  "region": "sec-ops",
+  "order": 4,
+  "title": "Stop Committing Secrets",
+  "story": "The .env file keeps getting committed. Tell Git to ignore it, and take the real password out of the example file.",
+  "goal": "Add .env to .gitignore, and remove the password from env.example.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner/app",
+    "files": {
+      "/home/learner/app/.gitignore": "__pycache__/\n",
+      "/home/learner/app/.env": "DB_PASSWORD=hunter2\n",
+      "/home/learner/app/env.example": "DB_PASSWORD=hunter2\n"
+    },
+    "dirs": [
+      "/home/learner/app"
+    ],
+    "services": {}
+  },
+  "tests": [
+    {
+      "kind": "file-contains",
+      "path": "/home/learner/app/.gitignore",
+      "text": ".env",
+      "label": ".env is ignored"
+    },
+    {
+      "kind": "file-not-contains",
+      "path": "/home/learner/app/env.example",
+      "text": "hunter2",
+      "label": "Example has no real password"
+    }
+  ],
+  "hints": [
+    "echo text >> file adds a line to the end of a file.",
+    "Try: echo .env >> .gitignore, then sed -i 's/hunter2/changeme/' env.example",
+    "Run:\necho .env >> .gitignore\nsed -i 's/hunter2/changeme/' env.example"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "security",
+    "git"
+  ],
+  "requires": [
+    "sec-ops-03-sshd"
+  ],
+  "solution": {
+    "commands": [
+      "echo .env >> .gitignore",
+      "sed -i 's/hunter2/changeme/' env.example"
+    ]
+  },
+  "tool": "linux"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "api-02-status",
+  "region": "api-python",
+  "order": 2,
+  "title": "Classify Status Codes",
+  "story": "Retry on 5xx, give up on 4xx. First, name the class of a code.",
+  "goal": "Write classify(code) returning \"ok\", \"client error\" or \"server error\".",
+  "type": "write-code",
+  "starter": "def classify(code):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "200 is ok",
+      "expr": "classify(200)",
+      "expect": "'ok'"
+    },
+    {
+      "kind": "eval",
+      "label": "404",
+      "expr": "classify(404)",
+      "expect": "'client error'"
+    },
+    {
+      "kind": "eval",
+      "label": "503",
+      "expr": "classify(503)",
+      "expect": "'server error'"
+    },
+    {
+      "kind": "eval",
+      "label": "201 hidden",
+      "expr": "classify(201)",
+      "expect": "'ok'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "499 hidden",
+      "expr": "classify(499)",
+      "expect": "'client error'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use ranges: 200 to 299, 400 to 499, 500 to 599.",
+    "Return \"ok\" for 2xx first, then check 4xx, then 5xx.",
+    "def classify(code):\n    if 200 <= code < 300:\n        return \"ok\"\n    if 400 <= code < 500:\n        return \"client error\"\n    return \"server error\"\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Classify Status Codes”?",
+  "xp": 30,
+  "skills": [
+    "http",
+    "status-codes"
+  ],
+  "requires": [
+    "api-01-json"
+  ],
+  "solution": "def classify(code):\n    if 200 <= code < 300:\n        return \"ok\"\n    if 400 <= code < 500:\n        return \"client error\"\n    return \"server error\"\n",
+  "alt": "def classify(code):\n    d = code // 100\n    return {2: \"ok\", 4: \"client error\"}.get(d, \"server error\")\n"
+}

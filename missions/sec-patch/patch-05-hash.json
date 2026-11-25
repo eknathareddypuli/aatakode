@@ -1,0 +1,70 @@
+{
+  "id": "patch-05-hash",
+  "region": "sec-patch",
+  "order": 5,
+  "title": "Patch: Salt and Slow Down",
+  "story": "Hash passwords with a random salt, and repeat the hash many times to make guessing slow. (Real systems use a ready-made function such as scrypt, bcrypt or argon2. Here you build the idea by hand, because a browser Python has no such library.)",
+  "goal": "Write make(pw) returning \"salt$hash\" (hex), hashing salt+password with SHA-256 2000 times, and check(pw, stored) that verifies it.",
+  "type": "fix-the-bug",
+  "starter": "import hashlib\n\ndef make(pw):\n    return hashlib.md5(pw.encode()).hexdigest()\n\ndef check(pw, stored):\n    return make(pw) == stored\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Round trip",
+      "expr": "check('s3cret', make('s3cret'))",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Wrong password",
+      "expr": "check('nope', make('s3cret'))",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "Salted: two hashes differ",
+      "expr": "make('x') != make('x')",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "Has a salt part hidden",
+      "expr": "'$' in make('x') and len(make('x').split('$')[0]) >= 16",
+      "expect": "True",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Not a plain SHA-256 hidden",
+      "expr": "make('abc').split('$')[1] != __import__('hashlib').sha256(b'abc').hexdigest()",
+      "expect": "True",
+      "hidden": true
+    },
+    {
+      "kind": "source",
+      "label": "Uses a random salt",
+      "pattern": "urandom|secrets|token_hex"
+    }
+  ],
+  "hints": [
+    "A salt is random text mixed into the password before hashing, so equal passwords get different hashes.",
+    "Make the salt with secrets.token_hex(8), then loop 2000 times: h = sha256(h + salt + pw). Store salt + \"$\" + h.",
+    "import hashlib, secrets\n\ndef _h(pw, salt):\n    h = b\"\"\n    for _ in range(2000):\n        h = hashlib.sha256(h + salt.encode() + pw.encode()).digest()\n    return h.hex()\n\ndef make(pw):\n    salt = secrets.token_hex(8)\n    return salt + \"$\" + _h(pw, salt)\n\ndef check(pw, stored):\n    salt, h = stored.split(\"$\")\n    return _h(pw, salt) == h\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "security",
+    "hashing"
+  ],
+  "requires": [
+    "patch-04-eval"
+  ],
+  "solution": "import hashlib, secrets\n\ndef _h(pw, salt):\n    h = b\"\"\n    for _ in range(2000):\n        h = hashlib.sha256(h + salt.encode() + pw.encode()).digest()\n    return h.hex()\n\ndef make(pw):\n    salt = secrets.token_hex(8)\n    return salt + \"$\" + _h(pw, salt)\n\ndef check(pw, stored):\n    salt, h = stored.split(\"$\")\n    return _h(pw, salt) == h\n",
+  "alt": "import hashlib, os\n\ndef _stretch(salt, pw):\n    data = (salt + pw).encode()\n    for _ in range(2000):\n        data = hashlib.sha256(data + salt.encode()).digest()\n    return data.hex()\n\ndef make(pw):\n    salt = os.urandom(8).hex()\n    return salt + \"$\" + _stretch(salt, pw)\n\ndef check(pw, stored):\n    salt, h = stored.split(\"$\", 1)\n    return _stretch(salt, pw) == h\n"
+}

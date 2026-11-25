@@ -1,0 +1,59 @@
+{
+  "id": "api-06-boss",
+  "region": "api-python",
+  "order": 6,
+  "title": "Boss: The Greedy Client",
+  "story": "The client hammers the server and ignores its limits. Servers say how long to wait in a Retry-After header.",
+  "goal": "Fix wait_time(status, headers) so a 429 returns the seconds to wait, and other statuses return 0.",
+  "type": "fix-the-bug",
+  "starter": "def wait_time(status, headers):\n    if status == 429:\n        return headers.get(\"retry-after\", 0)\n    return 0\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "429 with header",
+      "expr": "wait_time(429, {'Retry-After': '5'})",
+      "expect": "5"
+    },
+    {
+      "kind": "eval",
+      "label": "200",
+      "expr": "wait_time(200, {})",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "429 no header",
+      "expr": "wait_time(429, {})",
+      "expect": "1"
+    },
+    {
+      "kind": "eval",
+      "label": "Case hidden",
+      "expr": "wait_time(429, {'retry-after': '3'})",
+      "expect": "3",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Header names can arrive in any capitalisation, and the value is text.",
+    "Lower-case the keys, convert to int, and default to 1 second.",
+    "def wait_time(status, headers):\n    if status != 429:\n        return 0\n    h = {k.lower(): v for k, v in headers.items()}\n    return int(h.get(\"retry-after\", 1))\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 50,
+  "skills": [
+    "http",
+    "rate-limit"
+  ],
+  "requires": [
+    "api-05-pages"
+  ],
+  "solution": "def wait_time(status, headers):\n    if status != 429:\n        return 0\n    h = {k.lower(): v for k, v in headers.items()}\n    return int(h.get(\"retry-after\", 1))\n",
+  "alt": "def wait_time(status, headers):\n    if status == 429:\n        for k, v in headers.items():\n            if k.lower() == \"retry-after\":\n                return int(v)\n        return 1\n    return 0\n",
+  "boss": true
+}

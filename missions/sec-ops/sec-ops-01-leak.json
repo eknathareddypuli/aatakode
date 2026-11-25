@@ -1,0 +1,64 @@
+{
+  "id": "sec-ops-01-leak",
+  "region": "sec-ops",
+  "order": 1,
+  "title": "Find the Leaked Key",
+  "story": "A key was committed by mistake. Find which file holds it before an attacker does.",
+  "goal": "Search the project for the key that starts with AKIA and report the file.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner/app",
+    "files": {
+      "/home/learner/app/main.py": "import boto3\nprint('hi')\n",
+      "/home/learner/app/settings.py": "AWS_KEY = 'AKIAIOSFODNN7EXAMPLE'\nDEBUG = False\n",
+      "/home/learner/app/README.md": "# app\n"
+    },
+    "dirs": [
+      "/home/learner/app"
+    ],
+    "services": {}
+  },
+  "tests": [
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "grep"
+      ],
+      "label": "Searched with grep"
+    },
+    {
+      "kind": "answer",
+      "expect": [
+        "settings.py",
+        "/home/learner/app/settings.py"
+      ],
+      "label": "Reported the file"
+    }
+  ],
+  "hints": [
+    "grep -r searches every file in a folder.",
+    "Try: grep -r AKIA .",
+    "Run:\ngrep -r AKIA .\nThen answer: settings.py"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "security",
+    "secrets"
+  ],
+  "requires": [
+    "linux-04-runaway"
+  ],
+  "solution": {
+    "commands": [
+      "grep -r AKIA ."
+    ],
+    "answer": "settings.py"
+  },
+  "tool": "linux"
+}

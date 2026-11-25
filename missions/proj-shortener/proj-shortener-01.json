@@ -1,0 +1,58 @@
+{
+  "id": "proj-shortener-01",
+  "region": "proj-shortener",
+  "order": 1,
+  "title": "Step 1: Numbers to Short Codes",
+  "story": "Short links like a.co/3fK use base 62: digits, lowercase and uppercase letters. First, turn a number into a code.",
+  "goal": "Write encode(n) turning a number into base 62 text.",
+  "type": "write-code",
+  "starter": "ALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Zero",
+      "expr": "encode(0)",
+      "expect": "'0'"
+    },
+    {
+      "kind": "eval",
+      "label": "Small",
+      "expr": "encode(61)",
+      "expect": "'Z'"
+    },
+    {
+      "kind": "eval",
+      "label": "Carries",
+      "expr": "encode(62)",
+      "expect": "'10'"
+    },
+    {
+      "kind": "eval",
+      "label": "Big hidden",
+      "expr": "encode(125)",
+      "expect": "'21'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "divmod(n, 62) gives the next digit and what is left.",
+    "Put each new digit in front.",
+    "ALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n"
+  ],
+  "socratic": [
+    "What should this new piece take in, and give back?",
+    "Which earlier piece can you reuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "math",
+    "project"
+  ],
+  "requires": [
+    "ob-boss"
+  ],
+  "solution": "ALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n",
+  "project_step": true
+}

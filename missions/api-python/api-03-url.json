@@ -1,0 +1,58 @@
+{
+  "id": "api-03-url",
+  "region": "api-python",
+  "order": 3,
+  "title": "Build a URL Safely",
+  "story": "Never glue query strings by hand. Let the library escape them.",
+  "goal": "Write build(base, params) that returns the URL with an encoded query string.",
+  "type": "write-code",
+  "starter": "from urllib.parse import urlencode\n\ndef build(base, params):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Simple",
+      "expr": "build('http://x/s', {'q': 'mango'})",
+      "expect": "'http://x/s?q=mango'"
+    },
+    {
+      "kind": "eval",
+      "label": "Escapes",
+      "expr": "build('http://x/s', {'q': 'raw mango'})",
+      "expect": "'http://x/s?q=raw+mango'"
+    },
+    {
+      "kind": "eval",
+      "label": "Two keys",
+      "expr": "build('http://x/s', {'a': 1, 'b': 2})",
+      "expect": "'http://x/s?a=1&b=2'"
+    },
+    {
+      "kind": "eval",
+      "label": "Ampersand hidden",
+      "expr": "build('http://x/s', {'q': 'a&b'})",
+      "expect": "'http://x/s?q=a%26b'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "urlencode turns a dict into a=1&b=2 and escapes special characters.",
+    "Join the base, a question mark and the encoded string.",
+    "from urllib.parse import urlencode\n\ndef build(base, params):\n    return base + \"?\" + urlencode(params)\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Build a URL Safely”?",
+  "xp": 30,
+  "skills": [
+    "http",
+    "urllib"
+  ],
+  "requires": [
+    "api-02-status"
+  ],
+  "solution": "from urllib.parse import urlencode\n\ndef build(base, params):\n    return base + \"?\" + urlencode(params)\n",
+  "alt": "from urllib.parse import urlencode\n\ndef build(base, params):\n    return f\"{base}?{urlencode(params)}\"\n"
+}

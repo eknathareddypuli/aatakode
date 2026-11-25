@@ -1,0 +1,56 @@
+{
+  "id": "sec-ops-02-chmod",
+  "region": "sec-ops",
+  "order": 2,
+  "title": "Lock the Private Key",
+  "story": "A private key that everyone can read is not private. Keys should be readable only by their owner.",
+  "goal": "Make /home/learner/.ssh/id_rsa readable and writable only by you (mode 600).",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {
+      "/home/learner/.ssh/id_rsa": "-----BEGIN KEY-----\nabc\n-----END KEY-----\n"
+    },
+    "modes": {
+      "/home/learner/.ssh/id_rsa": "644"
+    },
+    "dirs": [
+      "/home/learner/.ssh"
+    ],
+    "services": {}
+  },
+  "tests": [
+    {
+      "kind": "file-mode",
+      "path": "/home/learner/.ssh/id_rsa",
+      "mode": "600",
+      "label": "id_rsa is mode 600"
+    }
+  ],
+  "hints": [
+    "chmod changes the permission bits. 6 means read plus write, and 0 means nothing.",
+    "Try: chmod 600 .ssh/id_rsa",
+    "Run:\nls -l .ssh/id_rsa\nchmod 600 .ssh/id_rsa"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "security",
+    "permissions"
+  ],
+  "requires": [
+    "sec-ops-01-leak"
+  ],
+  "solution": {
+    "commands": [
+      "ls -l .ssh/id_rsa",
+      "chmod 600 .ssh/id_rsa"
+    ]
+  },
+  "tool": "linux"
+}

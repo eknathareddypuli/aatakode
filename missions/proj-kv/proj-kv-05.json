@@ -1,0 +1,119 @@
+{
+  "id": "proj-kv-05",
+  "region": "proj-kv",
+  "order": 5,
+  "title": "Step 5: Find by Prefix",
+  "story": "Group related keys with a shared start, like user:1 and user:2.",
+  "goal": "Add keys(prefix=\"\") returning the matching keys in sorted order.",
+  "type": "write-code",
+  "starter": "    def keys(self, prefix=\"\"):\n        pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Stores and reads",
+      "expr": "(lambda kv: (kv.set('a', 1), kv.get('a'))[1])(KV())",
+      "expect": "1"
+    },
+    {
+      "kind": "eval",
+      "label": "Missing key gives default",
+      "expr": "KV().get('zzz', 'none')",
+      "expect": "'none'"
+    },
+    {
+      "kind": "eval",
+      "label": "Overwrites hidden",
+      "expr": "(lambda kv: (kv.set('a', 1), kv.set('a', 2), kv.get('a'))[2])(KV())",
+      "expect": "2",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "delete returns True then False",
+      "expr": "(lambda kv: [kv.set('a', 1), kv.delete('a'), kv.delete('a')][1:])(KV())",
+      "expect": "[True, False]"
+    },
+    {
+      "kind": "eval",
+      "label": "has after delete",
+      "expr": "(lambda kv: [kv.set('a', 1), kv.delete('a'), kv.has('a')][2])(KV())",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "incr starts at 1",
+      "expr": "KV().incr('n')",
+      "expect": "1"
+    },
+    {
+      "kind": "eval",
+      "label": "incr by amount",
+      "expr": "(lambda kv: [kv.incr('n', 5), kv.incr('n', 2)][1])(KV())",
+      "expect": "7"
+    },
+    {
+      "kind": "eval",
+      "label": "incr after delete hidden",
+      "expr": "(lambda kv: [kv.incr('n'), kv.delete('n'), kv.incr('n')][2])(KV())",
+      "expect": "1",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "dump is JSON",
+      "expr": "(lambda kv: [kv.set('b', 2), kv.set('a', 1), kv.dump()][2])(KV())",
+      "expect": "'{\"a\": 1, \"b\": 2}'"
+    },
+    {
+      "kind": "eval",
+      "label": "load round trip",
+      "expr": "KV.load(KV().dump()).dump()",
+      "expect": "'{}'"
+    },
+    {
+      "kind": "eval",
+      "label": "load restores data",
+      "expr": "KV.load('{\"x\": 5}').get('x')",
+      "expect": "5",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "keys with prefix",
+      "expr": "(lambda kv: [kv.set('user:2', 1), kv.set('user:1', 1), kv.set('item:1', 1), kv.keys('user:')][3])(KV())",
+      "expect": "['user:1', 'user:2']"
+    },
+    {
+      "kind": "eval",
+      "label": "all keys hidden",
+      "expr": "(lambda kv: [kv.set('b', 1), kv.set('a', 1), kv.keys()][2])(KV())",
+      "expect": "['a', 'b']",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "str.startswith checks a prefix.",
+    "sorted() gives alphabetical order.",
+    "class KV:\n    def __init__(self):\n        self.data = {}\n\n    def set(self, key, value):\n        self.data[key] = value\n\n    def get(self, key, default=None):\n        return self.data.get(key, default)\n\n    def delete(self, key):\n        return self.data.pop(key, None) is not None\n\n    def has(self, key):\n        return key in self.data\n\n    def incr(self, key, by=1):\n        self.data[key] = int(self.data.get(key, 0)) + by\n        return self.data[key]\n\n    def dump(self):\n        import json\n        return json.dumps(self.data, sort_keys=True)\n\n    @classmethod\n    def load(cls, text):\n        import json\n        kv = cls()\n        kv.data = json.loads(text)\n        return kv\n\n    def keys(self, prefix=\"\"):\n        return sorted(k for k in self.data if k.startswith(prefix))\n"
+  ],
+  "socratic": [
+    "What should this new piece take in, and give back?",
+    "Which earlier piece can you reuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "strings",
+    "project"
+  ],
+  "requires": [
+    "proj-kv-04"
+  ],
+  "solution": "class KV:\n    def __init__(self):\n        self.data = {}\n\n    def set(self, key, value):\n        self.data[key] = value\n\n    def get(self, key, default=None):\n        return self.data.get(key, default)\n\n    def delete(self, key):\n        return self.data.pop(key, None) is not None\n\n    def has(self, key):\n        return key in self.data\n\n    def incr(self, key, by=1):\n        self.data[key] = int(self.data.get(key, 0)) + by\n        return self.data[key]\n\n    def dump(self):\n        import json\n        return json.dumps(self.data, sort_keys=True)\n\n    @classmethod\n    def load(cls, text):\n        import json\n        kv = cls()\n        kv.data = json.loads(text)\n        return kv\n\n    def keys(self, prefix=\"\"):\n        return sorted(k for k in self.data if k.startswith(prefix))\n",
+  "project_step": true,
+  "carry": {
+    "from": "proj-kv-04",
+    "stub": "    def keys(self, prefix=\"\"):\n        pass\n"
+  }
+}

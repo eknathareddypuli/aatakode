@@ -1,0 +1,82 @@
+{
+  "id": "go-01-hello",
+  "region": "go-basics",
+  "order": 1,
+  "title": "Meet Go",
+  "story": "Chilaka found a small, fast language from Google. Go programs are compiled and strict. That strictness is a gift: the compiler catches mistakes for you.",
+  "goal": "Read how a Go program starts, then fill in two small gaps.",
+  "type": "lesson",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "lesson",
+      "label": "Finish every try-it and quick check"
+    }
+  ],
+  "hints": [
+    "Read each block, then do the TRY IT and QUICK CHECK parts.",
+    "Every interactive block must be done to finish the lesson.",
+    "Take your time. Nothing here is timed."
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the most useful thing you learned here?",
+  "xp": 25,
+  "skills": [
+    "go-basics"
+  ],
+  "requires": [
+    "py-04-bugfix-1"
+  ],
+  "solution": "lesson",
+  "blocks": [
+    {
+      "kind": "text",
+      "text": "Every Go program lives in a **package**. A program you can run uses `package main` and a function called `main`.\n\nTo print, you import the `fmt` package and call `fmt.Println`."
+    },
+    {
+      "kind": "code",
+      "title": "The smallest Go program",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"Namaste, Go\")\n}\n",
+      "output": "Namaste, Go"
+    },
+    {
+      "kind": "text",
+      "text": "Notice there are no semicolons, and strings use double quotes. Go also refuses to compile if you import something and never use it."
+    },
+    {
+      "kind": "gofill",
+      "prompt": "Fill the blanks so the program prints `Hello, Aata-gram`.",
+      "template": "package main\n\nimport \"___\"\n\nfunc main() {\n\tfmt.___(\"Hello, Aata-gram\")\n}\n",
+      "blanks": [
+        {
+          "answers": [
+            "fmt"
+          ]
+        },
+        {
+          "answers": [
+            "Println"
+          ]
+        }
+      ],
+      "why": "fmt is the formatting package, and Println prints a line."
+    },
+    {
+      "kind": "quiz",
+      "q": "Which line makes a Go file a program you can run?",
+      "options": [
+        "package main",
+        "import \"fmt\"",
+        "fmt.Println",
+        "go run"
+      ],
+      "answer": 0,
+      "why": "A runnable program is `package main` with a `main` function."
+    }
+  ],
+  "lang": "go"
+}

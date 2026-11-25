@@ -1,0 +1,161 @@
+{
+  "id": "proj-shortener-06",
+  "region": "proj-shortener",
+  "order": 6,
+  "title": "Step 6: A Command Line",
+  "story": "Give your shortener a tiny interface.",
+  "goal": "Loop over stdin: `short <url>` prints the code, `go <code>` prints the link or `not found`, bad links print `ERR ...`.",
+  "type": "write-code",
+  "starter": "# read commands from input()\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Zero",
+      "expr": "encode(0)",
+      "expect": "'0'"
+    },
+    {
+      "kind": "eval",
+      "label": "Small",
+      "expr": "encode(61)",
+      "expect": "'Z'"
+    },
+    {
+      "kind": "eval",
+      "label": "Carries",
+      "expr": "encode(62)",
+      "expect": "'10'"
+    },
+    {
+      "kind": "eval",
+      "label": "Big hidden",
+      "expr": "encode(125)",
+      "expect": "'21'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Decode back",
+      "expr": "decode('10')",
+      "expect": "62"
+    },
+    {
+      "kind": "eval",
+      "label": "Round trip",
+      "expr": "[decode(encode(n)) for n in (0, 5, 61, 62, 9999)]",
+      "expect": "[0, 5, 61, 62, 9999]"
+    },
+    {
+      "kind": "eval",
+      "label": "Round trip big hidden",
+      "expr": "decode(encode(10**9))",
+      "expect": "1000000000",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "First link gets code 1",
+      "expr": "Shortener().shorten('http://a.com')",
+      "expect": "'1'"
+    },
+    {
+      "kind": "eval",
+      "label": "Same link, same code",
+      "expr": "(lambda s: [s.shorten('http://a.com'), s.shorten('http://b.com'), s.shorten('http://a.com')])(Shortener())",
+      "expect": "['1', '2', '1']"
+    },
+    {
+      "kind": "eval",
+      "label": "Expands",
+      "expr": "(lambda s: s.expand(s.shorten('http://a.com/x')))(Shortener())",
+      "expect": "'http://a.com/x'"
+    },
+    {
+      "kind": "eval",
+      "label": "Unknown code hidden",
+      "expr": "Shortener().expand('zz')",
+      "expect": "None",
+      "hidden": true
+    },
+    {
+      "kind": "raises",
+      "label": "Rejects javascript links",
+      "expr": "Shortener().shorten('javascript:alert(1)')",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Rejects missing host",
+      "expr": "Shortener().shorten('http://')",
+      "exc": "ValueError",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "https is fine",
+      "expr": "Shortener().shorten('https://a.com')",
+      "expect": "'1'"
+    },
+    {
+      "kind": "eval",
+      "label": "Counts hits",
+      "expr": "[list(x) for x in (lambda s: [s.shorten('http://a.com'), s.shorten('http://b.com'), s.expand('1'), s.expand('1'), s.expand('2'), s.top(2)][5])(Shortener())]",
+      "expect": "[['1', 2], ['2', 1]]"
+    },
+    {
+      "kind": "eval",
+      "label": "No hits yet hidden",
+      "expr": "Shortener().top(3)",
+      "expect": "[]",
+      "hidden": true
+    },
+    {
+      "kind": "stdout",
+      "label": "Works from stdin",
+      "expect": "1\nhttp://a.com\nnot found\nERR only http and https links",
+      "stdin": [
+        "short http://a.com",
+        "go 1",
+        "go 9",
+        "short ftp://a.com"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Hidden: dedupes",
+      "expect": "1\n1\n2",
+      "stdin": [
+        "short http://a.com",
+        "short http://a.com",
+        "short http://b.com"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Split each line into a command and the rest.",
+    "Catch ValueError and print ERR plus its message.",
+    "from urllib.parse import urlparse\n\nALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n\ndef decode(s):\n    n = 0\n    for ch in s:\n        n = n * 62 + ALPHABET.index(ch)\n    return n\n\nclass Shortener:\n    def __init__(self):\n        self.urls = []\n        self.ids = {}\n        self.hits = {}\n\n    def shorten(self, url):\n        p = urlparse(url)\n        if p.scheme not in (\"http\", \"https\") or not p.netloc:\n            raise ValueError(\"only http and https links\")\n        if url not in self.ids:\n            self.urls.append(url)\n            self.ids[url] = len(self.urls)\n        return encode(self.ids[url])\n\n    def expand(self, code):\n        i = decode(code)\n        if 1 <= i <= len(self.urls):\n            self.hits[code] = self.hits.get(code, 0) + 1\n            return self.urls[i - 1]\n        return None\n\n    def top(self, n):\n        return sorted(self.hits.items(), key=lambda kv: (-kv[1], kv[0]))[:n]\n\ns = Shortener()\ntry:\n    while True:\n        parts = input().split(\" \", 1)\n        try:\n            if parts[0] == \"short\":\n                print(s.shorten(parts[1]))\n            elif parts[0] == \"go\":\n                print(s.expand(parts[1]) or \"not found\")\n            else:\n                print(\"ERR unknown command\")\n        except ValueError as e:\n            print(\"ERR \" + str(e))\nexcept EOFError:\n    pass\n"
+  ],
+  "socratic": [
+    "What should this new piece take in, and give back?",
+    "Which earlier piece can you reuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 50,
+  "skills": [
+    "stdin",
+    "project"
+  ],
+  "requires": [
+    "proj-shortener-05"
+  ],
+  "solution": "from urllib.parse import urlparse\n\nALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n\ndef decode(s):\n    n = 0\n    for ch in s:\n        n = n * 62 + ALPHABET.index(ch)\n    return n\n\nclass Shortener:\n    def __init__(self):\n        self.urls = []\n        self.ids = {}\n        self.hits = {}\n\n    def shorten(self, url):\n        p = urlparse(url)\n        if p.scheme not in (\"http\", \"https\") or not p.netloc:\n            raise ValueError(\"only http and https links\")\n        if url not in self.ids:\n            self.urls.append(url)\n            self.ids[url] = len(self.urls)\n        return encode(self.ids[url])\n\n    def expand(self, code):\n        i = decode(code)\n        if 1 <= i <= len(self.urls):\n            self.hits[code] = self.hits.get(code, 0) + 1\n            return self.urls[i - 1]\n        return None\n\n    def top(self, n):\n        return sorted(self.hits.items(), key=lambda kv: (-kv[1], kv[0]))[:n]\n\ns = Shortener()\ntry:\n    while True:\n        parts = input().split(\" \", 1)\n        try:\n            if parts[0] == \"short\":\n                print(s.shorten(parts[1]))\n            elif parts[0] == \"go\":\n                print(s.expand(parts[1]) or \"not found\")\n            else:\n                print(\"ERR unknown command\")\n        except ValueError as e:\n            print(\"ERR \" + str(e))\nexcept EOFError:\n    pass\n",
+  "project_step": true,
+  "carry": {
+    "from": "proj-shortener-05",
+    "stub": "# read commands from input()\n"
+  },
+  "project": true
+}

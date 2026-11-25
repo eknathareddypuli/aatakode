@@ -1,0 +1,65 @@
+{
+  "id": "patch-03-shell",
+  "region": "sec-patch",
+  "order": 3,
+  "title": "Patch: No Shell, Please",
+  "story": "Build the ping command as a list, and only for a plain hostname or address.",
+  "goal": "Write ping_cmd(host) returning [\"ping\", \"-c\", \"1\", host], or raising ValueError for a bad host.",
+  "type": "fix-the-bug",
+  "starter": "# Fix the flaw: no shell, no strange hosts.\ndef ping_cmd(host):\n    return \"ping -c 1 \" + host\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Good host",
+      "expr": "ping_cmd('8.8.8.8')",
+      "expect": "['ping', '-c', '1', '8.8.8.8']"
+    },
+    {
+      "kind": "eval",
+      "label": "Name",
+      "expr": "ping_cmd('example.com')",
+      "expect": "['ping', '-c', '1', 'example.com']"
+    },
+    {
+      "kind": "raises",
+      "label": "Semicolon attack",
+      "expr": "ping_cmd('8.8.8.8; rm -rf /')",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Pipe hidden",
+      "expr": "ping_cmd('a | cat /etc/passwd')",
+      "exc": "ValueError",
+      "hidden": true
+    },
+    {
+      "kind": "raises",
+      "label": "Dollar hidden",
+      "expr": "ping_cmd('$(id)')",
+      "exc": "ValueError",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A list of arguments never goes through a shell. Validate the host with a regular expression first.",
+    "Allow only letters, digits, dots and hyphens: ^[A-Za-z0-9.-]+$",
+    "import re\n\ndef ping_cmd(host):\n    if not re.fullmatch(r\"[A-Za-z0-9.-]+\", host):\n        raise ValueError(\"bad host\")\n    return [\"ping\", \"-c\", \"1\", host]\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "security",
+    "injection"
+  ],
+  "requires": [
+    "patch-02-path"
+  ],
+  "solution": "import re\n\ndef ping_cmd(host):\n    if not re.fullmatch(r\"[A-Za-z0-9.-]+\", host):\n        raise ValueError(\"bad host\")\n    return [\"ping\", \"-c\", \"1\", host]\n",
+  "alt": "import re\n\ndef ping_cmd(host):\n    if re.match(r\"^[A-Za-z0-9.\\-]+$\", host) is None:\n        raise ValueError(host)\n    return [\"ping\", \"-c\", \"1\", host]\n"
+}

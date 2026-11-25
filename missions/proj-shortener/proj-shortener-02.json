@@ -1,0 +1,81 @@
+{
+  "id": "proj-shortener-02",
+  "region": "proj-shortener",
+  "order": 2,
+  "title": "Step 2: And Back Again",
+  "story": "A short code is only useful if you can turn it back.",
+  "goal": "Add decode(s) which reverses encode.",
+  "type": "write-code",
+  "starter": "def decode(s):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Zero",
+      "expr": "encode(0)",
+      "expect": "'0'"
+    },
+    {
+      "kind": "eval",
+      "label": "Small",
+      "expr": "encode(61)",
+      "expect": "'Z'"
+    },
+    {
+      "kind": "eval",
+      "label": "Carries",
+      "expr": "encode(62)",
+      "expect": "'10'"
+    },
+    {
+      "kind": "eval",
+      "label": "Big hidden",
+      "expr": "encode(125)",
+      "expect": "'21'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Decode back",
+      "expr": "decode('10')",
+      "expect": "62"
+    },
+    {
+      "kind": "eval",
+      "label": "Round trip",
+      "expr": "[decode(encode(n)) for n in (0, 5, 61, 62, 9999)]",
+      "expect": "[0, 5, 61, 62, 9999]"
+    },
+    {
+      "kind": "eval",
+      "label": "Round trip big hidden",
+      "expr": "decode(encode(10**9))",
+      "expect": "1000000000",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Walk through the characters, multiplying by 62 each time.",
+    "ALPHABET.index(ch) is the digit value.",
+    "ALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n\ndef decode(s):\n    n = 0\n    for ch in s:\n        n = n * 62 + ALPHABET.index(ch)\n    return n\n"
+  ],
+  "socratic": [
+    "What should this new piece take in, and give back?",
+    "Which earlier piece can you reuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "math",
+    "project"
+  ],
+  "requires": [
+    "proj-shortener-01"
+  ],
+  "solution": "ALPHABET = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n\ndef encode(n):\n    if n == 0:\n        return \"0\"\n    s = \"\"\n    while n > 0:\n        n, r = divmod(n, 62)\n        s = ALPHABET[r] + s\n    return s\n\ndef decode(s):\n    n = 0\n    for ch in s:\n        n = n * 62 + ALPHABET.index(ch)\n    return n\n",
+  "project_step": true,
+  "carry": {
+    "from": "proj-shortener-01",
+    "stub": "def decode(s):\n    pass\n"
+  }
+}

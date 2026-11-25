@@ -1,0 +1,94 @@
+{
+  "id": "proj-logs-03",
+  "region": "proj-logs",
+  "order": 3,
+  "title": "Step 3: Count the Levels",
+  "story": "How many INFO, WARN and ERROR lines are there?",
+  "goal": "Add count_levels(entries) returning a dict of level to count.",
+  "type": "write-code",
+  "starter": "def count_levels(entries):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Reads the level",
+      "expr": "parse_line('2025-01-05 10:00:07 ERROR disk full')['level']",
+      "expect": "'ERROR'"
+    },
+    {
+      "kind": "eval",
+      "label": "Keeps the whole message",
+      "expr": "parse_line('2025-01-05 10:00:07 ERROR disk full')['msg']",
+      "expect": "'disk full'"
+    },
+    {
+      "kind": "eval",
+      "label": "Joins date and time",
+      "expr": "parse_line('2025-01-05 10:00:07 ERROR disk full')['time']",
+      "expect": "'2025-01-05 10:00:07'"
+    },
+    {
+      "kind": "eval",
+      "label": "One word message hidden",
+      "expr": "parse_line('2025-01-05 10:00:07 INFO ok')['msg']",
+      "expect": "'ok'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Parses every line",
+      "expr": "len(parse_all('2025-01-05 10:00:01 INFO server started\\n2025-01-05 10:00:07 ERROR disk full\\n2025-01-05 10:01:00 WARN slow query\\n\\n2025-01-05 10:02:11 ERROR disk full\\n2025-01-05 10:03:09 ERROR timeout\\n2025-01-05 10:04:00 INFO request ok'))",
+      "expect": "6"
+    },
+    {
+      "kind": "eval",
+      "label": "Skips blank lines",
+      "expr": "len(parse_all('\\n\\n'))",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty text hidden",
+      "expr": "parse_all('')",
+      "expect": "[]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Counts levels",
+      "expr": "count_levels(parse_all('2025-01-05 10:00:01 INFO server started\\n2025-01-05 10:00:07 ERROR disk full\\n2025-01-05 10:01:00 WARN slow query\\n\\n2025-01-05 10:02:11 ERROR disk full\\n2025-01-05 10:03:09 ERROR timeout\\n2025-01-05 10:04:00 INFO request ok'))",
+      "expect": "{'INFO': 2, 'ERROR': 3, 'WARN': 1}"
+    },
+    {
+      "kind": "eval",
+      "label": "No entries hidden",
+      "expr": "count_levels([])",
+      "expect": "{}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A dict with .get(key, 0) is a quick counter.",
+    "Loop over entries and add one to its level.",
+    "def parse_line(line):\n    date, time, level, msg = line.split(\" \", 3)\n    return {\"time\": date + \" \" + time, \"level\": level, \"msg\": msg}\n\ndef parse_all(text):\n    return [parse_line(l) for l in text.splitlines() if l.strip()]\n\ndef count_levels(entries):\n    counts = {}\n    for e in entries:\n        counts[e[\"level\"]] = counts.get(e[\"level\"], 0) + 1\n    return counts\n"
+  ],
+  "socratic": [
+    "What should this new piece take in, and give back?",
+    "Which earlier piece can you reuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "dicts",
+    "project"
+  ],
+  "requires": [
+    "proj-logs-02"
+  ],
+  "solution": "def parse_line(line):\n    date, time, level, msg = line.split(\" \", 3)\n    return {\"time\": date + \" \" + time, \"level\": level, \"msg\": msg}\n\ndef parse_all(text):\n    return [parse_line(l) for l in text.splitlines() if l.strip()]\n\ndef count_levels(entries):\n    counts = {}\n    for e in entries:\n        counts[e[\"level\"]] = counts.get(e[\"level\"], 0) + 1\n    return counts\n",
+  "project_step": true,
+  "carry": {
+    "from": "proj-logs-02",
+    "stub": "def count_levels(entries):\n    pass\n"
+  }
+}

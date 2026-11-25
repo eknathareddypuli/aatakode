@@ -1,0 +1,57 @@
+{
+  "id": "patch-01-sql",
+  "region": "sec-patch",
+  "order": 1,
+  "title": "Patch: Parameterise It",
+  "story": "You found the open query. Now close it.",
+  "goal": "Rewrite find(db, name) so it uses a placeholder.",
+  "type": "fix-the-bug",
+  "starter": "def find(db, name):\n    q = \"SELECT id FROM users WHERE name = '\" + name + \"'\"\n    return db.execute(q).fetchall()\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Finds a real user",
+      "expr": "(lambda c: (c.executescript(\"create table users(id integer, name text); insert into users values (1,'asha'),(2,'ravi');\"), [r[0] for r in find(c, 'asha')])[1])(__import__('sqlite3').connect(':memory:'))",
+      "expect": "[1]"
+    },
+    {
+      "kind": "eval",
+      "label": "Attack finds nothing",
+      "expr": "(lambda c: (c.executescript(\"create table users(id integer, name text); insert into users values (1,'asha'),(2,'ravi');\"), find(c, \"x' OR '1'='1\"))[1])(__import__('sqlite3').connect(':memory:'))",
+      "expect": "[]"
+    },
+    {
+      "kind": "eval",
+      "label": "Another attack hidden",
+      "expr": "(lambda c: (c.executescript(\"create table users(id integer, name text); insert into users values (1,'asha'),(2,'ravi');\"), find(c, \"' OR 1=1 --\"))[1])(__import__('sqlite3').connect(':memory:'))",
+      "expect": "[]",
+      "hidden": true
+    },
+    {
+      "kind": "source",
+      "label": "Uses a placeholder",
+      "pattern": "\\?|:\\w+|%s"
+    }
+  ],
+  "hints": [
+    "Put ? where the value goes and pass the value as a second argument to execute.",
+    "db.execute(\"SELECT id FROM users WHERE name = ?\", (name,))",
+    "def find(db, name):\n    return db.execute(\"SELECT id FROM users WHERE name = ?\", (name,)).fetchall()\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "security",
+    "sql"
+  ],
+  "requires": [
+    "sec-07-hash"
+  ],
+  "solution": "def find(db, name):\n    return db.execute(\"SELECT id FROM users WHERE name = ?\", (name,)).fetchall()\n",
+  "alt": "def find(db, name):\n    q = \"SELECT id FROM users WHERE name = ?\"\n    return db.execute(q, [name]).fetchall()\n"
+}

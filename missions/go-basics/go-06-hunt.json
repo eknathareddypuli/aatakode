@@ -1,0 +1,56 @@
+{
+  "id": "go-06-hunt",
+  "region": "go-basics",
+  "order": 6,
+  "title": "Compiler Hunt: Strict Go",
+  "story": "This Go file will not compile. Be the compiler and spot every line it rejects.",
+  "goal": "Tap every line the compiler would reject.",
+  "type": "hunt",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "hunt",
+      "label": "Find every bad line, then pick the fix"
+    }
+  ],
+  "hints": [
+    "Read for unused variables, missing imports and type mismatches.",
+    "The compiler reports 2 problem line(s).",
+    "Bad lines: 5, 9"
+  ],
+  "socratic": [
+    "Which line uses something that was never declared or imported?",
+    "Which line is declared but never used?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does the Go compiler enforce here?",
+  "xp": 25,
+  "skills": [
+    "go-basics"
+  ],
+  "requires": [
+    "go-05-order"
+  ],
+  "solution": "Lines 5, 9",
+  "lang": "go",
+  "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tunused := 5\n\tmsg := \"hi\"\n\tfmt.Println(msg)\n}\n",
+  "bad": [
+    5,
+    9
+  ],
+  "why_lines": {
+    "5": "The \"os\" package is imported but never used. Go refuses to compile that.",
+    "9": "`unused` is declared and never used. Go treats that as an error."
+  },
+  "fix": {
+    "question": "How do you fix this file?",
+    "options": [
+      "Add a semicolon after each line",
+      "Remove the unused import and the unused variable",
+      "Rename main to start",
+      "Change := to ="
+    ],
+    "answer": 1,
+    "why": "Go keeps code tidy: remove what you do not use."
+  }
+}

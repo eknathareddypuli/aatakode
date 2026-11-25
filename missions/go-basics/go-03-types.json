@@ -1,0 +1,51 @@
+{
+  "id": "go-03-types",
+  "region": "go-basics",
+  "order": 3,
+  "title": "Typed Variables",
+  "story": "Go knows every variable's type. You can name the type yourself with `var`.",
+  "goal": "Print: 7 apples",
+  "type": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\t___ count int = 7\n\tfmt.Println(count, \"___\")\n}\n",
+  "tests": [
+    {
+      "kind": "go-static",
+      "label": "Every blank is right"
+    }
+  ],
+  "hints": [
+    "A typed declaration starts with the keyword for variables.",
+    "The second blank is the word printed after the number.",
+    "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tvar count int = 7\n\tfmt.Println(count, \"apples\")\n}\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blanks teach you?",
+  "xp": 20,
+  "skills": [
+    "go-basics"
+  ],
+  "requires": [
+    "go-02-vars"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tvar count int = 7\n\tfmt.Println(count, \"apples\")\n}\n",
+  "lang": "go",
+  "mode": "fill",
+  "template": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\t___ count int = 7\n\tfmt.Println(count, \"___\")\n}\n",
+  "blanks": [
+    {
+      "answers": [
+        "var"
+      ]
+    },
+    {
+      "answers": [
+        "apples"
+      ]
+    }
+  ],
+  "expect": "7 apples"
+}

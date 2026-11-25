@@ -1,0 +1,60 @@
+{
+  "id": "patch-06-boss",
+  "region": "sec-patch",
+  "order": 6,
+  "title": "Boss: The Reflected Page",
+  "story": "A search page prints the user's text back. A visitor typed a script tag instead.",
+  "goal": "Fix render(q) so text from the user is escaped before it goes into HTML.",
+  "type": "fix-the-bug",
+  "starter": "# Fix the flaw: user text goes straight into HTML.\ndef render(q):\n    return \"<p>You searched for \" + q + \"</p>\"\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Plain text",
+      "expr": "render('mango')",
+      "expect": "'<p>You searched for mango</p>'"
+    },
+    {
+      "kind": "eval",
+      "label": "Script tag",
+      "expr": "render('<script>alert(1)</script>')",
+      "expect": "'<p>You searched for &lt;script&gt;alert(1)&lt;/script&gt;</p>'"
+    },
+    {
+      "kind": "eval",
+      "label": "Quote hidden",
+      "expr": "render('\"a\"')",
+      "expect": "'<p>You searched for &quot;a&quot;</p>'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Ampersand hidden",
+      "expr": "render('a&b')",
+      "expect": "'<p>You searched for a&amp;b</p>'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "The standard library has html.escape.",
+    "Escape q, not the whole string, and keep the quotes setting on.",
+    "import html\n\ndef render(q):\n    return \"<p>You searched for \" + html.escape(q) + \"</p>\"\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 50,
+  "skills": [
+    "security",
+    "xss"
+  ],
+  "requires": [
+    "patch-05-hash"
+  ],
+  "solution": "import html\n\ndef render(q):\n    return \"<p>You searched for \" + html.escape(q) + \"</p>\"\n",
+  "alt": "def render(q):\n    safe = q.replace(\"&\", \"&amp;\").replace(\"<\", \"&lt;\").replace(\">\", \"&gt;\").replace('\"', \"&quot;\")\n    return \"<p>You searched for \" + safe + \"</p>\"\n",
+  "boss": true
+}

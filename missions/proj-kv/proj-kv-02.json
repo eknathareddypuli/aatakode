@@ -1,0 +1,68 @@
+{
+  "id": "proj-kv-02",
+  "region": "proj-kv",
+  "order": 2,
+  "title": "Step 2: Forget Things",
+  "story": "Stores must also let go.",
+  "goal": "Add delete(key) returning True if the key existed, and has(key).",
+  "type": "write-code",
+  "starter": "    def delete(self, key):\n        pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Stores and reads",
+      "expr": "(lambda kv: (kv.set('a', 1), kv.get('a'))[1])(KV())",
+      "expect": "1"
+    },
+    {
+      "kind": "eval",
+      "label": "Missing key gives default",
+      "expr": "KV().get('zzz', 'none')",
+      "expect": "'none'"
+    },
+    {
+      "kind": "eval",
+      "label": "Overwrites hidden",
+      "expr": "(lambda kv: (kv.set('a', 1), kv.set('a', 2), kv.get('a'))[2])(KV())",
+      "expect": "2",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "delete returns True then False",
+      "expr": "(lambda kv: [kv.set('a', 1), kv.delete('a'), kv.delete('a')][1:])(KV())",
+      "expect": "[True, False]"
+    },
+    {
+      "kind": "eval",
+      "label": "has after delete",
+      "expr": "(lambda kv: [kv.set('a', 1), kv.delete('a'), kv.has('a')][2])(KV())",
+      "expect": "False"
+    }
+  ],
+  "hints": [
+    "dict.pop(key, None) removes quietly.",
+    "Return whether something was really removed.",
+    "class KV:\n    def __init__(self):\n        self.data = {}\n\n    def set(self, key, value):\n        self.data[key] = value\n\n    def get(self, key, default=None):\n        return self.data.get(key, default)\n\n    def delete(self, key):\n        return self.data.pop(key, None) is not None\n\n    def has(self, key):\n        return key in self.data\n"
+  ],
+  "socratic": [
+    "What should this new piece take in, and give back?",
+    "Which earlier piece can you reuse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "classes",
+    "project"
+  ],
+  "requires": [
+    "proj-kv-01"
+  ],
+  "solution": "class KV:\n    def __init__(self):\n        self.data = {}\n\n    def set(self, key, value):\n        self.data[key] = value\n\n    def get(self, key, default=None):\n        return self.data.get(key, default)\n\n    def delete(self, key):\n        return self.data.pop(key, None) is not None\n\n    def has(self, key):\n        return key in self.data\n",
+  "project_step": true,
+  "carry": {
+    "from": "proj-kv-01",
+    "stub": "    def delete(self, key):\n        pass\n"
+  }
+}

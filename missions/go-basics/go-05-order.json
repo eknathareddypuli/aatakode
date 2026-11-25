@@ -1,0 +1,76 @@
+{
+  "id": "go-05-order",
+  "region": "go-basics",
+  "order": 5,
+  "title": "Build the Program",
+  "story": "The lines of a tiny program fell out of order.",
+  "goal": "Print the sum 5 + 8 as `13`.",
+  "type": "go",
+  "starter": "\ta := 5\n\tb := 8\n}\nfunc main() {\npackage main\n\tfmt.Println(a + b)\nimport \"fmt\"\n",
+  "tests": [
+    {
+      "kind": "go-static",
+      "label": "Lines in a working order"
+    }
+  ],
+  "hints": [
+    "A file starts with its package, then imports, then functions.",
+    "Variables must exist before you use them.",
+    "package main\nimport \"fmt\"\nfunc main() {\n\ta := 5\n\tb := 8\n\tfmt.Println(a + b)\n}"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "go-basics"
+  ],
+  "requires": [
+    "go-04-zero"
+  ],
+  "solution": "package main\nimport \"fmt\"\nfunc main() {\n\ta := 5\n\tb := 8\n\tfmt.Println(a + b)\n}",
+  "lang": "go",
+  "mode": "order",
+  "lines": [
+    "\ta := 5",
+    "\tb := 8",
+    "}",
+    "func main() {",
+    "package main",
+    "\tfmt.Println(a + b)",
+    "import \"fmt\""
+  ],
+  "lines_ok": [
+    "package main",
+    "import \"fmt\"",
+    "func main() {",
+    "\ta := 5",
+    "\tb := 8",
+    "\tfmt.Println(a + b)",
+    "}"
+  ],
+  "orders": [
+    [
+      "package main",
+      "import \"fmt\"",
+      "func main() {",
+      "\ta := 5",
+      "\tb := 8",
+      "\tfmt.Println(a + b)",
+      "}"
+    ],
+    [
+      "package main",
+      "import \"fmt\"",
+      "func main() {",
+      "\tb := 8",
+      "\ta := 5",
+      "\tfmt.Println(a + b)",
+      "}"
+    ]
+  ],
+  "expect": "13"
+}

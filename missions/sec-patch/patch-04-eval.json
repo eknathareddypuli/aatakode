@@ -1,0 +1,64 @@
+{
+  "id": "patch-04-eval",
+  "region": "sec-patch",
+  "order": 4,
+  "title": "Patch: Evaluate Only Data",
+  "story": "eval runs anything. ast.literal_eval only understands plain Python data.",
+  "goal": "Write parse(text) that returns the Python value for data like [1, 2] and raises ValueError for anything else.",
+  "type": "fix-the-bug",
+  "starter": "# Fix the flaw: eval runs anything.\ndef parse(text):\n    return eval(text)\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "A list",
+      "expr": "parse('[1, 2, 3]')",
+      "expect": "[1, 2, 3]"
+    },
+    {
+      "kind": "eval",
+      "label": "A dict",
+      "expr": "parse(\"{'a': 1}\")",
+      "expect": "{'a': 1}"
+    },
+    {
+      "kind": "raises",
+      "label": "Attack",
+      "expr": "parse(\"__import__('os').getcwd()\")",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Attack two hidden",
+      "expr": "parse('1/0')",
+      "exc": "ValueError",
+      "hidden": true
+    },
+    {
+      "kind": "source",
+      "label": "No eval call",
+      "pattern": "(?<![.\\w])eval\\(",
+      "absent": true
+    }
+  ],
+  "hints": [
+    "ast.literal_eval is the safe cousin of eval.",
+    "Catch its errors and raise ValueError yourself.",
+    "import ast\n\ndef parse(text):\n    try:\n        return ast.literal_eval(text)\n    except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):\n        raise ValueError(\"not plain data\")\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "security",
+    "eval"
+  ],
+  "requires": [
+    "patch-03-shell"
+  ],
+  "solution": "import ast\n\ndef parse(text):\n    try:\n        return ast.literal_eval(text)\n    except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):\n        raise ValueError(\"not plain data\")\n",
+  "alt": "from ast import literal_eval\n\ndef parse(text):\n    try:\n        return literal_eval(text)\n    except Exception as e:\n        raise ValueError(str(e))\n"
+}

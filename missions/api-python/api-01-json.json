@@ -1,0 +1,42 @@
+{
+  "id": "api-01-json",
+  "region": "api-python",
+  "order": 1,
+  "title": "Parse a Response",
+  "story": "An API replied with JSON text. Turn it into Python data.",
+  "goal": "Print the seller's name.",
+  "type": "write-code",
+  "starter": "import json\n\nraw = '{\"seller\": {\"name\": \"Lakshmi\", \"stall\": 12}}'\n# parse raw, then print the seller name\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints the name",
+      "expect": "Lakshmi"
+    },
+    {
+      "kind": "source",
+      "label": "Uses json.loads",
+      "pattern": "json\\.loads"
+    }
+  ],
+  "hints": [
+    "json.loads turns text into dicts and lists.",
+    "Index into data[\"seller\"][\"name\"].",
+    "import json\n\nraw = '{\"seller\": {\"name\": \"Lakshmi\", \"stall\": 12}}'\ndata = json.loads(raw)\nprint(data[\"seller\"][\"name\"])\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Parse a Response”?",
+  "xp": 30,
+  "skills": [
+    "json"
+  ],
+  "requires": [
+    "py-16-bugfix-5"
+  ],
+  "solution": "import json\n\nraw = '{\"seller\": {\"name\": \"Lakshmi\", \"stall\": 12}}'\ndata = json.loads(raw)\nprint(data[\"seller\"][\"name\"])\n",
+  "alt": "import json\n\nraw = '{\"seller\": {\"name\": \"Lakshmi\", \"stall\": 12}}'\nprint(json.loads(raw).get(\"seller\")[\"name\"])\n"
+}

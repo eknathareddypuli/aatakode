@@ -1,0 +1,52 @@
+{
+  "id": "api-04-retry",
+  "region": "api-python",
+  "order": 4,
+  "title": "Retry with Backoff",
+  "story": "Flaky servers fail now and then. Try again, waiting a little longer each time.",
+  "goal": "Write retry(fn, tries) that calls fn until it works, and returns the list of waits it would use (1, 2, 4...).",
+  "type": "write-code",
+  "starter": "def retry(fn, tries):\n    waits = []\n    # call fn(); if it raises, record the wait and try again\n    return waits\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Works first time",
+      "expr": "retry(lambda: 1, 3)",
+      "expect": "[]"
+    },
+    {
+      "kind": "eval",
+      "label": "Fails twice",
+      "expr": "(lambda s: retry(lambda: s.append(1) or (1/0 if len(s) < 3 else 1), 5))([])",
+      "expect": "[1, 2]"
+    },
+    {
+      "kind": "raises",
+      "label": "Gives up",
+      "expr": "retry(lambda: 1/0, 3)",
+      "exc": "ZeroDivisionError",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Wrap fn() in try/except inside a loop of tries.",
+    "Double the wait each failure. On the last try, let the error escape.",
+    "def retry(fn, tries):\n    waits = []\n    wait = 1\n    for i in range(tries):\n        try:\n            fn()\n            return waits\n        except Exception:\n            if i == tries - 1:\n                raise\n            waits.append(wait)\n            wait *= 2\n    return waits\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Retry with Backoff”?",
+  "xp": 30,
+  "skills": [
+    "http",
+    "retry"
+  ],
+  "requires": [
+    "api-03-url"
+  ],
+  "solution": "def retry(fn, tries):\n    waits = []\n    wait = 1\n    for i in range(tries):\n        try:\n            fn()\n            return waits\n        except Exception:\n            if i == tries - 1:\n                raise\n            waits.append(wait)\n            wait *= 2\n    return waits\n",
+  "alt": "def retry(fn, tries):\n    waits = []\n    for i in range(tries):\n        try:\n            fn()\n            return waits\n        except Exception:\n            if i == tries - 1:\n                raise\n            waits.append(2 ** i)\n"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "api-05-pages",
+  "region": "api-python",
+  "order": 5,
+  "title": "Walk Every Page",
+  "story": "APIs return results in pages. Keep asking until there is no next page.",
+  "goal": "Write collect(get) that gathers every item. get(page) returns {\"items\": [...], \"next\": page or None}.",
+  "type": "write-code",
+  "starter": "def collect(get):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Three pages",
+      "expr": "collect(lambda p: {1: {'items': [1, 2], 'next': 2}, 2: {'items': [3], 'next': 3}, 3: {'items': [4, 5], 'next': None}}[p])",
+      "expect": "[1, 2, 3, 4, 5]"
+    },
+    {
+      "kind": "eval",
+      "label": "One page hidden",
+      "expr": "collect(lambda p: {'items': ['a'], 'next': None})",
+      "expect": "['a']",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Empty hidden",
+      "expr": "collect(lambda p: {'items': [], 'next': None})",
+      "expect": "[]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Start at page 1, then follow the next value.",
+    "Loop while page is not None.",
+    "def collect(get):\n    items = []\n    page = 1\n    while page is not None:\n        data = get(page)\n        items.extend(data[\"items\"])\n        page = data[\"next\"]\n    return items\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Walk Every Page”?",
+  "xp": 30,
+  "skills": [
+    "http",
+    "pagination"
+  ],
+  "requires": [
+    "api-04-retry"
+  ],
+  "solution": "def collect(get):\n    items = []\n    page = 1\n    while page is not None:\n        data = get(page)\n        items.extend(data[\"items\"])\n        page = data[\"next\"]\n    return items\n",
+  "alt": "def collect(get):\n    items, page = [], 1\n    while page:\n        r = get(page)\n        items += r[\"items\"]\n        page = r[\"next\"]\n    return items\n"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "patch-02-path",
+  "region": "sec-patch",
+  "order": 2,
+  "title": "Patch: Stay in the Folder",
+  "story": "File names from users can climb out with ../ . Keep every read inside the uploads folder.",
+  "goal": "Write safe_path(base, name) returning the full path, or raising ValueError if it leaves base.",
+  "type": "fix-the-bug",
+  "starter": "import os\n\ndef safe_path(base, name):\n    return os.path.join(base, name)\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Normal file",
+      "expr": "safe_path('/srv/up', 'a.txt')",
+      "expect": "'/srv/up/a.txt'"
+    },
+    {
+      "kind": "raises",
+      "label": "Climbing out",
+      "expr": "safe_path('/srv/up', '../../etc/passwd')",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Absolute path hidden",
+      "expr": "safe_path('/srv/up', '/etc/passwd')",
+      "exc": "ValueError",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Sub folder hidden",
+      "expr": "safe_path('/srv/up', 'x/b.txt')",
+      "expect": "'/srv/up/x/b.txt'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "os.path.realpath or normpath removes the .. parts so you can compare.",
+    "After normalising, check the result still starts with base + a slash.",
+    "import os\n\ndef safe_path(base, name):\n    full = os.path.normpath(os.path.join(base, name))\n    if not full.startswith(base.rstrip(\"/\") + \"/\"):\n        raise ValueError(\"outside base\")\n    return full\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "security",
+    "paths"
+  ],
+  "requires": [
+    "patch-01-sql"
+  ],
+  "solution": "import os\n\ndef safe_path(base, name):\n    full = os.path.normpath(os.path.join(base, name))\n    if not full.startswith(base.rstrip(\"/\") + \"/\"):\n        raise ValueError(\"outside base\")\n    return full\n",
+  "alt": "import os\n\ndef safe_path(base, name):\n    full = os.path.normpath(os.path.join(base, name))\n    if os.path.commonpath([base, full]) != base:\n        raise ValueError(\"outside base\")\n    return full\n"
+}
