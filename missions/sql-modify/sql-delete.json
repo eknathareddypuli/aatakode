@@ -1,0 +1,109 @@
+{
+  "id": "sql-delete",
+  "region": "sql-modify",
+  "order": 3,
+  "title": "Clear the Sold Out",
+  "story": "Books with no copies left should leave the catalogue.",
+  "goal": "Delete every book that has 0 copies.",
+  "type": "sql",
+  "starter": "DELETE FROM books\n;",
+  "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);",
+  "tests": [
+    {
+      "kind": "after",
+      "label": "Only stocked books remain",
+      "query": "SELECT id FROM books ORDER BY id",
+      "expect": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "after",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Pipes and Pods','Naveen',2019,310.0,0),(8,'Tiny Query Tales','Bhavya',2025,95.0,3);",
+      "query": "SELECT id FROM books ORDER BY id",
+      "expect": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          8
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "after",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Loop de Loop','Suresh',2022,225.0,1); UPDATE books SET copies = copies + 2 WHERE id = 3;",
+      "query": "SELECT id FROM books ORDER BY id",
+      "expect": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          7
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "source",
+      "label": "Has a WHERE",
+      "pattern": "\\bWHERE\\b"
+    }
+  ],
+  "hints": [
+    "DELETE FROM table WHERE condition; removes matching rows.",
+    "Be careful: without WHERE, DELETE removes every row.",
+    "DELETE FROM books WHERE copies = 0;"
+  ],
+  "socratic": [
+    "Which rows must go?",
+    "What protects the other rows?",
+    "Compare the rows you got with the rows expected. What differs?"
+  ],
+  "explain": "In one sentence: what does your query do?",
+  "xp": 30,
+  "skills": [
+    "sql",
+    "delete"
+  ],
+  "requires": [
+    "sql-update"
+  ],
+  "solution": "DELETE FROM books WHERE copies = 0;",
+  "alt": "DELETE FROM books WHERE copies <= 0;"
+}

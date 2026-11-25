@@ -1,0 +1,140 @@
+{
+  "id": "sql-case",
+  "region": "sql-modify",
+  "order": 5,
+  "title": "Stock Labels",
+  "story": "Staff want a quick label per book: sold out, low (1 to 3 copies) or ok.",
+  "goal": "Show title and a status column: 'sold out' when copies = 0, 'low' when copies is 1 to 3, otherwise 'ok'.",
+  "type": "sql",
+  "starter": "SELECT title\nFROM books;",
+  "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);",
+  "tests": [
+    {
+      "kind": "rows",
+      "label": "Returns the right rows",
+      "expect": [
+        [
+          "Chilaka Learns Loops",
+          "ok"
+        ],
+        [
+          "The Banyan Algorithm",
+          "low"
+        ],
+        [
+          "Debugging the Monsoon",
+          "ok"
+        ],
+        [
+          "Seeds of Python",
+          "ok"
+        ],
+        [
+          "Night Shift SRE",
+          "sold out"
+        ]
+      ],
+      "ordered": false,
+      "cols": [
+        "title",
+        "status"
+      ]
+    },
+    {
+      "kind": "rows",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Pipes and Pods','Naveen',2019,310.0,0),(8,'Tiny Query Tales','Bhavya',2025,95.0,3);",
+      "expect": [
+        [
+          "Chilaka Learns Loops",
+          "ok"
+        ],
+        [
+          "The Banyan Algorithm",
+          "low"
+        ],
+        [
+          "Debugging the Monsoon",
+          "ok"
+        ],
+        [
+          "Seeds of Python",
+          "ok"
+        ],
+        [
+          "Night Shift SRE",
+          "sold out"
+        ],
+        [
+          "Pipes and Pods",
+          "sold out"
+        ],
+        [
+          "Tiny Query Tales",
+          "low"
+        ]
+      ],
+      "ordered": false
+    },
+    {
+      "kind": "rows",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Loop de Loop','Suresh',2022,225.0,1); UPDATE books SET copies = copies + 2 WHERE id = 3;",
+      "expect": [
+        [
+          "Chilaka Learns Loops",
+          "ok"
+        ],
+        [
+          "The Banyan Algorithm",
+          "low"
+        ],
+        [
+          "Debugging the Monsoon",
+          "ok"
+        ],
+        [
+          "Seeds of Python",
+          "ok"
+        ],
+        [
+          "Night Shift SRE",
+          "sold out"
+        ],
+        [
+          "Loop de Loop",
+          "low"
+        ]
+      ],
+      "ordered": false
+    },
+    {
+      "kind": "source",
+      "label": "Uses CASE",
+      "pattern": "\\bCASE\\b"
+    }
+  ],
+  "hints": [
+    "CASE WHEN condition THEN value ... ELSE value END builds a label per row.",
+    "Check copies = 0 first, then copies <= 3, then ELSE.",
+    "SELECT title, CASE WHEN copies = 0 THEN 'sold out' WHEN copies <= 3 THEN 'low' ELSE 'ok' END AS status FROM books;"
+  ],
+  "socratic": [
+    "Which condition should be checked first?",
+    "What does ELSE cover?",
+    "Compare the rows you got with the rows expected. What differs?"
+  ],
+  "explain": "In one sentence: what does your query do?",
+  "xp": 35,
+  "skills": [
+    "sql",
+    "case"
+  ],
+  "requires": [
+    "sql-create-table"
+  ],
+  "solution": "SELECT title, CASE WHEN copies = 0 THEN 'sold out' WHEN copies <= 3 THEN 'low' ELSE 'ok' END AS status FROM books;",
+  "alt": "SELECT title, CASE WHEN copies = 0 THEN 'sold out' WHEN copies BETWEEN 1 AND 3 THEN 'low' ELSE 'ok' END AS status FROM books;"
+}

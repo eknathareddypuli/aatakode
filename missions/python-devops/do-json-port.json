@@ -1,0 +1,59 @@
+{
+  "id": "do-json-port",
+  "region": "python-devops",
+  "order": 4,
+  "title": "JSON Settings",
+  "story": "Services ship their settings as JSON. Dig out the port, or fall back to 80.",
+  "goal": "Write get_port(text): parse the JSON text and return cfg[\"server\"][\"port\"]; return 80 if server or port is missing.",
+  "type": "write-code",
+  "starter": "import json\n\ndef get_port(text):\n    # use json.loads\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "present",
+      "expr": "get_port('{\"server\": {\"port\": 8443}}')",
+      "expect": "8443"
+    },
+    {
+      "kind": "eval",
+      "label": "no port",
+      "expr": "get_port('{\"server\": {}}')",
+      "expect": "80"
+    },
+    {
+      "kind": "eval",
+      "label": "no server",
+      "expr": "get_port('{}')",
+      "expect": "80",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "other keys",
+      "expr": "get_port('{\"name\": \"x\", \"server\": {\"port\": 9, \"tls\": true}}')",
+      "expect": "9",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "json.loads turns JSON text into dicts and lists.",
+    "dict.get(key, default) avoids KeyError.",
+    "import json\n\ndef get_port(text):\n    cfg = json.loads(text)\n    return cfg.get(\"server\", {}).get(\"port\", 80)\n"
+  ],
+  "socratic": [
+    "What does json.loads return?",
+    "What if a key is missing?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “JSON Settings”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "json"
+  ],
+  "requires": [
+    "do-parse-kv"
+  ],
+  "solution": "import json\n\ndef get_port(text):\n    cfg = json.loads(text)\n    return cfg.get(\"server\", {}).get(\"port\", 80)\n",
+  "alt": "import json\n\ndef get_port(text):\n    cfg = json.loads(text)\n    try:\n        return cfg[\"server\"][\"port\"]\n    except KeyError:\n        return 80\n"
+}

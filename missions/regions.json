@@ -11,6 +11,30 @@
       "title": "Debug the Outage",
       "title_te": "అంతరాయ పరిష్కారం",
       "blurb": "Fix broken servers in a simulated terminal."
+    },
+    {
+      "id": "career",
+      "title": "Career Boost",
+      "title_te": "కెరీర్ బూస్ట్",
+      "blurb": "Python for DevOps and interview practice."
+    },
+    {
+      "id": "sql",
+      "title": "SQL Market",
+      "title_te": "SQL సంత",
+      "blurb": "Ask databases questions in the Aata Market."
+    },
+    {
+      "id": "git",
+      "title": "Git Garden",
+      "title_te": "Git తోట",
+      "blurb": "Save, branch, merge and undo like a pro."
+    },
+    {
+      "id": "arena",
+      "title": "Arena",
+      "title_te": "అరేనా",
+      "blurb": "Golf, pair debugging, speed and the endless dungeon."
     }
   ],
   "regions": [
@@ -143,6 +167,126 @@
       "icon": "🚨",
       "place": "The Pager",
       "story": "A pager buzzes at 3 a.m. Fix the broken server before the village wakes."
+    },
+    {
+      "id": "sql-select",
+      "track": "sql",
+      "title": "Select and Filter",
+      "title_te": "ఎంచుకో, వడపోయి",
+      "blurb": "SELECT, WHERE, ORDER BY, LIMIT.",
+      "icon": "🔎",
+      "place": "The Ledger Hall",
+      "story": "The Aata Market keeps its records in tables. Learn to ask for exactly the rows you need."
+    },
+    {
+      "id": "sql-aggregate",
+      "track": "sql",
+      "title": "Count and Group",
+      "title_te": "లెక్కించు, సమూహం",
+      "blurb": "COUNT, SUM, AVG, GROUP BY, HAVING.",
+      "icon": "📊",
+      "place": "The Counting House",
+      "story": "The owner wants totals, averages and shelf reports. Let the database do the arithmetic."
+    },
+    {
+      "id": "sql-joins",
+      "track": "sql",
+      "title": "Join Tables",
+      "title_te": "పట్టికలు కలుపు",
+      "blurb": "JOIN, LEFT JOIN, subqueries.",
+      "icon": "🔗",
+      "place": "The Crossroads Bridge",
+      "story": "Customers, orders and products live apart. Build bridges between them."
+    },
+    {
+      "id": "sql-modify",
+      "track": "sql",
+      "title": "Change the Data",
+      "title_te": "డేటా మార్చు",
+      "blurb": "INSERT, UPDATE, DELETE, CREATE.",
+      "icon": "✏️",
+      "place": "The Library Desk",
+      "story": "The village library needs books added, repriced and removed. Careful: DELETE has no undo."
+    },
+    {
+      "id": "git-basics",
+      "track": "git",
+      "title": "Git Basics",
+      "title_te": "Git ప్రాథమికాలు",
+      "blurb": "init, add, commit, log, blame.",
+      "icon": "🌱",
+      "place": "The Seed Shed",
+      "story": "Every great garden keeps a diary. Learn to save snapshots of your work."
+    },
+    {
+      "id": "git-branches",
+      "track": "git",
+      "title": "Branches and Merges",
+      "title_te": "శాఖలు, విలీనం",
+      "blurb": "branch, switch, merge, conflicts.",
+      "icon": "🌿",
+      "place": "The Branching Orchard",
+      "story": "Grow new ideas on their own branches, then graft them back safely."
+    },
+    {
+      "id": "git-undo",
+      "track": "git",
+      "title": "Undo Anything",
+      "title_te": "ఏదైనా వెనక్కి",
+      "blurb": "restore, amend, revert, reflog, stash.",
+      "icon": "⏪",
+      "place": "The Time Well",
+      "story": "Mistakes happen. Git remembers where you have been."
+    },
+    {
+      "id": "python-devops",
+      "track": "career",
+      "title": "Python for DevOps",
+      "title_te": "DevOps కోసం Python",
+      "blurb": "Logs, configs, JSON, retries, reports.",
+      "icon": "🛠️",
+      "place": "The Night-Shift Workshop",
+      "story": "Real operators automate the boring parts. Parse logs, read configs and build small tools."
+    },
+    {
+      "id": "interview-prep",
+      "track": "career",
+      "title": "Interview Prep",
+      "title_te": "ఇంటర్వ్యూ సిద్ధత",
+      "blurb": "Classic questions, solved the Python way.",
+      "icon": "🎯",
+      "place": "The Interview Tent",
+      "story": "Two Sum, brackets, intervals: the questions every interviewer loves."
+    },
+    {
+      "id": "mystery-cases",
+      "track": "ops",
+      "title": "Mystery Cases",
+      "title_te": "రహస్య కేసులు",
+      "blurb": "Solve cases from clues in files and logs.",
+      "icon": "🕵️",
+      "place": "The Detective Hut",
+      "story": "Six cases, many witnesses. Follow the evidence with grep, sort, diff and cat."
+    },
+    {
+      "id": "golf-shrine",
+      "track": "arena",
+      "title": "Code Golf Shrine",
+      "title_te": "కోడ్ గోల్ఫ్ మందిరం",
+      "blurb": "Fewest characters wins.",
+      "icon": "⛳",
+      "place": "The Golf Shrine",
+      "story": "Eight holes. Solve first, then shrink your code and beat par."
+    },
+    {
+      "id": "pair-parrot",
+      "track": "arena",
+      "title": "Pair Parrot",
+      "title_te": "జత చిలుక",
+      "blurb": "Review a confident parrot's buggy code.",
+      "icon": "🦜",
+      "place": "The Pair Perch",
+      "story": "Chilaka wrote some code and is sure it is perfect. Work out what is wrong, then fix it."
     }
   ]
 }

@@ -1,0 +1,59 @@
+{
+  "id": "do-merge-config",
+  "region": "python-devops",
+  "order": 10,
+  "title": "Defaults and Overrides",
+  "story": "Every service has default settings, and each environment overrides a few. Combine them without damaging the defaults.",
+  "goal": "Write merge(defaults, overrides): return a NEW dict with the defaults, updated by the overrides. Do not change either input.",
+  "type": "write-code",
+  "starter": "def merge(defaults, overrides):\n    # return a new dict\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "override",
+      "expr": "merge({\"a\": 1, \"b\": 2}, {\"b\": 9})",
+      "expect": "{'a': 1, 'b': 9}"
+    },
+    {
+      "kind": "eval",
+      "label": "adds",
+      "expr": "merge({\"a\": 1}, {\"c\": 3})",
+      "expect": "{'a': 1, 'c': 3}"
+    },
+    {
+      "kind": "eval",
+      "label": "inputs untouched",
+      "expr": "(lambda d, o: (merge(d, o), d))({\"a\": 1}, {\"a\": 2})[1]",
+      "expect": "{'a': 1}",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty overrides",
+      "expr": "merge({\"x\": 1}, {})",
+      "expect": "{'x': 1}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Make a copy first: dict(defaults) or defaults.copy().",
+    "Then update the copy with the overrides and return it.",
+    "def merge(defaults, overrides):\n    result = dict(defaults)\n    result.update(overrides)\n    return result\n"
+  ],
+  "socratic": [
+    "What happens if you update defaults directly?",
+    "Which side wins on a clash?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Defaults and Overrides”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "dicts"
+  ],
+  "requires": [
+    "do-redact"
+  ],
+  "solution": "def merge(defaults, overrides):\n    result = dict(defaults)\n    result.update(overrides)\n    return result\n",
+  "alt": "def merge(defaults, overrides):\n    return {**defaults, **overrides}\n"
+}

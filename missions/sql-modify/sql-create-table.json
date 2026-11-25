@@ -1,0 +1,69 @@
+{
+  "id": "sql-create-table",
+  "region": "sql-modify",
+  "order": 4,
+  "title": "Members Register",
+  "story": "Start a membership list: create the table, then add the first member.",
+  "goal": "Create table members with columns id (INTEGER PRIMARY KEY), name (TEXT NOT NULL), joined (TEXT), then insert (1, 'Asha', '2025-08-01').",
+  "type": "sql",
+  "starter": "-- 1. CREATE TABLE members ...\n-- 2. INSERT the first member\n",
+  "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);",
+  "tests": [
+    {
+      "kind": "after",
+      "label": "Columns are id, name, joined",
+      "query": "SELECT name FROM pragma_table_info('members') ORDER BY cid",
+      "expect": [
+        [
+          "id"
+        ],
+        [
+          "name"
+        ],
+        [
+          "joined"
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "after",
+      "label": "The first member is stored",
+      "query": "SELECT id, name, joined FROM members",
+      "expect": [
+        [
+          1,
+          "Asha",
+          "2025-08-01"
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "source",
+      "label": "Name is NOT NULL",
+      "pattern": "NOT\\s+NULL"
+    }
+  ],
+  "hints": [
+    "CREATE TABLE name (column type, column type, ...);",
+    "NOT NULL and PRIMARY KEY go right after the type.",
+    "CREATE TABLE members (id INTEGER PRIMARY KEY, name TEXT NOT NULL, joined TEXT);\nINSERT INTO members VALUES (1, 'Asha', '2025-08-01');"
+  ],
+  "socratic": [
+    "Which three columns do you need?",
+    "How do you add a row afterwards?",
+    "Compare the rows you got with the rows expected. What differs?"
+  ],
+  "explain": "In one sentence: what does your query do?",
+  "xp": 35,
+  "skills": [
+    "sql",
+    "create"
+  ],
+  "requires": [
+    "sql-delete"
+  ],
+  "solution": "CREATE TABLE members (id INTEGER PRIMARY KEY, name TEXT NOT NULL, joined TEXT);\nINSERT INTO members VALUES (1, 'Asha', '2025-08-01');",
+  "alt": "CREATE TABLE members (id INTEGER PRIMARY KEY, name TEXT NOT NULL, joined TEXT);\nINSERT INTO members (id, name, joined) VALUES (1, 'Asha', '2025-08-01');"
+}

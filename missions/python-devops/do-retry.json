@@ -1,0 +1,58 @@
+{
+  "id": "do-retry",
+  "region": "python-devops",
+  "order": 11,
+  "title": "Try, Try Again",
+  "story": "Networks flake. Wrap a call so it is retried a few times before giving up.",
+  "goal": "Write retry(fn, times): call fn() until it works and return its result. If it still fails after `times` attempts, let the last error escape.",
+  "type": "write-code",
+  "starter": "def make_flaky(fail_times):\n    state = {\"calls\": 0}\n    def fn():\n        state[\"calls\"] += 1\n        if state[\"calls\"] <= fail_times:\n            raise ConnectionError(\"down\")\n        return \"ok after \" + str(state[\"calls\"])\n    return fn\n\ndef retry(fn, times):\n    # loop, try/except\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "works second time",
+      "expr": "retry(make_flaky(1), 3)",
+      "expect": "'ok after 2'"
+    },
+    {
+      "kind": "eval",
+      "label": "works first time",
+      "expr": "retry(make_flaky(0), 3)",
+      "expect": "'ok after 1'"
+    },
+    {
+      "kind": "raises",
+      "label": "gives up",
+      "expr": "retry(make_flaky(5), 3)",
+      "exc": "ConnectionError"
+    },
+    {
+      "kind": "eval",
+      "label": "exactly enough",
+      "expr": "retry(make_flaky(2), 3)",
+      "expect": "'ok after 3'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use a for loop over range(times) with try/except inside.",
+    "Remember the last error. After the loop, raise it.",
+    "def make_flaky(fail_times):\n    state = {\"calls\": 0}\n    def fn():\n        state[\"calls\"] += 1\n        if state[\"calls\"] <= fail_times:\n            raise ConnectionError(\"down\")\n        return \"ok after \" + str(state[\"calls\"])\n    return fn\n\ndef retry(fn, times):\n    last = None\n    for _ in range(times):\n        try:\n            return fn()\n        except Exception as e:\n            last = e\n    raise last\n"
+  ],
+  "socratic": [
+    "When should the loop stop early?",
+    "What should happen after the last failure?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Try, Try Again”?",
+  "xp": 40,
+  "skills": [
+    "devops",
+    "errors"
+  ],
+  "requires": [
+    "do-merge-config"
+  ],
+  "solution": "def make_flaky(fail_times):\n    state = {\"calls\": 0}\n    def fn():\n        state[\"calls\"] += 1\n        if state[\"calls\"] <= fail_times:\n            raise ConnectionError(\"down\")\n        return \"ok after \" + str(state[\"calls\"])\n    return fn\n\ndef retry(fn, times):\n    last = None\n    for _ in range(times):\n        try:\n            return fn()\n        except Exception as e:\n            last = e\n    raise last\n",
+  "alt": "def make_flaky(fail_times):\n    state = {\"calls\": 0}\n    def fn():\n        state[\"calls\"] += 1\n        if state[\"calls\"] <= fail_times:\n            raise ConnectionError(\"down\")\n        return \"ok after \" + str(state[\"calls\"])\n    return fn\n\ndef retry(fn, times):\n    attempt = 1\n    while True:\n        try:\n            return fn()\n        except Exception:\n            if attempt >= times:\n                raise\n            attempt += 1\n"
+}

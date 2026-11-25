@@ -1,0 +1,53 @@
+{
+  "id": "do-group-by",
+  "region": "python-devops",
+  "order": 13,
+  "title": "Group the Logs by Service",
+  "story": "Log lines look like service:message. Group the messages per service.",
+  "goal": "Write group_by(entries): return a dict mapping each service to the list of its messages, in order.",
+  "type": "write-code",
+  "starter": "def group_by(entries):\n    # split each entry on the first colon\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "two services",
+      "expr": "sorted(group_by([\"db:slow\", \"web:ok\", \"db:down\"]).items())",
+      "expect": "[('db', ['slow', 'down']), ('web', ['ok'])]"
+    },
+    {
+      "kind": "eval",
+      "label": "message with colon",
+      "expr": "group_by([\"a:x:y\"])",
+      "expect": "{'a': ['x:y']}",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "group_by([])",
+      "expect": "{}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use split(\":\", 1) to get the service and the rest.",
+    "dict.setdefault(service, []).append(message)",
+    "def group_by(entries):\n    groups = {}\n    for entry in entries:\n        service, message = entry.split(\":\", 1)\n        groups.setdefault(service, []).append(message)\n    return groups\n"
+  ],
+  "socratic": [
+    "What is the key and what is the value?",
+    "What if a service appears for the first time?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Group the Logs by Service”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "dicts"
+  ],
+  "requires": [
+    "do-human-size"
+  ],
+  "solution": "def group_by(entries):\n    groups = {}\n    for entry in entries:\n        service, message = entry.split(\":\", 1)\n        groups.setdefault(service, []).append(message)\n    return groups\n",
+  "alt": "def group_by(entries):\n    groups = {}\n    for e in entries:\n        s, m = e.split(\":\", 1)\n        if s not in groups:\n            groups[s] = []\n        groups[s].append(m)\n    return groups\n"
+}

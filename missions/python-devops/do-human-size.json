@@ -1,0 +1,59 @@
+{
+  "id": "do-human-size",
+  "region": "python-devops",
+  "order": 12,
+  "title": "Bytes for Humans",
+  "story": "df says 1610612736. Nobody reads that.",
+  "goal": "Write human(n): return the size with one decimal and the unit B, KB, MB or GB (1024 per step), like \"1.5 GB\" or \"512.0 B\".",
+  "type": "write-code",
+  "starter": "def human(n):\n    # divide by 1024 while n >= 1024\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "gb",
+      "expr": "human(1610612736)",
+      "expect": "'1.5 GB'"
+    },
+    {
+      "kind": "eval",
+      "label": "mb",
+      "expr": "human(5 * 1024 * 1024)",
+      "expect": "'5.0 MB'"
+    },
+    {
+      "kind": "eval",
+      "label": "bytes",
+      "expr": "human(512)",
+      "expect": "'512.0 B'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "kb",
+      "expr": "human(2048)",
+      "expect": "'2.0 KB'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Keep a list of units and divide while the number is 1024 or more.",
+    "Format with f\"{n:.1f} {unit}\".",
+    "def human(n):\n    units = [\"B\", \"KB\", \"MB\", \"GB\"]\n    i = 0\n    n = float(n)\n    while n >= 1024 and i < len(units) - 1:\n        n /= 1024\n        i += 1\n    return f\"{n:.1f} {units[i]}\"\n"
+  ],
+  "socratic": [
+    "When do you switch to the next unit?",
+    "How many decimals?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Bytes for Humans”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "math"
+  ],
+  "requires": [
+    "do-retry"
+  ],
+  "solution": "def human(n):\n    units = [\"B\", \"KB\", \"MB\", \"GB\"]\n    i = 0\n    n = float(n)\n    while n >= 1024 and i < len(units) - 1:\n        n /= 1024\n        i += 1\n    return f\"{n:.1f} {units[i]}\"\n",
+  "alt": "def human(n):\n    for unit in [\"B\", \"KB\", \"MB\"]:\n        if n < 1024:\n            return \"%.1f %s\" % (n, unit)\n        n = n / 1024\n    return \"%.1f GB\" % n\n"
+}

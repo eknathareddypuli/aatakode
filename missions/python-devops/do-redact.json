@@ -1,0 +1,59 @@
+{
+  "id": "do-redact",
+  "region": "python-devops",
+  "order": 9,
+  "title": "Hide the Password",
+  "story": "Logs must never contain passwords. Mask them before they are shipped.",
+  "goal": "Write redact(line): replace the value after password= with **** (the value ends at a space or the end of the line).",
+  "type": "write-code",
+  "starter": "import re\n\ndef redact(line):\n    # use re.sub\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "middle",
+      "expr": "redact(\"user=asha password=s3cret ip=1.1.1.1\")",
+      "expect": "'user=asha password=**** ip=1.1.1.1'"
+    },
+    {
+      "kind": "eval",
+      "label": "end",
+      "expr": "redact(\"login password=abc123\")",
+      "expect": "'login password=****'"
+    },
+    {
+      "kind": "eval",
+      "label": "no password",
+      "expr": "redact(\"nothing here\")",
+      "expect": "'nothing here'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "twice",
+      "expr": "redact(\"password=a password=b\")",
+      "expect": "'password=**** password=****'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A regular expression can find password= followed by non-space characters.",
+    "re.sub(r\"password=\\S+\", \"password=****\", line)",
+    "import re\n\ndef redact(line):\n    return re.sub(r\"password=\\S+\", \"password=****\", line)\n"
+  ],
+  "socratic": [
+    "What marks the start of the secret?",
+    "Where does it end?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Hide the Password”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "regex"
+  ],
+  "requires": [
+    "do-top-ip"
+  ],
+  "solution": "import re\n\ndef redact(line):\n    return re.sub(r\"password=\\S+\", \"password=****\", line)\n",
+  "alt": "def redact(line):\n    words = line.split(\" \")\n    out = []\n    for w in words:\n        out.append(\"password=****\" if w.startswith(\"password=\") else w)\n    return \" \".join(out)\n"
+}

@@ -63,5 +63,16 @@
     "f-methods"
   ],
   "solution": "word = input().lower()\ncount = 0\nfor ch in word:\n    if ch in \"aeiou\":\n        count += 1\nprint(count)\n",
-  "alt": "word = input().lower()\nprint(sum(1 for ch in word if ch in \"aeiou\"))\n"
+  "alt": "word = input().lower()\nprint(sum(1 for ch in word if ch in \"aeiou\"))\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: count the letter a",
+      "code": "count = 0\nfor ch in \"banana\":\n    if ch == \"a\":\n        count += 1\nprint(count)\n",
+      "note": "Loop over the text, test each character, count the matches."
+    },
+    "partial": "word = input().lower()\ncount = 0\nfor ch in word:\n    if ch in \"aeiou\":\n        ____\nprint(count)\n",
+    "blanks": [
+      "count += 1"
+    ]
+  }
 }

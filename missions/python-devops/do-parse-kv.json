@@ -1,0 +1,59 @@
+{
+  "id": "do-parse-kv",
+  "region": "python-devops",
+  "order": 3,
+  "title": "Read a Config",
+  "story": "Config files are just KEY=VALUE lines. Turn one into a dictionary.",
+  "goal": "Write parse_kv(text): return a dict of key to value (both text). Ignore blank lines and lines starting with #.",
+  "type": "write-code",
+  "starter": "def parse_kv(text):\n    # parse KEY=VALUE lines\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "basic",
+      "expr": "parse_kv(\"a=1\\nb=two\")",
+      "expect": "{'a': '1', 'b': 'two'}"
+    },
+    {
+      "kind": "eval",
+      "label": "comments",
+      "expr": "parse_kv(\"# note\\nport=80\\n\\nhost=x\")",
+      "expect": "{'port': '80', 'host': 'x'}"
+    },
+    {
+      "kind": "eval",
+      "label": "value with equals",
+      "expr": "parse_kv(\"url=a=b\")",
+      "expect": "{'url': 'a=b'}",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "parse_kv(\"\")",
+      "expect": "{}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "splitlines() gives you the lines. Skip empty ones and the ones that start with #.",
+    "Use line.split(\"=\", 1) so only the first = splits.",
+    "def parse_kv(text):\n    cfg = {}\n    for line in text.splitlines():\n        line = line.strip()\n        if not line or line.startswith(\"#\"):\n            continue\n        key, value = line.split(\"=\", 1)\n        cfg[key] = value\n    return cfg\n"
+  ],
+  "socratic": [
+    "Which lines must be skipped?",
+    "Why split only once?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Read a Config”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "strings"
+  ],
+  "requires": [
+    "do-status-counts"
+  ],
+  "solution": "def parse_kv(text):\n    cfg = {}\n    for line in text.splitlines():\n        line = line.strip()\n        if not line or line.startswith(\"#\"):\n            continue\n        key, value = line.split(\"=\", 1)\n        cfg[key] = value\n    return cfg\n",
+  "alt": "def parse_kv(text):\n    pairs = [l.split(\"=\", 1) for l in text.splitlines() if l.strip() and not l.strip().startswith(\"#\")]\n    return {k: v for k, v in pairs}\n"
+}

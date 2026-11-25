@@ -54,5 +54,16 @@
     "o-initials"
   ],
   "solution": "sentence = input()\nwords = sentence.split()\nfixed = []\nfor w in words:\n    fixed.append(w.capitalize())\nprint(\" \".join(fixed))\n",
-  "alt": "print(input().title())\n"
+  "alt": "print(input().title())\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: shout every word",
+      "code": "words = \"go team go\".split()\nprint(\" \".join(w.upper() for w in words))\n",
+      "note": "split() cuts text into words; join() glues them back together."
+    },
+    "partial": "sentence = input()\nwords = sentence.split()\n____\nfor w in words:\n    fixed.append(w.capitalize())\nprint(\" \".join(fixed))\n",
+    "blanks": [
+      "fixed = []"
+    ]
+  }
 }

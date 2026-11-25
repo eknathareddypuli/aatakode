@@ -1,0 +1,139 @@
+{
+  "id": "sql-update",
+  "region": "sql-modify",
+  "order": 2,
+  "title": "Price Rise",
+  "story": "Older books cost more to keep. Raise the price of every book published before 2023 by 10%.",
+  "goal": "Increase price by 10% for books with year below 2023. Leave others alone.",
+  "type": "sql",
+  "starter": "UPDATE books\nSET price = price * 1.10\n;",
+  "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);",
+  "tests": [
+    {
+      "kind": "after",
+      "label": "Prices are right",
+      "query": "SELECT id, ROUND(price, 2) FROM books ORDER BY id",
+      "expect": [
+        [
+          1,
+          199.0
+        ],
+        [
+          2,
+          383.9
+        ],
+        [
+          3,
+          275.0
+        ],
+        [
+          4,
+          165.0
+        ],
+        [
+          5,
+          462.0
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "after",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Pipes and Pods','Naveen',2019,310.0,0),(8,'Tiny Query Tales','Bhavya',2025,95.0,3);",
+      "query": "SELECT id, ROUND(price, 2) FROM books ORDER BY id",
+      "expect": [
+        [
+          1,
+          199.0
+        ],
+        [
+          2,
+          383.9
+        ],
+        [
+          3,
+          275.0
+        ],
+        [
+          4,
+          165.0
+        ],
+        [
+          5,
+          462.0
+        ],
+        [
+          7,
+          341.0
+        ],
+        [
+          8,
+          95.0
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "after",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Loop de Loop','Suresh',2022,225.0,1); UPDATE books SET copies = copies + 2 WHERE id = 3;",
+      "query": "SELECT id, ROUND(price, 2) FROM books ORDER BY id",
+      "expect": [
+        [
+          1,
+          199.0
+        ],
+        [
+          2,
+          383.9
+        ],
+        [
+          3,
+          275.0
+        ],
+        [
+          4,
+          165.0
+        ],
+        [
+          5,
+          462.0
+        ],
+        [
+          7,
+          247.5
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "source",
+      "label": "Has a WHERE",
+      "pattern": "\\bWHERE\\b"
+    }
+  ],
+  "hints": [
+    "UPDATE table SET column = new value WHERE condition;",
+    "A 10% rise means multiplying by 1.10.",
+    "UPDATE books SET price = price * 1.10 WHERE year < 2023;"
+  ],
+  "socratic": [
+    "What would happen without WHERE?",
+    "Which years count?",
+    "Compare the rows you got with the rows expected. What differs?"
+  ],
+  "explain": "In one sentence: what does your query do?",
+  "xp": 30,
+  "skills": [
+    "sql",
+    "update"
+  ],
+  "requires": [
+    "sql-insert"
+  ],
+  "solution": "UPDATE books SET price = price * 1.10 WHERE year < 2023;",
+  "alt": "UPDATE books SET price = price * 1.1 WHERE year < 2023;"
+}

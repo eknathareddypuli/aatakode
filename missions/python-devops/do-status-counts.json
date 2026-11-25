@@ -1,0 +1,59 @@
+{
+  "id": "do-status-counts",
+  "region": "python-devops",
+  "order": 2,
+  "title": "Status Code Tally",
+  "story": "The load balancer logs one request per line: METHOD PATH STATUS. Management wants a count per status code.",
+  "goal": "Write status_counts(lines): return a dict mapping each status code (as text) to how many times it appears.",
+  "type": "write-code",
+  "starter": "def status_counts(lines):\n    # last word of each line is the status\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "tally",
+      "expr": "sorted(status_counts([\"GET / 200\", \"GET /x 404\", \"POST /a 200\"]).items())",
+      "expect": "[('200', 2), ('404', 1)]"
+    },
+    {
+      "kind": "eval",
+      "label": "single",
+      "expr": "status_counts([\"GET / 500\"])",
+      "expect": "{'500': 1}"
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "status_counts([])",
+      "expect": "{}",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "many",
+      "expr": "sorted(status_counts([\"A /a 301\", \"B /b 301\", \"C /c 301\"]).items())",
+      "expect": "[('301', 3)]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "split() turns a line into words. Which word holds the status?",
+    "Use counts[code] = counts.get(code, 0) + 1.",
+    "def status_counts(lines):\n    counts = {}\n    for line in lines:\n        code = line.split()[-1]\n        counts[code] = counts.get(code, 0) + 1\n    return counts\n"
+  ],
+  "socratic": [
+    "Which word is the status?",
+    "What do you do the first time you see a code?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Status Code Tally”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "dicts"
+  ],
+  "requires": [
+    "do-count-errors"
+  ],
+  "solution": "def status_counts(lines):\n    counts = {}\n    for line in lines:\n        code = line.split()[-1]\n        counts[code] = counts.get(code, 0) + 1\n    return counts\n",
+  "alt": "def status_counts(lines):\n    counts = {}\n    for line in lines:\n        code = line.split()[2]\n        if code in counts:\n            counts[code] += 1\n        else:\n            counts[code] = 1\n    return counts\n"
+}

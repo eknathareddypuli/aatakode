@@ -1,0 +1,60 @@
+{
+  "id": "do-boss-healthcheck",
+  "region": "python-devops",
+  "order": 14,
+  "title": "Boss: The Lying Health Check",
+  "story": "The health checker says everything is fine while two services are down. The code has three bugs.",
+  "goal": "Fix health_report(services): services is a dict name -> status code. Return a sorted list of names whose status is NOT in the 200s (200 to 299 are healthy).",
+  "type": "fix-the-bug",
+  "starter": "def health_report(services):\n    down = []\n    for name in services:\n        if services[name] == 200:\n            down.append(name)\n    return down.sort\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "two down",
+      "expr": "health_report({\"web\": 200, \"db\": 503, \"cache\": 500, \"api\": 204})",
+      "expect": "['cache', 'db']"
+    },
+    {
+      "kind": "eval",
+      "label": "all fine",
+      "expr": "health_report({\"a\": 200, \"b\": 201})",
+      "expect": "[]"
+    },
+    {
+      "kind": "eval",
+      "label": "redirect is down",
+      "expr": "health_report({\"a\": 301})",
+      "expect": "['a']",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "boundary",
+      "expr": "health_report({\"x\": 299, \"y\": 300})",
+      "expect": "['y']",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Run it with a dict. What does it return? .sort without brackets is not a call, and it returns None anyway.",
+    "A healthy status is 200 <= code < 300. You want the services that are NOT healthy.",
+    "def health_report(services):\n    down = []\n    for name in services:\n        if not (200 <= services[name] < 300):\n            down.append(name)\n    return sorted(down)\n"
+  ],
+  "socratic": [
+    "Which services should be in the answer?",
+    "What does list.sort() return?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 50,
+  "skills": [
+    "devops",
+    "debugging"
+  ],
+  "requires": [
+    "do-group-by"
+  ],
+  "solution": "def health_report(services):\n    down = []\n    for name in services:\n        if not (200 <= services[name] < 300):\n            down.append(name)\n    return sorted(down)\n",
+  "alt": "def health_report(services):\n    return sorted(n for n, code in services.items() if code < 200 or code >= 300)\n",
+  "boss": true
+}

@@ -1,0 +1,52 @@
+{
+  "id": "do-top-ip",
+  "region": "python-devops",
+  "order": 8,
+  "title": "Noisiest Visitor",
+  "story": "One address is hammering the login page. Which one?",
+  "goal": "Write top_ip(lines): each line starts with an IP address; return the IP that appears most often.",
+  "type": "write-code",
+  "starter": "def top_ip(lines):\n    # count the first word\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "clear winner",
+      "expr": "top_ip([\"1.1.1.1 GET /\", \"2.2.2.2 GET /\", \"2.2.2.2 POST /login\", \"2.2.2.2 GET /\"])",
+      "expect": "'2.2.2.2'"
+    },
+    {
+      "kind": "eval",
+      "label": "single",
+      "expr": "top_ip([\"9.9.9.9 GET /\"])",
+      "expect": "'9.9.9.9'"
+    },
+    {
+      "kind": "eval",
+      "label": "later winner",
+      "expr": "top_ip([\"a x\", \"b x\", \"b x\", \"c x\", \"b x\", \"a x\"])",
+      "expect": "'b'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Count with a dict first.",
+    "max(counts, key=counts.get) returns the key with the biggest value.",
+    "def top_ip(lines):\n    counts = {}\n    for line in lines:\n        ip = line.split()[0]\n        counts[ip] = counts.get(ip, 0) + 1\n    return max(counts, key=counts.get)\n"
+  ],
+  "socratic": [
+    "What do you count?",
+    "How do you pick the biggest count?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Noisiest Visitor”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "dicts"
+  ],
+  "requires": [
+    "do-uptime"
+  ],
+  "solution": "def top_ip(lines):\n    counts = {}\n    for line in lines:\n        ip = line.split()[0]\n        counts[ip] = counts.get(ip, 0) + 1\n    return max(counts, key=counts.get)\n",
+  "alt": "from collections import Counter\n\ndef top_ip(lines):\n    return Counter(l.split()[0] for l in lines).most_common(1)[0][0]\n"
+}

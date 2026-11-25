@@ -1,0 +1,59 @@
+{
+  "id": "do-threshold",
+  "region": "python-devops",
+  "order": 5,
+  "title": "CPU Alarm",
+  "story": "Monitoring samples CPU every minute. Find the minutes where it went over the limit.",
+  "goal": "Write over_limit(values, limit): return the list of positions (0-based) whose value is greater than limit.",
+  "type": "write-code",
+  "starter": "def over_limit(values, limit):\n    # return indexes above limit\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "two",
+      "expr": "over_limit([10, 95, 40, 99], 90)",
+      "expect": "[1, 3]"
+    },
+    {
+      "kind": "eval",
+      "label": "none",
+      "expr": "over_limit([1, 2, 3], 50)",
+      "expect": "[]"
+    },
+    {
+      "kind": "eval",
+      "label": "equal is ok",
+      "expr": "over_limit([90, 91], 90)",
+      "expect": "[1]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "over_limit([], 5)",
+      "expect": "[]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "enumerate gives you the position and the value together.",
+    "Greater than, not greater or equal.",
+    "def over_limit(values, limit):\n    hits = []\n    for i, v in enumerate(values):\n        if v > limit:\n            hits.append(i)\n    return hits\n"
+  ],
+  "socratic": [
+    "What do you need besides the value?",
+    "Is a value equal to the limit over it?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “CPU Alarm”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "lists"
+  ],
+  "requires": [
+    "do-json-port"
+  ],
+  "solution": "def over_limit(values, limit):\n    hits = []\n    for i, v in enumerate(values):\n        if v > limit:\n            hits.append(i)\n    return hits\n",
+  "alt": "def over_limit(values, limit):\n    return [i for i, v in enumerate(values) if v > limit]\n"
+}

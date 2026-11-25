@@ -1,0 +1,140 @@
+{
+  "id": "sql-update-fix",
+  "region": "sql-modify",
+  "order": 6,
+  "title": "Boss: The Wipe-Out",
+  "story": "A sale just ended for 'Debugging the Monsoon' (id 3). The intern's query would zero the copies of EVERY book. Stop the disaster.",
+  "goal": "Fix the query so only book id 3 gets copies = 0.",
+  "type": "sql",
+  "starter": "UPDATE books\nSET copies = 0;",
+  "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);",
+  "tests": [
+    {
+      "kind": "after",
+      "label": "Only book 3 changed",
+      "query": "SELECT id, copies FROM books ORDER BY id",
+      "expect": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "after",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Pipes and Pods','Naveen',2019,310.0,0),(8,'Tiny Query Tales','Bhavya',2025,95.0,3);",
+      "query": "SELECT id, copies FROM books ORDER BY id",
+      "expect": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          3
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "after",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, year INTEGER, price REAL, copies INTEGER DEFAULT 1);\nINSERT INTO books VALUES (1,'Chilaka Learns Loops','Asha',2023,199.0,4),(2,'The Banyan Algorithm','Ravi',2021,349.0,2),(3,'Debugging the Monsoon','Meena',2024,275.0,6),(4,'Seeds of Python','Kiran',2022,150.0,10),(5,'Night Shift SRE','Lakshmi',2020,420.0,0);\nINSERT INTO books VALUES (7,'Loop de Loop','Suresh',2022,225.0,1); UPDATE books SET copies = copies + 2 WHERE id = 3;",
+      "query": "SELECT id, copies FROM books ORDER BY id",
+      "expect": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "source",
+      "label": "Has a WHERE",
+      "pattern": "\\bWHERE\\b"
+    }
+  ],
+  "hints": [
+    "Run the starter on a copy of your thinking: which rows would it change? All of them.",
+    "Add a WHERE clause that matches only id 3.",
+    "UPDATE books SET copies = 0 WHERE id = 3;"
+  ],
+  "socratic": [
+    "Which rows does the starter touch?",
+    "How do you pick exactly one row?",
+    "Compare the rows you got with the rows expected. What differs?"
+  ],
+  "explain": "In one sentence: what was wrong with the query, and how did you fix it?",
+  "xp": 50,
+  "skills": [
+    "sql",
+    "debugging"
+  ],
+  "requires": [
+    "sql-case"
+  ],
+  "solution": "UPDATE books SET copies = 0 WHERE id = 3;",
+  "alt": "UPDATE books SET copies = 0 WHERE title = 'Debugging the Monsoon';",
+  "boss": true
+}

@@ -1,0 +1,59 @@
+{
+  "id": "do-count-errors",
+  "region": "python-devops",
+  "order": 1,
+  "title": "Count the Errors",
+  "story": "Dawn on-call. The log file has hundreds of lines and you only need the number of ERROR lines.",
+  "goal": "Write count_errors(lines): return how many lines contain the word ERROR.",
+  "type": "write-code",
+  "starter": "def count_errors(lines):\n    # count lines containing ERROR\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "2 errors",
+      "expr": "count_errors([\"INFO ok\", \"ERROR disk\", \"WARN slow\", \"ERROR db\"])",
+      "expect": "2"
+    },
+    {
+      "kind": "eval",
+      "label": "none",
+      "expr": "count_errors([\"INFO a\", \"INFO b\"])",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "count_errors([])",
+      "expect": "0",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "case matters",
+      "expr": "count_errors([\"error lower\", \"ERROR up\"])",
+      "expect": "1",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Loop over the lines and check each one with the in operator.",
+    "Keep a counter. Add 1 when \"ERROR\" in line.",
+    "def count_errors(lines):\n    n = 0\n    for line in lines:\n        if \"ERROR\" in line:\n            n += 1\n    return n\n"
+  ],
+  "socratic": [
+    "What do you check for each line?",
+    "What should happen when the list is empty?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Count the Errors”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "loops"
+  ],
+  "requires": [
+    "py-16-bugfix-5"
+  ],
+  "solution": "def count_errors(lines):\n    n = 0\n    for line in lines:\n        if \"ERROR\" in line:\n            n += 1\n    return n\n",
+  "alt": "def count_errors(lines):\n    return sum(1 for line in lines if \"ERROR\" in line)\n"
+}

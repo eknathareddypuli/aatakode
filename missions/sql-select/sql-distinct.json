@@ -1,0 +1,109 @@
+{
+  "id": "sql-distinct",
+  "region": "sql-select",
+  "order": 4,
+  "title": "Which Shelves?",
+  "story": "How many different categories does the market sell? Repeats make the list long.",
+  "goal": "List each category once, in alphabetical order.",
+  "type": "sql",
+  "starter": "SELECT category FROM products;",
+  "setup": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, stock INTEGER);\nINSERT INTO products VALUES (1,'Mango','fruit',40.0,120),(2,'Banana','fruit',12.0,300),(3,'Rice 5kg','grain',320.0,45),(4,'Dal 1kg','grain',140.0,80),(5,'Ghee','dairy',560.0,20),(6,'Milk','dairy',28.0,200),(7,'Jaggery','sweet',90.0,0),(8,'Tamarind','spice',60.0,35),(9,'Turmeric','spice',45.0,60),(10,'Coconut','fruit',25.0,150);\nCREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, joined TEXT);\nINSERT INTO customers VALUES (1,'Asha','Hyderabad','2025-01-10'),(2,'Ravi','Vijayawada','2025-02-14'),(3,'Meena','Hyderabad','2025-03-02'),(4,'Kiran','Guntur','2025-03-20'),(5,'Lakshmi','Tirupati','2025-04-05'),(6,'Suresh',NULL,'2025-05-18'),(7,'Divya','Vijayawada','2025-06-01');\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, product_id INTEGER, qty INTEGER, order_date TEXT, status TEXT);\nINSERT INTO orders VALUES (1,1,1,3,'2025-06-01','delivered'),(2,1,3,1,'2025-06-03','delivered'),(3,2,2,12,'2025-06-03','delivered'),(4,2,5,1,'2025-06-10','cancelled'),(5,3,4,2,'2025-06-11','delivered'),(6,3,1,5,'2025-06-12','pending'),(7,4,6,10,'2025-06-15','delivered'),(8,4,9,2,'2025-06-16','delivered'),(9,5,10,6,'2025-06-18','pending'),(10,1,6,4,'2025-06-20','delivered'),(11,3,5,1,'2025-06-21','delivered'),(12,5,8,3,'2025-06-22','cancelled'),(13,2,1,2,'2025-06-25','delivered'),(14,6,3,1,'2025-06-26','pending');",
+  "tests": [
+    {
+      "kind": "rows",
+      "label": "Returns the right rows",
+      "expect": [
+        [
+          "dairy"
+        ],
+        [
+          "fruit"
+        ],
+        [
+          "grain"
+        ],
+        [
+          "spice"
+        ],
+        [
+          "sweet"
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "rows",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, stock INTEGER);\nINSERT INTO products VALUES (1,'Mango','fruit',40.0,120),(2,'Banana','fruit',12.0,300),(3,'Rice 5kg','grain',320.0,45),(4,'Dal 1kg','grain',140.0,80),(5,'Ghee','dairy',560.0,20),(6,'Milk','dairy',28.0,200),(7,'Jaggery','sweet',90.0,0),(8,'Tamarind','spice',60.0,35),(9,'Turmeric','spice',45.0,60),(10,'Coconut','fruit',25.0,150);\nCREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, joined TEXT);\nINSERT INTO customers VALUES (1,'Asha','Hyderabad','2025-01-10'),(2,'Ravi','Vijayawada','2025-02-14'),(3,'Meena','Hyderabad','2025-03-02'),(4,'Kiran','Guntur','2025-03-20'),(5,'Lakshmi','Tirupati','2025-04-05'),(6,'Suresh',NULL,'2025-05-18'),(7,'Divya','Vijayawada','2025-06-01');\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, product_id INTEGER, qty INTEGER, order_date TEXT, status TEXT);\nINSERT INTO orders VALUES (1,1,1,3,'2025-06-01','delivered'),(2,1,3,1,'2025-06-03','delivered'),(3,2,2,12,'2025-06-03','delivered'),(4,2,5,1,'2025-06-10','cancelled'),(5,3,4,2,'2025-06-11','delivered'),(6,3,1,5,'2025-06-12','pending'),(7,4,6,10,'2025-06-15','delivered'),(8,4,9,2,'2025-06-16','delivered'),(9,5,10,6,'2025-06-18','pending'),(10,1,6,4,'2025-06-20','delivered'),(11,3,5,1,'2025-06-21','delivered'),(12,5,8,3,'2025-06-22','cancelled'),(13,2,1,2,'2025-06-25','delivered'),(14,6,3,1,'2025-06-26','pending');\nINSERT INTO products VALUES (11,'Honey','sweet',210.0,15),(12,'Cardamom','spice',900.0,5); UPDATE products SET stock = stock + 10 WHERE category = 'dairy'; INSERT INTO customers VALUES (8,'Naveen','Guntur','2025-07-01'),(9,'Bhavya',NULL,'2025-07-02'); INSERT INTO orders VALUES (15,8,11,2,'2025-07-03','delivered'),(16,9,12,1,'2025-07-04','delivered'),(17,1,12,2,'2025-07-05','pending');",
+      "expect": [
+        [
+          "dairy"
+        ],
+        [
+          "fruit"
+        ],
+        [
+          "grain"
+        ],
+        [
+          "spice"
+        ],
+        [
+          "sweet"
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "rows",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, stock INTEGER);\nINSERT INTO products VALUES (1,'Mango','fruit',40.0,120),(2,'Banana','fruit',12.0,300),(3,'Rice 5kg','grain',320.0,45),(4,'Dal 1kg','grain',140.0,80),(5,'Ghee','dairy',560.0,20),(6,'Milk','dairy',28.0,200),(7,'Jaggery','sweet',90.0,0),(8,'Tamarind','spice',60.0,35),(9,'Turmeric','spice',45.0,60),(10,'Coconut','fruit',25.0,150);\nCREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, joined TEXT);\nINSERT INTO customers VALUES (1,'Asha','Hyderabad','2025-01-10'),(2,'Ravi','Vijayawada','2025-02-14'),(3,'Meena','Hyderabad','2025-03-02'),(4,'Kiran','Guntur','2025-03-20'),(5,'Lakshmi','Tirupati','2025-04-05'),(6,'Suresh',NULL,'2025-05-18'),(7,'Divya','Vijayawada','2025-06-01');\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, product_id INTEGER, qty INTEGER, order_date TEXT, status TEXT);\nINSERT INTO orders VALUES (1,1,1,3,'2025-06-01','delivered'),(2,1,3,1,'2025-06-03','delivered'),(3,2,2,12,'2025-06-03','delivered'),(4,2,5,1,'2025-06-10','cancelled'),(5,3,4,2,'2025-06-11','delivered'),(6,3,1,5,'2025-06-12','pending'),(7,4,6,10,'2025-06-15','delivered'),(8,4,9,2,'2025-06-16','delivered'),(9,5,10,6,'2025-06-18','pending'),(10,1,6,4,'2025-06-20','delivered'),(11,3,5,1,'2025-06-21','delivered'),(12,5,8,3,'2025-06-22','cancelled'),(13,2,1,2,'2025-06-25','delivered'),(14,6,3,1,'2025-06-26','pending');\nDELETE FROM orders WHERE id IN (1,5,9); UPDATE products SET price = price * 2 WHERE id IN (2,6,8); INSERT INTO products VALUES (11,'Pepper','spice',75.0,40); INSERT INTO orders VALUES (15,6,11,4,'2025-07-01','delivered');",
+      "expect": [
+        [
+          "dairy"
+        ],
+        [
+          "fruit"
+        ],
+        [
+          "grain"
+        ],
+        [
+          "spice"
+        ],
+        [
+          "sweet"
+        ]
+      ],
+      "ordered": true
+    },
+    {
+      "kind": "source",
+      "label": "Uses DISTINCT or GROUP BY",
+      "pattern": "\\bDISTINCT\\b|\\bGROUP\\s+BY\\b"
+    }
+  ],
+  "hints": [
+    "DISTINCT removes repeated rows from the result.",
+    "Add ORDER BY category at the end to sort A to Z.",
+    "SELECT DISTINCT category FROM products ORDER BY category;"
+  ],
+  "socratic": [
+    "Why does the plain query repeat names?",
+    "Which keyword removes repeats?",
+    "Compare the rows you got with the rows expected. What differs?"
+  ],
+  "explain": "In one sentence: what does your query do?",
+  "xp": 25,
+  "skills": [
+    "sql",
+    "distinct"
+  ],
+  "requires": [
+    "sql-where-in"
+  ],
+  "solution": "SELECT DISTINCT category FROM products ORDER BY category;",
+  "alt": "SELECT category FROM products GROUP BY category ORDER BY category;"
+}

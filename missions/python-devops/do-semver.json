@@ -1,0 +1,59 @@
+{
+  "id": "do-semver",
+  "region": "python-devops",
+  "order": 6,
+  "title": "Which Version Is Newer?",
+  "story": "A deploy script must not install an older release. Compare version strings like 1.10.2 and 1.9.0 properly.",
+  "goal": "Write is_newer(a, b): True when version a is newer than version b. Compare number by number, not as text.",
+  "type": "write-code",
+  "starter": "def is_newer(a, b):\n    # compare dotted versions numerically\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "minor",
+      "expr": "is_newer(\"1.10.0\", \"1.9.0\")",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "older",
+      "expr": "is_newer(\"1.2.3\", \"1.2.4\")",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "same",
+      "expr": "is_newer(\"2.0.0\", \"2.0.0\")",
+      "expect": "False",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "major",
+      "expr": "is_newer(\"3.0.0\", \"2.99.99\")",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "As text, \"10\" is smaller than \"9\". Convert each piece to an int.",
+    "Python compares lists of numbers from left to right: [1, 10] > [1, 9].",
+    "def is_newer(a, b):\n    pa = [int(x) for x in a.split(\".\")]\n    pb = [int(x) for x in b.split(\".\")]\n    return pa > pb\n"
+  ],
+  "socratic": [
+    "Why does text comparison fail for 10 and 9?",
+    "What can you compare instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Which Version Is Newer?”?",
+  "xp": 30,
+  "skills": [
+    "devops",
+    "lists"
+  ],
+  "requires": [
+    "do-threshold"
+  ],
+  "solution": "def is_newer(a, b):\n    pa = [int(x) for x in a.split(\".\")]\n    pb = [int(x) for x in b.split(\".\")]\n    return pa > pb\n",
+  "alt": "def is_newer(a, b):\n    return tuple(map(int, a.split(\".\"))) > tuple(map(int, b.split(\".\")))\n"
+}
