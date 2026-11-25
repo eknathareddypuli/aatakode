@@ -22,6 +22,14 @@ with sync_playwright() as p:
     def unlock(mid):
         pg.evaluate("""(id)=>{const S=AK_CORE.state();const by={};AK_DATA.missions.forEach(m=>by[m.id]=m);const seen=new Set();(function up(i){(by[i].requires||[]).forEach(r=>{if(!seen.has(r)){seen.add(r);S.solved[r]={hints:0,stars:2,at:'x'};up(r)}})})(id);AK_CORE.save()}""", mid)
     fresh = lambda mid: pg.evaluate("(id)=>{const S=AK_CORE.state();delete S.solved[id];AK_CORE.save()}", mid)
+    # --- languages and no repo link
+    check("no GitHub link on the site", pg.locator('a[href*="github.com"]').count() == 0)
+    go("#/about"); pg.wait_for_selector("h2"); check("no GitHub link on About", pg.locator('a[href*="github.com"]').count() == 0 and "repository" not in pg.inner_text("#view").lower())
+    go("#/home")
+    for code, word in [("hi", "होम"), ("kn", "ಮುಖಪುಟ"), ("ta", "முகப்பு"), ("ml", "ഹോം"), ("te", "హోమ్"), ("en", "Home")]:
+        pg.select_option("#langBtn", code); pg.wait_for_selector(f'html[lang="{code}"]')
+        check(f"UI language {code}", word in pg.inner_text("#hdr nav") and st("S.settings.lang") == code)
+    pg.reload(); pg.wait_for_selector(".hero")
     # --- header + nav
     check("seeds chip in header", pg.locator("#hdr .chip", has_text="🌱").count() == 1)
     check("Village nav link", pg.locator('#hdr a[href="#/village"]').count() == 1)

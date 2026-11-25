@@ -12,7 +12,7 @@
   --bg:#15123a;--panel:#1f1b52;--panel2:#2a2569;--ink:#f3f0ff;--muted:#b9b3e6;--line:#3d3784;
   --gold:#f2b531;--coral:#ff7a6b;--mint:#4ade9f;--sky:#74c7ff;--on-gold:#1a1744;--code:#100e2e;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Telugu","Nirmala UI",sans-serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Telugu","Noto Sans Devanagari","Noto Sans Kannada","Noto Sans Tamil","Noto Sans Malayalam","Nirmala UI",sans-serif;
   --shadow:4px 4px 0 rgba(0,0,0,.35);
 }
 :root[data-theme="light"]{
@@ -1957,7 +1957,6 @@ html{--codeink:var(--ink)}
   "use strict";
   const AK = window.AK, DATA = window.AK_DATA;
   const PYODIDE_BASE = window.AK_PYODIDE_BASE || "https://cdn.jsdelivr.net/npm/pyodide@314.0.8/";
-  const REPO = "https://github.com/eknathareddypuli/aatakode";
   const $ = (s, el) => (el || document).querySelector(s);
   const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1974,6 +1973,10 @@ html{--codeink:var(--ink)}
     te: { nav_home: "హోమ్", nav_village: "గ్రామం", nav_map: "పటం", nav_arena: "అరేనా", nav_profile: "ప్రొఫైల్", nav_daily: "రోజువారీ", nav_teacher: "ఉపాధ్యాయులు", nav_about: "గురించి",
       play: "ఇప్పుడే ఆడండి", map: "పటం", run: "నడుపు", submit: "సమర్పించు", hint: "సూచన", step: "అడుగు అడుగుగా", reset: "రీసెట్",
       back: "పటానికి తిరిగి", next: "తరువాత మిషన్", headline: "ఆడుతూ కోడ్ నేర్చుకోండి.", free: "అందరికీ ఉచితం.", ask: "ప్రశ్నతో సాయం చేయండి" },
+    hi: { nav_home: "होम", nav_village: "गाँव", nav_map: "नक्शा", nav_arena: "अखाड़ा", nav_profile: "प्रोफ़ाइल", nav_daily: "रोज़ाना", nav_teacher: "शिक्षक", nav_about: "परिचय", play: "अभी एक मिशन खेलें", run: "चलाएँ", submit: "मेरा कोड जाँचें", hint: "संकेत", step: "कदम-दर-कदम", reset: "रीसेट", back: "नक्शे पर वापस", next: "अगला मिशन", headline: "खेलते-खेलते कोड सीखें।", free: "सबके लिए मुफ़्त।", ask: "सवाल पूछकर मदद करें", map: "नक्शा" },
+    kn: { nav_home: "ಮುಖಪುಟ", nav_village: "ಹಳ್ಳಿ", nav_map: "ನಕ್ಷೆ", nav_arena: "ಅಖಾಡ", nav_profile: "ಪ್ರೊಫೈಲ್", nav_daily: "ದೈನಂದಿನ", nav_teacher: "ಶಿಕ್ಷಕರು", nav_about: "ಬಗ್ಗೆ", play: "ಈಗಲೇ ಆಡಿ", run: "ಚಲಾಯಿಸಿ", submit: "ನನ್ನ ಕೋಡ್ ಪರಿಶೀಲಿಸಿ", hint: "ಸುಳಿವು", step: "ಹಂತ ಹಂತವಾಗಿ", reset: "ಮರುಹೊಂದಿಸಿ", back: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ", next: "ಮುಂದಿನ ಮಿಷನ್", headline: "ಆಡುತ್ತಾ ಕೋಡ್ ಕಲಿಯಿರಿ.", free: "ಎಲ್ಲರಿಗೂ ಉಚಿತ.", ask: "ಪ್ರಶ್ನೆಯಿಂದ ಸಹಾಯ ಮಾಡಿ", map: "ನಕ್ಷೆ" },
+    ta: { nav_home: "முகப்பு", nav_village: "கிராமம்", nav_map: "வரைபடம்", nav_arena: "அரங்கம்", nav_profile: "சுயவிவரம்", nav_daily: "தினசரி", nav_teacher: "ஆசிரியர்கள்", nav_about: "பற்றி", play: "இப்போதே விளையாடு", run: "இயக்கு", submit: "என் குறியீட்டைச் சரிபார்", hint: "குறிப்பு", step: "படிப்படியாக", reset: "மீட்டமை", back: "வரைபடத்துக்குத் திரும்பு", next: "அடுத்த பணி", headline: "விளையாடிக்கொண்டே கோடிங் கற்கலாம்.", free: "அனைவருக்கும் இலவசம்.", ask: "கேள்வி மூலம் உதவு", map: "வரைபடம்" },
+    ml: { nav_home: "ഹോം", nav_village: "ഗ്രാമം", nav_map: "ഭൂപടം", nav_arena: "അരീന", nav_profile: "പ്രൊഫൈൽ", nav_daily: "ദിവസേന", nav_teacher: "അധ്യാപകർ", nav_about: "കുറിച്ച്", play: "ഇപ്പോൾ കളിക്കൂ", run: "പ്രവർത്തിപ്പിക്കൂ", submit: "എന്റെ കോഡ് പരിശോധിക്കൂ", hint: "സൂചന", step: "ഘട്ടം ഘട്ടമായി", reset: "റീസെറ്റ്", back: "ഭൂപടത്തിലേക്ക്", next: "അടുത്ത മിഷൻ", headline: "കളിച്ചുകൊണ്ട് കോഡ് പഠിക്കൂ.", free: "എല്ലാവർക്കും സൗജന്യം.", ask: "ചോദ്യത്തിലൂടെ സഹായിക്കൂ", map: "ഭൂപടം" },
   };
 
   /* ------------------------------------------------------------ storage (falls back to memory if blocked) */
@@ -1993,12 +1996,13 @@ html{--codeink:var(--ink)}
   }
   let S = loadState();
   const save = () => store.set(KEY, JSON.stringify(S));
+  const LANGS = [["en", "English", "EN"], ["te", "తెలుగు", "తె"], ["hi", "हिन्दी", "हि"], ["kn", "ಕನ್ನಡ", "ಕ"], ["ta", "தமிழ்", "த"], ["ml", "മലയാളം", "മ"]];
   const t = (k) => (I[S.settings.lang] && I[S.settings.lang][k]) || I.en[k] || k;
   const lt = (o, f) => (S.settings.lang === "te" && o[f + "_te"]) || o[f];
 
   function applySettings() {
     const d = document.documentElement;
-    d.dataset.theme = S.settings.theme; d.dataset.motion = S.settings.motion; d.dataset.editor = S.settings.editor || "classic"; d.lang = S.settings.lang === "te" ? "te" : "en";
+    d.dataset.theme = S.settings.theme; d.dataset.motion = S.settings.motion; d.dataset.editor = S.settings.editor || "classic"; d.lang = LANGS.some((l) => l[0] === S.settings.lang) ? S.settings.lang : "en";
   }
   const reducedMotion = () => S.settings.motion === "reduce" || (S.settings.motion === "auto" && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 
@@ -2077,14 +2081,14 @@ html{--codeink:var(--ink)}
       '<nav class="nav" aria-label="Main">' + nav.map((n) => '<a href="#/' + n[0] + '"' + (page === n[0] || (n[0] === "map" && page === "mission") ? ' aria-current="page"' : "") + ">" + t(n[1]) + "<\/a>").join("") + "<\/nav>" +
       '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '<\/span><span class="chip" title="Seeds: spend them in the Village shop">🌱 ' + AK.seedBalance(S) + '<\/span><span class="chip gold" title="Experience points">' + S.xp + ' XP<\/span><span class="chip" title="Stars earned">⭐ ' + AK.totalStars(S) + '<\/span>' +
       '<span class="chip" title="Day streak' + (st.atRisk ? " (learn today to keep it)" : "") + '">🔥 ' + st.count + (S.streak.freezes ? " ❄" + S.streak.freezes : "") + "<\/span>" +
-      '<button class="iconbtn" id="langBtn" aria-label="Switch language">' + (S.settings.lang === "te" ? "EN" : "తె") + "<\/button>" +
+      '<select class="iconbtn" id="langBtn" aria-label="Interface language" style="width:auto">' + LANGS.map((l) => '<option value="' + l[0] + '"' + (S.settings.lang === l[0] ? " selected" : "") + ">" + l[2] + "<\/option>").join("") + "<\/select>" +
       '<button class="iconbtn" id="themeBtn" aria-label="Toggle light and dark theme">' + (S.settings.theme === "dark" ? "☀" : "🌙") + "<\/button><\/div>";
-    $("#langBtn").onclick = () => { S.settings.lang = S.settings.lang === "te" ? "en" : "te"; save(); applySettings(); route(); };
+    $("#langBtn").onchange = (e) => { S.settings.lang = e.target.value; save(); applySettings(); route(); };
     $("#themeBtn").onclick = () => { S.settings.theme = S.settings.theme === "dark" ? "light" : "dark"; save(); applySettings(); renderHeader(page); };
     void rk;
   }
   function renderFooter() {
-    $("#ftr").innerHTML = '<div class="row spread"><span>AataKode · <a href="https://eknathalabs.com">EknathaLabs<\/a> · MIT licensed · no ads, no tracking, progress stays on your device.<\/span><span><a href="' + REPO + '">Source on GitHub<\/a> · <a href="#/about">Free-for-all promise<\/a><\/span><\/div>';
+    $("#ftr").innerHTML = '<div class="row spread"><span>AataKode · <a href="https://eknathalabs.com">EknathaLabs<\/a> · MIT licensed · no ads, no tracking, progress stays on your device.<\/span><span><a href="#/about">Free-for-all promise<\/a><\/span><\/div>';
   }
 
   /* ------------------------------------------------------------ views */
@@ -2560,7 +2564,7 @@ html{--codeink:var(--ink)}
       '<h3 style="margin-top:1.4rem">Badges<\/h3><div class="badges">' + badges.map((b) => '<div class="badge' + (S.badges[b.id] ? "" : " off") + '" title="' + esc(b.desc) + '"><div class="ico">' + b.icon + "<\/div><b>" + esc(S.settings.lang === "te" ? b.te : b.en) + '<\/b><div class="muted" style="font-size:.78rem">' + esc(S.badges[b.id] ? "Earned " + S.badges[b.id] : b.desc) + "<\/div><\/div>").join("") + "<\/div>" +
       '<div class="grid g2" style="margin-top:1.4rem"><div class="card"><h3>Your data<\/h3><p class="muted">Everything lives on this device. Export a backup, move it to another device, or start over.<\/p><div class="row"><button class="btn" id="exp">⬇ Export progress<\/button><label class="btn" for="imp">⬆ Import<\/label><input type="file" id="imp" accept="application/json,.json" class="sr"><button class="btn small" id="wipe">Reset everything<\/button><\/div><p id="datamsg" class="muted"><\/p><\/div>' +
       '<div class="card"><h3>Teacher card<\/h3><p class="muted">Give this code to your teacher. It lists your name, XP and solved missions (not your code).<\/p><textarea class="input" id="card" rows="3" readonly><\/textarea><div class="row" style="margin-top:.4rem"><button class="btn small" id="copycard">Copy code<\/button><\/div><\/div><\/div>' +
-      '<div class="card" style="margin-top:1rem"><h3>Settings<\/h3><div class="row"><label>Language <select id="selLang" class="input" style="width:auto"><option value="en">English<\/option><option value="te">తెలుగు (interface)<\/option><\/select><\/label><label>Theme <select id="selTheme" class="input" style="width:auto"><option value="dark">Dark<\/option><option value="light">Light<\/option><\/select><\/label><label>Code colours <select id="selEditor" class="input" style="width:auto">' + EDITORS.map((e) => "<option value=\"" + e.id + "\"" + (AK.rankFor(S.xp).index >= e.rank ? "" : " disabled") + ">" + esc(e.name + (AK.rankFor(S.xp).index >= e.rank ? "" : " (rank " + AK.RANKS[e.rank].en + ")")) + "<\/option>").join("") + '<\/select><\/label><label>Motion <select id="selMotion" class="input" style="width:auto"><option value="auto">Follow my device<\/option><option value="reduce">Reduce motion<\/option><\/select><\/label><\/div><\/div>';
+      '<div class="card" style="margin-top:1rem"><h3>Settings<\/h3><div class="row"><label>Language <select id="selLang" class="input" style="width:auto"><option value="en">English<\/option><option value="te">తెలుగు<\/option><option value="hi">हिन्दी<\/option><option value="kn">ಕನ್ನಡ<\/option><option value="ta">தமிழ்<\/option><option value="ml">മലയാളം<\/option><\/select><\/label><label>Theme <select id="selTheme" class="input" style="width:auto"><option value="dark">Dark<\/option><option value="light">Light<\/option><\/select><\/label><label>Code colours <select id="selEditor" class="input" style="width:auto">' + EDITORS.map((e) => "<option value=\"" + e.id + "\"" + (AK.rankFor(S.xp).index >= e.rank ? "" : " disabled") + ">" + esc(e.name + (AK.rankFor(S.xp).index >= e.rank ? "" : " (rank " + AK.RANKS[e.rank].en + ")")) + "<\/option>").join("") + '<\/select><\/label><label>Motion <select id="selMotion" class="input" style="width:auto"><option value="auto">Follow my device<\/option><option value="reduce">Reduce motion<\/option><\/select><\/label><\/div><\/div>';
     $("#selLang").value = S.settings.lang; $("#selTheme").value = S.settings.theme; $("#selMotion").value = S.settings.motion; $("#selEditor").value = S.settings.editor;
     const refreshCard = () => ($("#card").value = AK.encodeCard(S)); refreshCard();
     $("#pname").oninput = (e) => { S.name = e.target.value; save(); refreshCard(); };
@@ -2616,7 +2620,6 @@ html{--codeink:var(--ink)}
   VIEWS.about = function (v) {
     v.innerHTML = '<h2>About AataKode<\/h2><div class="grid g2"><div class="card"><h3>The promise<\/h3><p>Every lesson, project, badge and class tool is free, forever. No ads, no tracking, no locked missions.<\/p><p class="muted">Premium is planned only for things that cost money to run: cloud sync across devices, an unlimited AI tutor, human code review, and private groups. It is not available yet, and it will never gate learning.<\/p><\/div>' +
       '<div class="card"><h3>How your data works<\/h3><p>Your progress is stored in this browser. Export it from your Profile to back it up or move it. Nothing is uploaded; the Python engine runs inside your browser.<\/p><\/div>' +
-      '<div class="card"><h3>Help build it<\/h3><p>Missions are plain JSON files, checked automatically in CI. Add a mission, a hint, or a translation.<\/p><a class="btn" href="' + REPO + '">Open the repository<\/a><\/div>' +
       '<div class="card"><h3>About the Telugu interface<\/h3><p class="muted">The navigation, ranks and badges have a Telugu interface; lessons are in English for now. Corrections from native speakers are very welcome.<\/p><\/div><\/div>';
   };
 
