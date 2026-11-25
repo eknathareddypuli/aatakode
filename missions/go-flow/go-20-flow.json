@@ -1,0 +1,73 @@
+{
+  "id": "go-20-flow",
+  "region": "go-flow",
+  "order": 1,
+  "title": "Control Flow, Functions and Errors",
+  "story": "Programs need to choose, repeat and fail politely.",
+  "goal": "Learn if, for, functions and Go's way of returning errors.",
+  "type": "lesson",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "lesson",
+      "label": "Finish every try-it and quick check"
+    }
+  ],
+  "hints": [
+    "Read each block, then do the TRY IT and QUICK CHECK parts.",
+    "Every interactive block must be done to finish the lesson.",
+    "Take your time. Nothing here is timed."
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the most useful thing you learned here?",
+  "xp": 25,
+  "skills": [
+    "go-flow"
+  ],
+  "requires": [
+    "go-16-range"
+  ],
+  "solution": "lesson",
+  "blocks": [
+    {
+      "kind": "text",
+      "text": "Go has one loop keyword, `for`. Functions can return more than one value, and errors are just values you check."
+    },
+    {
+      "kind": "code",
+      "title": "A function that can fail",
+      "code": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc half(n int) (int, error) {\n\tif n%2 != 0 {\n\t\treturn 0, errors.New(\"odd number\")\n\t}\n\treturn n / 2, nil\n}\n\nfunc main() {\n\tif v, err := half(7); err != nil {\n\t\tfmt.Println(\"error:\", err)\n\t} else {\n\t\tfmt.Println(v)\n\t}\n}\n",
+      "output": "error: odd number"
+    },
+    {
+      "kind": "quiz",
+      "q": "How does a Go function usually report failure?",
+      "options": [
+        "It returns an error value",
+        "It throws an exception",
+        "It prints and exits",
+        "It returns -1 always"
+      ],
+      "answer": 0,
+      "why": "Go returns an error as the last result and the caller checks it with `if err != nil`."
+    },
+    {
+      "kind": "gofill",
+      "prompt": "Write the loop that prints 0, 1, 2.",
+      "template": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\t___ i := 0; i < 3; i++ {\n\t\tfmt.Println(i)\n\t}\n}\n",
+      "blanks": [
+        {
+          "answers": [
+            "for"
+          ]
+        }
+      ],
+      "why": "Go has only one loop keyword: for."
+    }
+  ],
+  "lang": "go"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "go-22-func",
+  "region": "go-flow",
+  "order": 3,
+  "title": "Write a Function",
+  "story": "Complete a function that doubles a number.",
+  "goal": "Print: 14",
+  "type": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc double(n int) ___ {\n\t___ n * 2\n}\n\nfunc main() {\n\tfmt.Println(double(7))\n}\n",
+  "tests": [
+    {
+      "kind": "go-static",
+      "label": "Every blank is right"
+    }
+  ],
+  "hints": [
+    "A function declares the type of the value it returns.",
+    "Use the keyword that hands a value back.",
+    "package main\n\nimport \"fmt\"\n\nfunc double(n int) int {\n\treturn n * 2\n}\n\nfunc main() {\n\tfmt.Println(double(7))\n}\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blanks teach you?",
+  "xp": 20,
+  "skills": [
+    "go-flow",
+    "functions"
+  ],
+  "requires": [
+    "go-21-switch"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc double(n int) int {\n\treturn n * 2\n}\n\nfunc main() {\n\tfmt.Println(double(7))\n}\n",
+  "lang": "go",
+  "mode": "fill",
+  "template": "package main\n\nimport \"fmt\"\n\nfunc double(n int) ___ {\n\t___ n * 2\n}\n\nfunc main() {\n\tfmt.Println(double(7))\n}\n",
+  "blanks": [
+    {
+      "answers": [
+        "int"
+      ]
+    },
+    {
+      "answers": [
+        "return"
+      ]
+    }
+  ],
+  "expect": "14"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "go-26-closure",
+  "region": "go-flow",
+  "order": 7,
+  "title": "Closures Remember",
+  "story": "Be the compiler. Read the Go code and predict what it prints.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line and write down each variable.",
+    "Find the line where Go does something you might not expect.",
+    "The output is:\n3"
+  ],
+  "socratic": [
+    "What does the first statement do?",
+    "Which line is the trickiest?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "go-flow",
+    "closures"
+  ],
+  "requires": [
+    "go-25-hunt"
+  ],
+  "solution": "3",
+  "lang": "go",
+  "code": "package main\n\nimport \"fmt\"\n\nfunc counter() func() int {\n\tn := 0\n\treturn func() int {\n\t\tn++\n\t\treturn n\n\t}\n}\n\nfunc main() {\n\tc := counter()\n\tc()\n\tc()\n\tfmt.Println(c())\n}\n",
+  "options": [
+    "3",
+    "1",
+    "0",
+    "2"
+  ],
+  "answer": 0,
+  "why": "The inner function keeps its own n alive between calls: 1, 2, 3."
+}

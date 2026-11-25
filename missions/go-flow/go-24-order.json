@@ -1,0 +1,84 @@
+{
+  "id": "go-24-order",
+  "region": "go-flow",
+  "order": 5,
+  "title": "Return Two Values",
+  "story": "Put the pieces of a function that returns a sum and a product in order.",
+  "goal": "Print: 7 12",
+  "type": "go",
+  "starter": "func calc(a, b int) (int, int) {\n\treturn a + b, a * b\nimport \"fmt\"\nfunc main() {\npackage main\n\tfmt.Println(s, p)\n}\n\ts, p := calc(3, 4)\n}\n",
+  "tests": [
+    {
+      "kind": "go-static",
+      "label": "Lines in a working order"
+    }
+  ],
+  "hints": [
+    "Go lets you define functions in any order, but each body must open and close properly.",
+    "Imports come right after the package line.",
+    "package main\nimport \"fmt\"\nfunc calc(a, b int) (int, int) {\n\treturn a + b, a * b\n}\nfunc main() {\n\ts, p := calc(3, 4)\n\tfmt.Println(s, p)\n}"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "go-flow"
+  ],
+  "requires": [
+    "go-23-defer"
+  ],
+  "solution": "package main\nimport \"fmt\"\nfunc calc(a, b int) (int, int) {\n\treturn a + b, a * b\n}\nfunc main() {\n\ts, p := calc(3, 4)\n\tfmt.Println(s, p)\n}",
+  "lang": "go",
+  "mode": "order",
+  "lines": [
+    "func calc(a, b int) (int, int) {",
+    "\treturn a + b, a * b",
+    "import \"fmt\"",
+    "func main() {",
+    "package main",
+    "\tfmt.Println(s, p)",
+    "}",
+    "\ts, p := calc(3, 4)",
+    "}"
+  ],
+  "lines_ok": [
+    "package main",
+    "import \"fmt\"",
+    "func calc(a, b int) (int, int) {",
+    "\treturn a + b, a * b",
+    "}",
+    "func main() {",
+    "\ts, p := calc(3, 4)",
+    "\tfmt.Println(s, p)",
+    "}"
+  ],
+  "orders": [
+    [
+      "package main",
+      "import \"fmt\"",
+      "func calc(a, b int) (int, int) {",
+      "\treturn a + b, a * b",
+      "}",
+      "func main() {",
+      "\ts, p := calc(3, 4)",
+      "\tfmt.Println(s, p)",
+      "}"
+    ],
+    [
+      "package main",
+      "import \"fmt\"",
+      "func main() {",
+      "\ts, p := calc(3, 4)",
+      "\tfmt.Println(s, p)",
+      "}",
+      "func calc(a, b int) (int, int) {",
+      "\treturn a + b, a * b",
+      "}"
+    ]
+  ],
+  "expect": "7 12"
+}

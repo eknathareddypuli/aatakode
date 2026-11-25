@@ -1,0 +1,56 @@
+{
+  "id": "go-25-hunt",
+  "region": "go-flow",
+  "order": 6,
+  "title": "Compiler Hunt: Missing Pieces",
+  "story": "This Go file will not compile. Be the compiler and spot every line it rejects.",
+  "goal": "Tap every line the compiler would reject.",
+  "type": "hunt",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "hunt",
+      "label": "Find every bad line, then pick the fix"
+    }
+  ],
+  "hints": [
+    "Read for unused variables, missing imports and type mismatches.",
+    "The compiler reports 2 problem line(s).",
+    "Bad lines: 7, 10"
+  ],
+  "socratic": [
+    "Which line uses something that was never declared or imported?",
+    "Which line is declared but never used?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does the Go compiler enforce here?",
+  "xp": 25,
+  "skills": [
+    "go-flow"
+  ],
+  "requires": [
+    "go-24-order"
+  ],
+  "solution": "Lines 7, 10",
+  "lang": "go",
+  "code": "package main\n\nimport \"fmt\"\n\nfunc total(a, b int) int {\n\tfmt.Println(\"adding\")\n}\n\nfunc main() {\n\tfmt.Println(total(1, 2), missing)\n}\n",
+  "bad": [
+    7,
+    10
+  ],
+  "why_lines": {
+    "7": "The function promises to return an int but the end is reached without a return statement.",
+    "10": "`missing` was never declared."
+  },
+  "fix": {
+    "question": "What does the compiler want?",
+    "options": [
+      "Semicolons",
+      "A comment",
+      "A return statement, and a declared name",
+      "The os package"
+    ],
+    "answer": 2,
+    "why": "Every path must return, and every name must be declared."
+  }
+}
