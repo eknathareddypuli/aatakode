@@ -1,0 +1,102 @@
+{
+  "id": "git-06-boss-release",
+  "region": "git-basics",
+  "order": 6,
+  "title": "Boss: Cut a Release",
+  "story": "Friday release. Two files are ready, a secrets file must never be committed, and the release needs a tag.",
+  "goal": "Commit main.py and config.py with a message containing \"release\", leave secrets.env untracked, and tag it v1.0.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "main.py": "v0\n",
+            "config.py": "c0\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "work": {
+        "main.py": "v1\n",
+        "config.py": "c1\n"
+      },
+      "untracked": {
+        "secrets.env": "KEY=1\n"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "msg-contains",
+      "label": "Message mentions release",
+      "value": "release"
+    },
+    {
+      "kind": "git",
+      "check": "file-at-head",
+      "label": "main.py committed",
+      "path": "main.py",
+      "text": "v1"
+    },
+    {
+      "kind": "git",
+      "check": "file-at-head",
+      "label": "config.py committed",
+      "path": "config.py",
+      "text": "c1"
+    },
+    {
+      "kind": "git",
+      "check": "not-in-head",
+      "label": "secrets.env not committed",
+      "path": "secrets.env"
+    },
+    {
+      "kind": "git",
+      "check": "tag",
+      "label": "Tag v1.0 exists",
+      "name": "v1.0"
+    }
+  ],
+  "hints": [
+    "Stage the two files by name, not with git add .",
+    "git commit -m \"release\" then git tag v1.0.",
+    "Run:\ngit add main.py config.py\ngit commit -m \"release 1.0\"\ngit tag v1.0"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 50,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-05-blame"
+  ],
+  "solution": {
+    "commands": [
+      "git add main.py config.py",
+      "git commit -m \"release 1.0\"",
+      "git tag v1.0"
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git add main.py",
+      "git add config.py",
+      "git commit -m \"release\"",
+      "git tag v1.0"
+    ]
+  },
+  "boss": true
+}

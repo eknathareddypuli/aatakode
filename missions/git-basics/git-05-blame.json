@@ -1,0 +1,78 @@
+{
+  "id": "git-05-blame",
+  "region": "git-basics",
+  "order": 5,
+  "title": "Blame, Kindly",
+  "story": "The timeout is wrong in config.py. Who last touched the line that sets it?",
+  "goal": "Use blame to find who last changed the line containing timeout, and report the name.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "add config",
+          "files": {
+            "config.py": "name = 'app'\ntimeout = 5\nretries = 3\n"
+          },
+          "author": "Ravi"
+        },
+        {
+          "msg": "raise retries",
+          "files": {
+            "config.py": "name = 'app'\ntimeout = 5\nretries = 9\n"
+          },
+          "author": "Divya"
+        },
+        {
+          "msg": "lower timeout",
+          "files": {
+            "config.py": "name = 'app'\ntimeout = 2\nretries = 9\n"
+          },
+          "author": "Kiran"
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "Kiran",
+      "label": "Reported the answer"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "git"
+      ],
+      "label": "Used git"
+    }
+  ],
+  "hints": [
+    "git blame shows who last changed each line.",
+    "git blame config.py, then read the timeout line.",
+    "Run:\ngit blame config.py\nThen answer: Kiran"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-04-diff"
+  ],
+  "solution": {
+    "commands": [
+      "git blame config.py"
+    ],
+    "answer": "Kiran"
+  },
+  "tool": "git"
+}

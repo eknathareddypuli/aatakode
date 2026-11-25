@@ -86,5 +86,16 @@
     "p-eq"
   ],
   "solution": "marks = int(input())\nif marks >= 90:\n    print(\"A\")\nelif marks >= 75:\n    print(\"B\")\nelif marks >= 50:\n    print(\"C\")\nelse:\n    print(\"D\")\n",
-  "alt": "marks = int(input())\ngrade = \"D\"\nif marks >= 50:\n    grade = \"C\"\nif marks >= 75:\n    grade = \"B\"\nif marks >= 90:\n    grade = \"A\"\nprint(grade)\n"
+  "alt": "marks = int(input())\ngrade = \"D\"\nif marks >= 50:\n    grade = \"C\"\nif marks >= 75:\n    grade = \"B\"\nif marks >= 90:\n    grade = \"A\"\nprint(grade)\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: ticket price",
+      "code": "age = 9\nif age < 5:\n    print(\"free\")\nelif age < 12:\n    print(\"child\")\nelse:\n    print(\"adult\")\n",
+      "note": "Conditions are checked top to bottom; the first true one wins."
+    },
+    "partial": "marks = int(input())\nif marks >= 90:\n    print(\"A\")\nelif marks >= 75:\n    ____\nelif marks >= 50:\n    print(\"C\")\nelse:\n    print(\"D\")\n",
+    "blanks": [
+      "print(\"B\")"
+    ]
+  }
 }

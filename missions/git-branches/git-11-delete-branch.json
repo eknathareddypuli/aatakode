@@ -1,0 +1,84 @@
+{
+  "id": "git-11-delete-branch",
+  "region": "git-branches",
+  "order": 5,
+  "title": "Tidy Up",
+  "story": "The merged feature branch is clutter. Delete it safely.",
+  "goal": "Delete the already-merged branch old-feature (keep main).",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "x\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "branches": [
+        {
+          "name": "old-feature",
+          "commits": [
+            {
+              "msg": "old work",
+              "files": {
+                "old.py": "x\n"
+              },
+              "author": "Asha"
+            }
+          ]
+        }
+      ],
+      "checkout": "main"
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "no-branch",
+      "label": "old-feature is gone",
+      "value": "old-feature"
+    },
+    {
+      "kind": "git",
+      "check": "has-branch",
+      "label": "main still exists",
+      "value": "main"
+    }
+  ],
+  "hints": [
+    "git branch -d deletes a branch git considers merged. -D forces it.",
+    "First merge it (git merge old-feature), then git branch -d old-feature.",
+    "Run:\ngit merge old-feature\ngit branch -d old-feature"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-10-conflict"
+  ],
+  "solution": {
+    "commands": [
+      "git merge old-feature",
+      "git branch -d old-feature"
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git branch -D old-feature"
+    ]
+  }
+}

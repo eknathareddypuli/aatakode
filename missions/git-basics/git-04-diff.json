@@ -1,0 +1,79 @@
+{
+  "id": "git-04-diff",
+  "region": "git-basics",
+  "order": 4,
+  "title": "What Did I Change?",
+  "story": "Three files are touched. Two are staged for the next commit, one is not.",
+  "goal": "Find the file with changes that are NOT staged and report its name.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "a.py": "1\n",
+            "b.py": "1\n",
+            "c.py": "1\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "staged": {
+        "a.py": "2\n",
+        "b.py": "2\n"
+      },
+      "work": {
+        "c.py": "2\n"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "c.py",
+      "label": "Reported the answer"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "git"
+      ],
+      "label": "Used git"
+    }
+  ],
+  "hints": [
+    "git status splits changes into staged and not staged.",
+    "git diff (no flags) shows only unstaged changes.",
+    "Run:\ngit status\nThen answer: c.py"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-03-log"
+  ],
+  "solution": {
+    "commands": [
+      "git status"
+    ],
+    "answer": "c.py"
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git diff"
+    ],
+    "answer": "c.py"
+  }
+}

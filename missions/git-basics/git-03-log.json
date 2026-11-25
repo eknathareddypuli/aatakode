@@ -1,0 +1,78 @@
+{
+  "id": "git-03-log",
+  "region": "git-basics",
+  "order": 3,
+  "title": "Who Wrote This?",
+  "story": "A teammate fixed the login bug last week. You need to thank them.",
+  "goal": "Find who made the commit about the login fix and report their name.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "add homepage",
+          "files": {
+            "home.py": "x"
+          },
+          "author": "Ravi"
+        },
+        {
+          "msg": "fix login redirect",
+          "files": {
+            "login.py": "x"
+          },
+          "author": "Meena"
+        },
+        {
+          "msg": "update readme",
+          "files": {
+            "README": "x"
+          },
+          "author": "Kiran"
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "Meena",
+      "label": "Reported the answer"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "git"
+      ],
+      "label": "Used git"
+    }
+  ],
+  "hints": [
+    "git log lists commits with their authors.",
+    "git log shows author lines; --author or grep can narrow it.",
+    "Run:\ngit log\nThen answer: Meena"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-02-selective"
+  ],
+  "solution": {
+    "commands": [
+      "git log"
+    ],
+    "answer": "Meena"
+  },
+  "tool": "git"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "git-07-branch",
+  "region": "git-branches",
+  "order": 1,
+  "title": "A Branch of Your Own",
+  "story": "Never experiment on main. Make a safe space for the login feature.",
+  "goal": "Create and switch to a new branch named feature/login.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "x\n"
+          },
+          "author": "Asha"
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "branch-is",
+      "label": "You are on feature/login",
+      "value": "feature/login"
+    },
+    {
+      "kind": "git",
+      "check": "has-branch",
+      "label": "The branch exists",
+      "value": "feature/login"
+    }
+  ],
+  "hints": [
+    "switch -c creates and moves in one step.",
+    "git switch -c feature/login",
+    "Run:\ngit switch -c feature/login"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-06-boss-release"
+  ],
+  "solution": {
+    "commands": [
+      "git switch -c feature/login"
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git checkout -b feature/login"
+    ]
+  }
+}

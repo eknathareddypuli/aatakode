@@ -54,5 +54,16 @@
     "p-types"
   ],
   "solution": "snacks = int(input())\nprint(snacks * 5)\n",
-  "alt": "n = input()\ntotal = int(n) * 5\nprint(total)\n"
+  "alt": "n = input()\ntotal = int(n) * 5\nprint(total)\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: double a number",
+      "code": "n = int(\"21\")  # input() gives text, int() makes it a number\nprint(n * 2)\n",
+      "note": "input() always returns text. Convert with int() before doing maths."
+    },
+    "partial": "snacks = int(input())\n____\n",
+    "blanks": [
+      "print(snacks * 5)"
+    ]
+  }
 }

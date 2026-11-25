@@ -1,0 +1,83 @@
+{
+  "id": "git-09-merge",
+  "region": "git-branches",
+  "order": 3,
+  "title": "Bring It Home",
+  "story": "The login feature is finished and reviewed. Merge it into main.",
+  "goal": "While on main, merge feature/login.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "x\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "branches": [
+        {
+          "name": "feature/login",
+          "commits": [
+            {
+              "msg": "add login",
+              "files": {
+                "login.py": "def login(): pass\n"
+              },
+              "author": "Meena"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "merged",
+      "label": "feature/login is merged",
+      "branch": "feature/login"
+    },
+    {
+      "kind": "git",
+      "check": "in-head",
+      "label": "login.py is on main",
+      "path": "login.py"
+    },
+    {
+      "kind": "git",
+      "check": "branch-is",
+      "label": "You are on main",
+      "value": "main"
+    }
+  ],
+  "hints": [
+    "You merge INTO the branch you are standing on.",
+    "git merge feature/login",
+    "Run:\ngit merge feature/login"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-08-commit-branch"
+  ],
+  "solution": {
+    "commands": [
+      "git merge feature/login"
+    ]
+  },
+  "tool": "git"
+}

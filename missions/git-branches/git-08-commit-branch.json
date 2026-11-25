@@ -1,0 +1,81 @@
+{
+  "id": "git-08-commit-branch",
+  "region": "git-branches",
+  "order": 2,
+  "title": "Work on the Branch",
+  "story": "You are on feature/search. Add the search file and commit it there, while main stays untouched.",
+  "goal": "Commit search.py on feature/search, then switch back to main. main must not contain search.py.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "x\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "branches": [
+        {
+          "name": "feature/search"
+        }
+      ],
+      "checkout": "feature/search",
+      "untracked": {
+        "search.py": "def find(): pass\n"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "branch-has-file",
+      "label": "feature/search has search.py",
+      "branch": "feature/search",
+      "path": "search.py"
+    },
+    {
+      "kind": "git",
+      "check": "branch-is",
+      "label": "Back on main",
+      "value": "main"
+    },
+    {
+      "kind": "git",
+      "check": "not-in-head",
+      "label": "main does not have search.py",
+      "path": "search.py"
+    }
+  ],
+  "hints": [
+    "Commit while on the feature branch.",
+    "git add search.py; git commit -m ...; git switch main.",
+    "Run:\ngit add search.py\ngit commit -m \"add search\"\ngit switch main"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-07-branch"
+  ],
+  "solution": {
+    "commands": [
+      "git add search.py",
+      "git commit -m \"add search\"",
+      "git switch main"
+    ]
+  },
+  "tool": "git"
+}

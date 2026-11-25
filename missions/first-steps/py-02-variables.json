@@ -46,5 +46,16 @@
     "py-01-hello"
   ],
   "solution": "name = \"Chilaka\"\nlives = 3\nprint(name, \"has\", lives, \"lives\")\n",
-  "alt": "name = \"Chilaka\"\nlives = 3\nprint(f\"{name} has {lives} lives\")\n"
+  "alt": "name = \"Chilaka\"\nlives = 3\nprint(f\"{name} has {lives} lives\")\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: a snack bill",
+      "code": "item = \"samosa\"\nprice = 15\nprint(item)\nprint(price)\n",
+      "note": "Name a value with =, then print the name (without quotes) to show what it holds."
+    },
+    "partial": "name = \"Chilaka\"\n____\nprint(name, \"has\", lives, \"lives\")\n",
+    "blanks": [
+      "lives = 3"
+    ]
+  }
 }

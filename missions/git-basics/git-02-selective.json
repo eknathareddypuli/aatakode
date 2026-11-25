@@ -1,0 +1,83 @@
+{
+  "id": "git-02-selective",
+  "region": "git-basics",
+  "order": 2,
+  "title": "Stage Only What You Mean",
+  "story": "You fixed a bug in app.py, and also started a scratch file notes.txt. Only the fix should be in the commit.",
+  "goal": "Commit the change to app.py with a message containing \"fix\", and leave notes.txt untracked.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "initial app",
+          "files": {
+            "app.py": "def total(a, b):\n    return a - b\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "work": {
+        "app.py": "def total(a, b):\n    return a + b\n"
+      },
+      "untracked": {
+        "notes.txt": "todo: ideas\n"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "file-at-head",
+      "label": "The fix is committed",
+      "path": "app.py",
+      "text": "a + b"
+    },
+    {
+      "kind": "git",
+      "check": "msg-contains",
+      "label": "Message mentions fix",
+      "value": "fix"
+    },
+    {
+      "kind": "git",
+      "check": "not-in-head",
+      "label": "notes.txt is not committed",
+      "path": "notes.txt"
+    }
+  ],
+  "hints": [
+    "git status shows what changed and what is untracked.",
+    "Stage by name: git add app.py. Then git commit -m \"fix ...\".",
+    "Run:\ngit status\ngit add app.py\ngit commit -m \"fix total\""
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-01-init"
+  ],
+  "solution": {
+    "commands": [
+      "git status",
+      "git add app.py",
+      "git commit -m \"fix total\""
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git commit -a -m \"fix total sum\""
+    ]
+  }
+}

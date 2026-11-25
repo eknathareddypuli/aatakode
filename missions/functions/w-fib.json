@@ -54,5 +54,16 @@
     "w-recursion"
   ],
   "solution": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n",
-  "alt": "def fib(n):\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n"
+  "alt": "def fib(n):\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: powers of two",
+      "code": "a = 1\nfor _ in range(5):\n    print(a)\n    a = a * 2\n",
+      "note": "Update the variables at the end of each pass so the next pass uses new values."
+    },
+    "partial": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        ____\n    return a\n",
+    "blanks": [
+      "a, b = b, a + b"
+    ]
+  }
 }

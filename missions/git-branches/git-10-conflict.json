@@ -1,0 +1,100 @@
+{
+  "id": "git-10-conflict",
+  "region": "git-branches",
+  "order": 4,
+  "title": "Two Cooks, One Pot",
+  "story": "Both branches changed the timeout line. Git cannot choose, so it marks the conflict and waits for you.",
+  "goal": "Merge feature/slow into main and resolve the conflict by keeping timeout = 30. Finish the merge commit.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "config.py": "timeout = 10\n"
+          },
+          "author": "Asha"
+        },
+        {
+          "msg": "main sets 20",
+          "files": {
+            "config.py": "timeout = 20\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "branches": [
+        {
+          "name": "feature/slow",
+          "from": "main~1",
+          "commits": [
+            {
+              "msg": "feature sets 30",
+              "files": {
+                "config.py": "timeout = 30\n"
+              },
+              "author": "Ravi"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "merged",
+      "label": "feature/slow is merged",
+      "branch": "feature/slow"
+    },
+    {
+      "kind": "git",
+      "check": "no-conflict",
+      "label": "No conflict markers remain"
+    },
+    {
+      "kind": "git",
+      "check": "file",
+      "label": "config.py keeps timeout = 30",
+      "path": "config.py",
+      "text": "timeout = 30"
+    },
+    {
+      "kind": "git",
+      "check": "merging",
+      "label": "Merge is finished",
+      "value": false
+    }
+  ],
+  "hints": [
+    "Open the file: the lines between <<<<<<< and >>>>>>> are the two versions.",
+    "Write the final content to the file, git add it, then git commit.",
+    "Run:\ngit merge feature/slow\necho 'timeout = 30' > config.py\ngit add config.py\ngit commit -m \"merge feature/slow\""
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 45,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-09-merge"
+  ],
+  "solution": {
+    "commands": [
+      "git merge feature/slow",
+      "echo 'timeout = 30' > config.py",
+      "git add config.py",
+      "git commit -m \"merge feature/slow\""
+    ]
+  },
+  "tool": "git"
+}

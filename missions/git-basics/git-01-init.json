@@ -1,0 +1,65 @@
+{
+  "id": "git-01-init",
+  "region": "git-basics",
+  "order": 1,
+  "title": "Start a Repository",
+  "story": "Your new project is just a loose folder. Put it under version control and save the first snapshot.",
+  "goal": "Turn the folder into a repository and make your first commit containing hello.py.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {
+      "/home/oncall/repo/hello.py": "print('namaste')\n"
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "commits",
+      "label": "At least one commit exists",
+      "min": 1
+    },
+    {
+      "kind": "git",
+      "check": "in-head",
+      "label": "hello.py is saved in the commit",
+      "path": "hello.py"
+    },
+    {
+      "kind": "git",
+      "check": "clean",
+      "label": "Nothing left uncommitted"
+    }
+  ],
+  "hints": [
+    "A folder becomes a repository with git init.",
+    "git init, git add hello.py, git commit -m \"message\".",
+    "Run:\ngit init\ngit add hello.py\ngit commit -m \"first commit\""
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "git"
+  ],
+  "requires": [],
+  "solution": {
+    "commands": [
+      "git init",
+      "git add hello.py",
+      "git commit -m \"first commit\""
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git init",
+      "git add .",
+      "git commit -m 'start'"
+    ]
+  }
+}

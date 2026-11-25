@@ -58,5 +58,16 @@
     "py-13-bugfix-4"
   ],
   "solution": "def double(x):\n    return x * 2\n",
-  "alt": "def double(x):\n    return x + x\n"
+  "alt": "def double(x):\n    return x + x\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: a square function",
+      "code": "def square(n):\n    return n * n\n\nprint(square(4))\n",
+      "note": "def names the function, return hands a value back to the caller."
+    },
+    "partial": "def double(x):\n    ____\n",
+    "blanks": [
+      "return x * 2"
+    ]
+  }
 }

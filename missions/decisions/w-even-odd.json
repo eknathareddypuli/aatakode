@@ -62,5 +62,16 @@
     "py-05-if-else"
   ],
   "solution": "n = int(input())\nif n % 2 == 0:\n    print(\"even\")\nelse:\n    print(\"odd\")\n",
-  "alt": "n = int(input())\nprint(\"even\" if n % 2 == 0 else \"odd\")\n"
+  "alt": "n = int(input())\nprint(\"even\" if n % 2 == 0 else \"odd\")\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: multiple of 5?",
+      "code": "n = 35\nif n % 5 == 0:\n    print(\"multiple of 5\")\nelse:\n    print(\"not a multiple\")\n",
+      "note": "% gives the remainder. A remainder of 0 means it divides exactly."
+    },
+    "partial": "n = int(input())\nif n % 2 == 0:\n    ____\nelse:\n    print(\"odd\")\n",
+    "blanks": [
+      "print(\"even\")"
+    ]
+  }
 }

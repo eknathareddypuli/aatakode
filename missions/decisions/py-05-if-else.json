@@ -66,5 +66,16 @@
     "py-04-bugfix-1"
   ],
   "solution": "score = int(input())\nif score >= 50:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")\n",
-  "alt": "score = int(input())\nprint(\"Pass\" if score >= 50 else \"Try again\")\n"
+  "alt": "score = int(input())\nprint(\"Pass\" if score >= 50 else \"Try again\")\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: pass or fail",
+      "code": "mark = 62\nif mark >= 40:\n    print(\"pass\")\nelse:\n    print(\"fail\")\n",
+      "note": "if checks a condition; else covers everything else. The body is indented."
+    },
+    "partial": "score = int(input())\nif score >= 50:\n    ____\nelse:\n    print(\"Try again\")\n",
+    "blanks": [
+      "print(\"Pass\")"
+    ]
+  }
 }
