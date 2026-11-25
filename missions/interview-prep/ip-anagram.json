@@ -1,0 +1,59 @@
+{
+  "id": "ip-anagram",
+  "region": "interview-prep",
+  "order": 3,
+  "title": "Anagram Check",
+  "story": "Are two words made of exactly the same letters?",
+  "goal": "Write is_anagram(a, b): True if b is a rearrangement of a (ignore case).",
+  "type": "write-code",
+  "starter": "def is_anagram(a, b):\n    # compare sorted letters or counts\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "yes",
+      "expr": "is_anagram(\"listen\", \"silent\")",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "no",
+      "expr": "is_anagram(\"apple\", \"papel1\")",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "case",
+      "expr": "is_anagram(\"Dusty\", \"study\")",
+      "expect": "True",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "different length",
+      "expr": "is_anagram(\"ab\", \"abc\")",
+      "expect": "False",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "If two words are anagrams, their sorted letters are equal.",
+    "Lowercase both first.",
+    "def is_anagram(a, b):\n    return sorted(a.lower()) == sorted(b.lower())\n"
+  ],
+  "socratic": [
+    "What is the same about two anagrams?",
+    "What about capital letters?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Anagram Check”?",
+  "xp": 30,
+  "skills": [
+    "interview",
+    "strings"
+  ],
+  "requires": [
+    "ip-brackets"
+  ],
+  "solution": "def is_anagram(a, b):\n    return sorted(a.lower()) == sorted(b.lower())\n",
+  "alt": "from collections import Counter\n\ndef is_anagram(a, b):\n    return Counter(a.lower()) == Counter(b.lower())\n"
+}

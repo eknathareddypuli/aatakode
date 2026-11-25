@@ -1,0 +1,73 @@
+{
+  "id": "pair-02-adult",
+  "region": "pair-parrot",
+  "order": 2,
+  "title": "Just Turned Eighteen",
+  "story": "The ticket booth turns away exactly-eighteen-year-olds. Chilaka insists the rule is right.",
+  "goal": "Diagnose the bug, then fix the code so every check passes.",
+  "type": "pair",
+  "starter": "def is_adult(age):\n    if age > 18:\n        return True\n    return False\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "20",
+      "expr": "is_adult(20)",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "18",
+      "expr": "is_adult(18)",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "10",
+      "expr": "is_adult(10)",
+      "expect": "False",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "17",
+      "expr": "is_adult(17)",
+      "expect": "False",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Test the boundary: what does is_adult(18) give?",
+    "Is 18 over eighteen, or eighteen and over?",
+    "def is_adult(age):\n    if age >= 18:\n        return True\n    return False\n"
+  ],
+  "socratic": [
+    "What did you expect it to do?",
+    "What does it do instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "comparison",
+    "if"
+  ],
+  "requires": [
+    "pair-01-range"
+  ],
+  "solution": "def is_adult(age):\n    if age >= 18:\n        return True\n    return False\n",
+  "alt": "def is_adult(age):\n    return age >= 18\n",
+  "parrot": {
+    "says": "Squawk! Adults are people OVER eighteen. Rules are rules!"
+  },
+  "diagnose": {
+    "question": "Which statement explains the bug?",
+    "options": [
+      "> is false for exactly 18, but 18-year-olds are adults",
+      "The function should use input()",
+      "return cannot be inside if",
+      "age must be a string"
+    ],
+    "answer": 0,
+    "why": "The rule is 18 or older, so the comparison must be >= 18."
+  }
+}

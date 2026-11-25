@@ -1,0 +1,59 @@
+{
+  "id": "ip-flatten",
+  "region": "interview-prep",
+  "order": 8,
+  "title": "Flatten",
+  "story": "Lists inside lists inside lists. Make one flat list.",
+  "goal": "Write flatten(items): return a flat list of every non-list item, in order, however deeply nested.",
+  "type": "write-code",
+  "starter": "def flatten(items):\n    # recursion\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "nested",
+      "expr": "flatten([1, [2, [3, 4]], 5])",
+      "expect": "[1, 2, 3, 4, 5]"
+    },
+    {
+      "kind": "eval",
+      "label": "flat",
+      "expr": "flatten([1, 2])",
+      "expect": "[1, 2]"
+    },
+    {
+      "kind": "eval",
+      "label": "empty inner",
+      "expr": "flatten([[], [1], [[]]])",
+      "expect": "[1]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "strings stay",
+      "expr": "flatten([\"a\", [\"b\"]])",
+      "expect": "['a', 'b']",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "If an item is a list, flatten it too: that is recursion.",
+    "isinstance(item, list) tells you which case you are in.",
+    "def flatten(items):\n    out = []\n    for item in items:\n        if isinstance(item, list):\n            out.extend(flatten(item))\n        else:\n            out.append(item)\n    return out\n"
+  ],
+  "socratic": [
+    "What do you do with a list inside the list?",
+    "What stops the recursion?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Flatten”?",
+  "xp": 45,
+  "skills": [
+    "interview",
+    "recursion"
+  ],
+  "requires": [
+    "ip-rotate"
+  ],
+  "solution": "def flatten(items):\n    out = []\n    for item in items:\n        if isinstance(item, list):\n            out.extend(flatten(item))\n        else:\n            out.append(item)\n    return out\n",
+  "alt": "def flatten(items):\n    stack = list(items)[::-1]\n    out = []\n    while stack:\n        item = stack.pop()\n        if isinstance(item, list):\n            stack.extend(item[::-1])\n        else:\n            out.append(item)\n    return out\n"
+}

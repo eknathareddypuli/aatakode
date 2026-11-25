@@ -1,0 +1,57 @@
+{
+  "id": "golf-05-vowels",
+  "region": "golf-shrine",
+  "order": 5,
+  "title": "Count the Vowels",
+  "story": "Hole 5.",
+  "goal": "Write vowels(s): how many of the letters a, e, i, o, u (lowercase) are in s.",
+  "type": "write-code",
+  "starter": "def vowels(s):\n    # write it any way you like, then make it SHORTER\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "banana",
+      "expr": "vowels(\"banana\")",
+      "expect": "3"
+    },
+    {
+      "kind": "eval",
+      "label": "sky",
+      "expr": "vowels(\"sky\")",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "telugu",
+      "expr": "vowels(\"telugu\")",
+      "expect": "3",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Loop over the letters and count the ones in 'aeiou'.",
+    "True counts as 1, so sum() over comparisons works.",
+    "def vowels(s):\n    n = 0\n    for c in s:\n        if c in 'aeiou':\n            n += 1\n    return n\n"
+  ],
+  "socratic": [
+    "What is the plainest way to do it?",
+    "Which words or spaces can disappear?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Count the Vowels”?",
+  "xp": 25,
+  "skills": [
+    "golf"
+  ],
+  "requires": [
+    "golf-04-diff"
+  ],
+  "solution": "def vowels(s):\n    n = 0\n    for c in s:\n        if c in 'aeiou':\n            n += 1\n    return n\n",
+  "alt": "vowels=lambda s:sum(c in'aeiou'for c in s)\n",
+  "golf": {
+    "par": 97,
+    "best": 42,
+    "parCode": "def vowels(s):\n    n = 0\n    for c in s:\n        if c in 'aeiou':\n            n += 1\n    return n\n",
+    "bestCode": "vowels=lambda s:sum(c in'aeiou'for c in s)\n"
+  }
+}

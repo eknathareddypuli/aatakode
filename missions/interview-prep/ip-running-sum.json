@@ -1,0 +1,52 @@
+{
+  "id": "ip-running-sum",
+  "region": "interview-prep",
+  "order": 10,
+  "title": "Running Total",
+  "story": "Show the total so far after every item.",
+  "goal": "Write running_sum(nums): return a list where item i is the sum of nums[0..i].",
+  "type": "write-code",
+  "starter": "def running_sum(nums):\n    # keep a total\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "basic",
+      "expr": "running_sum([1, 2, 3, 4])",
+      "expect": "[1, 3, 6, 10]"
+    },
+    {
+      "kind": "eval",
+      "label": "negative",
+      "expr": "running_sum([5, -2, 1])",
+      "expect": "[5, 3, 4]"
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "running_sum([])",
+      "expect": "[]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Keep a total variable that grows as you go.",
+    "Append the total after each addition.",
+    "def running_sum(nums):\n    total = 0\n    out = []\n    for n in nums:\n        total += n\n        out.append(total)\n    return out\n"
+  ],
+  "socratic": [
+    "What carries over from one item to the next?",
+    "What if the list is empty?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Running Total”?",
+  "xp": 30,
+  "skills": [
+    "interview",
+    "lists"
+  ],
+  "requires": [
+    "ip-intervals"
+  ],
+  "solution": "def running_sum(nums):\n    total = 0\n    out = []\n    for n in nums:\n        total += n\n        out.append(total)\n    return out\n",
+  "alt": "from itertools import accumulate\n\ndef running_sum(nums):\n    return list(accumulate(nums))\n"
+}

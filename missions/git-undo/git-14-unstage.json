@@ -1,0 +1,72 @@
+{
+  "id": "git-14-unstage",
+  "region": "git-undo",
+  "order": 2,
+  "title": "Oops, Staged the Secret",
+  "story": "You ran git add . and the secrets file got staged. Take it out of the staging area, but keep the file.",
+  "goal": "Unstage secrets.env without deleting it.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "x\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "staged": {
+        "secrets.env": "KEY=1\n"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "not-staged",
+      "label": "secrets.env is not staged",
+      "path": "secrets.env"
+    },
+    {
+      "kind": "git",
+      "check": "file",
+      "label": "secrets.env still exists",
+      "path": "secrets.env",
+      "text": "KEY"
+    }
+  ],
+  "hints": [
+    "There is a restore option that only touches the staging area.",
+    "git restore --staged secrets.env",
+    "Run:\ngit restore --staged secrets.env"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-13-restore"
+  ],
+  "solution": {
+    "commands": [
+      "git restore --staged secrets.env"
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git reset secrets.env"
+    ]
+  }
+}

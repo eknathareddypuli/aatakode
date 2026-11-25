@@ -1,0 +1,76 @@
+{
+  "id": "git-16-revert",
+  "region": "git-undo",
+  "order": 4,
+  "title": "Undo in Public",
+  "story": "A bad commit was already shared. Rewriting history would hurt your teammates, so undo it with a new commit.",
+  "goal": "Revert the latest commit so the BUG line disappears from app.py, keeping history.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "ok\n"
+          },
+          "author": "Asha"
+        },
+        {
+          "msg": "add feature with bug",
+          "files": {
+            "app.py": "ok\nBUG\n"
+          },
+          "author": "Asha"
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "file-not",
+      "label": "BUG is gone from app.py",
+      "path": "app.py",
+      "text": "BUG"
+    },
+    {
+      "kind": "git",
+      "check": "commits",
+      "label": "History kept: 3 commits",
+      "n": 3
+    }
+  ],
+  "hints": [
+    "revert creates a new commit that does the opposite.",
+    "git revert HEAD",
+    "Run:\ngit revert HEAD"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-15-amend"
+  ],
+  "solution": {
+    "commands": [
+      "git revert HEAD"
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git revert --no-edit HEAD"
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "pair-08-shared-list",
+  "region": "pair-parrot",
+  "order": 8,
+  "title": "The Shared Basket",
+  "story": "Every shopper's basket mysteriously contains items from other shoppers.",
+  "goal": "Diagnose the bug, then fix the code so every check passes.",
+  "type": "pair",
+  "starter": "def add_item(item, basket=[]):\n    basket.append(item)\n    return basket\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "first",
+      "expr": "add_item(\"rice\")",
+      "expect": "['rice']"
+    },
+    {
+      "kind": "eval",
+      "label": "second is fresh",
+      "expr": "(add_item(\"rice\"), add_item(\"dal\"))[1]",
+      "expect": "['dal']"
+    },
+    {
+      "kind": "eval",
+      "label": "explicit",
+      "expr": "add_item(\"x\", [\"y\"])",
+      "expect": "['y', 'x']",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Call add_item twice with no basket. What does the second call return?",
+    "Use None as the default, then create the list inside.",
+    "def add_item(item, basket=None):\n    if basket is None:\n        basket = []\n    basket.append(item)\n    return basket\n"
+  ],
+  "socratic": [
+    "What did you expect it to do?",
+    "What does it do instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "functions",
+    "defaults"
+  ],
+  "requires": [
+    "pair-07-int-div"
+  ],
+  "solution": "def add_item(item, basket=None):\n    if basket is None:\n        basket = []\n    basket.append(item)\n    return basket\n",
+  "alt": "def add_item(item, basket=None):\n    basket = [] if basket is None else basket\n    basket.append(item)\n    return basket\n",
+  "parrot": {
+    "says": "Squawk! A default basket, free for everyone! Brilliant!"
+  },
+  "diagnose": {
+    "question": "Why do baskets share items?",
+    "options": [
+      "The default list is created once and reused by every call",
+      "append returns a new list",
+      "item must be a number",
+      "The function is missing a loop"
+    ],
+    "answer": 0,
+    "why": "A default [] is built once, when the function is defined. Use None and make a new list inside."
+  }
+}

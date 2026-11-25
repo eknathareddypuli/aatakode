@@ -1,0 +1,59 @@
+{
+  "id": "ip-palindrome",
+  "region": "interview-prep",
+  "order": 6,
+  "title": "Real Palindrome",
+  "story": "Ignore spaces, punctuation and case: is the phrase the same backwards?",
+  "goal": "Write is_palindrome(s): True when the letters and digits of s read the same both ways, ignoring case and everything else.",
+  "type": "write-code",
+  "starter": "def is_palindrome(s):\n    # keep only letters and digits\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "phrase",
+      "expr": "is_palindrome(\"A man, a plan, a canal: Panama\")",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "no",
+      "expr": "is_palindrome(\"hello\")",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "digits",
+      "expr": "is_palindrome(\"12321\")",
+      "expect": "True",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "only symbols",
+      "expr": "is_palindrome(\"!?\")",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Build a cleaned string first: only characters where ch.isalnum().",
+    "Lowercase it, then compare with its reverse.",
+    "def is_palindrome(s):\n    clean = [ch.lower() for ch in s if ch.isalnum()]\n    return clean == clean[::-1]\n"
+  ],
+  "socratic": [
+    "What should be thrown away first?",
+    "How do you compare with the reverse?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Real Palindrome”?",
+  "xp": 30,
+  "skills": [
+    "interview",
+    "strings"
+  ],
+  "requires": [
+    "ip-reverse-words"
+  ],
+  "solution": "def is_palindrome(s):\n    clean = [ch.lower() for ch in s if ch.isalnum()]\n    return clean == clean[::-1]\n",
+  "alt": "def is_palindrome(s):\n    clean = \"\".join(ch for ch in s.lower() if ch.isalnum())\n    i, j = 0, len(clean) - 1\n    while i < j:\n        if clean[i] != clean[j]:\n            return False\n        i += 1\n        j -= 1\n    return True\n"
+}

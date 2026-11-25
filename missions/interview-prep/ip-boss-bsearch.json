@@ -1,0 +1,79 @@
+{
+  "id": "ip-boss-bsearch",
+  "region": "interview-prep",
+  "order": 11,
+  "title": "Boss: Broken Binary Search",
+  "story": "The interviewer hands you a binary search that sometimes loops forever and sometimes misses the last item.",
+  "goal": "Fix search(items, target) for a SORTED list: return the index of target, or -1 if it is missing.",
+  "type": "fix-the-bug",
+  "starter": "def search(items, target):\n    lo, hi = 0, len(items)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if items[mid] == target:\n            return mid\n        elif items[mid] < target:\n            lo = mid\n        else:\n            hi = mid\n    return -1\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "middle",
+      "expr": "search([1, 3, 5, 7, 9], 5)",
+      "expect": "2"
+    },
+    {
+      "kind": "eval",
+      "label": "last",
+      "expr": "search([1, 3, 5, 7, 9], 9)",
+      "expect": "4"
+    },
+    {
+      "kind": "eval",
+      "label": "first",
+      "expr": "search([1, 3, 5, 7, 9], 1)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "missing",
+      "expr": "search([1, 3, 5, 7], 4)",
+      "expect": "-1"
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "search([], 1)",
+      "expect": "-1",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "single",
+      "expr": "search([4], 4)",
+      "expect": "0",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "single miss",
+      "expr": "search([4], 5)",
+      "expect": "-1",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Trace it with [1, 3] and target 3: lo = mid never moves past the middle, so it loops forever.",
+    "After checking mid, move past it: lo = mid + 1 or hi = mid - 1, and decide whether hi is inclusive.",
+    "def search(items, target):\n    lo, hi = 0, len(items) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if items[mid] == target:\n            return mid\n        elif items[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n"
+  ],
+  "socratic": [
+    "What happens to lo when mid equals lo?",
+    "Is hi included in the search range or not?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 50,
+  "skills": [
+    "interview",
+    "debugging"
+  ],
+  "requires": [
+    "ip-running-sum"
+  ],
+  "solution": "def search(items, target):\n    lo, hi = 0, len(items) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if items[mid] == target:\n            return mid\n        elif items[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n",
+  "alt": "def search(items, target):\n    lo, hi = 0, len(items)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if items[mid] == target:\n            return mid\n        elif items[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid\n    return -1\n",
+  "boss": true
+}

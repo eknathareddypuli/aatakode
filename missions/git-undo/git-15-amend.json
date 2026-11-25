@@ -1,0 +1,76 @@
+{
+  "id": "git-15-amend",
+  "region": "git-undo",
+  "order": 3,
+  "title": "Fix the Last Message",
+  "story": "The last commit message has a typo: \"Add logn page\".",
+  "goal": "Rewrite the last commit's message to \"Add login page\".",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "a.py": "x\n"
+          },
+          "author": "Asha"
+        },
+        {
+          "msg": "Add logn page",
+          "files": {
+            "login.py": "x\n"
+          },
+          "author": "Asha"
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "msg-contains",
+      "label": "Message says Add login page",
+      "value": "Add login page"
+    },
+    {
+      "kind": "git",
+      "check": "no-commit-msg",
+      "label": "Typo is gone",
+      "value": "logn"
+    },
+    {
+      "kind": "git",
+      "check": "commits",
+      "label": "Still two commits",
+      "n": 2
+    }
+  ],
+  "hints": [
+    "A commit can be amended instead of adding a new one.",
+    "git commit --amend -m \"Add login page\"",
+    "Run:\ngit commit --amend -m \"Add login page\""
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-14-unstage"
+  ],
+  "solution": {
+    "commands": [
+      "git commit --amend -m \"Add login page\""
+    ]
+  },
+  "tool": "git"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "mystery-06-grand-case",
+  "region": "mystery-cases",
+  "order": 6,
+  "title": "Boss Case: The Insider",
+  "story": "Someone changed the firewall rule at 01:30 and the logs disagree. Combine three witnesses.",
+  "goal": "Find who changed the firewall: the change time is in fw.log, who was logged in is in sessions.log, and uid mapping is in passwd.txt. Answer with the username.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/case/fw.log": "01:30 rule changed by uid=1007 via ssh\n",
+      "/case/sessions.log": "01:25 uid=1004 login\n01:28 uid=1007 login\n01:40 uid=1007 logout\n",
+      "/case/passwd.txt": "1004 dinesh\n1007 sandhya\n1009 tarun\n"
+    },
+    "dirs": [
+      "/case"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "sandhya",
+      "label": "Named the culprit"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "cat",
+        "grep"
+      ],
+      "label": "Read the evidence"
+    }
+  ],
+  "hints": [
+    "fw.log gives a uid, not a name.",
+    "Look the uid up in passwd.txt, then check that sessions.log agrees.",
+    "Run:\ncat /case/fw.log\ncat /case/sessions.log\ncat /case/passwd.txt\nThen answer: sandhya"
+  ],
+  "socratic": [
+    "Which file is the oldest witness?",
+    "Do two files tell different stories?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "investigation"
+  ],
+  "requires": [
+    "mystery-05-odd-one-out"
+  ],
+  "solution": {
+    "commands": [
+      "cat /case/fw.log",
+      "cat /case/sessions.log",
+      "cat /case/passwd.txt"
+    ],
+    "answer": "sandhya"
+  },
+  "tool": "linux",
+  "mystery": true
+}

@@ -1,0 +1,96 @@
+{
+  "id": "git-18-boss-stash",
+  "region": "git-undo",
+  "order": 6,
+  "title": "Boss: The Urgent Hotfix",
+  "story": "You are halfway through a feature when production breaks. Park your work, fix main, and come back.",
+  "goal": "Stash your work, switch to main, commit a fix with a message containing \"hotfix\", return to feature/ui and restore your work.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "v1\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "branches": [
+        {
+          "name": "feature/ui"
+        }
+      ],
+      "checkout": "feature/ui",
+      "staged": {
+        "ui.py": "wip\n"
+      },
+      "work": {
+        "app.py": "v1\nwip\n"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "branch-is",
+      "label": "Back on feature/ui",
+      "value": "feature/ui"
+    },
+    {
+      "kind": "git",
+      "check": "stash",
+      "label": "Stash is empty again",
+      "n": 0
+    },
+    {
+      "kind": "git",
+      "check": "branch-commit-msg",
+      "label": "main has the hotfix",
+      "branch": "main",
+      "value": "hotfix"
+    },
+    {
+      "kind": "git",
+      "check": "file",
+      "label": "Your work in progress is back",
+      "path": "app.py",
+      "text": "wip"
+    }
+  ],
+  "hints": [
+    "git stash puts uncommitted work on a shelf.",
+    "stash, switch main, edit+commit, switch feature/ui, stash pop.",
+    "Run:\ngit stash\ngit switch main\necho 'v2' > app.py\ngit add app.py\ngit commit -m \"hotfix prod\"\ngit switch feature/ui\ngit stash pop"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 55,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-17-reflog"
+  ],
+  "solution": {
+    "commands": [
+      "git stash",
+      "git switch main",
+      "echo 'v2' > app.py",
+      "git add app.py",
+      "git commit -m \"hotfix prod\"",
+      "git switch feature/ui",
+      "git stash pop"
+    ]
+  },
+  "tool": "git",
+  "boss": true
+}

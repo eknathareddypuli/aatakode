@@ -1,0 +1,52 @@
+{
+  "id": "mystery-04-timeline",
+  "region": "mystery-cases",
+  "order": 4,
+  "title": "Case 4: The 3 AM Spike",
+  "story": "Latency spiked at 03:00. One host in the load balancer log returned errors far more than the rest.",
+  "goal": "Find the backend with the most 500 errors in /case/lb.log.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/case/lb.log": "03:00 backend-a 200\n03:00 backend-b 500\n03:01 backend-b 500\n03:01 backend-c 200\n03:02 backend-b 500\n03:02 backend-a 500\n03:03 backend-c 200\n"
+    },
+    "dirs": [
+      "/case"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "backend-b",
+      "label": "Named the culprit"
+    }
+  ],
+  "hints": [
+    "Keep only the 500 lines, then count by host.",
+    "grep ' 500' /case/lb.log | cut -d' ' -f2 | sort | uniq -c | sort -rn",
+    "Run:\ngrep ' 500' /case/lb.log | cut -d' ' -f2 | sort | uniq -c | sort -rn\nThen answer: backend-b"
+  ],
+  "socratic": [
+    "Which file is the oldest witness?",
+    "Do two files tell different stories?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "investigation"
+  ],
+  "requires": [
+    "mystery-03-leaky-key"
+  ],
+  "solution": {
+    "commands": [
+      "grep ' 500' /case/lb.log | cut -d' ' -f2 | sort | uniq -c | sort -rn"
+    ],
+    "answer": "backend-b"
+  },
+  "tool": "linux",
+  "mystery": true
+}

@@ -1,0 +1,54 @@
+{
+  "id": "mystery-02-vanishing-file",
+  "region": "mystery-cases",
+  "order": 2,
+  "title": "Case 2: The Vanishing File",
+  "story": "The finance report disappeared from the shared folder. The delete left a trace in the shell histories.",
+  "goal": "Find which user ran rm on report-q3.xlsx.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/case/hist_asha.txt": "ls\ncd reports\nvim notes.txt\n",
+      "/case/hist_ravi.txt": "ls\nrm report-q3.xlsx\nls\n",
+      "/case/hist_kiran.txt": "git status\ncd reports\n"
+    },
+    "dirs": [
+      "/case"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "ravi",
+      "label": "Named the culprit"
+    }
+  ],
+  "hints": [
+    "grep can search many files at once.",
+    "grep rm /case/hist_*.txt shows the file name too.",
+    "Run:\ngrep -l report-q3 /case/hist_*.txt\nThen answer: ravi"
+  ],
+  "socratic": [
+    "Which file is the oldest witness?",
+    "Do two files tell different stories?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "investigation"
+  ],
+  "requires": [
+    "mystery-01-midnight-deploy"
+  ],
+  "solution": {
+    "commands": [
+      "grep -l report-q3 /case/hist_*.txt"
+    ],
+    "answer": "ravi"
+  },
+  "tool": "linux",
+  "mystery": true
+}

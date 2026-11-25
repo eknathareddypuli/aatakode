@@ -1,0 +1,57 @@
+{
+  "id": "golf-02-even",
+  "region": "golf-shrine",
+  "order": 2,
+  "title": "Even Steven",
+  "story": "Hole 2. The ticket machine asks one question.",
+  "goal": "Write even(n): True when n is even.",
+  "type": "write-code",
+  "starter": "def even(n):\n    # write it any way you like, then make it SHORTER\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "4",
+      "expr": "even(4)",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "7",
+      "expr": "even(7)",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "0",
+      "expr": "even(0)",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "n % 2 is 0 for even numbers.",
+    "n % 2 < 1 is shorter than == 0.",
+    "def even(n):\n    return n % 2 == 0\n"
+  ],
+  "socratic": [
+    "What is the plainest way to do it?",
+    "Which words or spaces can disappear?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Even Steven”?",
+  "xp": 25,
+  "skills": [
+    "golf"
+  ],
+  "requires": [
+    "golf-01-double"
+  ],
+  "solution": "def even(n):\n    return n % 2 == 0\n",
+  "alt": "even=lambda n:n%2<1\n",
+  "golf": {
+    "par": 34,
+    "best": 19,
+    "parCode": "def even(n):\n    return n % 2 == 0\n",
+    "bestCode": "even=lambda n:n%2<1\n"
+  }
+}

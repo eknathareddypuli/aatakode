@@ -1,0 +1,55 @@
+{
+  "id": "mystery-01-midnight-deploy",
+  "region": "mystery-cases",
+  "order": 1,
+  "title": "Case 1: The Midnight Deploy",
+  "story": "At 00:14 production broke. Three people were online. Only one of them deployed.",
+  "goal": "Read the files in /case and name the user who deployed at 00:14.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/case/auth.log": "00:02 login asha\n00:09 login ravi\n00:11 login meena\n00:20 logout ravi\n",
+      "/case/deploy.log": "00:14 deploy v2.3 by uid=1002\n",
+      "/case/users.txt": "1001 asha\n1002 meena\n1003 ravi\n"
+    },
+    "dirs": [
+      "/case"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "meena",
+      "label": "Named the culprit"
+    }
+  ],
+  "hints": [
+    "Find who the deploy log blames: it only has a number.",
+    "Match that number in users.txt.",
+    "Run:\ncat /case/deploy.log\ncat /case/users.txt\nThen answer: meena"
+  ],
+  "socratic": [
+    "Which file is the oldest witness?",
+    "Do two files tell different stories?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "investigation"
+  ],
+  "requires": [
+    "linux-04-runaway"
+  ],
+  "solution": {
+    "commands": [
+      "cat /case/deploy.log",
+      "cat /case/users.txt"
+    ],
+    "answer": "meena"
+  },
+  "tool": "linux",
+  "mystery": true
+}

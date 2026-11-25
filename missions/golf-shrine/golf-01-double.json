@@ -1,0 +1,57 @@
+{
+  "id": "golf-01-double",
+  "region": "golf-shrine",
+  "order": 1,
+  "title": "Double It",
+  "story": "Hole 1 of the Shrine. Shortest code wins. Par is the tidy version; a birdie beats it.",
+  "goal": "Write double(x) returning twice x, using as few characters as you can.",
+  "type": "write-code",
+  "starter": "def double(x):\n    # write it any way you like, then make it SHORTER\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "5",
+      "expr": "double(5)",
+      "expect": "10"
+    },
+    {
+      "kind": "eval",
+      "label": "0",
+      "expr": "double(0)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "neg",
+      "expr": "double(-3)",
+      "expect": "-6",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "return x * 2 is the tidy way.",
+    "A lambda can replace def and return: double = lambda x: x*2",
+    "def double(x):\n    return x * 2\n"
+  ],
+  "socratic": [
+    "What is the plainest way to do it?",
+    "Which words or spaces can disappear?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Double It”?",
+  "xp": 25,
+  "skills": [
+    "golf"
+  ],
+  "requires": [
+    "py-10-bugfix-3"
+  ],
+  "solution": "def double(x):\n    return x * 2\n",
+  "alt": "double=lambda x:x*2\n",
+  "golf": {
+    "par": 31,
+    "best": 19,
+    "parCode": "def double(x):\n    return x * 2\n",
+    "bestCode": "double=lambda x:x*2\n"
+  }
+}

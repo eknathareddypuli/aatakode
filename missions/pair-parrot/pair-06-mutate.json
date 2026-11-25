@@ -1,0 +1,66 @@
+{
+  "id": "pair-06-mutate",
+  "region": "pair-parrot",
+  "order": 6,
+  "title": "Deleting While Looping",
+  "story": "remove_negatives() leaves some negative numbers behind.",
+  "goal": "Diagnose the bug, then fix the code so every check passes.",
+  "type": "pair",
+  "starter": "def remove_negatives(nums):\n    for n in nums:\n        if n < 0:\n            nums.remove(n)\n    return nums\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "adjacent",
+      "expr": "remove_negatives([1, -2, -3, 4])",
+      "expect": "[1, 4]"
+    },
+    {
+      "kind": "eval",
+      "label": "all",
+      "expr": "remove_negatives([-1, -2, -3])",
+      "expect": "[]"
+    },
+    {
+      "kind": "eval",
+      "label": "none",
+      "expr": "remove_negatives([1, 2])",
+      "expect": "[1, 2]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Run it on [-1, -2, -3] and watch which items are visited.",
+    "Instead of deleting, collect the numbers you want to keep.",
+    "def remove_negatives(nums):\n    keep = []\n    for n in nums:\n        if n >= 0:\n            keep.append(n)\n    return keep\n"
+  ],
+  "socratic": [
+    "What did you expect it to do?",
+    "What does it do instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "lists",
+    "loops"
+  ],
+  "requires": [
+    "pair-05-text-number"
+  ],
+  "solution": "def remove_negatives(nums):\n    keep = []\n    for n in nums:\n        if n >= 0:\n            keep.append(n)\n    return keep\n",
+  "alt": "def remove_negatives(nums):\n    return [n for n in nums if n >= 0]\n",
+  "parrot": {
+    "says": "Squawk! I delete each negative as I find it. Same list, no waste!"
+  },
+  "diagnose": {
+    "question": "Why are some negatives skipped?",
+    "options": [
+      "Removing items while looping shifts the list so the next item is skipped",
+      "remove only works on strings",
+      "The condition should be n > 0",
+      "Lists cannot be looped over"
+    ],
+    "answer": 0,
+    "why": "Changing a list while looping over it skips items. Build a new list instead."
+  }
+}

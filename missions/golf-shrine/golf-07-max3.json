@@ -1,0 +1,57 @@
+{
+  "id": "golf-07-max3",
+  "region": "golf-shrine",
+  "order": 7,
+  "title": "Biggest of Three",
+  "story": "Hole 7.",
+  "goal": "Write biggest(a, b, c): the largest of the three numbers.",
+  "type": "write-code",
+  "starter": "def biggest(a, b, c):\n    # write it any way you like, then make it SHORTER\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "basic",
+      "expr": "biggest(1, 5, 3)",
+      "expect": "5"
+    },
+    {
+      "kind": "eval",
+      "label": "last",
+      "expr": "biggest(1, 2, 9)",
+      "expect": "9"
+    },
+    {
+      "kind": "eval",
+      "label": "neg",
+      "expr": "biggest(-5, -2, -9)",
+      "expect": "-2",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Python has a built-in for this.",
+    "Does your function need to exist at all? A name can point at max directly.",
+    "def biggest(a, b, c):\n    return max(a, b, c)\n"
+  ],
+  "socratic": [
+    "What is the plainest way to do it?",
+    "Which words or spaces can disappear?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Biggest of Three”?",
+  "xp": 25,
+  "skills": [
+    "golf"
+  ],
+  "requires": [
+    "golf-06-digits"
+  ],
+  "solution": "def biggest(a, b, c):\n    return max(a, b, c)\n",
+  "alt": "biggest=max\n",
+  "golf": {
+    "par": 45,
+    "best": 11,
+    "parCode": "def biggest(a, b, c):\n    return max(a, b, c)\n",
+    "bestCode": "biggest=max\n"
+  }
+}

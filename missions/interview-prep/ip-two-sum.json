@@ -1,0 +1,59 @@
+{
+  "id": "ip-two-sum",
+  "region": "interview-prep",
+  "order": 1,
+  "title": "Two Sum",
+  "story": "The classic opener. Given numbers and a target, find the two positions that add up to it.",
+  "goal": "Write two_sum(nums, target): return the two indexes [i, j] with i < j whose numbers add up to target. Exactly one pair exists.",
+  "type": "write-code",
+  "starter": "def two_sum(nums, target):\n    # remember what you have seen\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "basic",
+      "expr": "two_sum([2, 7, 11, 15], 9)",
+      "expect": "[0, 1]"
+    },
+    {
+      "kind": "eval",
+      "label": "middle",
+      "expr": "two_sum([3, 2, 4], 6)",
+      "expect": "[1, 2]"
+    },
+    {
+      "kind": "eval",
+      "label": "duplicates",
+      "expr": "two_sum([3, 3], 6)",
+      "expect": "[0, 1]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "negatives",
+      "expr": "two_sum([-1, 5, 1, 8], 0)",
+      "expect": "[0, 2]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "The slow way checks every pair. A dict from value to index can find the partner in one step.",
+    "For each number, the partner is target - number. Was it seen before?",
+    "def two_sum(nums, target):\n    seen = {}\n    for i, n in enumerate(nums):\n        if target - n in seen:\n            return [seen[target - n], i]\n        seen[n] = i\n"
+  ],
+  "socratic": [
+    "What number would complete this one?",
+    "How can you remember what you have already seen?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Two Sum”?",
+  "xp": 40,
+  "skills": [
+    "interview",
+    "dicts"
+  ],
+  "requires": [
+    "ps-boss"
+  ],
+  "solution": "def two_sum(nums, target):\n    seen = {}\n    for i, n in enumerate(nums):\n        if target - n in seen:\n            return [seen[target - n], i]\n        seen[n] = i\n",
+  "alt": "def two_sum(nums, target):\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] + nums[j] == target:\n                return [i, j]\n"
+}

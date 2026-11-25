@@ -1,0 +1,57 @@
+{
+  "id": "golf-04-diff",
+  "region": "golf-shrine",
+  "order": 4,
+  "title": "How Far Apart?",
+  "story": "Hole 4.",
+  "goal": "Write diff(a, b): the distance between a and b (never negative).",
+  "type": "write-code",
+  "starter": "def diff(a, b):\n    # write it any way you like, then make it SHORTER\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "3 7",
+      "expr": "diff(3, 7)",
+      "expect": "4"
+    },
+    {
+      "kind": "eval",
+      "label": "7 3",
+      "expr": "diff(7, 3)",
+      "expect": "4"
+    },
+    {
+      "kind": "eval",
+      "label": "same",
+      "expr": "diff(5, 5)",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "You need the bigger minus the smaller.",
+    "abs() removes a minus sign.",
+    "def diff(a, b):\n    if a > b:\n        return a - b\n    return b - a\n"
+  ],
+  "socratic": [
+    "What is the plainest way to do it?",
+    "Which words or spaces can disappear?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “How Far Apart?”?",
+  "xp": 25,
+  "skills": [
+    "golf"
+  ],
+  "requires": [
+    "golf-03-last"
+  ],
+  "solution": "def diff(a, b):\n    if a > b:\n        return a - b\n    return b - a\n",
+  "alt": "diff=lambda a,b:abs(a-b)\n",
+  "golf": {
+    "par": 67,
+    "best": 24,
+    "parCode": "def diff(a, b):\n    if a > b:\n        return a - b\n    return b - a\n",
+    "bestCode": "diff=lambda a,b:abs(a-b)\n"
+  }
+}

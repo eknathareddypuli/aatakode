@@ -1,0 +1,60 @@
+{
+  "id": "pair-05-text-number",
+  "region": "pair-parrot",
+  "order": 5,
+  "title": "Text Plus Number",
+  "story": "The greeting crashes with a TypeError, and Chilaka blames Python.",
+  "goal": "Diagnose the bug, then fix the code so every check passes.",
+  "type": "pair",
+  "starter": "def greet(name, age):\n    return \"Hi \" + name + \", you are \" + age\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "basic",
+      "expr": "greet(\"Asha\", 12)",
+      "expect": "'Hi Asha, you are 12'"
+    },
+    {
+      "kind": "eval",
+      "label": "other",
+      "expr": "greet(\"Ravi\", 40)",
+      "expect": "'Hi Ravi, you are 40'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Which of the joined things is not text?",
+    "str() turns a number into text.",
+    "def greet(name, age):\n    return \"Hi \" + name + \", you are \" + str(age)\n"
+  ],
+  "socratic": [
+    "What did you expect it to do?",
+    "What does it do instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "strings",
+    "types"
+  ],
+  "requires": [
+    "pair-04-early-return"
+  ],
+  "solution": "def greet(name, age):\n    return \"Hi \" + name + \", you are \" + str(age)\n",
+  "alt": "def greet(name, age):\n    return f\"Hi {name}, you are {age}\"\n",
+  "parrot": {
+    "says": "Squawk! Python should understand that 12 is a nice thing to say!"
+  },
+  "diagnose": {
+    "question": "What does the error mean?",
+    "options": [
+      "You cannot join text and a number with +; convert the number to text",
+      "age is not defined",
+      "The string has too few quotes",
+      "return needs brackets"
+    ],
+    "answer": 0,
+    "why": "+ joins text to text. Convert with str(age) or use an f-string."
+  }
+}

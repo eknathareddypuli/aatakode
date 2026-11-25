@@ -1,0 +1,73 @@
+{
+  "id": "pair-04-early-return",
+  "region": "pair-parrot",
+  "order": 4,
+  "title": "The Impatient Loop",
+  "story": "count_even() only ever looks at the first number.",
+  "goal": "Diagnose the bug, then fix the code so every check passes.",
+  "type": "pair",
+  "starter": "def count_even(nums):\n    count = 0\n    for n in nums:\n        if n % 2 == 0:\n            count += 1\n        return count\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "mixed",
+      "expr": "count_even([2, 4, 5, 6])",
+      "expect": "3"
+    },
+    {
+      "kind": "eval",
+      "label": "none",
+      "expr": "count_even([1, 3])",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "all",
+      "expr": "count_even([2, 4])",
+      "expect": "2",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "count_even([])",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "How many times does the loop body run before return?",
+    "Look at the indentation of return.",
+    "def count_even(nums):\n    count = 0\n    for n in nums:\n        if n % 2 == 0:\n            count += 1\n    return count\n"
+  ],
+  "socratic": [
+    "What did you expect it to do?",
+    "What does it do instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "loops",
+    "indentation"
+  ],
+  "requires": [
+    "pair-03-print"
+  ],
+  "solution": "def count_even(nums):\n    count = 0\n    for n in nums:\n        if n % 2 == 0:\n            count += 1\n    return count\n",
+  "alt": "def count_even(nums):\n    return len([n for n in nums if n % 2 == 0])\n",
+  "parrot": {
+    "says": "Squawk! I return as soon as I know the answer. Efficient!"
+  },
+  "diagnose": {
+    "question": "What makes the loop stop after one item?",
+    "options": [
+      "return is inside the loop, so it runs on the first pass",
+      "range is missing",
+      "n % 2 is wrong",
+      "count is a reserved word"
+    ],
+    "answer": 0,
+    "why": "A return inside the loop ends the whole function. Return after the loop finishes."
+  }
+}

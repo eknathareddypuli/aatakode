@@ -1,0 +1,59 @@
+{
+  "id": "ip-first-unique",
+  "region": "interview-prep",
+  "order": 4,
+  "title": "First Unique Letter",
+  "story": "Find the first character that appears only once.",
+  "goal": "Write first_unique(s): return the first character that appears exactly once in s, or \"\" if there is none.",
+  "type": "write-code",
+  "starter": "def first_unique(s):\n    # count first, then scan\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "middle",
+      "expr": "first_unique(\"aabbcd\")",
+      "expect": "'c'"
+    },
+    {
+      "kind": "eval",
+      "label": "start",
+      "expr": "first_unique(\"xaabb\")",
+      "expect": "'x'"
+    },
+    {
+      "kind": "eval",
+      "label": "none",
+      "expr": "first_unique(\"aabb\")",
+      "expect": "''",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "first_unique(\"\")",
+      "expect": "''",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Count every letter first.",
+    "Then scan from the left and return the first with count 1.",
+    "def first_unique(s):\n    counts = {}\n    for ch in s:\n        counts[ch] = counts.get(ch, 0) + 1\n    for ch in s:\n        if counts[ch] == 1:\n            return ch\n    return \"\"\n"
+  ],
+  "socratic": [
+    "Why two passes?",
+    "What do you return when nothing is unique?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “First Unique Letter”?",
+  "xp": 30,
+  "skills": [
+    "interview",
+    "strings"
+  ],
+  "requires": [
+    "ip-anagram"
+  ],
+  "solution": "def first_unique(s):\n    counts = {}\n    for ch in s:\n        counts[ch] = counts.get(ch, 0) + 1\n    for ch in s:\n        if counts[ch] == 1:\n            return ch\n    return \"\"\n",
+  "alt": "def first_unique(s):\n    for ch in s:\n        if s.count(ch) == 1:\n            return ch\n    return \"\"\n"
+}

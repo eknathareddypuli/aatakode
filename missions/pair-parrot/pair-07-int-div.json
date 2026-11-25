@@ -1,0 +1,66 @@
+{
+  "id": "pair-07-int-div",
+  "region": "pair-parrot",
+  "order": 7,
+  "title": "Average Trouble",
+  "story": "average() claims the average of 1 and 2 is 1.",
+  "goal": "Diagnose the bug, then fix the code so every check passes.",
+  "type": "pair",
+  "starter": "def average(nums):\n    return sum(nums) // len(nums)\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "half",
+      "expr": "average([1, 2])",
+      "expect": "1.5"
+    },
+    {
+      "kind": "eval",
+      "label": "whole",
+      "expr": "average([2, 4, 6])",
+      "expect": "4.0"
+    },
+    {
+      "kind": "eval",
+      "label": "single",
+      "expr": "average([5])",
+      "expect": "5.0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "What is 3 // 2 in Python?",
+    "Which divide operator keeps the decimals?",
+    "def average(nums):\n    return sum(nums) / len(nums)\n"
+  ],
+  "socratic": [
+    "What did you expect it to do?",
+    "What does it do instead?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "math",
+    "operators"
+  ],
+  "requires": [
+    "pair-06-mutate"
+  ],
+  "solution": "def average(nums):\n    return sum(nums) / len(nums)\n",
+  "alt": "def average(nums):\n    total = 0\n    for n in nums:\n        total += n\n    return total / len(nums)\n",
+  "parrot": {
+    "says": "Squawk! Averages are whole numbers, I think. Probably."
+  },
+  "diagnose": {
+    "question": "Which operator causes the wrong answer?",
+    "options": [
+      "// throws away the fraction; use /",
+      "sum cannot take a list",
+      "len is wrong",
+      "return is missing"
+    ],
+    "answer": 0,
+    "why": "// is floor division. A true average needs / which keeps decimals."
+  }
+}

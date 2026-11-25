@@ -1,0 +1,53 @@
+{
+  "id": "mystery-05-odd-one-out",
+  "region": "mystery-cases",
+  "order": 5,
+  "title": "Case 5: The Odd One Out",
+  "story": "Two config files should be identical on every server. One server has a different setting and caused the outage.",
+  "goal": "Compare /case/a.conf and /case/b.conf. Which setting key differs? Answer with the key name.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/case/a.conf": "timeout=30\nretries=3\nlog=info\n",
+      "/case/b.conf": "timeout=30\nretries=9\nlog=info\n"
+    },
+    "dirs": [
+      "/case"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "retries",
+      "label": "Named the culprit"
+    }
+  ],
+  "hints": [
+    "diff shows lines that differ.",
+    "diff /case/a.conf /case/b.conf",
+    "Run:\ndiff /case/a.conf /case/b.conf\nThen answer: retries"
+  ],
+  "socratic": [
+    "Which file is the oldest witness?",
+    "Do two files tell different stories?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "investigation"
+  ],
+  "requires": [
+    "mystery-04-timeline"
+  ],
+  "solution": {
+    "commands": [
+      "diff /case/a.conf /case/b.conf"
+    ],
+    "answer": "retries"
+  },
+  "tool": "linux",
+  "mystery": true
+}

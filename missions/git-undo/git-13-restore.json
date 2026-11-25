@@ -1,0 +1,72 @@
+{
+  "id": "git-13-restore",
+  "region": "git-undo",
+  "order": 1,
+  "title": "Undo My Edit",
+  "story": "You wrecked app.py while experimenting. Throw the changes away and get the committed version back.",
+  "goal": "Discard the uncommitted changes in app.py.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "base",
+          "files": {
+            "app.py": "def ok(): return 1\n"
+          },
+          "author": "Asha"
+        }
+      ],
+      "work": {
+        "app.py": "def ok(): return BROKEN\n"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "git",
+      "check": "file-equals",
+      "label": "app.py is back to the committed text",
+      "path": "app.py",
+      "text": "def ok(): return 1"
+    },
+    {
+      "kind": "git",
+      "check": "clean",
+      "label": "Working tree is clean"
+    }
+  ],
+  "hints": [
+    "restore brings back a file from the last commit.",
+    "git restore app.py",
+    "Run:\ngit status\ngit restore app.py"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-12-boss-two-features"
+  ],
+  "solution": {
+    "commands": [
+      "git status",
+      "git restore app.py"
+    ]
+  },
+  "tool": "git",
+  "alt": {
+    "commands": [
+      "git checkout -- app.py"
+    ]
+  }
+}

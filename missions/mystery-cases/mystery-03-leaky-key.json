@@ -1,0 +1,56 @@
+{
+  "id": "mystery-03-leaky-key",
+  "region": "mystery-cases",
+  "order": 3,
+  "title": "Case 3: The Leaky Key",
+  "story": "A secret API key was committed by mistake. Which file contains a string starting with AKIA?",
+  "goal": "Find the file that leaks the key and answer with its name (just the file name).",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/case/src/main.py": "print('hi')\n",
+      "/case/src/config.py": "KEY = 'AKIAEXAMPLE123'\n",
+      "/case/docs/readme.md": "No secrets here\n",
+      "/case/src/util.py": "def f(): return 1\n"
+    },
+    "dirs": [
+      "/case/src",
+      "/case/docs"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "config.py",
+      "label": "Named the culprit"
+    }
+  ],
+  "hints": [
+    "Search recursively for the prefix.",
+    "grep -r AKIA /case",
+    "Run:\ngrep -r AKIA /case\nThen answer: config.py"
+  ],
+  "socratic": [
+    "Which file is the oldest witness?",
+    "Do two files tell different stories?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 40,
+  "skills": [
+    "linux",
+    "investigation"
+  ],
+  "requires": [
+    "mystery-02-vanishing-file"
+  ],
+  "solution": {
+    "commands": [
+      "grep -r AKIA /case"
+    ],
+    "answer": "config.py"
+  },
+  "tool": "linux",
+  "mystery": true
+}

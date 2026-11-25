@@ -1,0 +1,59 @@
+{
+  "id": "ip-reverse-words",
+  "region": "interview-prep",
+  "order": 5,
+  "title": "Reverse the Words",
+  "story": "Reverse the order of the words, not the letters.",
+  "goal": "Write reverse_words(s): return the words of s in reverse order, joined by single spaces. Extra spaces are dropped.",
+  "type": "write-code",
+  "starter": "def reverse_words(s):\n    # split, reverse, join\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "simple",
+      "expr": "reverse_words(\"the sky is blue\")",
+      "expect": "'blue is sky the'"
+    },
+    {
+      "kind": "eval",
+      "label": "extra spaces",
+      "expr": "reverse_words(\"  hello   world \")",
+      "expect": "'world hello'"
+    },
+    {
+      "kind": "eval",
+      "label": "one",
+      "expr": "reverse_words(\"hi\")",
+      "expect": "'hi'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "reverse_words(\"\")",
+      "expect": "''",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "split() with no argument splits on any run of spaces.",
+    "words[::-1] reverses a list.",
+    "def reverse_words(s):\n    return \" \".join(s.split()[::-1])\n"
+  ],
+  "socratic": [
+    "What does split() do with extra spaces?",
+    "How do you reverse a list?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Reverse the Words”?",
+  "xp": 30,
+  "skills": [
+    "interview",
+    "strings"
+  ],
+  "requires": [
+    "ip-first-unique"
+  ],
+  "solution": "def reverse_words(s):\n    return \" \".join(s.split()[::-1])\n",
+  "alt": "def reverse_words(s):\n    words = s.split()\n    out = []\n    for w in words:\n        out.insert(0, w)\n    return \" \".join(out)\n"
+}

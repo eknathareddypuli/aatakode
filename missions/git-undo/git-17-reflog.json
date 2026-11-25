@@ -1,0 +1,85 @@
+{
+  "id": "git-17-reflog",
+  "region": "git-undo",
+  "order": 5,
+  "title": "Back From the Dead",
+  "story": "You ran reset --hard and your newest commit vanished. It is not truly gone: git remembers where HEAD has been.",
+  "goal": "Reset to drop the commit \"third\", then use the reflog to bring it back.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall/repo",
+    "files": {},
+    "git": {
+      "root": "/home/oncall/repo",
+      "commits": [
+        {
+          "msg": "first",
+          "files": {
+            "a.py": "1\n"
+          },
+          "author": "Asha"
+        },
+        {
+          "msg": "second",
+          "files": {
+            "a.py": "2\n"
+          },
+          "author": "Asha"
+        },
+        {
+          "msg": "third",
+          "files": {
+            "a.py": "3\n"
+          },
+          "author": "Asha"
+        }
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "history-has",
+      "text": "git reflog",
+      "label": "Used the reflog"
+    },
+    {
+      "kind": "git",
+      "check": "commit-msg",
+      "label": "Commit third is back",
+      "value": "third"
+    },
+    {
+      "kind": "git",
+      "check": "file",
+      "label": "a.py has the third version",
+      "path": "a.py",
+      "text": "3"
+    }
+  ],
+  "hints": [
+    "git reflog lists every position HEAD held.",
+    "git reset --hard HEAD@{1} returns to the previous position.",
+    "Run:\ngit reset --hard HEAD~1\ngit reflog\ngit reset --hard HEAD@{1}"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 40,
+  "skills": [
+    "git"
+  ],
+  "requires": [
+    "git-16-revert"
+  ],
+  "solution": {
+    "commands": [
+      "git reset --hard HEAD~1",
+      "git reflog",
+      "git reset --hard HEAD@{1}"
+    ]
+  },
+  "tool": "git"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "ip-brackets",
+  "region": "interview-prep",
+  "order": 2,
+  "title": "Valid Brackets",
+  "story": "Does every bracket have a partner in the right order?",
+  "goal": "Write valid(s): True if the brackets ()[]{} in s are balanced and properly nested, otherwise False.",
+  "type": "write-code",
+  "starter": "def valid(s):\n    # use a stack (list)\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "ok",
+      "expr": "valid(\"([]{})\")",
+      "expect": "True"
+    },
+    {
+      "kind": "eval",
+      "label": "crossed",
+      "expr": "valid(\"([)]\")",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "unclosed",
+      "expr": "valid(\"((\")",
+      "expect": "False"
+    },
+    {
+      "kind": "eval",
+      "label": "extra close",
+      "expr": "valid(\"())\")",
+      "expect": "False",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "valid(\"\")",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Push openers on a list. When you see a closer, it must match the last opener.",
+    "At the end the stack must be empty.",
+    "def valid(s):\n    pairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    stack = []\n    for ch in s:\n        if ch in \"([{\":\n            stack.append(ch)\n        elif ch in pairs:\n            if not stack or stack.pop() != pairs[ch]:\n                return False\n    return not stack\n"
+  ],
+  "socratic": [
+    "Which bracket must close first?",
+    "What should be left at the end?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Valid Brackets”?",
+  "xp": 45,
+  "skills": [
+    "interview",
+    "stack"
+  ],
+  "requires": [
+    "ip-two-sum"
+  ],
+  "solution": "def valid(s):\n    pairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    stack = []\n    for ch in s:\n        if ch in \"([{\":\n            stack.append(ch)\n        elif ch in pairs:\n            if not stack or stack.pop() != pairs[ch]:\n                return False\n    return not stack\n",
+  "alt": "def valid(s):\n    prev = None\n    while prev != s:\n        prev = s\n        s = s.replace(\"()\", \"\").replace(\"[]\", \"\").replace(\"{}\", \"\")\n    return s == \"\"\n"
+}

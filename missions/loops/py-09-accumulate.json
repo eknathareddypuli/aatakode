@@ -70,5 +70,16 @@
     "p-range"
   ],
   "solution": "count = int(input())\ntotal = 0\nfor _ in range(count):\n    total += int(input())\nprint(total)\n",
-  "alt": "count = int(input())\nprint(sum(int(input()) for _ in range(count)))\n"
+  "alt": "count = int(input())\nprint(sum(int(input()) for _ in range(count)))\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: product",
+      "code": "result = 1\nfor n in [2, 3, 4]:\n    result = result * n\nprint(result)\n",
+      "note": "Start an accumulator, update it every pass, use it after the loop."
+    },
+    "partial": "count = int(input())\ntotal = 0\nfor _ in range(count):\n    ____\nprint(total)\n",
+    "blanks": [
+      "total += int(input())"
+    ]
+  }
 }

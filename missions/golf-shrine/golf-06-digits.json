@@ -1,0 +1,57 @@
+{
+  "id": "golf-06-digits",
+  "region": "golf-shrine",
+  "order": 6,
+  "title": "Digit Sum",
+  "story": "Hole 6.",
+  "goal": "Write digit_sum(n): the sum of the digits of n (n is not negative).",
+  "type": "write-code",
+  "starter": "def digit_sum(n):\n    # write it any way you like, then make it SHORTER\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "123",
+      "expr": "digit_sum(123)",
+      "expect": "6"
+    },
+    {
+      "kind": "eval",
+      "label": "0",
+      "expr": "digit_sum(0)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "999",
+      "expr": "digit_sum(999)",
+      "expect": "27",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Turn the number into text to visit each digit.",
+    "map(int, text) converts every character at once.",
+    "def digit_sum(n):\n    return sum(int(d) for d in str(n))\n"
+  ],
+  "socratic": [
+    "What is the plainest way to do it?",
+    "Which words or spaces can disappear?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Digit Sum”?",
+  "xp": 25,
+  "skills": [
+    "golf"
+  ],
+  "requires": [
+    "golf-05-vowels"
+  ],
+  "solution": "def digit_sum(n):\n    return sum(int(d) for d in str(n))\n",
+  "alt": "digit_sum=lambda n:sum(map(int,str(n)))\n",
+  "golf": {
+    "par": 56,
+    "best": 39,
+    "parCode": "def digit_sum(n):\n    return sum(int(d) for d in str(n))\n",
+    "bestCode": "digit_sum=lambda n:sum(map(int,str(n)))\n"
+  }
+}

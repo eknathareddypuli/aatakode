@@ -1,0 +1,59 @@
+{
+  "id": "ip-rotate",
+  "region": "interview-prep",
+  "order": 7,
+  "title": "Rotate the List",
+  "story": "Move the last k items to the front.",
+  "goal": "Write rotate(items, k): return a new list rotated right by k places. k may be larger than the length.",
+  "type": "write-code",
+  "starter": "def rotate(items, k):\n    # use slicing and %\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "basic",
+      "expr": "rotate([1, 2, 3, 4, 5], 2)",
+      "expect": "[4, 5, 1, 2, 3]"
+    },
+    {
+      "kind": "eval",
+      "label": "big k",
+      "expr": "rotate([1, 2, 3], 4)",
+      "expect": "[3, 1, 2]"
+    },
+    {
+      "kind": "eval",
+      "label": "zero",
+      "expr": "rotate([1, 2], 0)",
+      "expect": "[1, 2]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "empty",
+      "expr": "rotate([], 3)",
+      "expect": "[]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "k % len(items) removes full turns. Careful with an empty list.",
+    "items[-k:] + items[:-k] works when k is between 1 and len - 1.",
+    "def rotate(items, k):\n    if not items:\n        return []\n    k = k % len(items)\n    return items[len(items) - k:] + items[:len(items) - k]\n"
+  ],
+  "socratic": [
+    "What does rotating by the full length do?",
+    "What if the list is empty?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Rotate the List”?",
+  "xp": 40,
+  "skills": [
+    "interview",
+    "lists"
+  ],
+  "requires": [
+    "ip-palindrome"
+  ],
+  "solution": "def rotate(items, k):\n    if not items:\n        return []\n    k = k % len(items)\n    return items[len(items) - k:] + items[:len(items) - k]\n",
+  "alt": "def rotate(items, k):\n    items = list(items)\n    if not items:\n        return items\n    for _ in range(k % len(items)):\n        items.insert(0, items.pop())\n    return items\n"
+}
