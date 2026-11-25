@@ -1,0 +1,57 @@
+{
+  "id": "linux-11-dns",
+  "region": "debug-the-outage",
+  "order": 11,
+  "title": "Name Not Found",
+  "story": "The app cannot reach the database host db.internal. Pinging by IP works, by name does not.",
+  "goal": "Fix /etc/resolv.conf so it points at the nameserver 10.0.0.2 instead of 10.0.0.99.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/etc/resolv.conf": "nameserver 10.0.0.99\nsearch internal\n",
+      "/var/log/app.log": "cannot resolve db.internal: no response from 10.0.0.99\n"
+    }
+  },
+  "tests": [
+    {
+      "kind": "file-contains",
+      "path": "/etc/resolv.conf",
+      "text": "nameserver 10.0.0.2",
+      "label": "Uses nameserver 10.0.0.2"
+    },
+    {
+      "kind": "file-not-contains",
+      "path": "/etc/resolv.conf",
+      "text": "10.0.0.99",
+      "label": "Old nameserver removed"
+    }
+  ],
+  "hints": [
+    "Which file lists the DNS server a Linux machine asks?",
+    "sed -i 's/10.0.0.99/10.0.0.2/' /etc/resolv.conf",
+    "Run:\ncat /var/log/app.log\ncat /etc/resolv.conf\nsed -i 's/10.0.0.99/10.0.0.2/' /etc/resolv.conf"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "dns"
+  ],
+  "requires": [
+    "linux-10-oom"
+  ],
+  "solution": {
+    "commands": [
+      "cat /var/log/app.log",
+      "cat /etc/resolv.conf",
+      "sed -i 's/10.0.0.99/10.0.0.2/' /etc/resolv.conf"
+    ]
+  },
+  "tool": "linux"
+}

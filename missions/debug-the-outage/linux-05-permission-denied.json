@@ -1,0 +1,64 @@
+{
+  "id": "linux-05-permission-denied",
+  "region": "debug-the-outage",
+  "order": 5,
+  "title": "Permission Denied",
+  "story": "The nightly backup script suddenly refuses to run. Nobody changed the code, but someone touched the file.",
+  "goal": "Make /opt/backup/run.sh executable (mode 755) and report which command shows its permissions.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/opt/backup/run.sh": "#!/bin/sh\necho backing up\n",
+      "/var/log/backup.log": "run.sh: Permission denied\n"
+    },
+    "modes": {
+      "/opt/backup/run.sh": "644"
+    },
+    "dirs": [
+      "/opt/backup"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "file-mode",
+      "path": "/opt/backup/run.sh",
+      "mode": "755",
+      "label": "run.sh has mode 755"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "ls"
+      ],
+      "label": "Inspected permissions with ls -l"
+    }
+  ],
+  "hints": [
+    "The log says Permission denied. Which command shows who may read, write and run a file?",
+    "ls -l shows the mode. chmod changes it; 755 means owner rwx, others r-x.",
+    "Run:\ncat /var/log/backup.log\nls -l /opt/backup/run.sh\nchmod 755 /opt/backup/run.sh"
+  ],
+  "socratic": [
+    "What does the log complain about?",
+    "Which three letters in ls -l matter for running a script?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "permissions"
+  ],
+  "requires": [
+    "linux-04-runaway"
+  ],
+  "solution": {
+    "commands": [
+      "cat /var/log/backup.log",
+      "ls -l /opt/backup/run.sh",
+      "chmod 755 /opt/backup/run.sh"
+    ]
+  },
+  "tool": "linux"
+}

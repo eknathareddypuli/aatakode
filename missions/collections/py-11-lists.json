@@ -40,5 +40,16 @@
     "str-boss"
   ],
   "solution": "bag = [\"map\", \"rope\"]\nbag.append(\"torch\")\nprint(len(bag))\nprint(bag[0])\n",
-  "alt": "bag = [\"map\", \"rope\"]\nbag = bag + [\"torch\"]\nprint(len(bag))\nprint(bag[0])\n"
+  "alt": "bag = [\"map\", \"rope\"]\nbag = bag + [\"torch\"]\nprint(len(bag))\nprint(bag[0])\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: a fruit list",
+      "code": "fruits = [\"mango\", \"banana\"]\nfruits.append(\"guava\")\nprint(fruits[0], len(fruits))\n",
+      "note": "Lists are ordered, start at index 0, and grow with append."
+    },
+    "partial": "bag = [\"map\", \"rope\"]\nbag.append(\"torch\")\n____\nprint(bag[0])\n",
+    "blanks": [
+      "print(len(bag))"
+    ]
+  }
 }

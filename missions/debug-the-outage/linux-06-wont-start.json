@@ -1,0 +1,81 @@
+{
+  "id": "linux-06-wont-start",
+  "region": "debug-the-outage",
+  "order": 6,
+  "title": "The Service That Won't Start",
+  "story": "The payments API keeps failing to start after a deploy. systemctl just says it failed.",
+  "goal": "Find why payments-api fails and fix it so the service is active.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/etc/payments/api.conf": "port=8443\nlog_dir=/var/log/payments\n"
+    },
+    "dirs": [
+      "/var/log/payments"
+    ],
+    "services": {
+      "payments-api": {
+        "state": "failed",
+        "desc": "Payments API",
+        "port": 8443,
+        "needs": [
+          {
+            "file": "/etc/payments/api.env",
+            "exists": true,
+            "msg": "missing environment file /etc/payments/api.env"
+          }
+        ]
+      }
+    },
+    "journal": {
+      "payments-api": [
+        "Nov 24 02:01:11 host payments-api[3001]: missing environment file /etc/payments/api.env"
+      ]
+    }
+  },
+  "tests": [
+    {
+      "kind": "service-state",
+      "name": "payments-api",
+      "state": "active",
+      "label": "payments-api is active"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "journalctl",
+        "systemctl"
+      ],
+      "label": "Read the logs or status"
+    }
+  ],
+  "hints": [
+    "systemctl status shows the last log lines. What does the log say is missing?",
+    "Create the missing file (touch), then start the service again.",
+    "Run:\nsystemctl status payments-api\njournalctl -u payments-api\ntouch /etc/payments/api.env\nsystemctl restart payments-api"
+  ],
+  "socratic": [
+    "What does journalctl say?",
+    "What must exist before the service can start?",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "linux",
+    "systemd"
+  ],
+  "requires": [
+    "linux-05-permission-denied"
+  ],
+  "solution": {
+    "commands": [
+      "systemctl status payments-api",
+      "journalctl -u payments-api",
+      "touch /etc/payments/api.env",
+      "systemctl restart payments-api"
+    ]
+  },
+  "tool": "linux"
+}

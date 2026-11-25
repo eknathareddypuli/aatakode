@@ -56,5 +56,16 @@
     "p-alias"
   ],
   "solution": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nscores[name] = scores.get(name, 0) + points\nprint(scores[name])\n",
-  "alt": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nif name in scores:\n    scores[name] += points\nelse:\n    scores[name] = points\nprint(scores[name])\n"
+  "alt": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nif name in scores:\n    scores[name] += points\nelse:\n    scores[name] = points\nprint(scores[name])\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: a phone book",
+      "code": "book = {\"asha\": 111}\nbook[\"ravi\"] = 222\nprint(book.get(\"asha\"), book.get(\"zed\", \"none\"))\n",
+      "note": "A dict maps keys to values; .get gives a default instead of an error."
+    },
+    "partial": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\n____\nscores[name] = scores.get(name, 0) + points\nprint(scores[name])\n",
+    "blanks": [
+      "points = int(input())"
+    ]
+  }
 }

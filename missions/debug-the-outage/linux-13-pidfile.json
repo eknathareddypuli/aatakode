@@ -1,0 +1,81 @@
+{
+  "id": "linux-13-pidfile",
+  "region": "debug-the-outage",
+  "order": 13,
+  "title": "The Stale Pid File",
+  "story": "The worker refuses to start: it says it is already running. But nothing is running.",
+  "goal": "Prove the process is gone, remove the stale pid file and start the worker.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/run/worker.pid": "5150\n",
+      "/var/log/worker.log": "worker already running (pid 5150), refusing to start\n"
+    },
+    "services": {
+      "worker": {
+        "state": "failed",
+        "desc": "Queue worker",
+        "proc": "worker",
+        "needs": [
+          {
+            "file": "/var/run/worker.pid",
+            "exists": false,
+            "msg": "worker already running (pid 5150), refusing to start"
+          }
+        ]
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "service-state",
+      "name": "worker",
+      "state": "active",
+      "label": "worker is active"
+    },
+    {
+      "kind": "cond",
+      "cond": {
+        "file": "/var/run/worker.pid",
+        "exists": false
+      },
+      "label": "Stale pid file removed"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "ps"
+      ],
+      "label": "Checked that pid 5150 is not running"
+    }
+  ],
+  "hints": [
+    "Is there a process with pid 5150? ps will tell you.",
+    "Delete the pid file with rm, then systemctl start worker.",
+    "Run:\ncat /var/run/worker.pid\nps\nrm /var/run/worker.pid\nsystemctl start worker"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "linux",
+    "processes"
+  ],
+  "requires": [
+    "linux-12-hosts"
+  ],
+  "solution": {
+    "commands": [
+      "cat /var/run/worker.pid",
+      "ps",
+      "rm /var/run/worker.pid",
+      "systemctl start worker"
+    ]
+  },
+  "tool": "linux"
+}

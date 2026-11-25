@@ -87,7 +87,9 @@
     "processes",
     "troubleshooting"
   ],
-  "requires": [],
+  "requires": [
+    "linux-03-bad-config"
+  ],
   "solution": {
     "commands": [
       "ps aux",

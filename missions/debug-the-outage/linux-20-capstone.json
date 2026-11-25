@@ -1,0 +1,108 @@
+{
+  "id": "linux-20-capstone",
+  "region": "debug-the-outage",
+  "order": 20,
+  "title": "Boss: The Perfect Storm",
+  "story": "Black Friday, 02:00. The checkout page is down and three things are wrong at once. Fix them all.",
+  "goal": "Restore http://checkout.local/ to 200: the config is unreadable, the log disk setting is wrong and the service is stopped. Follow the logs.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/etc/checkout/app.conf": "port=9000\nstorage=/data/orders\n",
+      "/var/log/checkout.log": "FATAL cannot read /etc/checkout/app.conf: permission denied\n"
+    },
+    "modes": {
+      "/etc/checkout/app.conf": "000"
+    },
+    "dirs": [
+      "/data/orders"
+    ],
+    "services": {
+      "checkout": {
+        "state": "failed",
+        "desc": "Checkout",
+        "port": 9000,
+        "needs": [
+          {
+            "mode": {
+              "path": "/etc/checkout/app.conf",
+              "value": "644"
+            },
+            "msg": "cannot read /etc/checkout/app.conf: permission denied"
+          }
+        ]
+      }
+    },
+    "http": {
+      "checkout.local": {
+        "cases": [
+          {
+            "if": [
+              {
+                "service": "checkout",
+                "state": "active"
+              }
+            ],
+            "status": 200,
+            "body": "Checkout OK"
+          }
+        ],
+        "default": {
+          "status": 503,
+          "body": "Service Unavailable"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "file-mode",
+      "path": "/etc/checkout/app.conf",
+      "mode": "644",
+      "label": "app.conf has mode 644"
+    },
+    {
+      "kind": "service-state",
+      "name": "checkout",
+      "state": "active",
+      "label": "checkout is active"
+    },
+    {
+      "kind": "curl-ok",
+      "url": "http://checkout.local/",
+      "status": 200,
+      "label": "Checkout answers 200"
+    }
+  ],
+  "hints": [
+    "Start with the log. Which file cannot be read?",
+    "chmod 644 the config, then restart the service and curl the page.",
+    "Run:\ncat /var/log/checkout.log\nls -l /etc/checkout/app.conf\nchmod 644 /etc/checkout/app.conf\nsystemctl restart checkout\ncurl http://checkout.local/"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 60,
+  "skills": [
+    "linux",
+    "troubleshooting"
+  ],
+  "requires": [
+    "linux-19-slow"
+  ],
+  "solution": {
+    "commands": [
+      "cat /var/log/checkout.log",
+      "ls -l /etc/checkout/app.conf",
+      "chmod 644 /etc/checkout/app.conf",
+      "systemctl restart checkout",
+      "curl http://checkout.local/"
+    ]
+  },
+  "tool": "linux",
+  "boss": true
+}

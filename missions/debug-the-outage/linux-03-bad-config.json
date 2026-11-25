@@ -53,7 +53,9 @@
     "logs",
     "configuration"
   ],
-  "requires": [],
+  "requires": [
+    "linux-02-disk-full"
+  ],
   "solution": {
     "commands": [
       "cat /var/log/billing.log",

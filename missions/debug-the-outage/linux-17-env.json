@@ -1,0 +1,58 @@
+{
+  "id": "linux-17-env",
+  "region": "debug-the-outage",
+  "order": 17,
+  "title": "Missing Variable",
+  "story": "The deploy script exits at once with a cryptic message. It needs a setting that is not in its environment.",
+  "goal": "Find which variable is missing from /opt/deploy/deploy.sh and add `export APP_ENV=production` to /home/oncall/.profile.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/opt/deploy/deploy.sh": "#!/bin/sh\n: \"${APP_ENV:?APP_ENV is not set}\"\necho deploying to $APP_ENV\n",
+      "/home/oncall/.profile": "# user profile\n"
+    }
+  },
+  "tests": [
+    {
+      "kind": "file-contains",
+      "path": "/home/oncall/.profile",
+      "text": "APP_ENV=production",
+      "label": "Profile exports APP_ENV=production"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "cat",
+        "grep"
+      ],
+      "label": "Read the script"
+    }
+  ],
+  "hints": [
+    "Read the script: which variable does it require?",
+    "echo 'export APP_ENV=production' >> ~/.profile  (use the full path /home/oncall/.profile)",
+    "Run:\ncat /opt/deploy/deploy.sh\necho 'export APP_ENV=production' >> /home/oncall/.profile"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "env"
+  ],
+  "requires": [
+    "linux-16-cert"
+  ],
+  "solution": {
+    "commands": [
+      "cat /opt/deploy/deploy.sh",
+      "echo 'export APP_ENV=production' >> /home/oncall/.profile"
+    ]
+  },
+  "tool": "linux"
+}

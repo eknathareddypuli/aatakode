@@ -1,0 +1,67 @@
+{
+  "id": "linux-07-big-file",
+  "region": "debug-the-outage",
+  "order": 7,
+  "title": "Who Ate the Disk?",
+  "story": "Disk alerts again. This time the culprit is a single huge file hiding somewhere under /var.",
+  "goal": "Find the largest file under /var/data and report its full path.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/data/a/cache.db": "x",
+      "/var/data/b/dump.sql": "x",
+      "/var/data/b/old/backup.tar": "x",
+      "/var/data/c/notes.txt": "x"
+    },
+    "sizes": {
+      "/var/data/a/cache.db": "120M",
+      "/var/data/b/dump.sql": "2.1G",
+      "/var/data/b/old/backup.tar": "14G",
+      "/var/data/c/notes.txt": "4K"
+    }
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "/var/data/b/old/backup.tar",
+      "label": "Reported the answer"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "du",
+        "find",
+        "ls"
+      ],
+      "label": "Measured sizes"
+    }
+  ],
+  "hints": [
+    "du -a lists every file with its size.",
+    "Sort the sizes with sort -h or -n, and look at the biggest.",
+    "Run:\ndu -a /var/data\ndu -a /var/data | sort -n\nThen answer: /var/data/b/old/backup.tar"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "disk"
+  ],
+  "requires": [
+    "linux-06-wont-start"
+  ],
+  "solution": {
+    "commands": [
+      "du -a /var/data",
+      "du -a /var/data | sort -n"
+    ],
+    "answer": "/var/data/b/old/backup.tar"
+  },
+  "tool": "linux"
+}

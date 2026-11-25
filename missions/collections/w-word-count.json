@@ -54,5 +54,16 @@
     "p-set"
   ],
   "solution": "sentence = input()\ncounts = {}\nfor w in sentence.split():\n    counts[w] = counts.get(w, 0) + 1\nfor w in sorted(counts):\n    print(f\"{w}: {counts[w]}\")\n",
-  "alt": "from collections import Counter\nc = Counter(input().split())\nfor w in sorted(c):\n    print(w + \": \" + str(c[w]))\n"
+  "alt": "from collections import Counter\nc = Counter(input().split())\nfor w in sorted(c):\n    print(w + \": \" + str(c[w]))\n",
+  "fade": {
+    "example": {
+      "title": "Worked example: count letters",
+      "code": "counts = {}\nfor ch in \"aab\":\n    counts[ch] = counts.get(ch, 0) + 1\nprint(counts)\n",
+      "note": "counts.get(key, 0) + 1 is the standard counting pattern."
+    },
+    "partial": "sentence = input()\ncounts = {}\nfor w in sentence.split():\n    ____\nfor w in sorted(counts):\n    print(f\"{w}: {counts[w]}\")\n",
+    "blanks": [
+      "counts[w] = counts.get(w, 0) + 1"
+    ]
+  }
 }

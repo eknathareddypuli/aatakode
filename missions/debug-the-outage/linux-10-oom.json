@@ -1,0 +1,63 @@
+{
+  "id": "linux-10-oom",
+  "region": "debug-the-outage",
+  "order": 10,
+  "title": "The OOM Killer",
+  "story": "The reporting job dies every night at 03:00 with no error of its own. Something is killing it.",
+  "goal": "Find which process the kernel killed and report its name.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/log/syslog": "Nov 24 02:59:50 host kernel: Memory cgroup out of memory: Killed process 8814 (report-gen) total-vm:9120044kB\nNov 24 03:00:02 host cron[221]: (oncall) CMD (/opt/nightly.sh)\nNov 24 03:10:00 host kernel: eth0: link up\n"
+    },
+    "mem": {
+      "total": "4G",
+      "used": "3.8G",
+      "free": "90M"
+    }
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "report-gen",
+      "label": "Reported the answer"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "grep",
+        "journalctl",
+        "cat"
+      ],
+      "label": "Searched the logs"
+    }
+  ],
+  "hints": [
+    "The kernel logs a message when it kills a process for lack of memory. What word does it use?",
+    "grep -i killed /var/log/syslog",
+    "Run:\nfree -h\ngrep -i killed /var/log/syslog\nThen answer: report-gen"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "linux",
+    "memory"
+  ],
+  "requires": [
+    "linux-09-cron-silent"
+  ],
+  "solution": {
+    "commands": [
+      "free -h",
+      "grep -i killed /var/log/syslog"
+    ],
+    "answer": "report-gen"
+  },
+  "tool": "linux"
+}

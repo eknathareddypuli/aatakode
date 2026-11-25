@@ -1,0 +1,56 @@
+{
+  "id": "linux-12-hosts",
+  "region": "debug-the-outage",
+  "order": 12,
+  "title": "The Stale Hosts Entry",
+  "story": "Staging keeps talking to the old API server. Someone pinned its name in a file years ago.",
+  "goal": "Remove the old pin for api.example.com (10.1.1.1) from /etc/hosts.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/etc/hosts": "127.0.0.1 localhost\n10.1.1.1 api.example.com\n10.2.2.2 cache.example.com\n"
+    }
+  },
+  "tests": [
+    {
+      "kind": "file-not-contains",
+      "path": "/etc/hosts",
+      "text": "api.example.com",
+      "label": "api.example.com entry removed"
+    },
+    {
+      "kind": "file-contains",
+      "path": "/etc/hosts",
+      "text": "cache.example.com",
+      "label": "Other entries kept"
+    }
+  ],
+  "hints": [
+    "Which file overrides DNS for a single machine?",
+    "Use sed -i 's/^10.1.1.1.*//' or rewrite the file without that line.",
+    "Run:\ncat /etc/hosts\ngrep -v api.example.com /etc/hosts > /tmp/hosts.new\ncp /tmp/hosts.new /etc/hosts"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "dns"
+  ],
+  "requires": [
+    "linux-11-dns"
+  ],
+  "solution": {
+    "commands": [
+      "cat /etc/hosts",
+      "grep -v api.example.com /etc/hosts > /tmp/hosts.new",
+      "cp /tmp/hosts.new /etc/hosts"
+    ]
+  },
+  "tool": "linux"
+}

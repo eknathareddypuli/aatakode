@@ -1,0 +1,57 @@
+{
+  "id": "linux-16-cert",
+  "region": "debug-the-outage",
+  "order": 16,
+  "title": "Certificate Countdown",
+  "story": "A cert expiry warning appeared in the monitoring channel. Which site is closest to expiring?",
+  "goal": "Look at the expiry dates in /etc/ssl/certs.txt and report the domain that expires first.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/etc/ssl/certs.txt": "shop.example.com 2026-12-30\nauth.example.com 2026-12-02\napi.example.com 2027-03-15\ncdn.example.com 2026-12-19\n"
+    }
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "auth.example.com",
+      "label": "Reported the answer"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "sort",
+        "cat",
+        "grep"
+      ],
+      "label": "Compared the dates"
+    }
+  ],
+  "hints": [
+    "Dates written year-month-day sort correctly as plain text.",
+    "sort -k2 /etc/ssl/certs.txt | head -1",
+    "Run:\nsort -k2 /etc/ssl/certs.txt | head -1\nThen answer: auth.example.com"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "ssl"
+  ],
+  "requires": [
+    "linux-15-502"
+  ],
+  "solution": {
+    "commands": [
+      "sort -k2 /etc/ssl/certs.txt | head -1"
+    ],
+    "answer": "auth.example.com"
+  },
+  "tool": "linux"
+}

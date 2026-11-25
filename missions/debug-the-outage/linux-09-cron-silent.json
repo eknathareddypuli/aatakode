@@ -1,0 +1,60 @@
+{
+  "id": "linux-09-cron-silent",
+  "region": "debug-the-outage",
+  "order": 9,
+  "title": "The Silent Cron",
+  "story": "The cleanup job should run every night, yet logs keep piling up. Cron has been quiet.",
+  "goal": "Find the problem in the crontab file and fix the schedule so it runs at 02:30 every day.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/spool/cron/crontabs/oncall": "# m h dom mon dow command\n30 2 31 2 * /opt/cleanup.sh\n",
+      "/opt/cleanup.sh": "#!/bin/sh\nrm -f /tmp/*.old\n"
+    },
+    "dirs": [
+      "/var/spool/cron/crontabs"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "file-contains",
+      "path": "/var/spool/cron/crontabs/oncall",
+      "text": "30 2 * * *",
+      "label": "Runs daily at 02:30"
+    },
+    {
+      "kind": "file-not-contains",
+      "path": "/var/spool/cron/crontabs/oncall",
+      "text": "31 2",
+      "label": "No impossible date left"
+    }
+  ],
+  "hints": [
+    "Read the five fields: minute hour day-of-month month day-of-week. Is 31 February a real date?",
+    "Replace '31 2' with '* *' using sed -i on the crontab file.",
+    "Run:\ncrontab -l\nsed -i 's/30 2 31 2 \\*/30 2 * * */' /var/spool/cron/crontabs/oncall\ncrontab -l"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "cron"
+  ],
+  "requires": [
+    "linux-08-log-detective"
+  ],
+  "solution": {
+    "commands": [
+      "crontab -l",
+      "sed -i 's/30 2 31 2 \\*/30 2 * * */' /var/spool/cron/crontabs/oncall",
+      "crontab -l"
+    ]
+  },
+  "tool": "linux"
+}

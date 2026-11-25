@@ -78,7 +78,9 @@
     "disk",
     "troubleshooting"
   ],
-  "requires": [],
+  "requires": [
+    "linux-01-first-steps"
+  ],
   "solution": {
     "commands": [
       "df -h",

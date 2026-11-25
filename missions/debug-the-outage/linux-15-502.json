@@ -1,0 +1,89 @@
+{
+  "id": "linux-15-502",
+  "region": "debug-the-outage",
+  "order": 15,
+  "title": "502 Bad Gateway",
+  "story": "Users see 502 errors. Nginx is up, but the app behind it is not.",
+  "goal": "Get http://shop.local/ back to 200 by starting the right service.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/log/nginx/error.log": "connect() failed (111: Connection refused) while connecting to upstream 127.0.0.1:5000\n"
+    },
+    "services": {
+      "nginx": {
+        "state": "active",
+        "desc": "Web proxy",
+        "port": 80
+      },
+      "shop-app": {
+        "state": "inactive",
+        "desc": "Shop application",
+        "port": 5000
+      }
+    },
+    "http": {
+      "shop.local": {
+        "cases": [
+          {
+            "if": [
+              {
+                "service": "shop-app",
+                "state": "active"
+              }
+            ],
+            "status": 200,
+            "body": "Welcome to the shop"
+          }
+        ],
+        "default": {
+          "status": 502,
+          "body": "Bad Gateway"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "curl-ok",
+      "url": "http://shop.local/",
+      "status": 200,
+      "label": "The shop answers 200"
+    },
+    {
+      "kind": "service-state",
+      "name": "shop-app",
+      "state": "active",
+      "label": "shop-app is active"
+    }
+  ],
+  "hints": [
+    "Read the nginx error log: which address was refused?",
+    "Port 5000 belongs to shop-app. Start it with systemctl.",
+    "Run:\ncurl -I http://shop.local/\ncat /var/log/nginx/error.log\nsystemctl start shop-app\ncurl http://shop.local/"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "linux",
+    "http"
+  ],
+  "requires": [
+    "linux-14-truncate"
+  ],
+  "solution": {
+    "commands": [
+      "curl -I http://shop.local/",
+      "cat /var/log/nginx/error.log",
+      "systemctl start shop-app",
+      "curl http://shop.local/"
+    ]
+  },
+  "tool": "linux"
+}

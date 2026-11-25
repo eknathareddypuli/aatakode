@@ -1,0 +1,69 @@
+{
+  "id": "linux-18-ownership",
+  "region": "debug-the-outage",
+  "order": 18,
+  "title": "Wrong Owner",
+  "story": "The web app cannot write uploads. The folder was created by root during a hotfix.",
+  "goal": "Give /srv/uploads to the user www-data (use chown) and report the folder's old owner.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/srv/uploads/readme.txt": "uploads go here\n"
+    },
+    "owners": {
+      "/srv/uploads": "root",
+      "/srv/uploads/readme.txt": "root"
+    },
+    "dirs": [
+      "/srv/uploads"
+    ]
+  },
+  "tests": [
+    {
+      "kind": "file-owner",
+      "path": "/srv/uploads",
+      "user": "www-data",
+      "label": "uploads is owned by www-data"
+    },
+    {
+      "kind": "answer",
+      "expect": "root",
+      "label": "Reported the old owner"
+    }
+  ],
+  "hints": [
+    "ls -l shows the owner in the third column.",
+    "chown www-data /srv/uploads (sudo may be needed).",
+    "Run:\nls -ld /srv/uploads\nsudo chown www-data /srv/uploads\nThen answer: root"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "permissions"
+  ],
+  "requires": [
+    "linux-17-env"
+  ],
+  "solution": {
+    "commands": [
+      "ls -ld /srv/uploads",
+      "sudo chown www-data /srv/uploads"
+    ],
+    "answer": "root"
+  },
+  "tool": "linux",
+  "alt": {
+    "commands": [
+      "ls -l /srv",
+      "chown www-data /srv/uploads"
+    ],
+    "answer": "root"
+  }
+}

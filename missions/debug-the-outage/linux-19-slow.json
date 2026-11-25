@@ -1,0 +1,82 @@
+{
+  "id": "linux-19-slow",
+  "region": "debug-the-outage",
+  "order": 19,
+  "title": "The Slow Server",
+  "story": "Everything crawls. Load average is high and someone's script is hogging a CPU.",
+  "goal": "Find the process using the most CPU, then stop it with kill.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {},
+    "processes": [
+      {
+        "pid": 301,
+        "name": "nginx",
+        "cpu": 1.2,
+        "mem": 2.0,
+        "user": "www-data"
+      },
+      {
+        "pid": 777,
+        "name": "log-shipper",
+        "cpu": 3.5,
+        "mem": 1.0,
+        "user": "root"
+      },
+      {
+        "pid": 912,
+        "name": "bitcoin-miner",
+        "cpu": 97.4,
+        "mem": 4.1,
+        "user": "oncall"
+      }
+    ],
+    "load": "14.20, 11.80, 9.10"
+  },
+  "tests": [
+    {
+      "kind": "process-gone",
+      "pid": 912,
+      "label": "The hog is stopped"
+    },
+    {
+      "kind": "process-alive",
+      "pid": 301,
+      "label": "nginx is still running"
+    }
+  ],
+  "hints": [
+    "top or ps lists processes with their CPU use.",
+    "kill 912",
+    "Run:\nuptime\ntop\nkill 912"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "processes"
+  ],
+  "requires": [
+    "linux-18-ownership"
+  ],
+  "solution": {
+    "commands": [
+      "uptime",
+      "top",
+      "kill 912"
+    ]
+  },
+  "tool": "linux",
+  "alt": {
+    "commands": [
+      "ps",
+      "kill -9 912"
+    ]
+  }
+}

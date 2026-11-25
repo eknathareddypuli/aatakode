@@ -1,0 +1,58 @@
+{
+  "id": "linux-08-log-detective",
+  "region": "debug-the-outage",
+  "order": 8,
+  "title": "Log Detective",
+  "story": "Thousands of requests hit the server tonight. Who sent the most?",
+  "goal": "Find the IP address with the most requests in /var/log/access.log.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/log/access.log": "10.0.0.5 GET /\n10.0.0.5 GET /\n10.0.0.5 GET /\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n203.0.113.9 GET /login\n10.0.0.7 GET /about\n10.0.0.7 GET /about\n198.51.100.4 GET /\n198.51.100.4 GET /\n198.51.100.4 GET /\n198.51.100.4 GET /\n"
+    }
+  },
+  "tests": [
+    {
+      "kind": "answer",
+      "expect": "203.0.113.9",
+      "label": "Reported the answer"
+    },
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "sort",
+        "uniq",
+        "awk",
+        "grep"
+      ],
+      "label": "Used a counting pipeline"
+    }
+  ],
+  "hints": [
+    "Print the first column, then count repeats.",
+    "cut -d' ' -f1 file | sort | uniq -c | sort -rn | head",
+    "Run:\ncut -d' ' -f1 /var/log/access.log | sort | uniq -c | sort -rn | head -3\nThen answer: 203.0.113.9"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 30,
+  "skills": [
+    "linux",
+    "pipes"
+  ],
+  "requires": [
+    "linux-07-big-file"
+  ],
+  "solution": {
+    "commands": [
+      "cut -d' ' -f1 /var/log/access.log | sort | uniq -c | sort -rn | head -3"
+    ],
+    "answer": "203.0.113.9"
+  },
+  "tool": "linux"
+}

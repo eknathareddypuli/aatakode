@@ -1,0 +1,65 @@
+{
+  "id": "linux-14-truncate",
+  "region": "debug-the-outage",
+  "order": 14,
+  "title": "Free It Without Killing It",
+  "story": "A 9 GB log is eating the disk but the app still writes to it. Deleting the file would not free space.",
+  "goal": "Empty /var/log/app.log without deleting it (so the app keeps its file handle).",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/oncall",
+    "files": {
+      "/var/log/app.log": "line\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\n"
+    },
+    "sizes": {
+      "/var/log/app.log": "9G"
+    }
+  },
+  "tests": [
+    {
+      "kind": "cond",
+      "cond": {
+        "file": "/var/log/app.log",
+        "exists": true
+      },
+      "label": "The file still exists"
+    },
+    {
+      "kind": "file-equals",
+      "path": "/var/log/app.log",
+      "text": "",
+      "label": "The file is empty"
+    }
+  ],
+  "hints": [
+    "Redirecting nothing into a file empties it: > file",
+    "Run: > /var/log/app.log or echo -n > /var/log/app.log",
+    "Run:\nls -l /var/log/app.log\n> /var/log/app.log"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "linux",
+    "logs"
+  ],
+  "requires": [
+    "linux-13-pidfile"
+  ],
+  "solution": {
+    "commands": [
+      "ls -l /var/log/app.log",
+      "> /var/log/app.log"
+    ]
+  },
+  "tool": "linux",
+  "alt": {
+    "commands": [
+      "echo -n > /var/log/app.log"
+    ]
+  }
+}
