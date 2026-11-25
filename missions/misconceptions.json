@@ -1,0 +1,570 @@
+{
+ "rules": [
+  {
+   "id": "eq-in-if",
+   "lang": "python",
+   "title": "One equals sign or two?",
+   "say": "“= checks if two things are equal.”",
+   "truth": "A single = stores a value. Two equals signs == ask a question.",
+   "wrong": "if age = 18:\n    print(\"adult\")",
+   "right": "if age == 18:\n    print(\"adult\")",
+   "tip": "Read = as “becomes” and == as “is equal to?”.",
+   "match": {
+    "err": "SyntaxError",
+    "code": "^\\s*(?:if|elif|while)\\s+[^\\n:]*?[^=!<>]=[^=][^\\n]*:"
+   },
+   "sample": {
+    "code": "x = 5\nif x = 5:\n    print(\"five\")\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints five",
+      "stdin": [],
+      "expect": "five"
+     }
+    ]
+   }
+  },
+  {
+   "id": "missing-colon",
+   "lang": "python",
+   "title": "Don't forget the colon",
+   "say": "“The line is complete without the colon.”",
+   "truth": "if, for, while, def and class lines end with a colon. It tells Python a block follows.",
+   "wrong": "for i in range(3)\n    print(i)",
+   "right": "for i in range(3):\n    print(i)",
+   "tip": "Block starters end in :",
+   "match": {
+    "err": "SyntaxError",
+    "msg": "expected ':'"
+   },
+   "sample": {
+    "code": "for i in range(3)\n    print(i)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints 0 1 2",
+      "stdin": [],
+      "expect": "0\n1\n2"
+     }
+    ]
+   }
+  },
+  {
+   "id": "print-parens",
+   "lang": "python",
+   "title": "print needs brackets",
+   "say": "“print is a keyword you can write without brackets.”",
+   "truth": "In Python 3, print is a function, so you call it with ( ).",
+   "wrong": "print \"hello\"",
+   "right": "print(\"hello\")",
+   "tip": "Functions are always called with ( ).",
+   "match": {
+    "err": "SyntaxError",
+    "msg": "Missing parentheses in call to 'print'"
+   },
+   "sample": {
+    "code": "print \"hello\"\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints hello",
+      "stdin": [],
+      "expect": "hello"
+     }
+    ]
+   }
+  },
+  {
+   "id": "indent",
+   "lang": "python",
+   "title": "Indentation is the structure",
+   "say": "“Spaces are just for looks.”",
+   "truth": "In Python the spaces at the start of a line decide which block the line belongs to.",
+   "wrong": "if True:\nprint(\"hi\")",
+   "right": "if True:\n    print(\"hi\")",
+   "tip": "Lines in the same block start in the same column.",
+   "match": {
+    "err": "IndentationError"
+   },
+   "sample": {
+    "code": "if True:\nprint(\"hi\")\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints hi",
+      "stdin": [],
+      "expect": "hi"
+     }
+    ]
+   }
+  },
+  {
+   "id": "input-is-text",
+   "lang": "python",
+   "title": "input() always gives text",
+   "say": "“If I type 5, I get the number 5.”",
+   "truth": "input() returns a string. \"5\" + 1 is an error, and \"10\" < 9 is not allowed. Convert with int() or float() first.",
+   "wrong": "age = input()\nprint(age + 1)",
+   "right": "age = int(input())\nprint(age + 1)",
+   "tip": "Typed in = text. Wrap with int() when you need a number.",
+   "match": {
+    "err": "TypeError",
+    "msg": "concatenate str|not supported between instances of 'str' and 'int'|unsupported operand",
+    "code": "input\\(",
+    "codeNot": "\\b(?:int|float)\\("
+   },
+   "sample": {
+    "code": "age = input()\nprint(age + 1)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Adds one",
+      "stdin": [
+       "4"
+      ],
+      "expect": "5"
+     }
+    ]
+   }
+  },
+  {
+   "id": "str-plus-int",
+   "lang": "python",
+   "title": "Text and numbers don't mix with +",
+   "say": "“+ glues anything together.”",
+   "truth": "+ adds numbers or joins two strings, not one of each. Turn the number into text with str(), or use an f-string.",
+   "wrong": "print(\"Score: \" + 10)",
+   "right": "print(\"Score: \" + str(10))\nprint(f\"Score: {10}\")",
+   "tip": "f\"...{value}...\" is the easy way to mix text and numbers.",
+   "match": {
+    "err": "TypeError",
+    "msg": "can only concatenate str \\(not \\\"int\\\"\\) to str|must be str, not int"
+   },
+   "sample": {
+    "code": "n = 10\nprint(\"Score: \" + n)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints the score",
+      "stdin": [],
+      "expect": "Score: 10"
+     }
+    ]
+   }
+  },
+  {
+   "id": "name-typo",
+   "lang": "python",
+   "title": "Names must match exactly",
+   "say": "“Python will work out what I meant.”",
+   "truth": "A name only exists after you create it, and it must be spelled the same every time, including capital letters.",
+   "wrong": "total = 5\nprint(totl)",
+   "right": "total = 5\nprint(total)",
+   "tip": "Copy-paste names instead of retyping them.",
+   "match": {
+    "err": "NameError"
+   },
+   "sample": {
+    "code": "total = 5\nprint(totl)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints 5",
+      "stdin": [],
+      "expect": "5"
+     }
+    ]
+   }
+  },
+  {
+   "id": "str-immutable",
+   "lang": "python",
+   "title": "Strings can't be edited in place",
+   "say": "“word[0] = 'B' changes the first letter.”",
+   "truth": "Strings are fixed once made. Build a new string instead.",
+   "wrong": "word = \"cat\"\nword[0] = \"b\"",
+   "right": "word = \"cat\"\nword = \"b\" + word[1:]",
+   "tip": "To change text, make new text.",
+   "match": {
+    "err": "TypeError",
+    "msg": "'str' object does not support item assignment"
+   },
+   "sample": {
+    "code": "word = \"cat\"\nword[0] = \"b\"\nprint(word)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints bat",
+      "stdin": [],
+      "expect": "bat"
+     }
+    ]
+   }
+  },
+  {
+   "id": "key-error",
+   "lang": "python",
+   "title": "Missing dictionary keys crash",
+   "say": "“A missing key just gives nothing.”",
+   "truth": "Reading a key that is not there raises KeyError. Use .get(key, default) or check with in first.",
+   "wrong": "prices = {\"tea\": 10}\nprint(prices[\"milk\"])",
+   "right": "prices = {\"tea\": 10}\nprint(prices.get(\"milk\", 0))",
+   "tip": "d[key] demands the key. d.get(key, default) is polite.",
+   "match": {
+    "err": "KeyError"
+   },
+   "sample": {
+    "code": "prices = {\"tea\": 10}\nprint(prices[\"milk\"])\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints 0",
+      "stdin": [],
+      "expect": "0"
+     }
+    ]
+   }
+  },
+  {
+   "id": "range-off-by-one",
+   "lang": "python",
+   "title": "range stops one early (and lists start at 0)",
+   "say": "“Indexes run from 1 to len.”",
+   "truth": "A list of n items has indexes 0 to n-1. range(n) gives 0 to n-1, so range(len(x) + 1) walks off the end.",
+   "wrong": "for i in range(len(nums) + 1):\n    print(nums[i])",
+   "right": "for i in range(len(nums)):\n    print(nums[i])",
+   "tip": "Last index = len - 1. range(a, b) never includes b.",
+   "match": {
+    "err": "IndexError",
+    "code": "range\\("
+   },
+   "sample": {
+    "code": "nums = [4, 5, 6]\nfor i in range(len(nums) + 1):\n    print(nums[i])\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Prints each number",
+      "stdin": [],
+      "expect": "4\n5\n6"
+     }
+    ]
+   }
+  },
+  {
+   "id": "sort-returns-none",
+   "lang": "python",
+   "title": "sort() changes the list, it does not return it",
+   "say": "“x = nums.sort() gives me the sorted list.”",
+   "truth": "list.sort() sorts in place and returns None. Use sorted(nums) when you want a new sorted list.",
+   "wrong": "ordered = nums.sort()",
+   "right": "ordered = sorted(nums)",
+   "tip": "sort() = change it. sorted() = give me a new one.",
+   "match": {
+    "code": "=\\s*[\\w.\\[\\]]+\\.sort\\(\\)"
+   },
+   "sample": {
+    "code": "def top(nums):\n    ordered = nums.sort()\n    return ordered\n",
+    "tests": [
+     {
+      "kind": "eval",
+      "label": "Sorted list",
+      "expr": "top([3, 1, 2])",
+      "expect": "[1, 2, 3]"
+     }
+    ]
+   }
+  },
+  {
+   "id": "append-returns-none",
+   "lang": "python",
+   "title": "append() returns None",
+   "say": "“nums = nums.append(4) gives me the longer list.”",
+   "truth": "append changes the list in place and returns None, so the variable becomes None. Just call nums.append(4).",
+   "wrong": "nums = nums.append(4)",
+   "right": "nums.append(4)",
+   "tip": "Methods that change a list usually return None.",
+   "match": {
+    "code": "=\\s*[\\w.\\[\\]]+\\.(?:append|extend|reverse|insert)\\("
+   },
+   "sample": {
+    "code": "def add(nums, n):\n    nums = nums.append(n)\n    return nums\n",
+    "tests": [
+     {
+      "kind": "eval",
+      "label": "Adds an item",
+      "expr": "add([1, 2], 3)",
+      "expect": "[1, 2, 3]"
+     }
+    ]
+   }
+  },
+  {
+   "id": "print-not-return",
+   "lang": "python",
+   "title": "print shows it, return gives it back",
+   "say": "“print() hands the answer back to the caller.”",
+   "truth": "print() only shows text on the screen. A function must return its answer, otherwise the caller gets None.",
+   "wrong": "def double(n):\n    print(n * 2)",
+   "right": "def double(n):\n    return n * 2",
+   "tip": "If another line of code needs the value, return it.",
+   "match": {
+    "got": "^None$",
+    "code": "\\bprint\\(",
+    "codeNot": "\\breturn\\b"
+   },
+   "sample": {
+    "code": "def double(n):\n    print(n * 2)\n",
+    "tests": [
+     {
+      "kind": "eval",
+      "label": "Doubles",
+      "expr": "double(4)",
+      "expect": "8"
+     }
+    ]
+   }
+  },
+  {
+   "id": "int-division",
+   "lang": "python",
+   "title": "/ always gives a decimal",
+   "say": "“10 / 2 is 5.”",
+   "truth": "/ always returns a float, so 10 / 2 is 5.0. Use // for whole-number division.",
+   "wrong": "half = 10 / 2   # 5.0",
+   "right": "half = 10 // 2   # 5",
+   "tip": "// divides and drops the remainder.",
+   "match": {
+    "got": "^-?\\d+\\.\\d+$",
+    "expect": "^-?\\d+$",
+    "code": "[^/]/[^/]"
+   },
+   "sample": {
+    "code": "n = int(input())\nprint(n / 2)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Whole number",
+      "stdin": [
+       "10"
+      ],
+      "expect": "5"
+     }
+    ]
+   }
+  },
+  {
+   "id": "remove-in-loop",
+   "lang": "python",
+   "title": "Don't change a list while looping over it",
+   "say": "“Removing items inside the loop is fine.”",
+   "truth": "The loop keeps counting positions while the list shrinks, so it skips items. Loop over a copy, or build a new list.",
+   "wrong": "for n in nums:\n    if n % 2 == 0:\n        nums.remove(n)",
+   "right": "nums = [n for n in nums if n % 2 != 0]",
+   "tip": "Build a new list instead of editing the one you are walking through.",
+   "match": {
+    "code": "for\\s+\\w+\\s+in\\s+(\\w+)\\s*:[\\s\\S]*?\\b\\1\\.(?:remove|pop|insert|append)\\("
+   },
+   "sample": {
+    "code": "def odds(nums):\n    for n in nums:\n        if n % 2 == 0:\n            nums.remove(n)\n    return nums\n",
+    "tests": [
+     {
+      "kind": "eval",
+      "label": "Removes the evens",
+      "expr": "odds([2, 4, 6, 7])",
+      "expect": "[7]"
+     }
+    ]
+   }
+  },
+  {
+   "id": "is-vs-eq",
+   "lang": "python",
+   "title": "is is not ==",
+   "say": "“is means equal.”",
+   "truth": "is asks whether two names point at the very same object, not whether the values match. Use == to compare values.",
+   "wrong": "if name is \"Asha\":",
+   "right": "if name == \"Asha\":",
+   "tip": "Compare values with ==. Use is only for None.",
+   "match": {
+    "code": "\\bis\\s+(?:not\\s+)?(?:-?\\d|[\\\"'])"
+   },
+   "sample": {
+    "code": "def greet(name):\n    if name is 'Asha':\n        return 'hi Asha'\n    return 'hello'\n",
+    "tests": [
+     {
+      "kind": "eval",
+      "label": "Greets Asha",
+      "expr": "greet(''.join(['As', 'ha']))",
+      "expect": "'hi Asha'"
+     }
+    ]
+   }
+  },
+  {
+   "id": "mutable-default",
+   "lang": "python",
+   "title": "A default list is shared by every call",
+   "say": "“A fresh [] is made for every call.”",
+   "truth": "A default value is built once, when the function is defined. Every call that uses it shares the same list.",
+   "wrong": "def add(item, bag=[]):\n    bag.append(item)\n    return bag",
+   "right": "def add(item, bag=None):\n    if bag is None:\n        bag = []\n    bag.append(item)\n    return bag",
+   "tip": "Use None as the default, then make the list inside.",
+   "match": {
+    "code": "def\\s+\\w+\\([^)]*=\\s*(?:\\[\\]|\\{\\}|set\\(\\))"
+   },
+   "sample": {
+    "code": "def add(item, bag=[]):\n    bag.append(item)\n    return bag\n",
+    "tests": [
+     {
+      "kind": "eval",
+      "label": "Fresh bag each time",
+      "expr": "(add(1), add(2))",
+      "expect": "([1], [2])"
+     }
+    ]
+   }
+  },
+  {
+   "id": "endless-loop",
+   "lang": "python",
+   "title": "The loop never ends",
+   "say": "“The loop will stop by itself.”",
+   "truth": "A while loop runs as long as its condition stays true. Something inside the loop must change the thing the condition checks.",
+   "wrong": "n = 5\nwhile n > 0:\n    print(n)",
+   "right": "n = 5\nwhile n > 0:\n    print(n)\n    n -= 1",
+   "tip": "Ask: what changes each time round? If nothing, it never stops.",
+   "match": {
+    "err": "Timeout"
+   },
+   "sample": {
+    "code": "n = 3\nwhile n > 0:\n    print(n)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Counts down",
+      "stdin": [],
+      "expect": "3\n2\n1"
+     }
+    ]
+   }
+  },
+  {
+   "id": "bad-int",
+   "lang": "python",
+   "title": "int() needs digits",
+   "say": "“int() reads any text as a number.”",
+   "truth": "int(\"abc\") and int(\"3.5\") raise ValueError. Check the text first, or catch the error with try / except.",
+   "wrong": "n = int(\"3.5\")",
+   "right": "try:\n    n = int(text)\nexcept ValueError:\n    n = 0",
+   "tip": "Wrap risky conversions in try / except ValueError.",
+   "match": {
+    "err": "ValueError",
+    "msg": "invalid literal for int\\(\\)"
+   },
+   "sample": {
+    "code": "n = int(input())\nprint(n + 1)\n",
+    "tests": [
+     {
+      "kind": "stdout",
+      "label": "Handles decimals",
+      "stdin": [
+       "3.5"
+      ],
+      "expect": "4.5"
+     }
+    ]
+   }
+  },
+  {
+   "id": "sql-null",
+   "lang": "sql",
+   "title": "NULL is not a value you can compare with =",
+   "say": "“WHERE phone = NULL finds the missing ones.”",
+   "truth": "Nothing equals NULL, not even NULL. Ask with IS NULL or IS NOT NULL.",
+   "wrong": "SELECT * FROM people WHERE phone = NULL;",
+   "right": "SELECT * FROM people WHERE phone IS NULL;",
+   "tip": "= NULL is never true. IS NULL is the way.",
+   "match": {
+    "code": "(?:=|!=|<>)\\s*NULL\\b"
+   },
+   "sample": {
+    "code": "SELECT name FROM people WHERE phone = NULL;",
+    "tests": [
+     {
+      "kind": "rows",
+      "label": "People without a phone",
+      "expect": [
+       [
+        "Ravi"
+       ]
+      ]
+     }
+    ],
+    "setup": "CREATE TABLE people (name TEXT, phone TEXT); INSERT INTO people VALUES ('Asha', '98'), ('Ravi', NULL);"
+   }
+  },
+  {
+   "id": "sql-aggregate-where",
+   "lang": "sql",
+   "title": "WHERE can't filter on a total",
+   "say": "“WHERE works on COUNT and SUM too.”",
+   "truth": "WHERE filters rows before they are grouped. To filter on a group's total, use HAVING after GROUP BY.",
+   "wrong": "SELECT city, COUNT(*) FROM people WHERE COUNT(*) > 1 GROUP BY city;",
+   "right": "SELECT city, COUNT(*) FROM people GROUP BY city HAVING COUNT(*) > 1;",
+   "tip": "Rows: WHERE. Groups: HAVING.",
+   "match": {
+    "err": ".*",
+    "msg": "misuse of aggregate"
+   },
+   "sample": {
+    "code": "SELECT city, COUNT(*) FROM people WHERE COUNT(*) > 1 GROUP BY city;",
+    "tests": [
+     {
+      "kind": "rows",
+      "label": "Cities with 2+ people",
+      "expect": [
+       [
+        "Pune",
+        2
+       ]
+      ]
+     }
+    ],
+    "setup": "CREATE TABLE people (name TEXT, city TEXT); INSERT INTO people VALUES ('a','Pune'),('b','Pune'),('c','Goa');"
+   }
+  },
+  {
+   "id": "sql-quotes",
+   "lang": "sql",
+   "title": "Text values need quotes",
+   "say": "“WHERE city = Pune works without quotes.”",
+   "truth": "Without quotes, SQL thinks Pune is a column name. Put text in single quotes: 'Pune'.",
+   "wrong": "SELECT * FROM people WHERE city = Pune;",
+   "right": "SELECT * FROM people WHERE city = 'Pune';",
+   "tip": "Words are names; 'words' in quotes are text.",
+   "match": {
+    "err": ".*",
+    "msg": "no such column"
+   },
+   "sample": {
+    "code": "SELECT name FROM people WHERE city = Pune;",
+    "tests": [
+     {
+      "kind": "rows",
+      "label": "People in Pune",
+      "expect": [
+       [
+        "a"
+       ],
+       [
+        "b"
+       ]
+      ]
+     }
+    ],
+    "setup": "CREATE TABLE people (name TEXT, city TEXT); INSERT INTO people VALUES ('a','Pune'),('b','Pune'),('c','Goa');"
+   }
+  }
+ ]
+}

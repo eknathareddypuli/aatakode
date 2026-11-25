@@ -65,6 +65,18 @@
    "title": "Build Real Things",
    "title_te": "నిజమైన నిర్మాణాలు",
    "blurb": "Multi-step projects that grow as you code."
+  },
+  {
+   "id": "games",
+   "title": "Game Workshop",
+   "title_te": "ఆటల పనిశాల",
+   "blurb": "Build tiny games: guessing, rooms, snake, tic-tac-toe and a text adventure."
+  },
+  {
+   "id": "jobs",
+   "title": "Micro-Jobs",
+   "title_te": "చిన్న పనులు",
+   "blurb": "Short real-world jobs: school fees, ledgers, fares and bills."
   }
  ],
  "regions": [
@@ -460,6 +472,37 @@
    "place": "The Link Loft",
    "story": "Short links, base 62, and a security check, built step by step.",
    "capstone": true
+  },
+  {
+   "id": "game-workshop",
+   "track": "games",
+   "title": "Game Workshop",
+   "title_te": "ఆటల పనిశాల",
+   "blurb": "Small functions that power real games.",
+   "icon": "🕹️",
+   "place": "The Game Shed",
+   "story": "Chilaka sets up a shed where every game starts as a tiny function. Make the judge, the dice, the snake and the fight."
+  },
+  {
+   "id": "game-adventure",
+   "track": "games",
+   "title": "Project: Escape the Village",
+   "title_te": "ప్రాజెక్ట్: గ్రామం నుండి తప్పించుకో",
+   "blurb": "Build a text adventure in 4 steps.",
+   "icon": "🗺️",
+   "place": "The Adventure Hall",
+   "story": "Rooms, items and a locked temple door: build a whole text adventure from your own functions.",
+   "capstone": true
+  },
+  {
+   "id": "micro-jobs",
+   "track": "jobs",
+   "title": "Micro-Jobs",
+   "title_te": "చిన్న పనులు",
+   "blurb": "Ten short jobs from real shops, schools and clubs.",
+   "icon": "💼",
+   "place": "The Job Board",
+   "story": "People around Aata-gram pin small jobs on the board. Each one is a short brief and a function to write."
   }
  ]
 }
