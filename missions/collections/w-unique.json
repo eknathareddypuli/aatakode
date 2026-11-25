@@ -1,0 +1,58 @@
+{
+  "id": "w-unique",
+  "region": "collections",
+  "order": 9,
+  "title": "Remove Duplicates",
+  "story": "The registration desk typed some ticket numbers twice.",
+  "goal": "Read numbers separated by commas. Print the sorted list of unique numbers, like [1, 2, 3].",
+  "type": "write-code",
+  "starter": "line = input()\n# unique, sorted, as a list of ints\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "3,1,3,2,1",
+      "expect": "[1, 2, 3]",
+      "stdin": [
+        "3,1,3,2,1"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "5",
+      "expect": "[5]",
+      "stdin": [
+        "5"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "10,2,10",
+      "expect": "[2, 10]",
+      "stdin": [
+        "10,2,10"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Split on commas, turn each piece into an int, then use set() to drop duplicates.",
+    "sorted(set(numbers)) gives a sorted list of the unique values.",
+    "line = input()\nnumbers = [int(x) for x in line.split(\",\")]\nprint(sorted(set(numbers)))\n"
+  ],
+  "socratic": [
+    "Why convert to int before sorting?",
+    "Which collection removes duplicates automatically?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Remove Duplicates”?",
+  "xp": 30,
+  "skills": [
+    "sets",
+    "lists"
+  ],
+  "requires": [
+    "w-word-count"
+  ],
+  "solution": "line = input()\nnumbers = [int(x) for x in line.split(\",\")]\nprint(sorted(set(numbers)))\n",
+  "alt": "line = input()\nseen = []\nfor x in line.split(\",\"):\n    n = int(x)\n    if n not in seen:\n        seen.append(n)\nseen.sort()\nprint(seen)\n"
+}

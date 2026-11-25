@@ -1,7 +1,7 @@
 {
   "id": "py-13-bugfix-4",
   "region": "collections",
-  "order": 3,
+  "order": 14,
   "title": "The Missing Treasure",
   "story": "The treasure list is printed with numbers, but the program crashes at the end and the total is wrong.",
   "goal": "Fix it to print 1 gem, 2 coin, 3 key, then Total: 3.",
@@ -37,7 +37,7 @@
     "off-by-one"
   ],
   "requires": [
-    "py-12-dict"
+    "proj-contacts"
   ],
   "solution": "items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items)):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items))\n",
   "alt": "items = [\"gem\", \"coin\", \"key\"]\nfor number, item in enumerate(items, 1):\n    print(number, item)\nprint(\"Total:\", len(items))\n",

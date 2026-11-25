@@ -1,0 +1,49 @@
+{
+  "id": "w-list-ops",
+  "region": "collections",
+  "order": 3,
+  "title": "Shopping Basket",
+  "story": "Chilaka's basket needs three changes before heading home.",
+  "goal": "Starting from basket = [\"rice\", \"dal\"], add \"oil\", remove \"rice\", then sort the list.",
+  "type": "write-code",
+  "starter": "basket = [\"rice\", \"dal\"]\n# add \"oil\", remove \"rice\", then sort the list\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "basket is [dal, oil]",
+      "expr": "basket",
+      "expect": "['dal', 'oil']"
+    },
+    {
+      "kind": "source",
+      "label": "Uses append",
+      "pattern": "\\.append\\("
+    },
+    {
+      "kind": "source",
+      "label": "Uses remove",
+      "pattern": "\\.remove\\("
+    }
+  ],
+  "hints": [
+    "Lists have methods: append adds to the end, remove deletes a value, sort puts items in order.",
+    "Do them in order: append(\"oil\"), remove(\"rice\"), sort().",
+    "basket = [\"rice\", \"dal\"]\nbasket.append(\"oil\")\nbasket.remove(\"rice\")\nbasket.sort()\n"
+  ],
+  "socratic": [
+    "Which method adds to the end?",
+    "What does sort() do to the list?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Shopping Basket”?",
+  "xp": 30,
+  "skills": [
+    "lists",
+    "methods"
+  ],
+  "requires": [
+    "p-list-slice"
+  ],
+  "solution": "basket = [\"rice\", \"dal\"]\nbasket.append(\"oil\")\nbasket.remove(\"rice\")\nbasket.sort()\n",
+  "alt": "basket = [\"rice\", \"dal\"]\nbasket.append(\"oil\")\nbasket.remove(\"rice\")\nbasket = sorted(basket)\n"
+}

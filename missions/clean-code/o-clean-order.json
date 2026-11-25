@@ -1,0 +1,46 @@
+{
+  "id": "o-clean-order",
+  "region": "clean-code",
+  "order": 8,
+  "title": "Order the Guard Clauses",
+  "story": "Early returns keep code flat and readable. Put this function back together.",
+  "goal": "Put the lines in order so the program prints B.",
+  "type": "order",
+  "starter": "        return \"A\"\n    if score >= 90:\nprint(grade(80))\n    return \"C\"\n    if score >= 75:\n        return \"B\"\ndef grade(score):\n",
+  "lines": [
+    "        return \"A\"",
+    "    if score >= 90:",
+    "print(grade(80))",
+    "    return \"C\"",
+    "    if score >= 75:",
+    "        return \"B\"",
+    "def grade(score):"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints B",
+      "expect": "B"
+    }
+  ],
+  "hints": [
+    "The highest check comes first so a 95 never reaches the B rule.",
+    "The plain return \"C\" is the last line inside the function.",
+    "def grade(score):\n    if score >= 90:\n        return \"A\"\n    if score >= 75:\n        return \"B\"\n    return \"C\"\nprint(grade(80))\n"
+  ],
+  "socratic": [
+    "Why must the 90 check come before the 75 check?",
+    "What runs if neither if is true?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "guard clauses",
+    "order"
+  ],
+  "requires": [
+    "w-dry"
+  ],
+  "solution": "def grade(score):\n    if score >= 90:\n        return \"A\"\n    if score >= 75:\n        return \"B\"\n    return \"C\"\nprint(grade(80))\n"
+}

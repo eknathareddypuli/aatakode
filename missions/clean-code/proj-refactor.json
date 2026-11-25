@@ -1,0 +1,70 @@
+{
+  "id": "proj-refactor",
+  "region": "clean-code",
+  "order": 9,
+  "title": "Project: Refactor the Mess",
+  "story": "This shipping function works, but nobody dares touch it. Rewrite it cleanly without changing what it does.",
+  "goal": "Make shipping(weight, express=False) do the same job in 8 lines or fewer: 40 for the first kg, +10 for each extra kg started (round up), doubled for express.",
+  "type": "write-code",
+  "starter": "def shipping(weight, express=False):\n    cost = 40\n    if weight > 1:\n        extra = weight - 1\n        import math\n        extra = math.ceil(extra)\n        i = 0\n        while i < extra:\n            cost = cost + 10\n            i = i + 1\n    if express == True:\n        cost = cost * 2\n    else:\n        cost = cost\n    return cost\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "1 kg",
+      "expr": "shipping(1)",
+      "expect": "40"
+    },
+    {
+      "kind": "eval",
+      "label": "2.5 kg",
+      "expr": "shipping(2.5)",
+      "expect": "60"
+    },
+    {
+      "kind": "eval",
+      "label": "2.5 kg express",
+      "expr": "shipping(2.5, True)",
+      "expect": "120"
+    },
+    {
+      "kind": "eval",
+      "label": "Light parcel",
+      "expr": "shipping(0.5)",
+      "expect": "40"
+    },
+    {
+      "kind": "eval",
+      "label": "3 kg",
+      "expr": "shipping(3)",
+      "expect": "60",
+      "hidden": true
+    },
+    {
+      "kind": "maxlines",
+      "max": 8,
+      "label": "8 lines of code or fewer"
+    }
+  ],
+  "hints": [
+    "Find the loop that adds 10 each time. Can arithmetic replace it?",
+    "math.ceil(weight) - 1 is the number of extra kilos (never below zero). A conditional expression handles express.",
+    "import math\n\n\ndef shipping(weight, express=False):\n    cost = 40 + 10 * max(0, math.ceil(weight) - 1)\n    return cost * 2 if express else cost\n"
+  ],
+  "socratic": [
+    "Which lines only repeat simple arithmetic?",
+    "What does if express == True: ... else: cost = cost really say?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Refactor the Mess”?",
+  "xp": 65,
+  "skills": [
+    "refactoring",
+    "functions"
+  ],
+  "requires": [
+    "o-clean-order"
+  ],
+  "solution": "import math\n\n\ndef shipping(weight, express=False):\n    cost = 40 + 10 * max(0, math.ceil(weight) - 1)\n    return cost * 2 if express else cost\n",
+  "alt": "from math import ceil\n\n\ndef shipping(weight, express=False):\n    cost = 40 + 10 * (ceil(weight) - 1) if weight > 1 else 40\n    return 2 * cost if express else cost\n",
+  "project": true
+}

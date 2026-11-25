@@ -1,0 +1,58 @@
+{
+  "id": "w-word-count",
+  "region": "collections",
+  "order": 8,
+  "title": "Word Counter",
+  "story": "The library counts how often each word appears in a sentence.",
+  "goal": "Read a sentence. For each distinct word, in alphabetical order, print word: count.",
+  "type": "write-code",
+  "starter": "sentence = input()\n# count each word\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "a b a",
+      "expect": "a: 2\nb: 1",
+      "stdin": [
+        "a b a"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "one",
+      "expect": "one: 1",
+      "stdin": [
+        "one"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "c b a c",
+      "expect": "a: 1\nb: 1\nc: 2",
+      "stdin": [
+        "c b a c"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A dictionary can map each word to its count. Update the count as you walk through the words.",
+    "counts[w] = counts.get(w, 0) + 1 handles the first time a word appears. Loop over sorted(counts) to print.",
+    "sentence = input()\ncounts = {}\nfor w in sentence.split():\n    counts[w] = counts.get(w, 0) + 1\nfor w in sorted(counts):\n    print(f\"{w}: {counts[w]}\")\n"
+  ],
+  "socratic": [
+    "What should the dictionary store for each word?",
+    "What happens the first time a word is seen?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Word Counter”?",
+  "xp": 30,
+  "skills": [
+    "dicts",
+    "loops"
+  ],
+  "requires": [
+    "p-set"
+  ],
+  "solution": "sentence = input()\ncounts = {}\nfor w in sentence.split():\n    counts[w] = counts.get(w, 0) + 1\nfor w in sorted(counts):\n    print(f\"{w}: {counts[w]}\")\n",
+  "alt": "from collections import Counter\nc = Counter(input().split())\nfor w in sorted(c):\n    print(w + \": \" + str(c[w]))\n"
+}

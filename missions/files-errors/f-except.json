@@ -1,0 +1,36 @@
+{
+  "id": "f-except",
+  "region": "files-errors",
+  "order": 3,
+  "title": "Fill the Safety Net",
+  "story": "Dividing by zero would crash the whole sorting office.",
+  "goal": "Print None instead of crashing.",
+  "type": "fill",
+  "starter": "def divide(a, b):\n    try:\n        return a / b\n    except ___:\n        return None\n\nprint(divide(6, 0))\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints None",
+      "expect": "None"
+    }
+  ],
+  "hints": [
+    "Which error does dividing by zero raise?",
+    "The name is ZeroDivisionError.",
+    "def divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return None\n\nprint(divide(6, 0))\n"
+  ],
+  "socratic": [
+    "What error does 6 / 0 raise?",
+    "Why catch a specific error instead of everything?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Safety Net”?",
+  "xp": 20,
+  "skills": [
+    "try/except"
+  ],
+  "requires": [
+    "w-safe-int"
+  ],
+  "solution": "def divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return None\n\nprint(divide(6, 0))\n"
+}

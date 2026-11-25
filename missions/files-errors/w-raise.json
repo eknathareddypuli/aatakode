@@ -1,0 +1,57 @@
+{
+  "id": "w-raise",
+  "region": "files-errors",
+  "order": 9,
+  "title": "Strict Age",
+  "story": "The registration form must refuse impossible ages.",
+  "goal": "Write check_age(age) returning age if it is between 0 and 150, otherwise raising ValueError.",
+  "type": "write-code",
+  "starter": "# define check_age\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Valid age",
+      "expr": "check_age(30)",
+      "expect": "30"
+    },
+    {
+      "kind": "raises",
+      "label": "Negative age is refused",
+      "expr": "check_age(-1)",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "raises",
+      "label": "Huge age is refused",
+      "expr": "check_age(200)",
+      "exc": "ValueError"
+    },
+    {
+      "kind": "eval",
+      "label": "Edge: 0 is allowed",
+      "expr": "check_age(0)",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use if to detect a bad value, then raise ValueError(\"message\").",
+    "The check is: age < 0 or age > 150.",
+    "def check_age(age):\n    if age < 0 or age > 150:\n        raise ValueError(\"age out of range\")\n    return age\n"
+  ],
+  "socratic": [
+    "Which keyword makes an error on purpose?",
+    "Which ages are allowed?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Strict Age”?",
+  "xp": 30,
+  "skills": [
+    "raise"
+  ],
+  "requires": [
+    "w-json"
+  ],
+  "solution": "def check_age(age):\n    if age < 0 or age > 150:\n        raise ValueError(\"age out of range\")\n    return age\n",
+  "alt": "def check_age(age):\n    if not 0 <= age <= 150:\n        raise ValueError(f\"bad age: {age}\")\n    return age\n"
+}

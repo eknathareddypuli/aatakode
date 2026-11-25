@@ -1,0 +1,44 @@
+{
+  "id": "p-eq",
+  "region": "decisions",
+  "order": 3,
+  "title": "Two Equals",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "print(5 == 5.0)\nprint(\"5\" == 5)\nprint(3 > 2 > 1)",
+  "options": [
+    "True\nTrue\nTrue",
+    "False\nFalse\nTrue",
+    "True\nFalse\nFalse",
+    "True\nFalse\nTrue"
+  ],
+  "answer": 3,
+  "why": "5 equals 5.0 as numbers, but text \"5\" is never equal to the number 5. Python lets you chain comparisons: 3 > 2 > 1 means both are true.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Is \"5\" the same kind of thing as 5?",
+    "The output is:\nTrue\nFalse\nTrue"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "comparisons"
+  ],
+  "requires": [
+    "w-even-odd"
+  ],
+  "solution": "True\nFalse\nTrue"
+}

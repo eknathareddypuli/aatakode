@@ -1,0 +1,56 @@
+{
+  "id": "w-assert",
+  "region": "clean-code",
+  "order": 4,
+  "title": "Assert Yourself",
+  "story": "The tower trusts code only when it tests itself. Write a function and two checks.",
+  "goal": "Write clamp(n, low, high) that limits n to the range, and add at least two assert lines that test it.",
+  "type": "write-code",
+  "starter": "# define clamp, then test it with assert\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Too high",
+      "expr": "clamp(5, 0, 3)",
+      "expect": "3"
+    },
+    {
+      "kind": "eval",
+      "label": "Too low",
+      "expr": "clamp(-1, 0, 3)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Inside range",
+      "expr": "clamp(2, 0, 3)",
+      "expect": "2"
+    },
+    {
+      "kind": "source",
+      "label": "Has two assert checks of clamp",
+      "pattern": "assert\\s+clamp[\\s\\S]*assert\\s+clamp"
+    }
+  ],
+  "hints": [
+    "assert expression does nothing if the expression is true, and stops the program if it is false.",
+    "Write asserts such as assert clamp(5, 0, 3) == 3 after the function.",
+    "def clamp(n, low, high):\n    return max(low, min(n, high))\n\n\nassert clamp(5, 0, 3) == 3\nassert clamp(-1, 0, 3) == 0\n"
+  ],
+  "socratic": [
+    "What does assert do when the check is false?",
+    "Which inputs would you test?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Assert Yourself”?",
+  "xp": 30,
+  "skills": [
+    "testing",
+    "assert"
+  ],
+  "requires": [
+    "w-docstring"
+  ],
+  "solution": "def clamp(n, low, high):\n    return max(low, min(n, high))\n\n\nassert clamp(5, 0, 3) == 3\nassert clamp(-1, 0, 3) == 0\n",
+  "alt": "def clamp(n, low, high):\n    if n < low:\n        return low\n    if n > high:\n        return high\n    return n\n\n\nassert clamp(2, 0, 3) == 2\nassert clamp(9, 0, 3) == 3\nassert clamp(-4, 0, 3) == 0\n"
+}

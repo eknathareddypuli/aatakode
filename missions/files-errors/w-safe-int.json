@@ -1,0 +1,58 @@
+{
+  "id": "w-safe-int",
+  "region": "files-errors",
+  "order": 2,
+  "title": "Safe Converter",
+  "story": "Letters arrive with messy numbers. The post office must never crash on a bad one.",
+  "goal": "Write to_int(text, default=0) that returns int(text), or default if the text is not a whole number.",
+  "type": "write-code",
+  "starter": "# define to_int\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Good number",
+      "expr": "to_int(\"42\")",
+      "expect": "42"
+    },
+    {
+      "kind": "eval",
+      "label": "Bad number gives default",
+      "expr": "to_int(\"abc\")",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Custom default",
+      "expr": "to_int(\"x\", -1)",
+      "expect": "-1"
+    },
+    {
+      "kind": "eval",
+      "label": "Spaces are fine",
+      "expr": "to_int(\" 7 \")",
+      "expect": "7",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Wrap the risky conversion in try and catch ValueError.",
+    "Inside except, return default.",
+    "def to_int(text, default=0):\n    try:\n        return int(text)\n    except ValueError:\n        return default\n"
+  ],
+  "socratic": [
+    "Which line might raise an error?",
+    "What should the function return when it does?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Safe Converter”?",
+  "xp": 30,
+  "skills": [
+    "try/except",
+    "defaults"
+  ],
+  "requires": [
+    "p-try"
+  ],
+  "solution": "def to_int(text, default=0):\n    try:\n        return int(text)\n    except ValueError:\n        return default\n",
+  "alt": "def to_int(text, default=0):\n    text = text.strip()\n    if text.lstrip(\"-\").isdigit():\n        return int(text)\n    return default\n"
+}

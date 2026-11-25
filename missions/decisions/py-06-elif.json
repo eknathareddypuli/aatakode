@@ -1,7 +1,7 @@
 {
   "id": "py-06-elif",
   "region": "decisions",
-  "order": 2,
+  "order": 4,
   "title": "Report Card",
   "story": "Marks are turned into grades: 90 or more is A, 75 or more is B, 50 or more is C, anything lower is D.",
   "goal": "Read marks and print the grade letter.",
@@ -83,7 +83,7 @@
     "logic"
   ],
   "requires": [
-    "py-05-if-else"
+    "p-eq"
   ],
   "solution": "marks = int(input())\nif marks >= 90:\n    print(\"A\")\nelif marks >= 75:\n    print(\"B\")\nelif marks >= 50:\n    print(\"C\")\nelse:\n    print(\"D\")\n",
   "alt": "marks = int(input())\ngrade = \"D\"\nif marks >= 50:\n    grade = \"C\"\nif marks >= 75:\n    grade = \"B\"\nif marks >= 90:\n    grade = \"A\"\nprint(grade)\n"

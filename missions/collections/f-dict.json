@@ -1,0 +1,36 @@
+{
+  "id": "f-dict",
+  "region": "collections",
+  "order": 6,
+  "title": "Fill the Menu",
+  "story": "The tea stall keeps prices in a dictionary.",
+  "goal": "Add samosa at 30, then print samosa plus the tea price: 40",
+  "type": "fill",
+  "starter": "prices = {\"tea\": 10, \"coffee\": 20}\nprices[___] = 30\nprint(prices[\"samosa\"] + prices.___(\"tea\"))\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints 40",
+      "expect": "40"
+    }
+  ],
+  "hints": [
+    "The first blank is the new key (it needs quotes, it is text).",
+    "The second is the dictionary method that looks up a key safely: get.",
+    "prices = {\"tea\": 10, \"coffee\": 20}\nprices[\"samosa\"] = 30\nprint(prices[\"samosa\"] + prices.get(\"tea\"))\n"
+  ],
+  "socratic": [
+    "What goes inside the square brackets when adding a new item?",
+    "Which method reads a value without crashing if missing?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Menu”?",
+  "xp": 20,
+  "skills": [
+    "dicts"
+  ],
+  "requires": [
+    "py-12-dict"
+  ],
+  "solution": "prices = {\"tea\": 10, \"coffee\": 20}\nprices[\"samosa\"] = 30\nprint(prices[\"samosa\"] + prices.get(\"tea\"))\n"
+}

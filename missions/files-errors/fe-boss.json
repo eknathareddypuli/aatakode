@@ -1,0 +1,54 @@
+{
+  "id": "fe-boss",
+  "region": "files-errors",
+  "order": 11,
+  "title": "Boss: The Crashing Counter",
+  "story": "A number-adding script crashes on blank lines and on missing files, and leaves the file open. Find all the bugs.",
+  "goal": "Fix read_numbers(path): sum the whole numbers in the file, ignore blank lines, and return 0 if the file does not exist.",
+  "type": "fix-the-bug",
+  "starter": "def read_numbers(path):\n    f = open(path)\n    nums = []\n    for line in f:\n        nums.append(int(line))\n    return sum(nums)\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Skips blank lines",
+      "expr": "(open(\"n.txt\", \"w\").write(\"1\\n\\n2\\n\"), read_numbers(\"n.txt\"))[1]",
+      "expect": "3"
+    },
+    {
+      "kind": "eval",
+      "label": "Missing file gives 0",
+      "expr": "read_numbers(\"missing.txt\")",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Plain file",
+      "expr": "(open(\"n3.txt\", \"w\").write(\"5\\n6\"), read_numbers(\"n3.txt\"))[1]",
+      "expect": "11",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Which line crashes on an empty line? What does int(\"\\n\") do?",
+    "A missing file raises FileNotFoundError. Also prefer with open(...) so the file closes itself.",
+    "def read_numbers(path):\n    try:\n        with open(path) as f:\n            return sum(int(line) for line in f if line.strip())\n    except FileNotFoundError:\n        return 0\n"
+  ],
+  "socratic": [
+    "What does int of a blank line do?",
+    "What does open do when the file is missing?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 65,
+  "skills": [
+    "debugging",
+    "files",
+    "try/except"
+  ],
+  "requires": [
+    "proj-expenses"
+  ],
+  "solution": "def read_numbers(path):\n    try:\n        with open(path) as f:\n            return sum(int(line) for line in f if line.strip())\n    except FileNotFoundError:\n        return 0\n",
+  "alt": "def read_numbers(path):\n    nums = []\n    try:\n        with open(path) as f:\n            for line in f:\n                if line.strip() == \"\":\n                    continue\n                nums.append(int(line))\n    except FileNotFoundError:\n        return 0\n    return sum(nums)\n",
+  "boss": true
+}

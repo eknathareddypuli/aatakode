@@ -1,0 +1,52 @@
+{
+  "id": "w-csv",
+  "region": "files-errors",
+  "order": 7,
+  "title": "Score Sheet",
+  "story": "The school sends scores as CSV text. Average them.",
+  "goal": "Write average_from_csv(text) for text like \"name,score\\nAsha,80\\nRavi,60\". Skip the header; return the average as a float (0.0 if no rows).",
+  "type": "write-code",
+  "starter": "# define average_from_csv\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Two rows",
+      "expr": "average_from_csv(\"name,score\\nAsha,80\\nRavi,60\")",
+      "expect": "70.0"
+    },
+    {
+      "kind": "eval",
+      "label": "Header only",
+      "expr": "average_from_csv(\"name,score\")",
+      "expect": "0.0"
+    },
+    {
+      "kind": "eval",
+      "label": "One row",
+      "expr": "average_from_csv(\"name,score\\nMeera,95\\n\")",
+      "expect": "95.0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Split the text into lines, ignore the first, then split each line on a comma.",
+    "Collect the scores into a list, then divide the sum by the count, but only if the list is not empty.",
+    "def average_from_csv(text):\n    lines = text.strip().split(\"\\n\")[1:]\n    scores = [int(line.split(\",\")[1]) for line in lines]\n    return sum(scores) / len(scores) if scores else 0.0\n"
+  ],
+  "socratic": [
+    "How do you skip the header line?",
+    "What must you avoid dividing by?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Score Sheet”?",
+  "xp": 30,
+  "skills": [
+    "csv",
+    "split"
+  ],
+  "requires": [
+    "w-count-lines"
+  ],
+  "solution": "def average_from_csv(text):\n    lines = text.strip().split(\"\\n\")[1:]\n    scores = [int(line.split(\",\")[1]) for line in lines]\n    return sum(scores) / len(scores) if scores else 0.0\n",
+  "alt": "def average_from_csv(text):\n    total = 0\n    count = 0\n    for line in text.strip().split(\"\\n\")[1:]:\n        total += int(line.split(\",\")[1])\n        count += 1\n    if count == 0:\n        return 0.0\n    return total / count\n"
+}

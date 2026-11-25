@@ -1,0 +1,53 @@
+{
+  "id": "w-dry",
+  "region": "clean-code",
+  "order": 7,
+  "title": "Stop Repeating Yourself",
+  "story": "The same print line is copy-pasted three times. When the format changes, someone will forget one copy.",
+  "goal": "Keep the output the same, but define a function and call it for each item.",
+  "type": "write-code",
+  "starter": "print(\"Samosa: \" + str(10))\nprint(\"Tea: \" + str(15))\nprint(\"Laddu: \" + str(25))\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Same output",
+      "expect": "Samosa: 10\nTea: 15\nLaddu: 25"
+    },
+    {
+      "kind": "source",
+      "label": "Defines a function",
+      "pattern": "def\\s+\\w+\\s*\\("
+    }
+  ],
+  "hints": [
+    "Whatever repeats becomes a function. What changes between the lines?",
+    "The name and the price change. Make them parameters.",
+    "def show(name, price):\n    print(name + \": \" + str(price))\n\n\nshow(\"Samosa\", 10)\nshow(\"Tea\", 15)\nshow(\"Laddu\", 25)\n"
+  ],
+  "socratic": [
+    "Which parts of the three lines differ?",
+    "How many times would you edit the format after this?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Stop Repeating Yourself”?",
+  "xp": 30,
+  "skills": [
+    "DRY",
+    "functions"
+  ],
+  "requires": [
+    "p-mutable-arg"
+  ],
+  "solution": "def show(name, price):\n    print(name + \": \" + str(price))\n\n\nshow(\"Samosa\", 10)\nshow(\"Tea\", 15)\nshow(\"Laddu\", 25)\n",
+  "alt": "def show(name, price):\n    print(f\"{name}: {price}\")\n\n\nfor name, price in [(\"Samosa\", 10), (\"Tea\", 15), (\"Laddu\", 25)]:\n    show(name, price)\n",
+  "clean": {
+    "label": "Fit it in 5 lines of code or fewer",
+    "tests": [
+      {
+        "kind": "maxlines",
+        "max": 5,
+        "label": "5 lines or fewer"
+      }
+    ]
+  }
+}

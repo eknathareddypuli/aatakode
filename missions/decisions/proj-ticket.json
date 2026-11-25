@@ -1,0 +1,90 @@
+{
+  "id": "proj-ticket",
+  "region": "decisions",
+  "order": 10,
+  "title": "Project: Cinema Ticket Desk",
+  "story": "The cinema prices tickets by age and day. Build the desk program.",
+  "goal": "Read age, then day (mon..sun). Under 5 is free. Ages 5-12 and 60+ pay 80, everyone else 150. On sat or sun add 20, but never to a free ticket. Print the price.",
+  "type": "write-code",
+  "starter": "age = int(input())\nday = input()\n# work out the price, then print it\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "4 on a Monday",
+      "expect": "0",
+      "stdin": [
+        "4",
+        "mon"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "4 on a Saturday stays free",
+      "expect": "0",
+      "stdin": [
+        "4",
+        "sat"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "10 on a Monday",
+      "expect": "80",
+      "stdin": [
+        "10",
+        "mon"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "30 on a Saturday",
+      "expect": "170",
+      "stdin": [
+        "30",
+        "sat"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "65 on a Sunday",
+      "expect": "100",
+      "stdin": [
+        "65",
+        "sun"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "13 on a Tuesday",
+      "expect": "150",
+      "stdin": [
+        "13",
+        "tue"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "First decide the base price with if/elif/else. Then handle the weekend as a separate step.",
+    "The weekend surcharge only applies when the price is above 0.",
+    "age = int(input())\nday = input()\nif age < 5:\n    price = 0\nelif age <= 12 or age >= 60:\n    price = 80\nelse:\n    price = 150\nif day in (\"sat\", \"sun\") and price > 0:\n    price += 20\nprint(price)\n"
+  ],
+  "socratic": [
+    "Which rule decides the base price, and which rule adjusts it?",
+    "Why must the free ticket skip the weekend charge?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Cinema Ticket Desk”?",
+  "xp": 45,
+  "skills": [
+    "if",
+    "elif",
+    "and/or"
+  ],
+  "requires": [
+    "w-leap"
+  ],
+  "solution": "age = int(input())\nday = input()\nif age < 5:\n    price = 0\nelif age <= 12 or age >= 60:\n    price = 80\nelse:\n    price = 150\nif day in (\"sat\", \"sun\") and price > 0:\n    price += 20\nprint(price)\n",
+  "alt": "age = int(input())\nday = input()\nif age < 5:\n    price = 0\nelse:\n    price = 80 if (age <= 12 or age >= 60) else 150\n    if day == \"sat\" or day == \"sun\":\n        price = price + 20\nprint(price)\n",
+  "project": true
+}

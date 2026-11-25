@@ -1,0 +1,74 @@
+{
+  "id": "o-grade",
+  "region": "decisions",
+  "order": 8,
+  "title": "Order the Grader",
+  "story": "The report-card program fell apart. Rebuild it so that 95 gives A, 80 gives B and 10 gives C.",
+  "goal": "Put the lines in order so the program grades correctly.",
+  "type": "order",
+  "starter": "    print(\"B\")\n    print(\"C\")\nelse:\nmark = int(input())\nif mark >= 90:\n    print(\"A\")\nelif mark >= 75:\n",
+  "lines": [
+    "    print(\"B\")",
+    "    print(\"C\")",
+    "else:",
+    "mark = int(input())",
+    "if mark >= 90:",
+    "    print(\"A\")",
+    "elif mark >= 75:"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "95",
+      "expect": "A",
+      "stdin": [
+        "95"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "80",
+      "expect": "B",
+      "stdin": [
+        "80"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "10",
+      "expect": "C",
+      "stdin": [
+        "10"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "75",
+      "expect": "B",
+      "stdin": [
+        "75"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "if comes first, then elif, then else. Indentation shows which line belongs to which branch.",
+    "The highest score check must come before the lower one.",
+    "mark = int(input())\nif mark >= 90:\n    print(\"A\")\nelif mark >= 75:\n    print(\"B\")\nelse:\n    print(\"C\")\n"
+  ],
+  "socratic": [
+    "What must come before elif and else?",
+    "Why must the 90 check come before the 75 check?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "elif",
+    "order"
+  ],
+  "requires": [
+    "p-elif-chain"
+  ],
+  "solution": "mark = int(input())\nif mark >= 90:\n    print(\"A\")\nelif mark >= 75:\n    print(\"B\")\nelse:\n    print(\"C\")\n"
+}

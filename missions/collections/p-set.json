@@ -1,0 +1,44 @@
+{
+  "id": "p-set",
+  "region": "collections",
+  "order": 7,
+  "title": "Sets Forget Repeats",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "s = {1, 2, 2, 3}\nprint(len(s), 2 in s)",
+  "options": [
+    "4 True",
+    "3 False",
+    "4 False",
+    "3 True"
+  ],
+  "answer": 3,
+  "why": "A set keeps only one copy of each value, so {1, 2, 2, 3} has three items. 2 in s asks whether 2 is a member.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "What does a set do with repeated values?",
+    "The output is:\n3 True"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "sets"
+  ],
+  "requires": [
+    "f-dict"
+  ],
+  "solution": "3 True"
+}

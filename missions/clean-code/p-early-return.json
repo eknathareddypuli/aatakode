@@ -1,0 +1,45 @@
+{
+  "id": "p-early-return",
+  "region": "clean-code",
+  "order": 2,
+  "title": "Falling Off the End",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "def sign(n):\n    if n > 0:\n        return \"plus\"\n    if n < 0:\n        return \"minus\"\nprint(sign(0))",
+  "options": [
+    "plus",
+    "minus",
+    "0",
+    "None"
+  ],
+  "answer": 3,
+  "why": "For 0 neither if is true, so the function ends without a return and hands back None. Clean code covers every case.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "What does a function return when no return line runs?",
+    "The output is:\nNone"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "return",
+    "edge cases"
+  ],
+  "requires": [
+    "w-naming"
+  ],
+  "solution": "None"
+}

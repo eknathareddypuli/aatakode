@@ -37,7 +37,7 @@
     "indexing"
   ],
   "requires": [
-    "py-10-bugfix-3"
+    "str-boss"
   ],
   "solution": "bag = [\"map\", \"rope\"]\nbag.append(\"torch\")\nprint(len(bag))\nprint(bag[0])\n",
   "alt": "bag = [\"map\", \"rope\"]\nbag = bag + [\"torch\"]\nprint(len(bag))\nprint(bag[0])\n"

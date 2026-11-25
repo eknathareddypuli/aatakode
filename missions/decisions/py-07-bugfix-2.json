@@ -1,7 +1,7 @@
 {
   "id": "py-07-bugfix-2",
   "region": "decisions",
-  "order": 3,
+  "order": 11,
   "title": "The Wrong Door",
   "story": "The ticket machine should say Exact change for exactly 10 coins, Overpaid for more, Not enough for fewer. It is broken in two ways.",
   "goal": "Fix the program so all three cases work.",
@@ -67,7 +67,7 @@
     "comparison"
   ],
   "requires": [
-    "py-06-elif"
+    "proj-ticket"
   ],
   "solution": "coins = int(input())\nif coins == 10:\n    print(\"Exact change\")\nelif coins > 10:\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")\n",
   "alt": "coins = int(input())\nif coins < 10:\n    print(\"Not enough\")\nelif coins == 10:\n    print(\"Exact change\")\nelse:\n    print(\"Overpaid\")\n",

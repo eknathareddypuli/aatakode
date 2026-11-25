@@ -1,0 +1,44 @@
+{
+  "id": "p-dict-iter",
+  "region": "collections",
+  "order": 10,
+  "title": "Loop Over a Dict",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "d = {\"a\": 1, \"b\": 2}\nfor k, v in d.items():\n    d[k] = v * 10\nprint(d)",
+  "options": [
+    "{'a': 1, 'b': 2}",
+    "{'a': 10, 'b': 2}",
+    "{'a': 10, 'b': 20}",
+    "Error: RuntimeError"
+  ],
+  "answer": 2,
+  "why": "Changing the values while looping is fine. Only adding or removing keys during a loop causes a RuntimeError.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Is the size of the dictionary changing during the loop?",
+    "The output is:\n{'a': 10, 'b': 20}"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "dicts"
+  ],
+  "requires": [
+    "w-unique"
+  ],
+  "solution": "{'a': 10, 'b': 20}"
+}

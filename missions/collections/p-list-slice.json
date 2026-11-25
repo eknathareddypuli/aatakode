@@ -1,0 +1,45 @@
+{
+  "id": "p-list-slice",
+  "region": "collections",
+  "order": 2,
+  "title": "Slice a List",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "nums = [10, 20, 30, 40]\nprint(nums[1:3], nums[-1], len(nums))",
+  "options": [
+    "[10, 20] 40 4",
+    "[20, 30] 40 4",
+    "[20, 30, 40] 40 4",
+    "[20, 30] 40 3"
+  ],
+  "answer": 1,
+  "why": "Slices work on lists just like strings. nums[1:3] is items at positions 1 and 2. -1 is the last item, and len counts all four.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Positions start at zero.",
+    "The output is:\n[20, 30] 40 4"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "lists",
+    "slicing"
+  ],
+  "requires": [
+    "py-11-lists"
+  ],
+  "solution": "[20, 30] 40 4"
+}

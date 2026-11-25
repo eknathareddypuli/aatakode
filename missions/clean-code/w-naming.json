@@ -1,0 +1,54 @@
+{
+  "id": "w-naming",
+  "region": "clean-code",
+  "order": 1,
+  "title": "Name It Well",
+  "story": "The tower's old helper is called f and takes a and b. Nobody knows what it does. Rename it so it explains itself.",
+  "goal": "Write percent_of(percent, amount) returning that percent of the amount (percent_of(20, 150) is 30.0).",
+  "type": "write-code",
+  "starter": "def f(a, b):\n    return a / 100 * b\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "20 percent of 150",
+      "expr": "percent_of(20, 150)",
+      "expect": "30.0"
+    },
+    {
+      "kind": "eval",
+      "label": "50 percent of 80",
+      "expr": "percent_of(50, 80)",
+      "expect": "40.0"
+    },
+    {
+      "kind": "source",
+      "label": "Function is named percent_of",
+      "pattern": "def\\s+percent_of\\s*\\("
+    },
+    {
+      "kind": "source",
+      "label": "Parameters are named percent and amount",
+      "pattern": "def\\s+percent_of\\s*\\(\\s*percent\\s*,\\s*amount\\s*\\)"
+    }
+  ],
+  "hints": [
+    "Names should say what a thing is. The function name and both parameter names are specified in the goal.",
+    "Rename f to percent_of, a to percent and b to amount.",
+    "def percent_of(percent, amount):\n    return amount * percent / 100\n"
+  ],
+  "socratic": [
+    "Could a new reader guess what f does?",
+    "What would you call the two inputs?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Name It Well”?",
+  "xp": 30,
+  "skills": [
+    "naming"
+  ],
+  "requires": [
+    "ob-boss"
+  ],
+  "solution": "def percent_of(percent, amount):\n    return amount * percent / 100\n",
+  "alt": "def percent_of(percent, amount):\n    fraction = percent / 100\n    return amount * fraction\n"
+}

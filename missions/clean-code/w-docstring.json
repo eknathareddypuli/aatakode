@@ -1,0 +1,44 @@
+{
+  "id": "w-docstring",
+  "region": "clean-code",
+  "order": 3,
+  "title": "Document It",
+  "story": "The tower's mean function works, but nobody wrote down what it does. Add a docstring.",
+  "goal": "Write mean(nums) returning the average as a float, with a docstring of at least 10 characters.",
+  "type": "write-code",
+  "starter": "def mean(nums):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Averages",
+      "expr": "mean([1, 2, 3])",
+      "expect": "2.0"
+    },
+    {
+      "kind": "eval",
+      "label": "Has a docstring",
+      "expr": "bool(mean.__doc__) and len(mean.__doc__.strip()) >= 10",
+      "expect": "True"
+    }
+  ],
+  "hints": [
+    "A docstring is a string on the first line inside the function.",
+    "Describe what the function takes and returns, in plain words, between triple quotes.",
+    "def mean(nums):\n    \"\"\"Return the average of a list of numbers.\"\"\"\n    return sum(nums) / len(nums)\n"
+  ],
+  "socratic": [
+    "Where does a docstring go?",
+    "What should it tell the next reader?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Document It”?",
+  "xp": 30,
+  "skills": [
+    "docstrings"
+  ],
+  "requires": [
+    "p-early-return"
+  ],
+  "solution": "def mean(nums):\n    \"\"\"Return the average of a list of numbers.\"\"\"\n    return sum(nums) / len(nums)\n",
+  "alt": "def mean(nums):\n    \"\"\"Average of nums as a float (the list must not be empty).\"\"\"\n    total = 0\n    for n in nums:\n        total += n\n    return total / len(nums)\n"
+}

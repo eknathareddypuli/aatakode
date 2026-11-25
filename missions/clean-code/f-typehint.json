@@ -1,0 +1,41 @@
+{
+  "id": "f-typehint",
+  "region": "clean-code",
+  "order": 5,
+  "title": "Fill the Type Hints",
+  "story": "Type hints tell readers what goes in and what comes out.",
+  "goal": "Add the right types so the program prints 5.",
+  "type": "fill",
+  "starter": "def add(a: ___, b: int) -> ___:\n    return a + b\n\nprint(add(2, 3))\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints 5",
+      "expect": "5"
+    },
+    {
+      "kind": "source",
+      "label": "Type hints on a, b and the result",
+      "pattern": "def add\\(a:\\s*int,\\s*b:\\s*int\\)\\s*->\\s*int"
+    }
+  ],
+  "hints": [
+    "Both inputs are whole numbers, and so is the result.",
+    "The type of a whole number is int.",
+    "def add(a: int, b: int) -> int:\n    return a + b\n\nprint(add(2, 3))\n"
+  ],
+  "socratic": [
+    "What type is 2?",
+    "What is the type of 2 + 3?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Type Hints”?",
+  "xp": 20,
+  "skills": [
+    "type hints"
+  ],
+  "requires": [
+    "w-assert"
+  ],
+  "solution": "def add(a: int, b: int) -> int:\n    return a + b\n\nprint(add(2, 3))\n"
+}

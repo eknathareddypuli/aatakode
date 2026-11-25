@@ -1,0 +1,45 @@
+{
+  "id": "p-alias",
+  "region": "collections",
+  "order": 4,
+  "title": "Two Names, One List",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "a = [1, 2]\nb = a\nb.append(3)\nprint(a)",
+  "options": [
+    "[1, 2, 3]",
+    "[1, 2]",
+    "[3]",
+    "Error: NameError"
+  ],
+  "answer": 0,
+  "why": "b = a does not copy the list. Both names point at the same list, so changing it through b changes it for a too.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Did b = a make a new list?",
+    "The output is:\n[1, 2, 3]"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "lists",
+    "mutability"
+  ],
+  "requires": [
+    "w-list-ops"
+  ],
+  "solution": "[1, 2, 3]"
+}

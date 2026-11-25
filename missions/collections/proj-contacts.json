@@ -1,0 +1,66 @@
+{
+  "id": "proj-contacts",
+  "region": "collections",
+  "order": 13,
+  "title": "Project: Contact Book",
+  "story": "The library desk needs a tiny contact book you can drive with commands.",
+  "goal": "Read commands until quit. add NAME PHONE saves a contact. find NAME prints the phone, or not found. Adding the same name again replaces the phone.",
+  "type": "write-code",
+  "starter": "book = {}\n# read commands until you see quit\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Add and find",
+      "expect": "999\nnot found",
+      "stdin": [
+        "add Asha 999",
+        "find Asha",
+        "find Ravi",
+        "quit"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Replace",
+      "expect": "222",
+      "stdin": [
+        "add Meera 111",
+        "add Meera 222",
+        "find Meera",
+        "quit"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "Nothing but quit",
+      "expect": "",
+      "stdin": [
+        "quit"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use a while True loop, break on quit, and split each command into parts.",
+    "parts[0] is the command. book.get(name, \"not found\") is a safe lookup.",
+    "book = {}\nwhile True:\n    line = input()\n    if line == \"quit\":\n        break\n    parts = line.split()\n    if parts[0] == \"add\":\n        book[parts[1]] = parts[2]\n    elif parts[0] == \"find\":\n        print(book.get(parts[1], \"not found\"))\n"
+  ],
+  "socratic": [
+    "How does the loop know when to stop?",
+    "What should happen when the same name is added twice?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Project: Contact Book”?",
+  "xp": 55,
+  "skills": [
+    "dicts",
+    "while",
+    "split"
+  ],
+  "requires": [
+    "w-comprehension"
+  ],
+  "solution": "book = {}\nwhile True:\n    line = input()\n    if line == \"quit\":\n        break\n    parts = line.split()\n    if parts[0] == \"add\":\n        book[parts[1]] = parts[2]\n    elif parts[0] == \"find\":\n        print(book.get(parts[1], \"not found\"))\n",
+  "alt": "book = {}\nline = input()\nwhile line != \"quit\":\n    cmd, name, *rest = line.split() + [\"\"]\n    if cmd == \"add\":\n        book[name] = rest[0]\n    elif cmd == \"find\":\n        print(book[name] if name in book else \"not found\")\n    line = input()\n",
+  "project": true
+}

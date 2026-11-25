@@ -1,0 +1,51 @@
+{
+  "id": "w-write-read",
+  "region": "files-errors",
+  "order": 4,
+  "title": "Notebook",
+  "story": "The post office keeps notes in files so they survive after the program stops.",
+  "goal": "Write save_note(path, text) that writes text to a file, and read_note(path) that returns the file's text.",
+  "type": "write-code",
+  "starter": "# define save_note and read_note\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Round trip",
+      "expr": "save_note(\"n.txt\", \"hello\") or read_note(\"n.txt\")",
+      "expect": "'hello'"
+    },
+    {
+      "kind": "eval",
+      "label": "Overwrites",
+      "expr": "(save_note(\"n2.txt\", \"one\"), save_note(\"n2.txt\", \"two\"), read_note(\"n2.txt\"))[2]",
+      "expect": "'two'",
+      "hidden": true
+    },
+    {
+      "kind": "source",
+      "label": "Uses open",
+      "pattern": "open\\("
+    }
+  ],
+  "hints": [
+    "open(path, \"w\") opens a file for writing. Use with so it closes itself.",
+    "Reading is open(path) and .read(). Use \"w\" to write.",
+    "def save_note(path, text):\n    with open(path, \"w\") as f:\n        f.write(text)\n\n\ndef read_note(path):\n    with open(path) as f:\n        return f.read()\n"
+  ],
+  "socratic": [
+    "Which mode opens a file for writing?",
+    "What does with do when the block ends?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Notebook”?",
+  "xp": 30,
+  "skills": [
+    "files",
+    "with"
+  ],
+  "requires": [
+    "f-except"
+  ],
+  "solution": "def save_note(path, text):\n    with open(path, \"w\") as f:\n        f.write(text)\n\n\ndef read_note(path):\n    with open(path) as f:\n        return f.read()\n",
+  "alt": "def save_note(path, text):\n    f = open(path, \"w\")\n    f.write(text)\n    f.close()\n\n\ndef read_note(path):\n    f = open(path, \"r\")\n    data = f.read()\n    f.close()\n    return data\n"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "p-elif-chain",
+  "region": "decisions",
+  "order": 7,
+  "title": "If vs Elif",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "n = 15\nif n % 3 == 0:\n    print(\"Fizz\")\nif n % 5 == 0:\n    print(\"Buzz\")\nelif n % 2 == 0:\n    print(\"Even\")",
+  "options": [
+    "Fizz",
+    "Buzz",
+    "Fizz\nBuzz\nEven",
+    "Fizz\nBuzz"
+  ],
+  "answer": 3,
+  "why": "The first if stands alone, so it runs. The second if/elif is a separate group: 15 % 5 == 0 is true, so Buzz prints and the elif is skipped.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Where does one decision end and the next begin?",
+    "The output is:\nFizz\nBuzz"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "if",
+    "elif"
+  ],
+  "requires": [
+    "p-truthy"
+  ],
+  "solution": "Fizz\nBuzz"
+}

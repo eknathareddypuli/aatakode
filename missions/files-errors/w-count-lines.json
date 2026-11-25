@@ -1,0 +1,46 @@
+{
+  "id": "w-count-lines",
+  "region": "files-errors",
+  "order": 6,
+  "title": "Line Counter",
+  "story": "How many real lines are in a letter? Blank lines do not count.",
+  "goal": "Write count_lines(path) returning the number of non-empty lines in the file.",
+  "type": "write-code",
+  "starter": "# define count_lines\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Skips blanks",
+      "expr": "(open(\"t.txt\", \"w\").write(\"a\\n\\nb\\n\"), count_lines(\"t.txt\"))[1]",
+      "expect": "2"
+    },
+    {
+      "kind": "eval",
+      "label": "Only blanks",
+      "expr": "(open(\"t2.txt\", \"w\").write(\"\\n\\n\"), count_lines(\"t2.txt\"))[1]",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "You can loop over an open file line by line.",
+    "line.strip() is empty for a blank line.",
+    "def count_lines(path):\n    count = 0\n    with open(path) as f:\n        for line in f:\n            if line.strip():\n                count += 1\n    return count\n"
+  ],
+  "socratic": [
+    "How do you read a file one line at a time?",
+    "How can you tell a line is blank?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Line Counter”?",
+  "xp": 30,
+  "skills": [
+    "files",
+    "loops"
+  ],
+  "requires": [
+    "p-finally"
+  ],
+  "solution": "def count_lines(path):\n    count = 0\n    with open(path) as f:\n        for line in f:\n            if line.strip():\n                count += 1\n    return count\n",
+  "alt": "def count_lines(path):\n    with open(path) as f:\n        return len([l for l in f if l.strip()])\n"
+}

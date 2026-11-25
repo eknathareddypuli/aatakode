@@ -1,0 +1,53 @@
+{
+  "id": "w-json",
+  "region": "files-errors",
+  "order": 8,
+  "title": "Save Progress",
+  "story": "A game saves progress as JSON so a player can come back tomorrow.",
+  "goal": "Write save_progress(path, data) and load_progress(path, default=None). Loading a missing file returns default.",
+  "type": "write-code",
+  "starter": "import json\n# define save_progress and load_progress\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Round trip",
+      "expr": "(save_progress(\"p.json\", {\"xp\": 5}), load_progress(\"p.json\"))[1]",
+      "expect": "{'xp': 5}"
+    },
+    {
+      "kind": "eval",
+      "label": "Missing file gives default",
+      "expr": "load_progress(\"nope.json\", {})",
+      "expect": "{}"
+    },
+    {
+      "kind": "eval",
+      "label": "Default is None",
+      "expr": "load_progress(\"nope2.json\") is None",
+      "expect": "True",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "json.dump(data, file) writes, json.load(file) reads.",
+    "A missing file raises FileNotFoundError: catch it and return default.",
+    "import json\n\n\ndef save_progress(path, data):\n    with open(path, \"w\") as f:\n        json.dump(data, f)\n\n\ndef load_progress(path, default=None):\n    try:\n        with open(path) as f:\n            return json.load(f)\n    except FileNotFoundError:\n        return default\n"
+  ],
+  "socratic": [
+    "Which error does open raise for a missing file?",
+    "What should the caller get back then?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Save Progress”?",
+  "xp": 30,
+  "skills": [
+    "json",
+    "files",
+    "try/except"
+  ],
+  "requires": [
+    "w-csv"
+  ],
+  "solution": "import json\n\n\ndef save_progress(path, data):\n    with open(path, \"w\") as f:\n        json.dump(data, f)\n\n\ndef load_progress(path, default=None):\n    try:\n        with open(path) as f:\n            return json.load(f)\n    except FileNotFoundError:\n        return default\n",
+  "alt": "import json\n\n\ndef save_progress(path, data):\n    f = open(path, \"w\")\n    f.write(json.dumps(data))\n    f.close()\n\n\ndef load_progress(path, default=None):\n    try:\n        f = open(path)\n    except FileNotFoundError:\n        return default\n    data = json.loads(f.read())\n    f.close()\n    return data\n"
+}

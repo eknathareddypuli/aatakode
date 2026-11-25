@@ -1,0 +1,48 @@
+{
+  "id": "w-comprehension",
+  "region": "collections",
+  "order": 12,
+  "title": "Square Machine",
+  "story": "The workshop stamps out squares of the even numbers from 1 to 10.",
+  "goal": "Create a list called squares with the squares of the even numbers from 1 to 10 (4, 16, 36, 64, 100).",
+  "type": "write-code",
+  "starter": "# make a list called squares\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "squares is correct",
+      "expr": "squares",
+      "expect": "[4, 16, 36, 64, 100]"
+    }
+  ],
+  "hints": [
+    "A loop with an if could build it. Python also has a one-line shortcut.",
+    "A list comprehension looks like [expression for item in items if condition].",
+    "squares = []\nfor n in range(1, 11):\n    if n % 2 == 0:\n        squares.append(n * n)\n"
+  ],
+  "socratic": [
+    "Which numbers pass the filter?",
+    "What is done to each number that passes?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Square Machine”?",
+  "xp": 30,
+  "skills": [
+    "comprehensions"
+  ],
+  "requires": [
+    "o-dict-loop"
+  ],
+  "solution": "squares = []\nfor n in range(1, 11):\n    if n % 2 == 0:\n        squares.append(n * n)\n",
+  "alt": "squares = [n * n for n in range(1, 11) if n % 2 == 0]\n",
+  "clean": {
+    "label": "Use a list comprehension (one line)",
+    "tests": [
+      {
+        "kind": "source",
+        "label": "Uses a comprehension",
+        "pattern": "\\[[^\\]]+\\bfor\\b[^\\]]+\\]"
+      }
+    ]
+  }
+}

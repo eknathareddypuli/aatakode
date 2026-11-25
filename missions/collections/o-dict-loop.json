@@ -1,0 +1,44 @@
+{
+  "id": "o-dict-loop",
+  "region": "collections",
+  "order": 11,
+  "title": "Order the Score Total",
+  "story": "Add up the scores in a dictionary. The lines are shuffled.",
+  "goal": "Put the lines in order so the program prints 145.",
+  "type": "order",
+  "starter": "scores = {\"Asha\": 80, \"Ravi\": 65}\nfor name in scores:\ntotal = 0\n    total += scores[name]\nprint(total)\n",
+  "lines": [
+    "scores = {\"Asha\": 80, \"Ravi\": 65}",
+    "for name in scores:",
+    "total = 0",
+    "    total += scores[name]",
+    "print(total)"
+  ],
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "Prints 145",
+      "expect": "145"
+    }
+  ],
+  "hints": [
+    "Both scores and total must exist before the loop.",
+    "The line that adds belongs inside the loop (indented). The print goes after.",
+    "scores = {\"Asha\": 80, \"Ravi\": 65}\ntotal = 0\nfor name in scores:\n    total += scores[name]\nprint(total)\n"
+  ],
+  "socratic": [
+    "What must exist before the loop?",
+    "Which line belongs inside the loop?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "dicts",
+    "order"
+  ],
+  "requires": [
+    "p-dict-iter"
+  ],
+  "solution": "scores = {\"Asha\": 80, \"Ravi\": 65}\ntotal = 0\nfor name in scores:\n    total += scores[name]\nprint(total)\n"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "w-even-odd",
+  "region": "decisions",
+  "order": 2,
+  "title": "Even or Odd",
+  "story": "The ticket machine gives even-numbered tokens to the left queue and odd ones to the right.",
+  "goal": "Read a whole number. Print even or odd.",
+  "type": "write-code",
+  "starter": "n = int(input())\n# print even or odd\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "4",
+      "expect": "even",
+      "stdin": [
+        "4"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "7",
+      "expect": "odd",
+      "stdin": [
+        "7"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "0",
+      "expect": "even",
+      "stdin": [
+        "0"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "-3",
+      "expect": "odd",
+      "stdin": [
+        "-3"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "The remainder operator % gives what is left after division. What is the remainder of an even number divided by 2?",
+    "Check n % 2 == 0 inside an if.",
+    "n = int(input())\nif n % 2 == 0:\n    print(\"even\")\nelse:\n    print(\"odd\")\n"
+  ],
+  "socratic": [
+    "What is 6 % 2? What is 7 % 2?",
+    "Which comparison tells you the remainder was zero?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the key idea in “Even or Odd”?",
+  "xp": 30,
+  "skills": [
+    "if",
+    "modulo"
+  ],
+  "requires": [
+    "py-05-if-else"
+  ],
+  "solution": "n = int(input())\nif n % 2 == 0:\n    print(\"even\")\nelse:\n    print(\"odd\")\n",
+  "alt": "n = int(input())\nprint(\"even\" if n % 2 == 0 else \"odd\")\n"
+}

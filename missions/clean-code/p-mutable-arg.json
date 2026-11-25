@@ -1,0 +1,45 @@
+{
+  "id": "p-mutable-arg",
+  "region": "clean-code",
+  "order": 6,
+  "title": "Surprise Side Effect",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "def add_one(xs):\n    xs.append(1)\n    return xs\ndata = [0]\nadd_one(data)\nprint(data)",
+  "options": [
+    "[0, 1]",
+    "[0]",
+    "[1]",
+    "Error: TypeError"
+  ],
+  "answer": 0,
+  "why": "Lists are passed by reference, so append changed the caller's list. A clean function either documents this or works on a copy.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Is xs a copy of data, or the same list?",
+    "The output is:\n[0, 1]"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "mutability",
+    "side effects"
+  ],
+  "requires": [
+    "f-typehint"
+  ],
+  "solution": "[0, 1]"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "cc-boss",
+  "region": "clean-code",
+  "order": 10,
+  "title": "Boss: The Code Review",
+  "story": "A reviewer found two problems in sorted_top: it changes the caller's list, and it returns repeated numbers.",
+  "goal": "Fix sorted_top(nums, n=3): return the n largest distinct values, biggest first, without modifying nums.",
+  "type": "fix-the-bug",
+  "starter": "def sorted_top(nums, n=3):\n    nums.sort(reverse=True)\n    return nums[:n]\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Does not change the input",
+      "expr": "(lambda xs: (sorted_top(xs), xs))([3, 1, 2])",
+      "expect": "([3, 2, 1], [3, 1, 2])"
+    },
+    {
+      "kind": "eval",
+      "label": "Distinct values",
+      "expr": "sorted_top([5, 5, 4, 3], 2)",
+      "expect": "[5, 4]"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty list",
+      "expr": "sorted_top([], 3)",
+      "expect": "[]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "list.sort() changes the list in place. Which built-in gives you a new sorted list instead?",
+    "set() removes duplicates and sorted() returns a new list.",
+    "def sorted_top(nums, n=3):\n    return sorted(set(nums), reverse=True)[:n]\n"
+  ],
+  "socratic": [
+    "Which method modifies the original list?",
+    "How do you drop duplicates?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 60,
+  "skills": [
+    "debugging",
+    "side effects"
+  ],
+  "requires": [
+    "proj-refactor"
+  ],
+  "solution": "def sorted_top(nums, n=3):\n    return sorted(set(nums), reverse=True)[:n]\n",
+  "alt": "def sorted_top(nums, n=3):\n    unique = list(set(nums))\n    unique.sort(reverse=True)\n    return unique[:n]\n",
+  "boss": true
+}

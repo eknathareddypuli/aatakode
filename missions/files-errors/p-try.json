@@ -1,0 +1,44 @@
+{
+  "id": "p-try",
+  "region": "files-errors",
+  "order": 1,
+  "title": "Catch the Crash",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "try:\n    print(int(\"12\"))\n    print(int(\"abc\"))\n    print(\"after\")\nexcept ValueError:\n    print(\"bad number\")",
+  "options": [
+    "12\nafter",
+    "12\nbad number",
+    "12\nbad number\nafter",
+    "bad number"
+  ],
+  "answer": 1,
+  "why": "int(\"12\") works and prints 12. int(\"abc\") raises ValueError, Python jumps to except and skips the rest of the try block, so after never prints.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Once an error happens inside try, which lines still run?",
+    "The output is:\n12\nbad number"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "try/except"
+  ],
+  "requires": [
+    "py-16-bugfix-5"
+  ],
+  "solution": "12\nbad number"
+}

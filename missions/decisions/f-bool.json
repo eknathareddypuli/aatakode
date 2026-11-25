@@ -1,0 +1,58 @@
+{
+  "id": "f-bool",
+  "region": "decisions",
+  "order": 5,
+  "title": "Fill the Logic",
+  "story": "The cinema lets you in only if you are old enough and hold a ticket.",
+  "goal": "Fill the blank so a person needs both conditions.",
+  "type": "fill",
+  "starter": "age = int(input())\nhas_ticket = input() == \"yes\"\nif age >= 5 ___ has_ticket:\n    print(\"Enter\")\nelse:\n    print(\"Stay out\")\n",
+  "tests": [
+    {
+      "kind": "stdout",
+      "label": "10 with ticket",
+      "expect": "Enter",
+      "stdin": [
+        "10",
+        "yes"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "3 with ticket",
+      "expect": "Stay out",
+      "stdin": [
+        "3",
+        "yes"
+      ]
+    },
+    {
+      "kind": "stdout",
+      "label": "10 without ticket",
+      "expect": "Stay out",
+      "stdin": [
+        "10",
+        "no"
+      ]
+    }
+  ],
+  "hints": [
+    "You need BOTH things to be true. Which word joins two conditions that must both hold?",
+    "The word is and.",
+    "age = int(input())\nhas_ticket = input() == \"yes\"\nif age >= 5 and has_ticket:\n    print(\"Enter\")\nelse:\n    print(\"Stay out\")\n"
+  ],
+  "socratic": [
+    "Does the person need one condition or both?",
+    "Which keyword means both must be true?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blank teach you in “Fill the Logic”?",
+  "xp": 20,
+  "skills": [
+    "and/or"
+  ],
+  "requires": [
+    "py-06-elif"
+  ],
+  "solution": "age = int(input())\nhas_ticket = input() == \"yes\"\nif age >= 5 and has_ticket:\n    print(\"Enter\")\nelse:\n    print(\"Stay out\")\n"
+}

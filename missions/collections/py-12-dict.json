@@ -1,7 +1,7 @@
 {
   "id": "py-12-dict",
   "region": "collections",
-  "order": 2,
+  "order": 5,
   "title": "Score Board",
   "story": "The scoreboard remembers each player's points. New players are added the first time they score.",
   "goal": "Read a name and points, add the points to that player's score (new players start at 0), then print their new score.",
@@ -53,7 +53,7 @@
     "get"
   ],
   "requires": [
-    "py-11-lists"
+    "p-alias"
   ],
   "solution": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nscores[name] = scores.get(name, 0) + points\nprint(scores[name])\n",
   "alt": "scores = {\"Asha\": 40, \"Ravi\": 55}\nname = input()\npoints = int(input())\nif name in scores:\n    scores[name] += points\nelse:\n    scores[name] = points\nprint(scores[name])\n"

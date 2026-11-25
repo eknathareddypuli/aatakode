@@ -1,0 +1,44 @@
+{
+  "id": "p-truthy",
+  "region": "decisions",
+  "order": 6,
+  "title": "Truthy and Falsy",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "items = []\nif items:\n    print(\"full\")\nelse:\n    print(\"empty\")\nif \"0\":\n    print(\"zero is truthy\")",
+  "options": [
+    "empty\nzero is truthy",
+    "full\nzero is truthy",
+    "empty",
+    "full"
+  ],
+  "answer": 0,
+  "why": "Empty collections are falsy, so the else branch runs. A non-empty string, even \"0\", is truthy.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "Which values count as False when used in an if?",
+    "The output is:\nempty\nzero is truthy"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "truthiness"
+  ],
+  "requires": [
+    "f-bool"
+  ],
+  "solution": "empty\nzero is truthy"
+}

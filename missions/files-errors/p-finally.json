@@ -1,0 +1,45 @@
+{
+  "id": "p-finally",
+  "region": "files-errors",
+  "order": 5,
+  "title": "Always Cleanup",
+  "story": "Be the computer! Read the code and predict what it prints before you run it.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "code": "def f():\n    try:\n        return \"try\"\n    finally:\n        print(\"cleanup\")\nprint(f())",
+  "options": [
+    "cleanup\ntry",
+    "try\ncleanup",
+    "try",
+    "cleanup"
+  ],
+  "answer": 0,
+  "why": "finally always runs, even when the function is returning. The print inside finally happens first, then the returned text prints.",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line. After each line, write down what every variable holds.",
+    "When does the outer print receive the value?",
+    "The output is:\ncleanup\ntry"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "try/except",
+    "finally"
+  ],
+  "requires": [
+    "w-write-read"
+  ],
+  "solution": "cleanup\ntry"
+}
