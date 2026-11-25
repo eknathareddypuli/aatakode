@@ -39,6 +39,7 @@
     coin: function () { tone(988, 0.08, "square", 0.04); tone(1319, 0.18, "square", 0.04, 0.08); },
     build: function () { tone(220, 0.1, "square", 0.05); tone(330, 0.1, "square", 0.05, 0.1); tone(523, 0.25, "triangle", 0.06, 0.2); },
   };
+  FX.tone = tone; FX.SND = SND; FX.audio = audio; FX.cfg = cfg;
   FX.sound = function (n, a) { if (cfg("sound") === "off") return; try { if (SND[n]) SND[n](a); } catch (e) { /* ignore */ } };
   FX.buzz = function (p) { if (cfg("haptics") === "off") return; try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) { /* ignore */ } };
 
@@ -141,7 +142,7 @@
     s += '<rect y="292" width="' + W + '" height="140" fill="' + (night ? "#17302a" : dusk ? "#486a3c" : "#58a95c") + '"/>';
     s += '<path d="M0 360 H960" stroke="' + (night ? "#2a4a3c" : "#c9a96a") + '" stroke-width="30" opacity=".35"/>';
     py.forEach(function (r, i) {
-      var x = 50 + i * 76, ok = AK.regionComplete(st, C.DATA, r.id), rb = rebuild.indexOf(r.id) >= 0;
+      var x = 50 + i * Math.min(76, 860 / Math.max(1, py.length - 1)), ok = AK.regionComplete(st, C.DATA, r.id), rb = rebuild.indexOf(r.id) >= 0;
       s += '<g class="land ' + (ok ? "up" : "down") + (rb ? " rebuild" : "") + '" transform="translate(' + x + ',300)"><title>' + esc(r.place + (ok ? " (restored)" : " (broken)")) + '</title>' +
         (ok ? '<text class="lico" font-size="38" text-anchor="middle" y="0">' + r.icon + "</text>" + (night ? '<circle class="glow" cx="0" cy="-14" r="26" fill="#ffd36a" opacity=".16"/>' : "") : '<text class="lico dim" font-size="34" text-anchor="middle" y="0">' + r.icon + '</text><text font-size="18" text-anchor="middle" y="14">🧱</text>') + "</g>";
     });

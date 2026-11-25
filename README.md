@@ -23,6 +23,16 @@ Not built yet (premium/P2): cloud sync, AI tutor, human review, leagues, verifia
 ## v3
 Learn-and-practice lessons, real multi-step projects (Log Analyzer, Key-Value Store, Link Shortener), shareable proof (cards, Markdown portfolio, Proof ID), Daily Quests with a chest, visual puzzles (Robot Maze, Pipeline Plumber), Security Hunt, a Go track (checked statically; answers verified with real `go`), an HTTP/API track with a simulated `curl` and `jq`, plus animation (parrot growth, star map, streak flame, weather, hearts, confetti tiers) and festival and place-name culture touches. Festival greetings in Telugu, Hindi, Kannada, Tamil and Malayalam are unreviewed by native speakers. Corrections welcome.
 
+## v4
+- **Bot Arena** (`#/bots`): write `play(state)` for the Seed Grab game and climb Wood, Bronze, Silver, Gold and Legend. Rules are always on screen, matches replay by seed with a step-through viewer, and there is a "vs my previous version" mode. Opponents are Python sources shipped in `missions/arena.json`; everything runs locally.
+- **Clash of Code** (`#/clash`): 14 five-minute puzzles in fastest, shortest and reverse modes, recorded ghost times, and a friend link plus score code compared by paste (no backend).
+- **Read-the-code missions** (`type: "read"`): predict the output, find the buggy line, or say what a function does. 20 missions in the Code Reading Hut.
+- **Explain panel:** every Python mission carries a `learn` card id (68 cards in `missions/learn.json`). A failed check shows "5 of 6 pass" and a short "what went wrong"; a pass unlocks the example, the common mistake, a diff against the reference and an optional variation.
+- **Core loop:** hints cost a seed (one free per day), never XP; an easier sibling after 3 fails and a skip-ahead after 3 clean solves; a side quest after each solve; the name is asked after the first win.
+- **Motivation, fairly:** 12 story chapters, behavioural titles, a weekly goal ring, a golden mission, a mystery packet (1 to 5 seeds every 7th solve), roles, Chilaka's 20 second morning, weekend pass and a 3-mission comeback quest, a "you debugged it" moment, zen mode, and a Play fair page.
+- **Feel:** sound packs, micro-sounds, an optional music layer that grows with the village, league and festival stingers, more outfits by track and companions.
+- **Practical:** offline install guide with a "download Pyodide now" button, a local mission health dashboard (JSON and CSV export), printable worksheets, answer keys and certificates.
+
 ## Develop
 ```
 python3 build.py                      # writes index.html + sw.js from src/ and missions/

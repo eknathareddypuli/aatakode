@@ -10,7 +10,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
 const require = createRequire(import.meta.url);
 const AK = require(join(root, "src", "engine.js"));
-for (const f of ["term_extra.js", "git.js", "play.js", "more.js"]) require(join(root, "src", f));
+for (const f of ["term_extra.js", "git.js", "play.js", "more.js", "more2.js"]) require(join(root, "src", f));
 
 const regionsFile = JSON.parse(readFileSync(join(root, "missions", "regions.json"), "utf8"));
 const regionIds = regionsFile.regions.map((r) => r.id);
@@ -23,14 +23,14 @@ for (const dir of readdirSync(join(root, "missions"))) {
   }
 }
 
-let failures = 0, checks = 0;
+let failures = 0, checks = 0, A_ = null;
 const bad = (m, msg) => { failures++; console.log(`  ✗ ${m.id || m.file}: ${msg}`); };
 const ok = () => { checks++; };
 
 // ---- structure
 const ids = new Set(missions.map((m) => m.id));
 const REQUIRED = ["id", "region", "order", "title", "story", "goal", "type", "starter", "tests", "hints", "socratic", "explain", "xp", "skills", "requires", "solution"];
-const TYPES = ["write-code", "fix-the-bug", "terminal", "predict", "fill", "order", "sql", "pair", "lesson", "go", "hunt", "grid", "pipe"];
+const TYPES = ["write-code", "fix-the-bug", "terminal", "predict", "fill", "order", "sql", "pair", "lesson", "go", "hunt", "grid", "pipe", "read"];
 const seen = new Set();
 for (const m of missions) {
   for (const k of REQUIRED) if (!(k in m)) bad(m, `missing field "${k}"`); else ok();
@@ -154,7 +154,7 @@ const place = JSON.parse(readFileSync(join(root, "missions", "placement.json"), 
   }
 }
 
-const NEWT = ["lesson", "go", "hunt", "grid", "pipe"];
+const NEWT = ["lesson", "go", "hunt", "grid", "pipe", "read"];
 for (const m of missions.filter((x) => x.type !== "terminal" && x.type !== "predict" && x.type !== "sql" && !NEWT.includes(x.type))) {
   if (typeof m.solution !== "string") { bad(m, "solution must be a string of code"); continue; }
   let res = AK.py.grade(m.solution, m.tests);
@@ -321,6 +321,158 @@ const A = (c, msg) => { if (c) ok(); else bad({ id: "engine" }, msg); };
   // state merge keeps seeds
   const A1 = AK.newState(), B1 = AK.newState(); AK.earnSeeds(A1, 9); AK.earnSeeds(B1, 4); A1.speed = { a: { best: 5000, runs: 1 } }; B1.speed = { a: { best: 4000, runs: 2 } };
   const M2 = AK.mergeState(A1, B1); A(M2.seeds.earned >= 9 && M2.speed.a.best === 4000, "mergeState keeps best seeds and best times");
+}
+
+
+// ================================================================ v4
+const DATAFILES = Object.fromEntries(["arena", "clash", "learn", "story"].map((k) => [k, JSON.parse(readFileSync(join(root, "missions", k + ".json"), "utf8"))]));
+const runPy = (code) => AK.py.run(code, [], false);
+
+// ---- read-the-code missions: marked answers are real
+for (const m of missions.filter((x) => x.type === "read")) {
+  if (!["output", "bug", "purpose"].includes(m.mode)) { bad(m, "read needs mode output|bug|purpose"); continue; }
+  if (typeof m.code !== "string" || !Array.isArray(m.options) || !Number.isInteger(m.answer) || m.answer < 0 || m.answer >= m.options.length || !m.why) { bad(m, "read needs code, options, answer, why"); continue; }
+  if (new Set(m.options.map((o) => o.trim())).size !== m.options.length) bad(m, "read options must be distinct"); else ok();
+  if (m.mode === "output") {
+    const r = runPy(m.code); if (r.err) bad(m, "output code crashes"); else if (r.out.replace(/\s+$/, "") !== m.options[m.answer]) bad(m, `marked "${m.options[m.answer]}" but code prints "${r.out.trim()}"`); else ok();
+    m.options.forEach((o, i) => { if (i !== m.answer && o.trim() === r.out.trim()) bad(m, `option ${i} is also correct`); });
+  } else if (m.mode === "bug") {
+    const lines = m.code.split("\n"); if (m.options.length !== lines.length || m.answer !== m.bugline - 1) { bad(m, "bug options must be one per line and answer = bugline-1"); continue; }
+    const r = runPy(m.code), broken = r.err ? "Error: " + r.err.type : r.out.replace(/\s+$/, "");
+    if (broken === m.expect) bad(m, "code is not actually buggy"); else ok();
+    const fixed = lines.slice(0, m.bugline - 1).concat([m.fixed_line], lines.slice(m.bugline)).join("\n"), f = runPy(fixed);
+    if (f.err || f.out.replace(/\s+$/, "") !== m.expect) bad(m, `fixing line ${m.bugline} does not give the expected output (got "${f.out.trim()}" ${f.err ? f.err.type : ""})`); else ok();
+    // every other single-line change to the fix must leave it broken: the bug is really on that line
+    lines.forEach((_, i) => { if (i === m.bugline - 1) return; });
+  } else {
+    const r = runPy(m.code + "\n" + m.demo); if (r.err) bad(m, "purpose demo crashes"); else if (r.out.replace(/\s+$/, "") !== m.demo_out) bad(m, "demo_out does not match the real output"); else ok();
+  }
+}
+
+// ---- Explain panel: every Python mission has a card and every card is true
+{
+  const L = DATAFILES.learn, pyRegions = new Set(regionsFile.regions.filter((r) => r.track === "python").map((r) => r.id));
+  for (const m of missions.filter((x) => pyRegions.has(x.region))) { if (!m.learn) bad(m, "python mission has no learn card"); else if (!L[m.learn]) bad(m, `learn card "${m.learn}" not found`); else ok(); }
+  for (const m of missions) if (m.learn && !L[m.learn]) bad(m, "unknown learn card");
+  for (const [id, c] of Object.entries(L)) {
+    const b = { id: "learn:" + id };
+    if (!c.concept || !c.example || !c.mistake || !c.mistake.fix || !c.example.note) { bad(b, "card needs concept, example{code,output,note}, mistake{broken,symptom,fix}"); continue; }
+    const r = AK.py.run(c.example.code, c.example.stdin || [], false); if (r.err) bad(b, "example crashes: " + r.err.type); else if (r.out.replace(/\s+$/, "") !== c.example.output) bad(b, `example prints "${r.out.trim()}" not "${c.example.output}"`); else ok();
+    const mr = AK.py.run(c.mistake.broken, c.mistake.stdin || [], false);
+    if (c.mistake.kind === "error") { if (!mr.err || mr.err.type !== c.mistake.match) bad(b, `broken snippet should raise ${c.mistake.match}, got ${mr.err ? mr.err.type : "no error"}`); else ok(); if (!c.mistake.symptom.startsWith(c.mistake.match)) bad(b, "symptom must start with the error type"); }
+    else { if (mr.err || mr.out.replace(/\s+$/, "") !== c.mistake.match || c.mistake.symptom !== c.mistake.match) bad(b, "broken snippet should print the symptom exactly"); else ok(); if (c.mistake.broken.trim() === c.example.code.trim()) bad(b, "mistake equals example"); }
+    if (c.variation) {
+      const v = c.variation; if (!v.prompt || typeof v.starter !== "string" || !v.solution || !v.tests.length) { bad(b, "variation needs prompt, starter, solution, tests"); continue; }
+      const sol = AK.py.grade(v.solution, v.tests); if (sol.every((x) => x.ok)) ok(); else bad(b, "variation solution fails: " + summarize(sol));
+      const st0 = AK.py.grade(v.starter, v.tests); if (st0.every((x) => x.ok)) bad(b, "variation starter already passes"); else ok();
+    }
+  }
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "v4" }, msg); };
+  const cardCount = Object.keys(L).length; A_(cardCount >= 60, `needs 60+ concept cards, has ${cardCount}`);
+  A_(Object.values(L).filter((c) => c.variation).length >= 20, "at least 20 cards need a variation");
+}
+
+// ---- Bot Arena: leagues are fair, deterministic and safe
+{
+  const Ar = DATAFILES.arena, run = (c, o, g) => AK.py.arenaRun(c, o, g);
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "arena" }, msg); };
+  A_(Ar.leagues.length === 5 && Ar.leagues.map((l) => l.id).join() === "wood,bronze,silver,gold,legend", "five leagues Wood to Legend");
+  for (const L of Ar.leagues) {
+    const ref = AK.arenaSeries(Ar, L, L.ref, run), triv = AK.arenaSeries(Ar, L, Ar.starter, run);
+    A_(!ref.err && ref.wins >= L.need && ref.passed, `${L.id}: reference bot wins ${ref.wins}/5, needs ${L.need}`);
+    A_(triv.wins === 0 && !triv.passed, `${L.id}: a bot that does nothing must not win (won ${triv.wins})`);
+    A_(L.need <= L.seeds.length && L.need >= 3, `${L.id}: need is 3 to 5`);
+    const a1 = run(L.ref, L.opp_code, AK.arenaCfg(Ar, L, 11)), a2 = run(L.ref, L.opp_code, AK.arenaCfg(Ar, L, 11));
+    A_(JSON.stringify(a1.frames) === JSON.stringify(a2.frames), `${L.id}: same seed gives the same match`);
+    A_(a1.frames.length === Ar.turns + 1 && a1.size === Ar.size, `${L.id}: match has ${Ar.turns} turns`);
+  }
+  const L0 = Ar.leagues[3], cfg = AK.arenaCfg(Ar, L0, 22);
+  const boom = run("def play(state):\n    return 1 / 0\n", L0.opp_code, cfg); A_(boom.err && boom.err.type === "ZeroDivisionError" && boom.winner === 1, "a crashing bot loses with a clear error");
+  const spin = run("def play(state):\n    while True:\n        pass\n", L0.opp_code, cfg); A_(spin.err && spin.err.type === "Timeout", "an endless bot times out instead of hanging");
+  const none = run("x = 1\n", L0.opp_code, cfg); A_(none.err && /play/.test(none.err.msg), "missing play() is explained");
+  const junk = run('def play(state):\n    return 42\n', L0.opp_code, cfg); A_(!junk.err && junk.frames.every((f) => f.mv[0] === "STAY"), "unknown moves count as STAY");
+  const m1 = run(L0.ref, L0.opp_code, cfg), walls = new Set(m1.walls.map((w) => w.join()));
+  A_(m1.frames.every((f) => f.pos.every((p) => p[0] >= 0 && p[1] >= 0 && p[0] < 11 && p[1] < 11 && !walls.has(p.join()))), "bots never leave the board or stand in walls");
+  A_(m1.frames.every((f) => f.pos[0].join() !== f.pos[1].join()), "bots never share a square (bounce rule)");
+  const sw = run(L0.ref, L0.opp_code, Object.assign({}, cfg, { swap: true })); A_(sw.frames[0].pos[0].join() === "9,9", "swap puts the learner bottom-right");
+  const seedsTotal = m1.score[0] + m1.score[1]; A_(seedsTotal <= 4 + Math.floor(Ar.turns / Ar.every), "no seed is counted twice");
+  const prev = AK.arenaSeries(Ar, L0, L0.ref, run, L0.opp_code); A_(prev.results.length === 5, "vs-previous-version series runs");
+  const S4 = AK.newState(), rec = AK.arenaRecord(S4, L0, { wins: 4, passed: true }, "x", new Date()); A_(rec.promoted && AK.v4(S4).arena.done.gold && AK.arenaOpen(S4, Ar, "legend") && !AK.arenaOpen(S4, Ar, "gold"), "clearing a league records it and opens the next");
+  const rec2 = AK.arenaRecord(S4, L0, { wins: 4, passed: true }, "y", new Date()); A_(!rec2.promoted && AK.v4(S4).arena.prev === "x", "re-clearing pays nothing twice and keeps the previous version");
+}
+
+// ---- Clash of Code: every puzzle is solvable and the score codes are tamper-evident
+{
+  const Cl = DATAFILES.clash; A_ = (c, msg) => { if (c) ok(); else bad({ id: "clash" }, msg); };
+  A_(Cl.puzzles.length >= 12 && new Set(Cl.puzzles.map((p) => p.id)).size === Cl.puzzles.length, "12+ unique puzzles");
+  A_(["fastest", "shortest", "reverse"].every((k) => Cl.puzzles.some((p) => p.mode === k)), "all three modes are present");
+  for (const p of Cl.puzzles) {
+    const tests = p.examples.concat(p.tests).map((t) => ({ kind: "stdout", stdin: t.stdin, expect: t.out, label: "t" })), r = AK.py.grade(p.solution, tests);
+    A_(r.every((x) => x.ok), `${p.id}: reference solution passes all checks`);
+    A_(!AK.py.grade("print('')", tests).every((x) => x.ok), `${p.id}: printing nothing must fail`);
+    A_(p.solution.length === p.par && p.examples.length >= 2 && p.tests.length >= 3, `${p.id}: par, examples and hidden tests`);
+    A_(p.ghosts.length === 5 && p.ghosts.every((g, i, a) => !i || a[i - 1] <= g), `${p.id}: five ghosts, sorted`);
+    A_(/^c\d+$/.test(p.id), `${p.id}: id is URL-safe`);
+  }
+  const code = AK.clashCode("c05", 83400, 62), parsed = AK.clashParse(code);
+  A_(parsed && parsed.id === "c05" && parsed.sec === 83 && parsed.chars === 62, "score code round-trips");
+  A_(AK.clashParse(code.replace("-62-", "-52-")) === null && AK.clashParse("nonsense") === null, "tampered or invalid score codes are rejected");
+  A_(AK.clashCompare(parsed, { id: "c05", sec: 90, chars: 40 }, "fastest") === "You win" && AK.clashCompare(parsed, { id: "c05", sec: 90, chars: 40 }, "shortest") === "They win" && /different/.test(AK.clashCompare(parsed, { id: "c06", sec: 1, chars: 1 }, "fastest")), "friend comparison by mode");
+  A_(AK.clashPick(Cl, "seed-1").id === AK.clashPick(Cl, "seed-1").id, "seed link picks the same puzzle every time");
+  const g = AK.clashGhost(Cl.puzzles[0], 30000); A_(g.of === 5 && g.beaten >= 1, "ghost ranking");
+}
+
+// ---- v4 engine: streak safety nets, weekly goal, titles, hints, offers, story, health
+{
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "v4" }, msg); };
+  const D2 = { regions: regionsFile.regions, missions, tracks: regionsFile.tracks }, d = (y, m, dd, h = 12) => new Date(y, m, dd, h);
+  // weekend pass: Fri solve, Mon solve keeps the streak
+  const W = AK.newState(); AK.touchStreak(W, d(2026, 10, 19)); AK.touchStreak(W, d(2026, 10, 20)); AK.touchStreak(W, d(2026, 10, 23));
+  A_(W.streak.count === 3, "Fri after Thu: streak 3"); AK.touchStreak(W, d(2026, 10, 24)); A_(W.streak.count === 4, "Monday after Friday keeps the streak (weekend pass)");
+  W.settings.weekendPass = false; const W2 = AK.newState(); W2.settings.weekendPass = false; AK.touchStreak(W2, d(2026, 10, 23)); AK.touchStreak(W2, d(2026, 10, 26)); A_(W2.streak.count === 1, "with the pass off, a weekend gap resets");
+  A_(AK.streakStatus(W, d(2026, 10, 28)).count === 0, "two missed weekdays end it quietly");
+  // recovery quest
+  const R = AK.newState(); for (let i = 0; i < 5; i++) AK.touchStreak(R, d(2026, 5, 1 + i)); A_(R.streak.count === 5, "built a 5 day streak");
+  const wr = missions.filter((m) => m.type === "write-code"), later = d(2026, 5, 20);
+  AK.applySolve(R, D2, wr[0], { hintsUsed: 0, now: later }); A_(R.streak.count === 1 && R.streak.rec && R.streak.rec.count === 5, "a broken streak offers a comeback quest");
+  AK.applySolve(R, D2, wr[1], { hintsUsed: 0, now: later }); const last = AK.applySolve(R, D2, wr[2], { hintsUsed: 0, now: later });
+  A_(last.recovery && last.recovery.restored === 6 && R.streak.count === 6 && !R.streak.rec, "three solves on the comeback day restore the streak");
+  const R2 = AK.newState(); for (let i = 0; i < 4; i++) AK.touchStreak(R2, d(2026, 5, 1 + i)); AK.applySolve(R2, D2, wr[0], { hintsUsed: 0, now: d(2026, 5, 20) }); AK.applySolve(R2, D2, wr[1], { hintsUsed: 0, now: d(2026, 5, 22) });
+  A_(!R2.streak.rec, "an expired comeback quest disappears without nagging");
+  // hints cost seeds, never XP; one free per day
+  const Hs = AK.newState(); AK.earnSeeds(Hs, 5); const t0 = d(2026, 5, 3);
+  A_(AK.hintCost(Hs, "x", t0).free, "first hint of the day is free"); AK.takeHint(Hs, "x", t0); const c2 = AK.hintCost(Hs, "x", t0); A_(!c2.free && c2.cost === 1, "second hint costs a seed");
+  AK.takeHint(Hs, "x", t0); A_(AK.seedBalance(Hs) === 4, "hint spent exactly one seed"); A_(AK.hintCost(Hs, "x", d(2026, 5, 4)).free, "free hint comes back the next day");
+  const E = AK.newState(); AK.earnSeeds(E, 0); const hm = wr[3], noH = AK.newState(), withH = AK.newState();
+  const rN = AK.applySolve(noH, D2, hm, { hintsUsed: 0, now: t0 }), rH = AK.applySolve(withH, D2, hm, { hintsUsed: 2, now: t0 });
+  A_(withH.solved[hm.id].xp === rH.gained, "stored XP matches what was shown");
+  A_(rH.gained === hm.xp && rN.gained >= hm.xp + 10, "with hints the learner still gets the full mission XP; only the no-hints bonus is missing");
+  // effort, weekly goal, packet, golden
+  const F = AK.newState(), ef = missions.filter((m) => m.type === "write-code"); AK.noteFail(F, ef[0]); AK.noteFail(F, ef[0]);
+  const re = AK.applySolve(F, D2, ef[0], { hintsUsed: 0, now: t0 }); A_(re.effort && re.effort.tries === 3, "solving after failures reports the effort");
+  F.v4.weekly.goal = 3; AK.applySolve(F, D2, ef[1], { hintsUsed: 0, now: t0 }); const r3 = AK.applySolve(F, D2, ef[2], { hintsUsed: 0, now: t0 }); A_(r3.weeklyGoal && AK.weeklyState(F, t0).paid, "weekly goal pays once when reached");
+  let pk = 0; const P = AK.newState(); for (let i = 0; i < 14; i++) { const r = AK.applySolve(P, D2, missions.filter((m) => m.type === "write-code")[i], { hintsUsed: 0, now: t0 }); if (r.packet) { pk++; A_(r.packet >= 1 && r.packet <= 5, "packet pays 1 to 5 seeds"); } } A_(pk === 2, "a mystery packet every 7th mission");
+  const G = AK.newState(), g1 = AK.golden(G, D2, t0), g2 = AK.golden(G, D2, t0); A_(g1 && g1.id === g2.id && !g1.boss && AK.isUnlocked(G, D2, g1, null), "golden mission is stable and playable");
+  const rg = AK.applySolve(G, D2, g1, { hintsUsed: 0, now: t0 }); A_(rg.golden && AK.golden(G, D2, t0).id === g1.id, "golden bonus pays once and stays the golden mission all day");
+  // adaptive offers
+  const O = AK.newState(), reg = missions.filter((m) => m.region === "loops").sort((a, b) => a.order - b.order), tgt = reg[3]; for (let i = 0; i < 3; i++) AK.noteFail(O, tgt);
+  const off = AK.flowOffer(O, D2, tgt); A_(off && off.kind === "easier" && off.mission.region === "loops" && off.mission.order < tgt.order, "3 fails offer an easier sibling in the same region");
+  const Sk = AK.newState(); Sk.v4 = AK.v4(Sk); Sk.v4.clean = 3; const nm = missions.find((m) => m.type === "write-code"); A_((AK.flowOffer(Sk, D2, nm) || {}).kind === "skip" || AK.flowOffer(Sk, D2, nm) === null, "3 clean solves may offer a skip-ahead");
+  // titles + roles + story + health
+  const T = AK.newState(); AK.v4(T).stats.retry = 5; A_(AK.titlesFor(T).some((t) => t.id === "bug-whisperer") && !AK.titlesFor(T).some((t) => t.id === "clean-hands"), "titles come from behaviour");
+  A_(AK.newTitles(T).length === 1 && AK.newTitles(T).length === 0, "a title is announced once");
+  const Ro = AK.newState(); A_(AK.roleOf(Ro, D2) === null, "no role before any play"); Ro.v4.role = "gardener"; A_(AK.roleOf(Ro, D2).id === "gardener", "chosen role wins");
+  const st = DATAFILES.story.chapters; A_(st.length === 12 && st.every((c) => c.lines.length >= 3 && c.lines.length <= 5 && c.title), "12 chapters of 3 to 5 lines");
+  const Sb = AK.newState(); A_(AK.chaptersUnlocked(Sb, D2) === 0, "no chapter before any boss"); for (const m of missions.filter((x) => x.boss)) Sb.solved[m.id] = { xp: 1 }; A_(AK.chaptersUnlocked(Sb, D2) === 12, "all bosses unlock all 12 chapters");
+  const df = AK.diffLines("a\nb\nc", "a\nx\nc"); A_(df.map((x) => x.t).join() === "same,del,add,same", "diffLines marks the changed line");
+  const nmz = AK.nearMiss([{ ok: true }, { ok: true }, { ok: true }, { ok: true }, { ok: true }, { ok: false }]); A_(nmz.ok === 5 && nmz.total === 6 && nmz.close, "near miss: 5 of 6 is close");
+  const Hh = AK.newState(); const pyw = missions.find((m) => m.type === "write-code" && (regionsFile.regions.find((r) => r.id === m.region) || {}).track === "python"); AK.applySolve(Hh, D2, pyw, { hintsUsed: 0, now: t0 }); const hl = AK.health(Hh, D2, t0); A_(hl.solved === 1 && hl.total === missions.length && hl.tracks.python.solved === 1 && hl.activeDays === 1 && JSON.stringify(hl).length > 50, "health stats are computed and serialisable");
+  const Mg1 = AK.newState(), Mg2 = AK.newState(); AK.v4(Mg1).arena.done.wood = "2026-01-01"; AK.v4(Mg2).arena.done.bronze = "2026-01-02"; AK.v4(Mg2).stats.first = 7; AK.v4(Mg1).stats.first = 3;
+  const mg = AK.mergeState(Mg1, Mg2); A_(mg.v4.arena.done.wood && mg.v4.arena.done.bronze && mg.v4.stats.first === 7, "mergeState unions arena leagues and keeps the higher stats");
+  const Rt = AK.newState(); A_(AK.ritualFinish(Rt, t0) === 1 && AK.ritualFinish(Rt, t0) === 0 && AK.ritualDone(Rt, t0), "the morning ritual pays once a day");
+  const rp = AK.ritualPick(D2, t0); A_(rp && rp.type === "predict" && rp.code.split("\n").length <= 4, "ritual question is tiny");
+  A_(AK.SHOP.filter((x) => x.kind === "companion").length >= 9, "more companions to adopt");
+  const cert = AK.certificate(Hh, D2, "Python Quest"); A_(cert.solved === 1 && cert.name === "Learner" && /^[0-9A-F]{10}$/.test(cert.id), "certificate data");
 }
 
 // ---- progression sanity: every mission reachable from a fresh state

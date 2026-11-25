@@ -78,6 +78,7 @@
     { id: "turmeric", name: "Turmeric", rank: 1 }, { id: "mint", name: "Mint terminal", rank: 2 }, { id: "paper", name: "Paper", rank: 3 },
   ];
   function outfitUnlocked(o) {
+    if (o.test) return !!o.test(S, DATA);
     if (o.region) return AK.regionComplete(S, DATA, o.region);
     if (o.all) return DATA.regions.filter((r) => r.track === "python").every((r) => AK.regionComplete(S, DATA, r.id));
     return true;
@@ -144,7 +145,7 @@
     void rk;
   }
   function renderFooter() {
-    $("#ftr").innerHTML = '<div class="row spread"><span>AataKode · <a href="https://eknathalabs.com">EknathaLabs</a> · MIT licensed · no ads, no tracking, progress stays on your device.</span><span><a href="#/about">Free-for-all promise</a></span></div>';
+    $("#ftr").innerHTML = '<div class="row spread"><span>AataKode · <a href="https://eknathalabs.com">EknathaLabs</a> · MIT licensed · no ads, no tracking, progress stays on your device.</span><span><a href="#/playfair">Play fair</a> · <a href="#/calm">Calm &amp; settings</a> · <a href="#/install">Install offline</a> · <a href="#/about">Free-for-all promise</a></span></div>';
   }
 
   /* ------------------------------------------------------------ views */
@@ -242,12 +243,12 @@
   /* Test-by-test lighting: checks light up one after another (instant with reduced motion). */
   function lightTests(m, results, done) {
     const list = $("#testlist"), tests = allTests(m);
-    if (!list || reducedMotion() || tests.length < 2) { if (list) list.outerHTML = renderTests(m, results); H("tests", results); done(); return; }
+    if (!list || reducedMotion() || tests.length < 2) { if (list) list.outerHTML = renderTests(m, results); H("tests", results, m); done(); return; }
     list.outerHTML = renderTests(m, null);
     const items = $$("#testlist li"), step = Math.max(40, Math.min(160, Math.floor(900 / items.length)));
     let i = 0;
     const one = () => {
-      if (i >= items.length || !$("#testlist")) { const l2 = $("#testlist"); if (l2) l2.outerHTML = renderTests(m, results); H("tests", results); done(); return; }
+      if (i >= items.length || !$("#testlist")) { const l2 = $("#testlist"); if (l2) l2.outerHTML = renderTests(m, results); H("tests", results, m); done(); return; }
       const r = results[i], li = items[i], mark = li.querySelector("span"), star = tests[i].star;
       li.classList.add("lit", r.ok ? "litok" : star ? "litstar" : "litno");
       if (mark) { mark.className = r.ok ? "ok" : star ? "idle" : "no"; mark.textContent = r.ok ? "✔" : star ? "☆" : "✘"; }
@@ -259,7 +260,7 @@
     const lvl = S.hintLvl[m.id] || 0, ask = (S.askLvl && S.askLvl[m.id]) || 0;
     const qs = m.socratic.slice(0, ask).map((q, i) => '<div class="hintbox">❓ <b>Question ' + (i + 1) + ":</b> " + esc(q) + "</div>").join("");
     const hs = m.hints.slice(0, lvl).map((h, i) => '<div class="hintbox">💡 <b>' + (i === 2 ? (m.type === "predict" ? "The answer" : "Full solution") : "Hint " + (i + 1)) + ":</b>" + (i === 2 || /\n/.test(h) ? "<pre>" + esc(h) + "</pre>" : " " + esc(h)) + "</div>").join("");
-    return '<div class="row"><button class="btn small" id="askBtn"' + (ask >= 3 ? " disabled" : "") + ">❓ " + esc(t("ask")) + " (free)</button><button class=\"btn small\" id=\"hintBtn\"" + (lvl >= 3 ? " disabled" : "") + ">💡 " + esc(t("hint")) + (lvl === 2 ? " (reveals solution, −5 XP)" : " (−5 XP)") + "</button></div>" + qs + hs;
+    return '<div class="row"><button class="btn small" id="askBtn"' + (ask >= 3 ? " disabled" : "") + ">❓ " + esc(t("ask")) + " (free)</button><button class=\"btn small\" id=\"hintBtn\"" + (lvl >= 3 ? " disabled" : "") + ">💡 " + esc(t("hint")) + (function () { const hc = AK.hintCost(S, m.id, new Date()); return (lvl === 2 ? " (reveals solution, " : " (") + (hc.free ? "free today" : hc.cost ? "1 🌱" : "free") + ")"; })() + "</button></div>" + qs + hs;
   }
 
   function explainHtml(m) {
@@ -275,6 +276,7 @@
       (res.stars < 3 ? '<p class="muted">' + (S.hintLvl[m.id] ? "Solve it without hints next time for more stars." : m.clean ? "Third star: improve your code for the clean-up challenge, then press Check again." : "Third star: solve it on your first check without hints.") + "</p>" : "") +
       (res.rankUp ? '<p><b>⬆ New rank: ' + esc(rankName(S.xp)) + "!</b></p>" : "") +
       (res.newBadges.length ? "<p>🏅 New badge" + (res.newBadges.length > 1 ? "s" : "") + ": " + badgeLine(res.newBadges) + "</p>" : "") +
+      (window.AK_UI && window.AK_UI.rewardExtra ? window.AK_UI.rewardExtra(res, m, nx) : "") +
       '<div class="row"><a class="btn primary" href="' + (nx ? "#/mission/" + nx.id : "#/map") + '">' + esc(nx ? t("next") + " →" : t("back")) + "</a><a class=\"btn small\" href=\"#/map\">🗺 " + esc(t("map")) + "</a></div></div>";
   }
   function setHeadStatus(m) {
@@ -316,7 +318,7 @@
   function bindHints(m) {
     const box = $("#hintSlot"); box.innerHTML = hintsHtml(m);
     $("#askBtn").onclick = () => { S.askLvl = S.askLvl || {}; S.askLvl[m.id] = Math.min(3, (S.askLvl[m.id] || 0) + 1); save(); bindHints(m); };
-    $("#hintBtn").onclick = () => { S.hintLvl[m.id] = Math.min(3, (S.hintLvl[m.id] || 0) + 1); save(); bindHints(m); };
+    $("#hintBtn").onclick = () => { const hc = AK.takeHint(S, m.id, new Date()); S.hintLvl[m.id] = Math.min(3, (S.hintLvl[m.id] || 0) + 1); save(); renderHeader("mission"); toast(hc.free ? "💡 Today's free hint" : hc.cost ? "💡 Hint: −1 seed (never XP)" : "💡 Hint is free for you"); bindHints(m); H("hint", m); };
   }
 
   /* compare tab */
@@ -344,7 +346,7 @@
   function missionFrame(m, extraRight) {
     const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT", sql: "SQL QUERY", pair: "PAIR PARROT", lesson: "LESSON", go: "GO PRACTICE", hunt: m.lang === "go" ? "COMPILER HUNT" : "SECURITY HUNT", grid: "ROBOT CODING", pipe: "BUILD A PIPELINE" }[m.type] || (m.mystery ? "CASE FILE" : m.golf ? "CODE GOLF" : "");
     return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "</a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : m.project ? " · PROJECT" : m.project_step ? " · PROJECT STEP" : kind ? " · " + kind : "") + "</span><h2>" + esc(m.title) + '</h2><span class="chip gold">' + m.xp + ' XP</span><span id="mstatus"></span><span class="pill load" id="pypill"></span></div>' +
-      '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '</div><div class="goal"><b>Goal:</b> ' + esc(m.goal) + "</div>" + (m.type === "predict" ? "" : "<b>Checks</b>" + renderTests(m, null)) + '<div id="hintSlot"></div><div id="rewardSlot"></div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "</div></aside>" +
+      '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '</div><div class="goal"><b>Goal:</b> ' + esc(m.goal) + "</div>" + (m.type === "predict" ? "" : "<b>Checks</b>" + renderTests(m, null)) + '<div id="hintSlot"></div><div id="rewardSlot"></div><div id="learnSlot"></div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "</div></aside>" +
       '<section id="midpane"></section><section class="card" id="rightpane"><div class="tabs" role="tablist">' + extraRight.tabs + "</div>" + extraRight.panels + '<div id="tab-compare" hidden></div></section></div>';
   }
   function bindTabs(m) {
@@ -374,7 +376,7 @@
   function predictCard(m, opts) {
     const el = document.createElement("div"); el.className = "card predict"; let wrong = 0, finished = false;
     const uid = "p" + Math.random().toString(36).slice(2, 8);
-    el.innerHTML = '<b>' + esc(m.title) + '</b><pre class="codeview">' + esc(m.code) + '</pre><fieldset class="opts"><legend>What does it print?</legend>' +
+    el.innerHTML = '<b>' + esc(m.title) + '</b><pre class="codeview">' + esc(m.code) + '</pre><fieldset class="opts"><legend>' + (m.mode === "purpose" ? "What does this function do?" : "What does it print?") + '</legend>' +
       m.options.map((o, i) => '<label class="opt" data-i="' + i + '"><input type="radio" name="' + uid + '" value="' + i + '"><pre>' + esc(o) + "</pre></label>").join("") +
       '</fieldset><div class="row"><button class="btn good" data-act="check">✔ Check</button></div><div class="pmsg" aria-live="polite"></div>';
     const msg = $(".pmsg", el), labels = $$(".opt", el);
@@ -405,7 +407,7 @@
     };
     $("#midpane").appendChild(predictCard(m, {
       done: !!S.solved[m.id],
-      onWrong: () => { tries[m.id] = (tries[m.id] || 0) + 1; },
+      onWrong: () => { tries[m.id] = (tries[m.id] || 0) + 1; AK.noteFail(S, m); },
       onCorrect: (first) => {
         enableRun();
         if (!S.solved[m.id]) afterSolve(m, AK.applySolve(S, DATA, m, { hintsUsed: S.hintLvl[m.id] || 0, now: new Date(), code: m.options[m.answer], firstTry: first && !tries[m.id] }), $("#rewardSlot"));
@@ -687,7 +689,7 @@
     parrot: parrot, ensurePy: ensurePy, confetti: confetti, reducedMotion: reducedMotion, missionFrame: missionFrame, tabBtn: tabBtn, bindTabs: bindTabs, bindHints: bindHints, bindExplain: bindExplain,
     setHeadStatus: setHeadStatus, renderTests: renderTests, allTests: allTests, lightTests: lightTests, finishMission: finishMission, tries: tries, refreshCompare: refreshCompare, setPyPill: setPyPill,
     buildCodeEditor: buildCodeEditor, missionPython: missionPython, missionTerminal: missionTerminal, missionPredict: missionPredict, predictCard: predictCard, weekly: weekly, featIds: featIds,
-    parrotStage: () => AK.parrotStage(S.xp), STAGE_NAMES: STAGE_NAMES, save2: save, diag: diag, setDay: (id) => { dayMode = id; }, PY_OFFLINE: PY_OFFLINE, applySettings: applySettings, rankName: rankName, badgeToasts: badgeToasts, nodeIcon: nodeIcon, orderedMissions: orderedMissions,
+    OUTFITS: OUTFITS, nextMissionFor: nextMissionFor, afterSolve: afterSolve, hintsHtml: hintsHtml, parrotStage: () => AK.parrotStage(S.xp), STAGE_NAMES: STAGE_NAMES, save2: save, diag: diag, setDay: (id) => { dayMode = id; }, PY_OFFLINE: PY_OFFLINE, applySettings: applySettings, rankName: rankName, badgeToasts: badgeToasts, nodeIcon: nodeIcon, orderedMissions: orderedMissions,
   };
   if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js").catch(() => {});
   window.AK_APP = { state: () => S, route: route };

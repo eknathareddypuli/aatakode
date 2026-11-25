@@ -60,3 +60,11 @@ New mission types (all verified by `tests/verify.mjs`):
 - Terminal HTTP: `curl` (flags -X -H -d -o -w -u -L -s -i -I -v -f --json), a mini `jq`, endpoint specs `{routes:[{method,auth,header,bodyHas,query,status,body,headers}],default}` and test kind `req-made {method,url,status,header,bodyHas}`.
 - Python `eval` test `expect` is a Python expression string (use `repr`).
 - `regions.json`: regions may set `capstone:true`; tracks added: go, http, security, visual, projects.
+
+## v4 additions
+- `type: "read"` (read-the-code): `mode` is `output`, `bug` or `purpose`. All have `code`, `options`, `answer` and `why`.
+  - `output`: the marked option must equal the real output of `code`.
+  - `bug`: `options` is one entry per line (`"Line 1"` ...), `bugline` is the 1-based line, `fixed_line` replaces it and `expect` is the output after the fix. The verifier checks the code is broken and the fix works.
+  - `purpose`: `demo` is a call that prints `demo_out`, and the options say what the function does.
+- `learn`: a card id from `missions/learn.json` (or an inline object). Card shape: `concept`, `example {code, output, note, stdin?}`, `mistake {broken, kind: error|output, match, symptom, fix}` and an optional `variation {prompt, starter, tests, solution}`. The verifier runs the example, reproduces the mistake and passes the variation solution through its tests.
+- `missions/arena.json` (leagues, opponent and reference bots), `missions/clash.json` (puzzles) and `missions/story.json` (12 chapters) are data files, not missions.

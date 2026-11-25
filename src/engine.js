@@ -81,6 +81,7 @@
     for (const id in S.solved) xp += S.solved[id].xp || 0;
     for (const id in S.explains) if (S.explains[id].bonus) xp += 5;
     xp += S.dailyXp || 0;
+    xp += S.arenaXp || 0;
     S.xp = xp;
     return xp;
   };
@@ -243,7 +244,7 @@
       S.outageDays = S.outageDays || {}; S.outageDays[AK.dateKey(now)] = m.id;
     }
     S.solved[m.id] = { xp: total, hints: hints, at: AK.dateKey(now), code: opts.code || "", stars: stars };
-    touchStreak(S, now);
+    AK.touchStreak(S, now);
     S.seeds = S.seeds || { earned: 0, spent: 0 }; S.seeds.earned += seeds;
     AK.recomputeXp(S);
     const newBadges = AK.checkBadges(S, data, now);
@@ -287,7 +288,7 @@
     let gained = pts, complete = false;
     S.seeds = S.seeds || { earned: 0, spent: 0 }; S.seeds.earned += 1;
     if (set.every((x) => S.daily.done[x]) && !S.daily.bonus) { complete = true; S.daily.bonus = true; S.dailyXp += 10; gained += 10; S.dailyDone += 1; S.seeds.earned += 3; }
-    touchStreak(S, now);
+    AK.touchStreak(S, now);
     AK.recomputeXp(S);
     return { gained: gained, complete: complete, newBadges: AK.checkBadges(S, data, now) };
   };
@@ -611,7 +612,7 @@
     setRunnerSource: function (src) { PY.runner = src; },
     init: function (pyodide) {
       pyodide.runPython(PY.runner);
-      PY.fns = { run: pyodide.globals.get("_run"), grade: pyodide.globals.get("_grade"), sqlGrade: pyodide.globals.get("_sql_grade"), sqlRun: pyodide.globals.get("_sql_run"), sqlSchema: pyodide.globals.get("_sql_schema"), gridRun: pyodide.globals.get("_grid_run") };
+      PY.fns = { run: pyodide.globals.get("_run"), grade: pyodide.globals.get("_grade"), sqlGrade: pyodide.globals.get("_sql_grade"), sqlRun: pyodide.globals.get("_sql_run"), sqlSchema: pyodide.globals.get("_sql_schema"), gridRun: pyodide.globals.get("_grid_run"), arenaRun: pyodide.globals.get("_arena_run") };
     },
     run: function (code, stdin, trace) { return JSON.parse(PY.fns.run(code, JSON.stringify(stdin || []), !!trace)); },
     grade: function (code, tests) { return JSON.parse(PY.fns.grade(code, JSON.stringify(tests))); },
@@ -619,6 +620,7 @@
     sqlRun: function (query, setup) { return JSON.parse(PY.fns.sqlRun(query, setup)); },
     sqlSchema: function (setup) { return JSON.parse(PY.fns.sqlSchema(setup)); },
     gridRun: function (code, grid) { return JSON.parse(PY.fns.gridRun(code, JSON.stringify(grid))); },
+    arenaRun: function (code, opp, cfg) { return JSON.parse(PY.fns.arenaRun(code, opp, JSON.stringify(cfg))); },
   };
 
   /* ---------------------------------------------------------------- 6. teacher cards */

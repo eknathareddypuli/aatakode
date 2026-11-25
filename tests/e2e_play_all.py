@@ -47,7 +47,9 @@ with sync_playwright() as p:
             if pg.locator("text=Locked").count() and not pg.locator("#midpane, .lesson").count():
                 raise Exception("locked")
             t = m["type"]
-            if t == "predict":
+            if t == "read" and m["mode"] == "bug":
+                pg.locator(f'.hline[data-i="{m["answer"]}"]').click()
+            elif t == "predict" or t == "read":
                 pg.locator(f'.opt[data-i="{m["answer"]}"] input').check()
                 pg.click('[data-act="check"]')
             elif t == "terminal":

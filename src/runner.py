@@ -378,3 +378,115 @@ def _grid_run(code, grid_json):
     r = _exec(code, [], echo=True, inject=api)
     return json.dumps({"err": r["err"], "out": r["out"], "acts": acts, "reached": (st["x"], st["y"]) == goal, "coins": st["got"], "total": total,
                        "start": list(start), "goal": list(goal), "facing": facing})
+
+
+# ---------------------------------------------------------------- Bot Arena ("Seed Grab")
+_DIRS = {"N": (0, -1), "E": (1, 0), "S": (0, 1), "W": (-1, 0), "STAY": (0, 0)}
+
+
+def _arena_board(seed, size, walls_n):
+    import random
+    rnd = random.Random(seed)
+    c = size - 1
+    walls = set()
+    tries = 0
+    while len(walls) < walls_n * 2 and tries < 200:
+        tries += 1
+        x, y = rnd.randrange(1, size - 1), rnd.randrange(1, size - 1)
+        p, q = (x, y), (c - x, c - y)
+        if p == q or p in ((1, 1), (c - 1, c - 1)) or q in ((1, 1), (c - 1, c - 1)):
+            continue
+        trial = walls | {p, q}
+        seen, todo = {(1, 1)}, [(1, 1)]
+        while todo:
+            a, b = todo.pop()
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                n = (a + dx, b + dy)
+                if 0 <= n[0] < size and 0 <= n[1] < size and n not in trial and n not in seen:
+                    seen.add(n)
+                    todo.append(n)
+        if len(seen) == size * size - len(trial):
+            walls = trial
+    return rnd, walls
+
+
+def _arena_run(code, opp_code, cfg_json):
+    """Run a whole match. cfg: seed, size, turns, walls, every, start_seeds, swap (learner starts bottom-right).
+    Seeds appear one at a time at random cells (shared pot), so every seed is a race."""
+    cfg = json.loads(cfg_json)
+    size, turns = cfg.get("size", 11), cfg.get("turns", 40)
+    seed, every = cfg.get("seed", 1), cfg.get("every", 4)
+    rnd, walls = _arena_board(seed, size, cfg.get("walls", 0))
+    c = size - 1
+    starts = [(1, 1), (c - 1, c - 1)]
+    if cfg.get("swap"):
+        starts.reverse()
+    seeds = set()
+
+    def spawn(n):
+        k = 0
+        while k < n:
+            p = (rnd.randrange(size), rnd.randrange(size))
+            if p in walls or p in starts or p in seeds or False:
+                continue
+            seeds.add(p)
+            k += 1
+    spawn(cfg.get("start_seeds", 3))
+
+    out = {"err": None, "who": None}
+    fns = []
+    for i, src in enumerate((code, opp_code)):
+        r = _exec(src, [], echo=True)
+        if r["err"]:
+            out["err"], out["who"] = r["err"], i
+            fns.append(None)
+        else:
+            f = r["ns"].get("play")
+            if not callable(f):
+                out["err"], out["who"] = {"type": "NameError", "msg": "define a function: def play(state):", "line": None}, i
+            fns.append(f if callable(f) else None)
+    if out["err"]:
+        return json.dumps({"err": out["err"], "who": out["who"], "frames": [], "score": [0, 0], "winner": -1})
+
+    pos = [starts[0], starts[1]]
+    score = [0, 0]
+    frames = [{"t": 0, "pos": [list(p) for p in pos], "seeds": sorted(list(s) for s in seeds), "score": list(score), "mv": ["STAY", "STAY"]}]
+    wl = sorted(list(w) for w in walls)
+    for t in range(1, turns + 1):
+        mv = []
+        for i in (0, 1):
+            st = {"turn": t, "turns": turns, "size": size, "me": list(pos[i]), "foe": list(pos[1 - i]),
+                  "seeds": sorted(list(s) for s in seeds), "walls": wl, "score": [score[i], score[1 - i]]}
+            try:
+                d = _guarded(lambda: fns[i](st), limit=20000)
+            except _Limit:
+                out["err"], out["who"] = {"type": "Timeout", "msg": "play() took too long on turn %d" % t, "line": None}, i
+                d = "STAY"
+            except BaseException as e:
+                out["err"], out["who"] = {"type": type(e).__name__, "msg": "%s (turn %d)" % (e, t), "line": None}, i
+                d = "STAY"
+            d = str(d).upper() if isinstance(d, str) else "STAY"
+            mv.append(d if d in _DIRS else "STAY")
+            if out["err"] and out["who"] == i:
+                break
+        if out["err"]:
+            break
+        tg = []
+        for i in (0, 1):
+            dx, dy = _DIRS[mv[i]]
+            n = (pos[i][0] + dx, pos[i][1] + dy)
+            tg.append(n if 0 <= n[0] < size and 0 <= n[1] < size and n not in walls else pos[i])
+        if tg[0] == tg[1]:
+            tg = list(pos)
+        pos = tg
+        for i in (0, 1):
+            if pos[i] in seeds:
+                seeds.discard(pos[i])
+                score[i] += 1
+        if every and t % every == 0:
+            spawn(1)
+        frames.append({"t": t, "pos": [list(p) for p in pos], "seeds": sorted(list(s) for s in seeds), "score": list(score), "mv": mv})
+    winner = 0 if score[0] > score[1] else 1 if score[1] > score[0] else -1
+    if out["err"] and out["who"] == 0:
+        winner = 1
+    return json.dumps({"err": out["err"], "who": out["who"], "frames": frames, "walls": wl, "size": size, "score": score, "winner": winner})

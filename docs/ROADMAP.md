@@ -36,6 +36,13 @@
 - Also built: Daily Quest, stars, story map, outfits, certificate cards, class goal.
 - Built so far: 20 missions (Python Quest + 4 outages), teacher dashboard (offline), Outage of the Week, solution comparison, block view, Telugu UI.
 
+## v4 (built)
+Bot Arena, Clash of Code, read-the-code, Explain panel, fair motivation design, calm mode, install guide, health dashboard, printables.
+
+## After v4
+- A friends leaderboard that needs no account (shared files), and more Arena games beyond Seed Grab.
+- Native-speaker review of translations.
+
 ## After v3
 - Native-speaker review of festival greetings and the new nav labels (they fall back to English).
 - Real Go in the browser (WASM toolchain) to replace static grading.

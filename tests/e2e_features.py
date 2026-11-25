@@ -38,7 +38,7 @@ with sync_playwright() as p:
     # --- village + shop + day/night
     pg.evaluate("(()=>{AK_CORE.state().seeds={earned:60,spent:0};AK_CORE.save()})()")
     go("#/village"); pg.wait_for_selector(".vscene")
-    check("village renders 12 python landmarks", pg.locator(".vscene .land").count() == 12)
+    check("village renders one landmark per python region", pg.locator(".vscene .land").count() == pg.evaluate("AK_DATA.regions.filter(r=>r.track==='python').length"))
     check("village renders 12 plots", pg.locator(".vscene .plot").count() == 12)
     for ph in ["dawn", "day", "dusk", "night"]:
         pg.click(f'[data-phase="{ph}"]'); pg.wait_for_selector(f".vscene.phase-{ph}")
@@ -132,7 +132,7 @@ with sync_playwright() as p:
     pg.wait_for_selector("text=Your starting point", timeout=15000); check("placement places the learner", st("!!S.placed && S.placed.index >= 3"))
     # --- arena hub + outage of the day
     go("#/arena"); pg.wait_for_selector(".tile")
-    check("arena hub tiles", pg.locator(".tile").count() == 6)
+    check("arena hub tiles (old six plus Bot Arena, Clash, Morning)", pg.locator(".tile").count() == 9)
     d = pg.evaluate("AK.outageOfDay(AK_DATA.missions,new Date()).id")
     fresh(d); go(f"#/mission/{d}/day"); pg.wait_for_selector("#tin")
     sol = pg.evaluate(f"AK_DATA.missions.find(m=>m.id==='{d}').solution")
