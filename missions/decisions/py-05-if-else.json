@@ -77,5 +77,6 @@
     "blanks": [
       "print(\"Pass\")"
     ]
-  }
+  },
+  "learn": "ifelse"
 }

@@ -41,5 +41,6 @@
   "requires": [
     "fx-average"
   ],
-  "solution": "Error: TypeError"
+  "solution": "Error: TypeError",
+  "learn": "shadow"
 }

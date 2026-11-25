@@ -54,5 +54,6 @@
   "requires": [
     "py-06-elif"
   ],
-  "solution": "age = int(input())\nhas_ticket = input() == \"yes\"\nif age >= 5 and has_ticket:\n    print(\"Enter\")\nelse:\n    print(\"Stay out\")\n"
+  "solution": "age = int(input())\nhas_ticket = input() == \"yes\"\nif age >= 5 and has_ticket:\n    print(\"Enter\")\nelse:\n    print(\"Stay out\")\n",
+  "learn": "bool-compare"
 }

@@ -32,5 +32,6 @@
   "requires": [
     "py-12-dict"
   ],
-  "solution": "prices = {\"tea\": 10, \"coffee\": 20}\nprices[\"samosa\"] = 30\nprint(prices[\"samosa\"] + prices.get(\"tea\"))\n"
+  "solution": "prices = {\"tea\": 10, \"coffee\": 20}\nprices[\"samosa\"] = 30\nprint(prices[\"samosa\"] + prices.get(\"tea\"))\n",
+  "learn": "dict-basics"
 }

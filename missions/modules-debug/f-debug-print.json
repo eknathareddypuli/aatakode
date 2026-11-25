@@ -32,5 +32,6 @@
   "requires": [
     "p-traceback"
   ],
-  "solution": "total = 0\nfor n in [1, 2, 3]:\n    total += n\n    print(\"n =\", n, \"total =\", total)\n"
+  "solution": "total = 0\nfor n in [1, 2, 3]:\n    total += n\n    print(\"n =\", n, \"total =\", total)\n",
+  "learn": "debug-print"
 }

@@ -41,5 +41,6 @@
   "requires": [
     "w-counter"
   ],
-  "solution": "start\nError: ValueError"
+  "solution": "start\nError: ValueError",
+  "learn": "traceback"
 }

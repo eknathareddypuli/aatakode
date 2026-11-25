@@ -45,5 +45,6 @@
     "p-list-slice"
   ],
   "solution": "basket = [\"rice\", \"dal\"]\nbasket.append(\"oil\")\nbasket.remove(\"rice\")\nbasket.sort()\n",
-  "alt": "basket = [\"rice\", \"dal\"]\nbasket.append(\"oil\")\nbasket.remove(\"rice\")\nbasket = sorted(basket)\n"
+  "alt": "basket = [\"rice\", \"dal\"]\nbasket.append(\"oil\")\nbasket.remove(\"rice\")\nbasket = sorted(basket)\n",
+  "learn": "list-basics"
 }

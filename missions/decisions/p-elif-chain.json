@@ -41,5 +41,6 @@
   "requires": [
     "p-truthy"
   ],
-  "solution": "Fizz\nBuzz"
+  "solution": "Fizz\nBuzz",
+  "learn": "elif-chain"
 }

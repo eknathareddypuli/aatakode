@@ -69,5 +69,6 @@
     "blanks": [
       "return x * 2"
     ]
-  }
+  },
+  "learn": "def-basics"
 }

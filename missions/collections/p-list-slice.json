@@ -41,5 +41,6 @@
   "requires": [
     "py-11-lists"
   ],
-  "solution": "[20, 30] 40 4"
+  "solution": "[20, 30] 40 4",
+  "learn": "list-slice"
 }

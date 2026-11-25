@@ -40,5 +40,6 @@
   "requires": [
     "p-dict-iter"
   ],
-  "solution": "scores = {\"Asha\": 80, \"Ravi\": 65}\ntotal = 0\nfor name in scores:\n    total += scores[name]\nprint(total)\n"
+  "solution": "scores = {\"Asha\": 80, \"Ravi\": 65}\ntotal = 0\nfor name in scores:\n    total += scores[name]\nprint(total)\n",
+  "learn": "dict-iter"
 }

@@ -1,0 +1,1419 @@
+{
+ "print": {
+  "concept": "print() shows text on the screen. Text must be inside quotes, and sep= and end= change what goes between and after the pieces.",
+  "example": {
+   "code": "print(\"Hi\", \"Chilaka\", sep=\", \", end=\"!\\n\")",
+   "output": "Hi, Chilaka!",
+   "note": "sep= goes between the pieces, end= goes after the last one."
+  },
+  "mistake": {
+   "broken": "print(\"Hello)",
+   "kind": "error",
+   "match": "SyntaxError",
+   "symptom": "SyntaxError: unterminated string literal (detected at line 1) (<string>, line 1)",
+   "fix": "Close every quote you open. A missing closing quote is a SyntaxError."
+  },
+  "variation": {
+   "prompt": "Print the words a b c joined by dashes.",
+   "starter": "# print a, b, c with dashes between\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "a-b-c",
+     "label": "prints a-b-c"
+    }
+   ],
+   "solution": "print(\"a\", \"b\", \"c\", sep=\"-\")"
+  }
+ },
+ "variables": {
+  "concept": "A variable is a name stuck to a value. Assigning again moves the name to a new value; a, b = b, a swaps two names at once.",
+  "example": {
+   "code": "a = 3\nb = 5\na, b = b, a\nprint(a, b)",
+   "output": "5 3",
+   "note": "Python evaluates the right side first, so the swap needs no temp variable."
+  },
+  "mistake": {
+   "broken": "print(score)\nscore = 3",
+   "kind": "error",
+   "match": "NameError",
+   "symptom": "NameError: name 'score' is not defined",
+   "fix": "A name must be assigned before it is used. Move the assignment above the print."
+  },
+  "variation": {
+   "prompt": "Swap x and y, then print x and y.",
+   "starter": "x = 1\ny = 2\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "2 1",
+     "label": "prints 2 1"
+    }
+   ],
+   "solution": "x = 1\ny = 2\nx, y = y, x\nprint(x, y)"
+  }
+ },
+ "types": {
+  "concept": "Every value has a type. / always gives a float, // divides and rounds down, and % gives the remainder.",
+  "example": {
+   "code": "print(7 / 2, 7 // 2, 7 % 2, type(7 / 2).__name__)",
+   "output": "3.5 3 1 float",
+   "note": "7 / 2 is 3.5 (float), 7 // 2 is 3, 7 % 2 is 1."
+  },
+  "mistake": {
+   "broken": "print(\"5\" + 3)",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: can only concatenate str (not \"int\") to str",
+   "fix": "You cannot add text and a number. Convert first: int(\"5\") + 3 or \"5\" + str(3)."
+  },
+  "variation": {
+   "prompt": "Print 17 divided by 5 rounded down, then the remainder, on one line.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "3 2",
+     "label": "prints 3 2"
+    }
+   ],
+   "solution": "print(17 // 5, 17 % 5)"
+  }
+ },
+ "input-math": {
+  "concept": "input() always returns text. Wrap it in int() or float() before doing maths.",
+  "example": {
+   "code": "n = int(input())\nprint(n * 2)",
+   "output": "4\n8",
+   "note": "The text '4' becomes the number 4, so n * 2 is 8.",
+   "stdin": [
+    "4"
+   ]
+  },
+  "mistake": {
+   "stdin": [
+    "4"
+   ],
+   "broken": "n = input()\nprint(n * 2)",
+   "kind": "output",
+   "match": "4\n44",
+   "symptom": "4\n44",
+   "fix": "Without int(), '4' * 2 repeats the text and prints 44. Convert with int(input())."
+  },
+  "variation": {
+   "prompt": "Read a number and print it plus ten.",
+   "starter": "n = int(input())\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [
+      "5"
+     ],
+     "expect": "15",
+     "label": "prints 15"
+    },
+    {
+     "kind": "stdout",
+     "stdin": [
+      "-3"
+     ],
+     "expect": "7",
+     "label": "prints 7"
+    }
+   ],
+   "solution": "n = int(input())\nprint(n + 10)"
+  }
+ },
+ "fstring": {
+  "concept": "An f-string puts values inside text: f\"{name} is {age}\". Anything inside the braces is Python.",
+  "example": {
+   "code": "name = \"Chilaka\"\nage = 3\nprint(f\"{name} is {age + 1} next year\")",
+   "output": "Chilaka is 4 next year",
+   "note": "The braces can hold any expression, here age + 1."
+  },
+  "mistake": {
+   "broken": "name = \"Chilaka\"\nprint(\"Hi {name}\")",
+   "kind": "output",
+   "match": "Hi {name}",
+   "symptom": "Hi {name}",
+   "fix": "Without the leading f the braces print literally. Write f\"Hi {name}\"."
+  },
+  "variation": {
+   "prompt": "Given item and price, print: item costs price",
+   "starter": "item = \"tea\"\nprice = 15\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "tea costs 15",
+     "label": "prints tea costs 15"
+    }
+   ],
+   "solution": "item = \"tea\"\nprice = 15\nprint(f\"{item} costs {price}\")"
+  }
+ },
+ "name-error-bug": {
+  "concept": "Reading error messages is a skill: NameError means a name was used before it exists, usually a typo or a missing assignment.",
+  "example": {
+   "code": "try:\n    print(nmae)\nexcept NameError as e:\n    print(\"NameError:\", e)",
+   "output": "NameError: name 'nmae' is not defined",
+   "note": "The message names the exact word Python could not find."
+  },
+  "mistake": {
+   "broken": "name = \"Ravi\"\nprint(nmae)",
+   "kind": "error",
+   "match": "NameError",
+   "symptom": "NameError: name 'nmae' is not defined",
+   "fix": "Compare the spelling of the name in the error with the one you assigned."
+  }
+ },
+ "bool-compare": {
+  "concept": "== compares, = assigns. Comparisons give True or False, and and / or / not combine them.",
+  "example": {
+   "code": "x = 5\nprint(x == 5, x > 7, x > 3 and x < 10)",
+   "output": "True False True",
+   "note": "Each comparison is a bool; and needs both sides True."
+  },
+  "mistake": {
+   "broken": "x = 5\nif x = 5:\n    print(\"five\")",
+   "kind": "error",
+   "match": "SyntaxError",
+   "symptom": "SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='? (<string>, line 2)",
+   "fix": "Use == to compare. A single = is assignment and is a SyntaxError inside if."
+  },
+  "variation": {
+   "prompt": "Print True if n is between 1 and 10 inclusive.",
+   "starter": "n = 7\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "True",
+     "label": "prints True"
+    }
+   ],
+   "solution": "n = 7\nprint(1 <= n <= 10)"
+  }
+ },
+ "ifelse": {
+  "concept": "if runs a block only when its condition is True; else runs when it is not. The block is the indented lines.",
+  "example": {
+   "code": "age = 17\nif age >= 18:\n    print(\"enter\")\nelse:\n    print(\"wait\")",
+   "output": "wait",
+   "note": "Indentation shows which lines belong to which branch."
+  },
+  "mistake": {
+   "broken": "age = 17\nif age >= 18:\nprint(\"enter\")",
+   "kind": "error",
+   "match": "IndentationError",
+   "symptom": "IndentationError: expected an indented block after 'if' statement on line 2 (<string>, line 3)",
+   "fix": "The line after if must be indented, otherwise Python raises IndentationError."
+  },
+  "variation": {
+   "prompt": "Print even if n is even, otherwise odd.",
+   "starter": "n = 8\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "even",
+     "label": "prints even"
+    }
+   ],
+   "solution": "n = 8\nif n % 2 == 0:\n    print(\"even\")\nelse:\n    print(\"odd\")"
+  }
+ },
+ "elif-chain": {
+  "concept": "elif adds more questions. Python checks top to bottom and stops at the first True one, so order matters.",
+  "example": {
+   "code": "m = 85\nif m >= 90:\n    print(\"A\")\nelif m >= 75:\n    print(\"B\")\nelse:\n    print(\"C\")",
+   "output": "B",
+   "note": "85 fails the first test and passes the second, so only B prints."
+  },
+  "mistake": {
+   "broken": "m = 95\nif m >= 75:\n    print(\"B\")\nelif m >= 90:\n    print(\"A\")",
+   "kind": "output",
+   "match": "B",
+   "symptom": "B",
+   "fix": "The broader test is first, so 95 prints B and A is unreachable. Put the strictest test first."
+  },
+  "variation": {
+   "prompt": "Print pass for 40 or more, otherwise fail.",
+   "starter": "m = 55\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "pass",
+     "label": "prints pass"
+    }
+   ],
+   "solution": "m = 55\nif m >= 40:\n    print(\"pass\")\nelse:\n    print(\"fail\")"
+  }
+ },
+ "truthy": {
+  "concept": "Empty things are falsy: 0, \"\", [], {} and None. Everything else is truthy, so if items: means 'if there is anything in items'.",
+  "example": {
+   "code": "for v in [0, \"\", [], \"a\", 7]:\n    print(bool(v), end=\" \")",
+   "output": "False False False True True",
+   "note": "Only 'a' and 7 are truthy."
+  },
+  "mistake": {
+   "broken": "name = \"\"\nif name == True:\n    print(\"has name\")\nelse:\n    print(\"no name\")",
+   "kind": "output",
+   "match": "no name",
+   "symptom": "no name",
+   "fix": "Compare with the value you expect, or just write if name:. == True is almost never what you want."
+  }
+ },
+ "wrong-door": {
+  "concept": "Conditions with and / or are easy to get wrong. Read each one out loud as a sentence.",
+  "example": {
+   "code": "age, ticket = 20, False\nprint(age >= 18 and ticket)",
+   "output": "False",
+   "note": "and needs both parts to be True, so no ticket means False."
+  },
+  "mistake": {
+   "broken": "age, ticket = 20, False\nprint(\"in\" if age >= 18 or ticket else \"out\")",
+   "kind": "output",
+   "match": "in",
+   "symptom": "in",
+   "fix": "or let an adult in without a ticket. If both are required use and."
+  }
+ },
+ "modulo-logic": {
+  "concept": "% gives the remainder, so n % 4 == 0 means divisible by 4. Combine tests with and / or and brackets.",
+  "example": {
+   "code": "y = 1900\nprint((y % 4 == 0 and y % 100 != 0) or y % 400 == 0)",
+   "output": "False",
+   "note": "1900 is divisible by 100 but not by 400, so it is not a leap year."
+  },
+  "mistake": {
+   "broken": "y = 1900\nprint(y % 4 == 0 or y % 100 != 0 and y % 400 == 0)",
+   "kind": "output",
+   "match": "True",
+   "symptom": "True",
+   "fix": "and binds tighter than or, so this groups wrongly. Add brackets to say what you mean."
+  },
+  "variation": {
+   "prompt": "Print True if n is divisible by both 3 and 5.",
+   "starter": "n = 30\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "True",
+     "label": "prints True"
+    }
+   ],
+   "solution": "n = 30\nprint(n % 3 == 0 and n % 5 == 0)"
+  }
+ },
+ "while": {
+  "concept": "while repeats as long as its condition is True. Something inside the loop must change so the condition can become False.",
+  "example": {
+   "code": "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1\nprint(\"go\")",
+   "output": "3\n2\n1\ngo",
+   "note": "n shrinks each time, so the loop ends."
+  },
+  "mistake": {
+   "broken": "n = 3\nsteps = 0\nwhile n > 0 and steps < 4:\n    steps += 1\nprint(\"n is still\", n, \"after\", steps, \"rounds\")",
+   "kind": "output",
+   "match": "n is still 3 after 4 rounds",
+   "symptom": "n is still 3 after 4 rounds",
+   "fix": "A loop that undoes its own progress never ends. Check that the variable moves toward the exit."
+  },
+  "variation": {
+   "prompt": "Print 1 to 3 using while.",
+   "starter": "i = 1\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "1\n2\n3",
+     "label": "prints 1 / 2 / 3"
+    }
+   ],
+   "solution": "i = 1\nwhile i <= 3:\n    print(i)\n    i += 1"
+  }
+ },
+ "break-continue": {
+  "concept": "break leaves the loop at once. continue skips the rest of this round and starts the next one.",
+  "example": {
+   "code": "for i in range(5):\n    if i == 1:\n        continue\n    if i == 3:\n        break\n    print(i)",
+   "output": "0\n2",
+   "note": "1 is skipped and the loop stops at 3, so 0 and 2 print."
+  },
+  "mistake": {
+   "broken": "for i in range(3):\n    if i == 1:\n        break\n    print(i)\nprint(i)",
+   "kind": "output",
+   "match": "0\n1",
+   "symptom": "0\n1",
+   "fix": "After break the loop variable keeps its last value. Do not expect the loop to finish all rounds."
+  }
+ },
+ "range-offbyone": {
+  "concept": "range(a, b) starts at a and stops before b. range(5) is 0 to 4, so the count is b - a.",
+  "example": {
+   "code": "print(list(range(2, 6)), list(range(0, 10, 3)))",
+   "output": "[2, 3, 4, 5] [0, 3, 6, 9]",
+   "note": "The stop value is excluded. The third number is the step."
+  },
+  "mistake": {
+   "broken": "for i in range(1, 5):\n    print(i)\nprint(\"sum 1..5 is\", sum(range(1, 5)))",
+   "kind": "output",
+   "match": "1\n2\n3\n4\nsum 1..5 is 10",
+   "symptom": "1\n2\n3\n4\nsum 1..5 is 10",
+   "fix": "range(1, 5) stops at 4. To include 5 write range(1, 6)."
+  },
+  "variation": {
+   "prompt": "Print the numbers 1 to 5 each on its own line.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "1\n2\n3\n4\n5",
+     "label": "prints 1 / 2 / 3 / 4 / 5"
+    }
+   ],
+   "solution": "for i in range(1, 6):\n    print(i)"
+  }
+ },
+ "accumulator": {
+  "concept": "An accumulator starts at a safe value (0 for sums, 1 for products) and grows inside a loop.",
+  "example": {
+   "code": "total = 0\nfor p in [3, 4, 5]:\n    total += p\nprint(total)",
+   "output": "12",
+   "note": "Start at 0 so the first add keeps the first number."
+  },
+  "mistake": {
+   "broken": "for p in [3, 4]:\n    total += p\nprint(total)",
+   "kind": "error",
+   "match": "NameError",
+   "symptom": "NameError: name 'total' is not defined",
+   "fix": "total was never created. Set total = 0 before the loop."
+  },
+  "variation": {
+   "prompt": "Print the sum of 1..4 with a loop.",
+   "starter": "total = 0\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "10",
+     "label": "prints 10"
+    }
+   ],
+   "solution": "total = 0\nfor i in range(1, 5):\n    total += i\nprint(total)"
+  }
+ },
+ "endless-loop": {
+  "concept": "An endless loop usually means the loop variable is never updated, or is updated the wrong way.",
+  "example": {
+   "code": "n = 0\nwhile n < 3:\n    n += 1\nprint(n)",
+   "output": "3",
+   "note": "n += 1 moves toward the stop condition."
+  },
+  "mistake": {
+   "broken": "n = 0\nwhile n < 3:\n    n -= 1\n    if n < -5:\n        break\nprint(n)",
+   "kind": "output",
+   "match": "-6",
+   "symptom": "-6",
+   "fix": "Counting down while testing < 3 never finishes. Move toward the exit, not away."
+  }
+ },
+ "nested-loops": {
+  "concept": "A loop inside a loop runs the inner one fully for every step of the outer one. Great for rows and columns.",
+  "example": {
+   "code": "for r in range(1, 4):\n    print(\"*\" * r)",
+   "output": "*\n**\n***",
+   "note": "Row r prints r stars, giving a growing triangle."
+  },
+  "mistake": {
+   "broken": "for r in range(1, 3):\n    for c in range(1, 3):\n        print(r * c)",
+   "kind": "output",
+   "match": "1\n2\n2\n4",
+   "symptom": "1\n2\n2\n4",
+   "fix": "The inner loop prints on a new line each time. Use end=\" \" and a print() after the inner loop for a grid."
+  },
+  "variation": {
+   "prompt": "Print a 3 by 3 block of # characters.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "###\n###\n###",
+     "label": "prints ### / ### / ###"
+    }
+   ],
+   "solution": "for r in range(3):\n    print(\"#\" * 3)"
+  }
+ },
+ "str-methods": {
+  "concept": "Strings have methods: upper(), lower(), strip(), title(), replace(). They return a NEW string.",
+  "example": {
+   "code": "s = \"  hello parrot \"\nprint(s.strip().title())",
+   "output": "Hello Parrot",
+   "note": "strip() removes the outer spaces, title() capitalises each word."
+  },
+  "mistake": {
+   "broken": "s = \"hi\"\ns.upper()\nprint(s)",
+   "kind": "output",
+   "match": "hi",
+   "symptom": "hi",
+   "fix": "Methods do not change the original. Assign the result: s = s.upper()."
+  },
+  "variation": {
+   "prompt": "Print the word 'quiet' in capitals followed by !",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "QUIET!",
+     "label": "prints QUIET!"
+    }
+   ],
+   "solution": "print(\"quiet\".upper() + \"!\")"
+  }
+ },
+ "str-index": {
+  "concept": "Strings are numbered from 0. s[0] is the first letter, s[-1] the last, s[a:b] a slice, and s[::-1] reversed.",
+  "example": {
+   "code": "s = \"parrot\"\nprint(s[0], s[-1], s[1:4], s[::-1])",
+   "output": "p t arr torrap",
+   "note": "Slices stop before the end index."
+  },
+  "mistake": {
+   "broken": "s = \"parrot\"\nprint(s[6])",
+   "kind": "error",
+   "match": "IndexError",
+   "symptom": "IndexError: string index out of range",
+   "fix": "A word of 6 letters has indexes 0 to 5. Use s[-1] for the last letter."
+  },
+  "variation": {
+   "prompt": "Print the first and last letters of 'Chilaka' together.",
+   "starter": "w = 'Chilaka'\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "Ca",
+     "label": "prints Ca"
+    }
+   ],
+   "solution": "w = 'Chilaka'\nprint(w[0] + w[-1])"
+  }
+ },
+ "str-immutable": {
+  "concept": "Strings cannot be edited in place. To change one, build a new string from slices and methods.",
+  "example": {
+   "code": "s = \"cat\"\ns = \"b\" + s[1:]\nprint(s)",
+   "output": "bat",
+   "note": "We made a new string 'bat' and moved the name s to it."
+  },
+  "mistake": {
+   "broken": "s = \"cat\"\ns[0] = \"b\"",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: 'str' object does not support item assignment",
+   "fix": "Item assignment on a string is a TypeError. Build a new one instead."
+  }
+ },
+ "str-format": {
+  "concept": "Format numbers inside f-strings with a spec: {x:.2f} for two decimals, {n:>5} to right-align, {n:,} for thousands.",
+  "example": {
+   "code": "x = 3.14159\nprint(f\"{x:.2f}\", f\"{42:>5}\", f\"{1234567:,}\")",
+   "output": "3.14    42 1,234,567",
+   "note": "The part after the colon says how to show the value."
+  },
+  "mistake": {
+   "broken": "price = 4.5\nprint(\"Total: \" + price)",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: can only concatenate str (not \"float\") to str",
+   "fix": "A float cannot be glued to text with +. Use f\"Total: {price}\"."
+  }
+ },
+ "str-search": {
+  "concept": "Use in to test membership and a loop or sum() to count: sum(c in 'aeiou' for c in word).",
+  "example": {
+   "code": "w = \"banana\"\nprint(sum(c in \"aeiou\" for c in w), \"n\" in w)",
+   "output": "3 True",
+   "note": "The generator makes True/False per letter, and sum counts the Trues."
+  },
+  "mistake": {
+   "broken": "w = \"Banana\"\nprint(w.count(\"b\"))",
+   "kind": "output",
+   "match": "0",
+   "symptom": "0",
+   "fix": "count is case sensitive: 'B' is not 'b'. Use w.lower().count(\"b\")."
+  },
+  "variation": {
+   "prompt": "Print how many times 'a' appears in 'banana'.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "3",
+     "label": "prints 3"
+    }
+   ],
+   "solution": "print(\"banana\".count(\"a\"))"
+  }
+ },
+ "split-join": {
+  "concept": "split() turns text into a list of words, join() glues a list back into text. They are opposites.",
+  "example": {
+   "code": "words = \"a b c\".split()\nprint(words, \"-\".join(words))",
+   "output": "['a', 'b', 'c'] a-b-c",
+   "note": "join is called on the separator, not on the list."
+  },
+  "mistake": {
+   "broken": "print([\"a\", \"b\"].join(\"-\"))",
+   "kind": "error",
+   "match": "AttributeError",
+   "symptom": "AttributeError: 'list' object has no attribute 'join'",
+   "fix": "join belongs to the string: \"-\".join([\"a\", \"b\"])."
+  }
+ },
+ "list-basics": {
+  "concept": "A list holds ordered items. append adds one, remove deletes one, len counts, and indexes start at 0.",
+  "example": {
+   "code": "bag = [\"map\"]\nbag.append(\"rope\")\nbag.remove(\"map\")\nprint(bag, len(bag))",
+   "output": "['rope'] 1",
+   "note": "append and remove change the list itself."
+  },
+  "mistake": {
+   "broken": "bag = [\"map\"]\nprint(bag[1])",
+   "kind": "error",
+   "match": "IndexError",
+   "symptom": "IndexError: list index out of range",
+   "fix": "A one-item list only has index 0. IndexError means you asked for a place that is not there."
+  },
+  "variation": {
+   "prompt": "Make a list of 3 fruits and print how many there are.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "3",
+     "label": "prints 3"
+    }
+   ],
+   "solution": "fruits = [\"a\", \"b\", \"c\"]\nprint(len(fruits))"
+  }
+ },
+ "list-slice": {
+  "concept": "Lists slice like strings: xs[1:3], xs[:2], xs[-2:]. A slice is a new list.",
+  "example": {
+   "code": "xs = [10, 20, 30, 40]\nprint(xs[1:3], xs[:2], xs[-2:])",
+   "output": "[20, 30] [10, 20] [30, 40]",
+   "note": "Start is included, end is not."
+  },
+  "mistake": {
+   "broken": "xs = [1, 2, 3]\nprint(xs[3])",
+   "kind": "error",
+   "match": "IndexError",
+   "symptom": "IndexError: list index out of range",
+   "fix": "Slices forgive going past the end, but a single index does not."
+  }
+ },
+ "alias": {
+  "concept": "b = a does not copy a list. Both names point at the same list, so changing one changes the other. Use a.copy() for a real copy.",
+  "example": {
+   "code": "a = [1, 2]\nb = a\nb.append(3)\nprint(a)\nc = a.copy()\nc.append(9)\nprint(a)",
+   "output": "[1, 2, 3]\n[1, 2, 3]",
+   "note": "a changed through b, but not through the copy c."
+  },
+  "mistake": {
+   "broken": "a = [1]\nb = a\nb.append(2)\nprint(\"a is\", a)",
+   "kind": "output",
+   "match": "a is [1, 2]",
+   "symptom": "a is [1, 2]",
+   "fix": "If you wanted a separate list write b = a.copy()."
+  }
+ },
+ "dict-basics": {
+  "concept": "A dict maps keys to values: d[\"key\"] reads, d[\"key\"] = v writes, d.get(\"key\", default) is the safe read.",
+  "example": {
+   "code": "d = {\"tea\": 10}\nd[\"milk\"] = 20\nprint(d[\"tea\"], d.get(\"jam\", 0), len(d))",
+   "output": "10 0 2",
+   "note": "get returns the default instead of crashing."
+  },
+  "mistake": {
+   "broken": "d = {\"tea\": 10}\nprint(d[\"jam\"])",
+   "kind": "error",
+   "match": "KeyError",
+   "symptom": "KeyError: 'jam'",
+   "fix": "A missing key raises KeyError. Use d.get(\"jam\", 0) or check with in first."
+  },
+  "variation": {
+   "prompt": "Print the price of 'milk' from the dict.",
+   "starter": "prices = {\"tea\": 10, \"milk\": 20}\n",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "20",
+     "label": "prints 20"
+    }
+   ],
+   "solution": "prices = {\"tea\": 10, \"milk\": 20}\nprint(prices[\"milk\"])"
+  }
+ },
+ "dict-iter": {
+  "concept": "Loop over a dict with .items() to get key and value together. A plain loop gives only the keys.",
+  "example": {
+   "code": "d = {\"a\": 1, \"b\": 2}\nfor k, v in d.items():\n    print(k, v)",
+   "output": "a 1\nb 2",
+   "note": "items() yields pairs which unpack into k and v."
+  },
+  "mistake": {
+   "broken": "d = {\"a\": 1}\nfor k, v in d:\n    print(k, v)",
+   "kind": "error",
+   "match": "ValueError",
+   "symptom": "ValueError: not enough values to unpack (expected 2, got 1)",
+   "fix": "Looping a dict gives keys only, so unpacking fails. Add .items()."
+  }
+ },
+ "sets": {
+  "concept": "A set keeps only unique items and has no order. set(xs) removes duplicates quickly.",
+  "example": {
+   "code": "xs = [1, 2, 2, 3, 3]\nprint(sorted(set(xs)), len(set(xs)))",
+   "output": "[1, 2, 3] 3",
+   "note": "sorted(...) gives a tidy list back."
+  },
+  "mistake": {
+   "broken": "s = {1, 2}\nprint(s[0])",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: 'set' object is not subscriptable",
+   "fix": "Sets have no positions. Convert with list(s) if you need an index."
+  },
+  "variation": {
+   "prompt": "Print how many different letters are in 'banana'.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "3",
+     "label": "prints 3"
+    }
+   ],
+   "solution": "print(len(set(\"banana\")))"
+  }
+ },
+ "counting": {
+  "concept": "Counting with a dict: d[k] = d.get(k, 0) + 1. collections.Counter does it for you.",
+  "example": {
+   "code": "from collections import Counter\nprint(Counter(\"banana\").most_common(1))",
+   "output": "[('a', 3)]",
+   "note": "most_common(1) gives the top pair."
+  },
+  "mistake": {
+   "broken": "d = {}\nfor w in [\"a\", \"a\"]:\n    d[w] += 1",
+   "kind": "error",
+   "match": "KeyError",
+   "symptom": "KeyError: 'a'",
+   "fix": "The key does not exist on the first visit. Use d.get(w, 0) + 1."
+  },
+  "variation": {
+   "prompt": "Count the words in 'a b a' and print the count for 'a'.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "2",
+     "label": "prints 2"
+    }
+   ],
+   "solution": "from collections import Counter\nprint(Counter(\"a b a\".split())[\"a\"])"
+  }
+ },
+ "comprehension": {
+  "concept": "A list comprehension builds a list in one line: [x * x for x in xs if x > 0].",
+  "example": {
+   "code": "print([x * x for x in range(5) if x % 2 == 0])",
+   "output": "[0, 4, 16]",
+   "note": "Read it as: x squared, for each x in range, if x is even."
+  },
+  "mistake": {
+   "broken": "print([x * x for x in range(3) if x > 1 else 0])",
+   "kind": "error",
+   "match": "SyntaxError",
+   "symptom": "SyntaxError: invalid syntax (<string>, line 1)",
+   "fix": "The if filter goes at the end with no else. For a choice use x*x if cond else 0 at the front."
+  },
+  "variation": {
+   "prompt": "Print the list of doubles of 1 to 4.",
+   "starter": "",
+   "tests": [
+    {
+     "kind": "stdout",
+     "stdin": [],
+     "expect": "[2, 4, 6, 8]",
+     "label": "prints [2, 4, 6, 8]"
+    }
+   ],
+   "solution": "print([x * 2 for x in range(1, 5)])"
+  }
+ },
+ "treasure-bug": {
+  "concept": "When data goes missing, print what you have at each step. The bug is usually where the value changes unexpectedly.",
+  "example": {
+   "code": "items = [\"map\", \"key\"]\nfound = [i for i in items if i == \"key\"]\nprint(found)",
+   "output": "['key']",
+   "note": "A filter keeps only matching items; if it matches nothing you get []."
+  },
+  "mistake": {
+   "broken": "items = [\"map\", \"key\"]\nprint([i for i in items if i == \"Key\"])",
+   "kind": "output",
+   "match": "[]",
+   "symptom": "[]",
+   "fix": "Case matters. Compare lower() on both sides."
+  }
+ },
+ "def-basics": {
+  "concept": "def names a reusable recipe. return hands a value back; print only shows it.",
+  "example": {
+   "code": "def double(n):\n    return n * 2\nprint(double(4) + 1)",
+   "output": "9",
+   "note": "double(4) is 8, so we can keep calculating."
+  },
+  "mistake": {
+   "broken": "def double(n):\n    print(n * 2)\nprint(double(4) + 1)",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'",
+   "fix": "print shows 8 but returns None, and None + 1 is a TypeError. Use return."
+  },
+  "variation": {
+   "prompt": "Write area(w, h) that returns w times h.",
+   "starter": "def area(w, h):\n    pass\n",
+   "tests": [
+    {
+     "kind": "eval",
+     "expr": "area(3, 4)",
+     "expect": "12",
+     "label": "area(3, 4)"
+    },
+    {
+     "kind": "eval",
+     "expr": "area(0, 9)",
+     "expect": "0",
+     "label": "area(0, 9)"
+    }
+   ],
+   "solution": "def area(w, h):\n    return w * h"
+  }
+ },
+ "args-default": {
+  "concept": "Parameters can have defaults: def hi(name=\"friend\"). Never use a list as a default, it is shared between calls.",
+  "example": {
+   "code": "def hi(name=\"friend\"):\n    return \"Hi \" + name\nprint(hi(), hi(\"Ravi\"))",
+   "output": "Hi friend Hi Ravi",
+   "note": "The default is used when you pass nothing."
+  },
+  "mistake": {
+   "broken": "def add(x, bag=[]):\n    bag.append(x)\n    return bag\nprint(add(1), add(2))",
+   "kind": "output",
+   "match": "[1, 2] [1, 2]",
+   "symptom": "[1, 2] [1, 2]",
+   "fix": "The same list is reused, so the second call also holds 1. Use bag=None and create the list inside."
+  },
+  "variation": {
+   "prompt": "Write hi(name='friend') returning 'Hi ' plus the name.",
+   "starter": "def hi(name='friend'):\n    pass\n",
+   "tests": [
+    {
+     "kind": "eval",
+     "expr": "hi()",
+     "expect": "'Hi friend'",
+     "label": "hi()"
+    },
+    {
+     "kind": "eval",
+     "expr": "hi('Ravi')",
+     "expect": "'Hi Ravi'",
+     "label": "hi('Ravi')"
+    }
+   ],
+   "solution": "def hi(name='friend'):\n    return 'Hi ' + name"
+  }
+ },
+ "return-none": {
+  "concept": "A function without return gives back None. If your result is None, look for a missing return.",
+  "example": {
+   "code": "def f(x):\n    x + 1\nprint(f(1))",
+   "output": "None",
+   "note": "The sum is computed and thrown away."
+  },
+  "mistake": {
+   "broken": "def f(x):\n    x + 1\nprint(f(1) * 2)",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'",
+   "fix": "None * 2 is a TypeError. Add return x + 1."
+  }
+ },
+ "scope": {
+  "concept": "Names made inside a function stay inside it. Pass values in with parameters and out with return.",
+  "example": {
+   "code": "x = 1\ndef f():\n    x = 2\n    return x\nprint(f(), x)",
+   "output": "2 1",
+   "note": "The inner x is a different name, the outer x stays 1."
+  },
+  "mistake": {
+   "broken": "def f():\n    y = 5\nf()\nprint(y)",
+   "kind": "error",
+   "match": "NameError",
+   "symptom": "NameError: name 'y' is not defined",
+   "fix": "y only exists inside f. Return it instead."
+  }
+ },
+ "star-args": {
+  "concept": "*args collects extra positional values into a tuple, **kwargs collects extra named ones into a dict.",
+  "example": {
+   "code": "def show(*a, **k):\n    return a, k\nprint(show(1, 2, x=3))",
+   "output": "((1, 2), {'x': 3})",
+   "note": "Positional extras go to a, named extras to k."
+  },
+  "mistake": {
+   "broken": "def total(*nums):\n    return sum(nums)\nprint(total([1, 2, 3]))",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: unsupported operand type(s) for +: 'int' and 'list'",
+   "fix": "Passing one list makes nums hold a list inside a tuple. Call total(*[1, 2, 3]) or total(1, 2, 3)."
+  },
+  "variation": {
+   "prompt": "Write total(*nums) that returns the sum.",
+   "starter": "def total(*nums):\n    pass\n",
+   "tests": [
+    {
+     "kind": "eval",
+     "expr": "total(1, 2, 3)",
+     "expect": "6",
+     "label": "total(1, 2, 3)"
+    },
+    {
+     "kind": "eval",
+     "expr": "total()",
+     "expect": "0",
+     "label": "total()"
+    }
+   ],
+   "solution": "def total(*nums):\n    return sum(nums)"
+  }
+ },
+ "recursion": {
+  "concept": "A recursive function calls itself on a smaller problem and needs a base case that stops it.",
+  "example": {
+   "code": "def fact(n):\n    if n <= 1:\n        return 1\n    return n * fact(n - 1)\nprint(fact(5))",
+   "output": "120",
+   "note": "fact(5) = 5 * fact(4) = ... down to fact(1)."
+  },
+  "mistake": {
+   "broken": "def fact(n):\n    return n * fact(n - 1)\nfact(3)",
+   "kind": "error",
+   "match": "RecursionError",
+   "symptom": "RecursionError: maximum recursion depth exceeded",
+   "fix": "No base case means it never stops: RecursionError."
+  },
+  "variation": {
+   "prompt": "Write fib(n): fib(0)=0, fib(1)=1, then the sum of the two before.",
+   "starter": "def fib(n):\n    pass\n",
+   "tests": [
+    {
+     "kind": "eval",
+     "expr": "fib(6)",
+     "expect": "8",
+     "label": "fib(6)"
+    },
+    {
+     "kind": "eval",
+     "expr": "fib(1)",
+     "expect": "1",
+     "label": "fib(1)"
+    }
+   ],
+   "solution": "def fib(n):\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)"
+  }
+ },
+ "toolkit": {
+  "concept": "Small helper functions that each do one thing can be combined into bigger tools.",
+  "example": {
+   "code": "def clean(s):\n    return s.strip().lower()\ndef words(s):\n    return clean(s).split()\nprint(words(\"  Hello Parrot \"))",
+   "output": "['hello', 'parrot']",
+   "note": "words reuses clean, so the logic lives in one place."
+  },
+  "mistake": {
+   "broken": "def clean(s):\n    s.strip().lower()\nprint(clean(\" A \").split())",
+   "kind": "error",
+   "match": "AttributeError",
+   "symptom": "AttributeError: 'NoneType' object has no attribute 'split'",
+   "fix": "clean returns None because the return is missing."
+  }
+ },
+ "try-except": {
+  "concept": "try runs risky code; except catches a named error so the program can carry on.",
+  "example": {
+   "code": "try:\n    n = int(\"abc\")\nexcept ValueError:\n    n = 0\nprint(n)",
+   "output": "0",
+   "note": "The bad conversion jumps straight to the except block."
+  },
+  "mistake": {
+   "broken": "n = int(\"abc\")",
+   "kind": "error",
+   "match": "ValueError",
+   "symptom": "ValueError: invalid literal for int() with base 10: 'abc'",
+   "fix": "ValueError stops the program. Wrap the conversion in try/except ValueError."
+  },
+  "variation": {
+   "prompt": "Write safe_int(s) returning the int or 0 if s is not a number.",
+   "starter": "def safe_int(s):\n    pass\n",
+   "tests": [
+    {
+     "kind": "eval",
+     "expr": "safe_int('12')",
+     "expect": "12",
+     "label": "safe_int('12')"
+    },
+    {
+     "kind": "eval",
+     "expr": "safe_int('x')",
+     "expect": "0",
+     "label": "safe_int('x')"
+    }
+   ],
+   "solution": "def safe_int(s):\n    try:\n        return int(s)\n    except ValueError:\n        return 0"
+  }
+ },
+ "finally": {
+  "concept": "finally always runs, error or not. Use it to clean up.",
+  "example": {
+   "code": "try:\n    print(1 / 1)\nfinally:\n    print(\"done\")",
+   "output": "1.0\ndone",
+   "note": "Even on success the finally block runs last."
+  },
+  "mistake": {
+   "broken": "try:\n    print(1 / 0)\nexcept ZeroDivisionError:\n    print(\"oops\")",
+   "kind": "output",
+   "match": "oops",
+   "symptom": "oops",
+   "fix": "Without except the error crashes the program, but finally would still run first."
+  }
+ },
+ "raise": {
+  "concept": "raise stops the function with an error you choose, which is how you reject bad input.",
+  "example": {
+   "code": "def age(n):\n    if n < 0:\n        raise ValueError(\"negative age\")\n    return n\ntry:\n    age(-1)\nexcept ValueError as e:\n    print(e)",
+   "output": "negative age",
+   "note": "The message you wrote comes back in the except block."
+  },
+  "mistake": {
+   "broken": "raise ValueError",
+   "kind": "error",
+   "match": "ValueError",
+   "symptom": "ValueError: ",
+   "fix": "Raise with a helpful message: raise ValueError(\"age must be 0 or more\")."
+  }
+ },
+ "files": {
+  "concept": "Use with open(name, 'w') to write and 'r' to read. with closes the file for you, and read().splitlines() gives the lines.",
+  "example": {
+   "code": "import os, tempfile\np = os.path.join(tempfile.gettempdir(), \"ak_demo.txt\")\nwith open(p, \"w\") as f:\n    f.write(\"a\\nb\\n\")\nwith open(p) as f:\n    print(len(f.read().splitlines()))",
+   "output": "2",
+   "note": "Two lines were written, two lines are read."
+  },
+  "mistake": {
+   "broken": "f = open(\"/nonexistent/x.txt\")",
+   "kind": "error",
+   "match": "FileNotFoundError",
+   "symptom": "FileNotFoundError: [Errno 2] No such file or directory: '/nonexistent/x.txt'",
+   "fix": "FileNotFoundError means the path is wrong. Check the folder and the spelling."
+  }
+ },
+ "csv-data": {
+  "concept": "Split each line on commas to get columns: name, score = line.split(\",\"). Convert numbers with int().",
+  "example": {
+   "code": "line = \"Ravi,42\"\nname, score = line.split(\",\")\nprint(name, int(score) + 1)",
+   "output": "Ravi 43",
+   "note": "Both pieces come out as text, so score needs int()."
+  },
+  "mistake": {
+   "broken": "name, score = \"Ravi,42,x\".split(\",\")",
+   "kind": "error",
+   "match": "ValueError",
+   "symptom": "ValueError: too many values to unpack (expected 2)",
+   "fix": "Three pieces cannot go into two names: ValueError. Check how many columns the line has."
+  }
+ },
+ "json-data": {
+  "concept": "json.dumps turns data into text and json.loads turns it back. Keys come back as strings.",
+  "example": {
+   "code": "import json\ns = json.dumps({\"a\": [1, 2]})\nprint(s, json.loads(s)[\"a\"][1])",
+   "output": "{\"a\": [1, 2]} 2",
+   "note": "A round trip returns the same data."
+  },
+  "mistake": {
+   "broken": "import json\njson.loads(\"{'a': 1}\")",
+   "kind": "error",
+   "match": "JSONDecodeError",
+   "symptom": "JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+   "fix": "JSON needs double quotes. Single quotes are invalid and raise JSONDecodeError."
+  }
+ },
+ "crashing-counter": {
+  "concept": "Crashes often come from assuming input is clean. Guard the risky line instead of the whole program.",
+  "example": {
+   "code": "def ratio(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 0\nprint(ratio(4, 0))",
+   "output": "0",
+   "note": "Only the division is guarded."
+  },
+  "mistake": {
+   "broken": "print(5 / 0)",
+   "kind": "error",
+   "match": "ZeroDivisionError",
+   "symptom": "ZeroDivisionError: division by zero",
+   "fix": "ZeroDivisionError: decide what the answer should be when b is 0."
+  }
+ },
+ "debug-print": {
+  "concept": "To find a bug, print the values at each step and compare them with what you expected.",
+  "example": {
+   "code": "xs = [2, 4, 6]\ntotal = sum(xs)\nprint(\"total\", total, \"count\", len(xs))\nprint(total / len(xs))",
+   "output": "total 12 count 3\n4.0",
+   "note": "Printing both numbers shows the average is 12/3."
+  },
+  "mistake": {
+   "broken": "xs = [2, 4, 6]\nprint(sum(xs) / 2)",
+   "kind": "output",
+   "match": "6.0",
+   "symptom": "6.0",
+   "fix": "The divisor is a typed number, not len(xs). Use len so it works for any list."
+  }
+ },
+ "modules": {
+  "concept": "import gives you tools others wrote. import random, then random.randint(1, 6). Seed it to repeat results.",
+  "example": {
+   "code": "import random\nrandom.seed(7)\nrolls = [random.randint(1, 6) for _ in range(3)]\nprint(all(1 <= r <= 6 for r in rolls))",
+   "output": "True",
+   "note": "Whatever the rolls are, each is between 1 and 6."
+  },
+  "mistake": {
+   "broken": "print(math.sqrt(9))",
+   "kind": "error",
+   "match": "NameError",
+   "symptom": "NameError: name 'math' is not defined",
+   "fix": "NameError: math was never imported. Add import math at the top."
+  }
+ },
+ "shadow": {
+  "concept": "If you name a variable max or list you hide the built-in of that name. Pick other names.",
+  "example": {
+   "code": "nums = [3, 9, 4]\nbiggest = max(nums)\nprint(biggest)",
+   "output": "9",
+   "note": "Using biggest keeps max usable."
+  },
+  "mistake": {
+   "broken": "max = 5\nprint(max([1, 2]))",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: 'int' object is not callable",
+   "fix": "max now holds 5, which cannot be called. Rename the variable."
+  }
+ },
+ "traceback": {
+  "concept": "A traceback reads bottom to top: the last line is the error, the lines above show where it happened.",
+  "example": {
+   "code": "import traceback\ntry:\n    [].pop()\nexcept IndexError:\n    print(traceback.format_exc().strip().splitlines()[-1])",
+   "output": "IndexError: pop from empty list",
+   "note": "The last line names the error and why."
+  },
+  "mistake": {
+   "broken": "[].pop()",
+   "kind": "error",
+   "match": "IndexError",
+   "symptom": "IndexError: pop from empty list",
+   "fix": "IndexError: pop from empty list. Check that the list has items first."
+  }
+ },
+ "dates": {
+  "concept": "datetime.date does calendar maths: subtracting two dates gives a timedelta with .days.",
+  "example": {
+   "code": "from datetime import date\nprint((date(2026, 3, 1) - date(2026, 2, 1)).days)",
+   "output": "28",
+   "note": "February 2026 has 28 days."
+  },
+  "mistake": {
+   "broken": "from datetime import date\nprint(date(2026, 2, 30))",
+   "kind": "error",
+   "match": "ValueError",
+   "symptom": "ValueError: day is out of range for month",
+   "fix": "That date does not exist: ValueError. Check the month length."
+  }
+ },
+ "class-basics": {
+  "concept": "A class bundles data and actions. __init__ sets up each new object and self means 'this object'.",
+  "example": {
+   "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n    def bark(self):\n        return self.name + \" says woof\"\nprint(Dog(\"Rex\").bark())",
+   "output": "Rex says woof",
+   "note": "Each Dog remembers its own name through self."
+  },
+  "mistake": {
+   "broken": "class Dog:\n    def __init__(self, name):\n        name = name\nprint(Dog(\"Rex\").name)",
+   "kind": "error",
+   "match": "AttributeError",
+   "symptom": "AttributeError: 'Dog' object has no attribute 'name'",
+   "fix": "Without self.name the value is thrown away. Write self.name = name."
+  },
+  "variation": {
+   "prompt": "Write class Box with a count attribute set to 0.",
+   "starter": "class Box:\n    pass\n",
+   "tests": [
+    {
+     "kind": "eval",
+     "expr": "Box().count",
+     "expect": "0",
+     "label": "Box().count"
+    }
+   ],
+   "solution": "class Box:\n    def __init__(self):\n        self.count = 0"
+  }
+ },
+ "class-shared": {
+  "concept": "A value defined on the class is shared by every object; a value set on self belongs to one object.",
+  "example": {
+   "code": "class A:\n    items = []\na, b = A(), A()\na.items.append(1)\nprint(b.items)",
+   "output": "[1]",
+   "note": "Both objects use the same list."
+  },
+  "mistake": {
+   "broken": "class A:\n    items = []\na, b = A(), A()\na.items.append(1)\nprint(len(b.items))",
+   "kind": "output",
+   "match": "1",
+   "symptom": "1",
+   "fix": "Put the list in __init__ as self.items = [] so each object has its own."
+  }
+ },
+ "inherit": {
+  "concept": "A child class gets everything from its parent. super() calls the parent's version so you can extend it.",
+  "example": {
+   "code": "class Pet:\n    def speak(self):\n        return \"...\"\nclass Cat(Pet):\n    def speak(self):\n        return super().speak() + \"meow\"\nprint(Cat().speak())",
+   "output": "...meow",
+   "note": "Cat reuses Pet and adds to it."
+  },
+  "mistake": {
+   "broken": "class Pet:\n    def __init__(self, n):\n        self.n = n\nclass Cat(Pet):\n    def __init__(self):\n        pass\nprint(Cat().n)",
+   "kind": "error",
+   "match": "AttributeError",
+   "symptom": "AttributeError: 'Cat' object has no attribute 'n'",
+   "fix": "Cat.__init__ forgot to call super().__init__(n), so n was never set."
+  }
+ },
+ "dunder": {
+  "concept": "Special methods like __str__ and __eq__ let your objects work with print and ==.",
+  "example": {
+   "code": "class P:\n    def __init__(self, x):\n        self.x = x\n    def __str__(self):\n        return f\"P({self.x})\"\nprint(P(3))",
+   "output": "P(3)",
+   "note": "print calls __str__ to get the text."
+  },
+  "mistake": {
+   "broken": "class P:\n    def __init__(self, x):\n        self.x = x\nprint(P(3).x, P(3) == P(3))",
+   "kind": "output",
+   "match": "3 False",
+   "symptom": "3 False",
+   "fix": "Two separate objects are never equal unless you define __eq__."
+  }
+ },
+ "typehints": {
+  "concept": "Type hints like def f(n: int) -> str document what goes in and out. Python does not enforce them, but tools and readers love them.",
+  "example": {
+   "code": "def label(n: int) -> str:\n    return f\"#{n}\"\nprint(label(4))",
+   "output": "#4",
+   "note": "The hints say: takes an int, returns a str."
+  },
+  "mistake": {
+   "broken": "def label(n: int) -> str:\n    return n\nprint(type(label(4)).__name__)",
+   "kind": "output",
+   "match": "int",
+   "symptom": "int",
+   "fix": "The hint says str but we returned an int. Hints are promises you must keep yourself."
+  }
+ },
+ "early-return": {
+  "concept": "Guard clauses return early for bad cases so the main logic stays flat and readable.",
+  "example": {
+   "code": "def grade(n):\n    if n < 0:\n        return \"invalid\"\n    return \"pass\" if n >= 40 else \"fail\"\nprint(grade(-1), grade(50))",
+   "output": "invalid pass",
+   "note": "The special case leaves first."
+  },
+  "mistake": {
+   "broken": "def pick(n):\n    if n > 0:\n        return \"pos\"\nprint(pick(-1))",
+   "kind": "output",
+   "match": "None",
+   "symptom": "None",
+   "fix": "If no branch returns, the function falls off the end and gives None."
+  }
+ },
+ "mutable-arg": {
+  "concept": "A function that changes the list you pass in changes your original. Return a new list when you can.",
+  "example": {
+   "code": "def add(xs):\n    return xs + [9]\na = [1]\nprint(add(a), a)",
+   "output": "[1, 9] [1]",
+   "note": "xs + [9] makes a new list, so a is untouched."
+  },
+  "mistake": {
+   "broken": "def add(xs):\n    xs.append(9)\na = [1]\nadd(a)\nprint(a)",
+   "kind": "output",
+   "match": "[1, 9]",
+   "symptom": "[1, 9]",
+   "fix": "append changed the caller's list. Copy first or return a new one."
+  }
+ },
+ "clean-code": {
+  "concept": "Clean code uses clear names, one job per function, a docstring, and assert for quick self-checks.",
+  "example": {
+   "code": "def area(w, h):\n    \"\"\"Return the area of a rectangle.\"\"\"\n    return w * h\nassert area(2, 3) == 6\nprint(\"ok\")",
+   "output": "ok",
+   "note": "If the assert were wrong the program would stop with AssertionError."
+  },
+  "mistake": {
+   "broken": "def f(a, b):\n    return a * b\nassert f(2, 3) == 5",
+   "kind": "error",
+   "match": "AssertionError",
+   "symptom": "AssertionError: ",
+   "fix": "A failing assert shows that your belief is wrong. Fix the code or the expectation."
+  }
+ },
+ "big-o": {
+  "concept": "Count how many steps grow with the input: one loop is about n steps, a loop in a loop about n times n.",
+  "example": {
+   "code": "n = 4\nsteps = 0\nfor i in range(n):\n    for j in range(n):\n        steps += 1\nprint(steps)",
+   "output": "16",
+   "note": "4 by 4 gives 16 steps."
+  },
+  "mistake": {
+   "broken": "xs = list(range(5))\nprint(sum(1 for a in xs for b in xs))",
+   "kind": "output",
+   "match": "25",
+   "symptom": "25",
+   "fix": "Doubling n quadruples this count, which is why nested loops get slow."
+  }
+ },
+ "search": {
+  "concept": "Linear search checks every item. Binary search needs a sorted list and halves the range each time.",
+  "example": {
+   "code": "xs = [1, 3, 5, 7, 9]\nlo, hi = 0, len(xs) - 1\nwhile lo <= hi:\n    mid = (lo + hi) // 2\n    if xs[mid] == 7:\n        print(\"found at\", mid)\n        break\n    elif xs[mid] < 7:\n        lo = mid + 1\n    else:\n        hi = mid - 1",
+   "output": "found at 3",
+   "note": "Each round throws away half of the list."
+  },
+  "mistake": {
+   "broken": "xs = [1, 3, 5]\nlo, hi = 0, 2\nwhile lo < hi:\n    lo = lo\n    break\nprint(\"never moved\")",
+   "kind": "output",
+   "match": "never moved",
+   "symptom": "never moved",
+   "fix": "If lo and hi never change the search loops forever or ends wrong. Always move one bound."
+  }
+ },
+ "pairs": {
+  "concept": "Sorting two words makes anagrams equal; a dict or set remembers what you have seen so a pair can be found in one pass.",
+  "example": {
+   "code": "print(sorted(\"listen\") == sorted(\"silent\"))\nseen = set()\nfor n in [2, 7, 11]:\n    if 9 - n in seen:\n        print(\"pair\", 9 - n, n)\n    seen.add(n)",
+   "output": "True\npair 2 7",
+   "note": "Both tricks avoid comparing everything with everything."
+  },
+  "mistake": {
+   "broken": "print(\"Listen\" == \"Silent\", sorted(\"Listen\") == sorted(\"Silent\"))",
+   "kind": "output",
+   "match": "False False",
+   "symptom": "False False",
+   "fix": "Capital letters sort before lowercase. Use .lower() before comparing."
+  }
+ },
+ "cli": {
+  "concept": "argparse turns command line words into variables with --flags and help text.",
+  "example": {
+   "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--n\", type=int, default=1)\nprint(p.parse_args([\"--n\", \"3\"]).n)",
+   "output": "3",
+   "note": "The type= converts the text to a number."
+  },
+  "mistake": {
+   "broken": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--n\")\nprint(p.parse_args([\"--n\", \"3\"]).n + 1)",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: can only concatenate str (not \"int\") to str",
+   "fix": "Without type=int the value stays text, so adding 1 fails. Add type=int."
+  }
+ },
+ "pipeline": {
+  "concept": "A log pipeline reads lines, filters them, then counts: each stage does one small thing.",
+  "example": {
+   "code": "lines = [\"ok a\", \"ERR b\", \"ok c\", \"ERR d\"]\nerrs = [l for l in lines if l.startswith(\"ERR\")]\nprint(len(errs))",
+   "output": "2",
+   "note": "Filter first, then count."
+  },
+  "mistake": {
+   "broken": "lines = [\"ok a\", \"err b\"]\nprint(len([l for l in lines if l.startswith(\"ERR\")]))",
+   "kind": "output",
+   "match": "0",
+   "symptom": "0",
+   "fix": "Case matters: 'err' does not match 'ERR'. Normalise with .upper() first."
+  }
+ },
+ "html-scrape": {
+  "concept": "HTML is text with tags. To scrape, find the tag text between markers, then convert it to the type you need.",
+  "example": {
+   "code": "html = \"<b>Rs 42</b>\"\nprice = int(html.split(\"Rs \")[1].split(\"<\")[0])\nprint(price + 1)",
+   "output": "43",
+   "note": "Two splits isolate the number, int() makes it a number."
+  },
+  "mistake": {
+   "broken": "html = \"<b>Rs 42</b>\"\nprint(html.split(\"Rs \")[1] + 1)",
+   "kind": "error",
+   "match": "TypeError",
+   "symptom": "TypeError: can only concatenate str (not \"int\") to str",
+   "fix": "The piece still has '</b>' and is text, so + 1 fails. Cut at '<' and use int()."
+  }
+ },
+ "regex": {
+  "concept": "A regular expression describes a text pattern. re.findall returns every match: \\d+ means one or more digits.",
+  "example": {
+   "code": "import re\nprint(re.findall(r\"\\d+\", \"a1 b22 c333\"))",
+   "output": "['1', '22', '333']",
+   "note": "Each run of digits is one match."
+  },
+  "mistake": {
+   "broken": "import re\nprint(re.findall(r\"\\d\", \"a1 b22\"))",
+   "kind": "output",
+   "match": "['1', '2', '2']",
+   "symptom": "['1', '2', '2']",
+   "fix": "A single \\d matches one digit at a time. Add + to match a whole run of digits: \\d+."
+  }
+ },
+ "api-json": {
+  "concept": "An API reply is JSON text: parse it, then pick keys. Guard for missing keys with .get().",
+  "example": {
+   "code": "import json\nd = json.loads('{\"temp\": 31, \"city\": \"Hyd\"}')\nprint(d[\"city\"], d.get(\"rain\", 0))",
+   "output": "Hyd 0",
+   "note": "get supplies a default when the key is absent."
+  },
+  "mistake": {
+   "broken": "import json\nd = json.loads('{\"temp\": 31}')\nprint(d[\"rain\"])",
+   "kind": "error",
+   "match": "KeyError",
+   "symptom": "KeyError: 'rain'",
+   "fix": "A missing key is a KeyError. Use d.get(\"rain\", 0)."
+  }
+ }
+}

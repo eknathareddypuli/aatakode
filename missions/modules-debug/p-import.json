@@ -41,5 +41,6 @@
   "requires": [
     "fe-boss"
   ],
-  "solution": "4.0 2 3"
+  "solution": "4.0 2 3",
+  "learn": "modules"
 }

@@ -32,5 +32,6 @@
   "requires": [
     "w-area"
   ],
-  "solution": "def double(n):\n    return n * 2\n\nprint(double(4))\n"
+  "solution": "def double(n):\n    return n * 2\n\nprint(double(4))\n",
+  "learn": "def-basics"
 }

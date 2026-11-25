@@ -40,5 +40,6 @@
   "requires": [
     "f-dict"
   ],
-  "solution": "3 True"
+  "solution": "3 True",
+  "learn": "sets"
 }

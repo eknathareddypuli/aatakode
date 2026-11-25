@@ -40,5 +40,6 @@
   "requires": [
     "w-even-odd"
   ],
-  "solution": "True\nFalse\nTrue"
+  "solution": "True\nFalse\nTrue",
+  "learn": "bool-compare"
 }

@@ -48,5 +48,6 @@
     "p-import"
   ],
   "solution": "import random\n\n\ndef roll(sides=6):\n    return random.randint(1, sides)\n",
-  "alt": "import random\n\n\ndef roll(sides=6):\n    return random.choice(range(1, sides + 1))\n"
+  "alt": "import random\n\n\ndef roll(sides=6):\n    return random.choice(range(1, sides + 1))\n",
+  "learn": "modules"
 }

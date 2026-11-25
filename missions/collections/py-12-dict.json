@@ -67,5 +67,6 @@
     "blanks": [
       "points = int(input())"
     ]
-  }
+  },
+  "learn": "dict-basics"
 }

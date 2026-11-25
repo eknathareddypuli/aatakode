@@ -41,5 +41,6 @@
   ],
   "solution": "items = [\"gem\", \"coin\", \"key\"]\nfor i in range(len(items)):\n    print(i + 1, items[i])\nprint(\"Total:\", len(items))\n",
   "alt": "items = [\"gem\", \"coin\", \"key\"]\nfor number, item in enumerate(items, 1):\n    print(number, item)\nprint(\"Total:\", len(items))\n",
-  "boss": true
+  "boss": true,
+  "learn": "treasure-bug"
 }

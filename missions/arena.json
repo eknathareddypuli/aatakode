@@ -1,0 +1,101 @@
+{
+ "starter": "def play(state):\n    # state[\"me\"], state[\"foe\"] are [x, y]; state[\"seeds\"] is a list of [x, y]\n    # return \"N\", \"E\", \"S\", \"W\" or \"STAY\"\n    return \"STAY\"\n",
+ "size": 11,
+ "turns": 40,
+ "every": 2,
+ "start_seeds": 4,
+ "leagues": [
+  {
+   "id": "wood",
+   "name": "Wood",
+   "opp": "Wanderer",
+   "blurb": "The opponent walks at random. Go and get the seeds.",
+   "opp_code": "import random\ndef play(state):\n    rng = random.Random(state[\"turn\"] * 31 + state[\"me\"][0] * 7 + state[\"me\"][1])\n    return rng.choice([\"N\", \"E\", \"S\", \"W\", \"STAY\"])\n",
+   "walls": 0,
+   "need": 4,
+   "ref": "def play(state):\n    x, y = state[\"me\"]\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    sx, sy = min(state[\"seeds\"], key=lambda s: abs(s[0]-x) + abs(s[1]-y))\n    if sx > x: return \"E\"\n    if sx < x: return \"W\"\n    if sy > y: return \"S\"\n    if sy < y: return \"N\"\n    return \"STAY\"\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  },
+  {
+   "id": "bronze",
+   "name": "Bronze",
+   "opp": "List Follower",
+   "blurb": "The opponent always chases the first seed in the list, near or far. Choose better.",
+   "opp_code": "def play(state):\n    x, y = state[\"me\"]\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    sx, sy = state[\"seeds\"][0]\n    if sx > x: return \"E\"\n    if sx < x: return \"W\"\n    if sy > y: return \"S\"\n    if sy < y: return \"N\"\n    return \"STAY\"\n",
+   "walls": 0,
+   "need": 4,
+   "ref": "def play(state):\n    x, y = state[\"me\"]\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    sx, sy = min(state[\"seeds\"], key=lambda s: abs(s[0]-x) + abs(s[1]-y))\n    if sx > x: return \"E\"\n    if sx < x: return \"W\"\n    if sy > y: return \"S\"\n    if sy < y: return \"N\"\n    return \"STAY\"\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  },
+  {
+   "id": "silver",
+   "name": "Silver",
+   "opp": "Greedy Gopher",
+   "blurb": "Walls appear. The opponent heads for the nearest seed as the crow flies and gets stuck on walls. Plan a real path.",
+   "opp_code": "def play(state):\n    x, y = state[\"me\"]\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    sx, sy = min(state[\"seeds\"], key=lambda s: abs(s[0]-x) + abs(s[1]-y))\n    if sx > x: return \"E\"\n    if sx < x: return \"W\"\n    if sy > y: return \"S\"\n    if sy < y: return \"N\"\n    return \"STAY\"\n",
+   "walls": 8,
+   "need": 4,
+   "ref": "def bfs(state, start):\n    size = state[\"size\"]\n    walls = set(map(tuple, state[\"walls\"]))\n    dist = {tuple(start): (0, \"STAY\")}\n    todo = [tuple(start)]\n    while todo:\n        nxt = []\n        for (x, y) in todo:\n            for d, (dx, dy) in ((\"N\", (0, -1)), (\"E\", (1, 0)), (\"S\", (0, 1)), (\"W\", (-1, 0))):\n                n = (x + dx, y + dy)\n                if 0 <= n[0] < size and 0 <= n[1] < size and n not in walls and n not in dist:\n                    dist[n] = (dist[(x, y)][0] + 1, d if (x, y) == tuple(start) else dist[(x, y)][1])\n                    nxt.append(n)\n        todo = nxt\n    return dist\n\ndef play(state):\n    me = bfs(state, state[\"me\"])\n    c = [(me[tuple(s)][0], me[tuple(s)][1]) for s in state[\"seeds\"] if tuple(s) in me]\n    return min(c)[1] if c else \"STAY\"\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  },
+  {
+   "id": "gold",
+   "name": "Gold",
+   "opp": "Path Finder",
+   "blurb": "The opponent finds real paths around walls. Win the races it cannot win.",
+   "opp_code": "def bfs(state, start):\n    size = state[\"size\"]\n    walls = set(map(tuple, state[\"walls\"]))\n    dist = {tuple(start): (0, \"STAY\")}\n    todo = [tuple(start)]\n    while todo:\n        nxt = []\n        for (x, y) in todo:\n            for d, (dx, dy) in ((\"N\", (0, -1)), (\"E\", (1, 0)), (\"S\", (0, 1)), (\"W\", (-1, 0))):\n                n = (x + dx, y + dy)\n                if 0 <= n[0] < size and 0 <= n[1] < size and n not in walls and n not in dist:\n                    dist[n] = (dist[(x, y)][0] + 1, d if (x, y) == tuple(start) else dist[(x, y)][1])\n                    nxt.append(n)\n        todo = nxt\n    return dist\n\ndef play(state):\n    me = bfs(state, state[\"me\"])\n    c = [(me[tuple(s)][0], me[tuple(s)][1]) for s in state[\"seeds\"] if tuple(s) in me]\n    return min(c)[1] if c else \"STAY\"\n",
+   "walls": 8,
+   "need": 4,
+   "ref": "def bfs(state, start):\n    size = state[\"size\"]\n    walls = set(map(tuple, state[\"walls\"]))\n    dist = {tuple(start): (0, \"STAY\")}\n    todo = [tuple(start)]\n    while todo:\n        nxt = []\n        for (x, y) in todo:\n            for d, (dx, dy) in ((\"N\", (0, -1)), (\"E\", (1, 0)), (\"S\", (0, 1)), (\"W\", (-1, 0))):\n                n = (x + dx, y + dy)\n                if 0 <= n[0] < size and 0 <= n[1] < size and n not in walls and n not in dist:\n                    dist[n] = (dist[(x, y)][0] + 1, d if (x, y) == tuple(start) else dist[(x, y)][1])\n                    nxt.append(n)\n        todo = nxt\n    return dist\n\ndef play(state):\n    me = bfs(state, state[\"me\"])\n    foe = bfs(state, state[\"foe\"])\n    best = None\n    for s in map(tuple, state[\"seeds\"]):\n        if s not in me:\n            continue\n        a = me[s][0]\n        b = foe.get(s, (99, \"\"))[0]\n        value = -a + 0.5 * (b - a)\n        if best is None or value > best[0]:\n            best = (value, me[s][1])\n    return best[1] if best else \"STAY\"\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  },
+  {
+   "id": "legend",
+   "name": "Legend",
+   "opp": "The Grandmaster",
+   "blurb": "The opponent weighs distance and denial. Out-think it. Three wins of five is enough.",
+   "opp_code": "def bfs(state, start):\n    size = state[\"size\"]\n    walls = set(map(tuple, state[\"walls\"]))\n    dist = {tuple(start): (0, \"STAY\")}\n    todo = [tuple(start)]\n    while todo:\n        nxt = []\n        for (x, y) in todo:\n            for d, (dx, dy) in ((\"N\", (0, -1)), (\"E\", (1, 0)), (\"S\", (0, 1)), (\"W\", (-1, 0))):\n                n = (x + dx, y + dy)\n                if 0 <= n[0] < size and 0 <= n[1] < size and n not in walls and n not in dist:\n                    dist[n] = (dist[(x, y)][0] + 1, d if (x, y) == tuple(start) else dist[(x, y)][1])\n                    nxt.append(n)\n        todo = nxt\n    return dist\n\ndef play(state):\n    me = bfs(state, state[\"me\"])\n    foe = bfs(state, state[\"foe\"])\n    best = None\n    for s in map(tuple, state[\"seeds\"]):\n        if s not in me:\n            continue\n        a = me[s][0]\n        b = foe.get(s, (99, \"\"))[0]\n        value = -a + 0.5 * (b - a)\n        if best is None or value > best[0]:\n            best = (value, me[s][1])\n    return best[1] if best else \"STAY\"\n",
+   "walls": 10,
+   "need": 3,
+   "ref": "def bfs(state, start):\n    size = state[\"size\"]\n    walls = set(map(tuple, state[\"walls\"]))\n    dist = {tuple(start): (0, \"STAY\")}\n    todo = [tuple(start)]\n    while todo:\n        nxt = []\n        for (x, y) in todo:\n            for d, (dx, dy) in ((\"N\", (0, -1)), (\"E\", (1, 0)), (\"S\", (0, 1)), (\"W\", (-1, 0))):\n                n = (x + dx, y + dy)\n                if 0 <= n[0] < size and 0 <= n[1] < size and n not in walls and n not in dist:\n                    dist[n] = (dist[(x, y)][0] + 1, d if (x, y) == tuple(start) else dist[(x, y)][1])\n                    nxt.append(n)\n        todo = nxt\n    return dist\n\ndef play(state):\n    me = bfs(state, state[\"me\"])\n    foe = bfs(state, state[\"foe\"])\n    best = None\n    for s in map(tuple, state[\"seeds\"]):\n        if s not in me:\n            continue\n        a = me[s][0]\n        b = foe.get(s, (99, \"\"))[0]\n        value = -a + 0.25 * (b - a)\n        if best is None or value > best[0]:\n            best = (value, me[s][1])\n    return best[1] if best else \"STAY\"\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  }
+ ],
+ "rules": [
+  "Board is 11x11. You start top-left, the opponent bottom-right; the walls are mirrored and you swap sides in alternate matches, so it is fair.",
+  "Each turn both bots move one step at the same time: N, E, S, W or STAY.",
+  "Stepping onto a seed collects it (+1). If both want the same cell, both bounce back. Seeds are shared: every seed is a race.",
+  "A new seed appears at a random cell every 2 turns. The match lasts 40 turns.",
+  "Win a league by taking enough of 5 fixed matches (see each league). Replay any match by its seed."
+ ]
+}

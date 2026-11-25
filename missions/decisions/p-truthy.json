@@ -40,5 +40,6 @@
   "requires": [
     "f-bool"
   ],
-  "solution": "empty\nzero is truthy"
+  "solution": "empty\nzero is truthy",
+  "learn": "truthy"
 }

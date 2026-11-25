@@ -189,6 +189,16 @@
    "story": "The control room watches the whole village. Use Python to read logs, parse data and build command-line tools."
   },
   {
+   "id": "read-code",
+   "track": "python",
+   "title": "Code Reading Hut",
+   "title_te": "కోడ్ చదివే గుడిసె",
+   "blurb": "Read real-style snippets. Predict, spot the bug, explain the purpose.",
+   "icon": "📖",
+   "place": "The Reading Hut",
+   "story": "Chilaka's grandmother says: before you write a story, read many. Today you only read code and decide what is true."
+  },
+  {
    "id": "debug-the-outage",
    "track": "ops",
    "title": "Debug the Outage",

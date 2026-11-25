@@ -40,5 +40,6 @@
   "requires": [
     "py-14-def"
   ],
-  "solution": "10"
+  "solution": "10",
+  "learn": "scope"
 }

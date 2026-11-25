@@ -48,5 +48,6 @@
     "p-shadow"
   ],
   "solution": "from collections import defaultdict\n\n\ndef group_by_length(words):\n    groups = defaultdict(list)\n    for w in words:\n        groups[len(w)].append(w)\n    return dict(groups)\n",
-  "alt": "def group_by_length(words):\n    groups = {}\n    for w in words:\n        if len(w) not in groups:\n            groups[len(w)] = []\n        groups[len(w)].append(w)\n    return groups\n"
+  "alt": "def group_by_length(words):\n    groups = {}\n    for w in words:\n        if len(w) not in groups:\n            groups[len(w)] = []\n        groups[len(w)].append(w)\n    return groups\n",
+  "learn": "counting"
 }

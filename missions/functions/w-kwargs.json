@@ -48,5 +48,6 @@
     "py-15-args"
   ],
   "solution": "def greet(name, greeting=\"Hello\", punctuation=\"!\"):\n    return f\"{greeting}, {name}{punctuation}\"\n",
-  "alt": "def greet(name, greeting=\"Hello\", punctuation=\"!\"):\n    return greeting + \", \" + name + punctuation\n"
+  "alt": "def greet(name, greeting=\"Hello\", punctuation=\"!\"):\n    return greeting + \", \" + name + punctuation\n",
+  "learn": "star-args"
 }

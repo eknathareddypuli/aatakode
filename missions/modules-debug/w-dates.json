@@ -47,5 +47,6 @@
     "w-dice"
   ],
   "solution": "from datetime import date\n\n\ndef days_until(start, end):\n    return (date.fromisoformat(end) - date.fromisoformat(start)).days\n",
-  "alt": "from datetime import datetime\n\n\ndef days_until(start, end):\n    a = datetime.strptime(start, \"%Y-%m-%d\")\n    b = datetime.strptime(end, \"%Y-%m-%d\")\n    return (b - a).days\n"
+  "alt": "from datetime import datetime\n\n\ndef days_until(start, end):\n    a = datetime.strptime(start, \"%Y-%m-%d\")\n    b = datetime.strptime(end, \"%Y-%m-%d\")\n    return (b - a).days\n",
+  "learn": "dates"
 }

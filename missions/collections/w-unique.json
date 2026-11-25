@@ -54,5 +54,6 @@
     "w-word-count"
   ],
   "solution": "line = input()\nnumbers = [int(x) for x in line.split(\",\")]\nprint(sorted(set(numbers)))\n",
-  "alt": "line = input()\nseen = []\nfor x in line.split(\",\"):\n    n = int(x)\n    if n not in seen:\n        seen.append(n)\nseen.sort()\nprint(seen)\n"
+  "alt": "line = input()\nseen = []\nfor x in line.split(\",\"):\n    n = int(x)\n    if n not in seen:\n        seen.append(n)\nseen.sort()\nprint(seen)\n",
+  "learn": "sets"
 }

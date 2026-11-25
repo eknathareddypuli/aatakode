@@ -97,5 +97,6 @@
     "blanks": [
       "print(\"B\")"
     ]
-  }
+  },
+  "learn": "elif-chain"
 }

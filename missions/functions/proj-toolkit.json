@@ -73,5 +73,6 @@
   ],
   "solution": "def word_count(text):\n    return len(text.split())\n\n\ndef longest_word(text):\n    best = \"\"\n    for w in text.split():\n        if len(w) > len(best):\n            best = w\n    return best\n\n\ndef is_palindrome(text):\n    clean = text.replace(\" \", \"\").lower()\n    return clean == clean[::-1]\n",
   "alt": "def word_count(text):\n    return len(text.split())\n\n\ndef longest_word(text):\n    words = text.split()\n    return max(words, key=len) if words else \"\"\n\n\ndef is_palindrome(text):\n    t = \"\".join(text.lower().split())\n    return t == t[::-1]\n",
-  "project": true
+  "project": true,
+  "learn": "toolkit"
 }

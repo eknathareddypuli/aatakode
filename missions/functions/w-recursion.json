@@ -57,5 +57,6 @@
         "pattern": "fact\\(\\s*n\\s*-\\s*1\\s*\\)"
       }
     ]
-  }
+  },
+  "learn": "recursion"
 }

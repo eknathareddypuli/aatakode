@@ -40,5 +40,6 @@
   "requires": [
     "w-star-args"
   ],
-  "solution": "def square(n):\n    return n * n\ndef cube(n):\n    return n * square(n)\nprint(cube(3))\n"
+  "solution": "def square(n):\n    return n * n\ndef cube(n):\n    return n * square(n)\nprint(cube(3))\n",
+  "learn": "def-basics"
 }

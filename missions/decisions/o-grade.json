@@ -70,5 +70,6 @@
   "requires": [
     "p-elif-chain"
   ],
-  "solution": "mark = int(input())\nif mark >= 90:\n    print(\"A\")\nelif mark >= 75:\n    print(\"B\")\nelse:\n    print(\"C\")\n"
+  "solution": "mark = int(input())\nif mark >= 90:\n    print(\"A\")\nelif mark >= 75:\n    print(\"B\")\nelse:\n    print(\"C\")\n",
+  "learn": "elif-chain"
 }

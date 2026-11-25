@@ -55,5 +55,6 @@
   ],
   "solution": "from datetime import date\n\n\ndef age_in_years(born, today):\n    b = date.fromisoformat(born)\n    t = date.fromisoformat(today)\n    years = t.year - b.year\n    if (t.month, t.day) < (b.month, b.day):\n        years -= 1\n    return years\n",
   "alt": "from datetime import date\n\n\ndef age_in_years(born, today):\n    b = date.fromisoformat(born)\n    t = date.fromisoformat(today)\n    had_birthday = (t.month, t.day) >= (b.month, b.day)\n    return t.year - b.year - (0 if had_birthday else 1)\n",
-  "boss": true
+  "boss": true,
+  "learn": "traceback"
 }

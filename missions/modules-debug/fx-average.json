@@ -48,5 +48,6 @@
     "f-debug-print"
   ],
   "solution": "def average(nums):\n    total = 0\n    for i in range(len(nums)):\n        total += nums[i]\n    return total / len(nums)\n",
-  "alt": "def average(nums):\n    return sum(nums) / len(nums)\n"
+  "alt": "def average(nums):\n    return sum(nums) / len(nums)\n",
+  "learn": "debug-print"
 }

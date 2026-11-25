@@ -73,5 +73,6 @@
     "blanks": [
       "print(\"even\")"
     ]
-  }
+  },
+  "learn": "ifelse"
 }

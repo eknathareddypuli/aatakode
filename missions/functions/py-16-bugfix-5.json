@@ -55,5 +55,6 @@
   ],
   "solution": "def average(numbers):\n    if len(numbers) == 0:\n        return 0\n    total = 0\n    for n in numbers:\n        total += n\n    return total / len(numbers)\n",
   "alt": "def average(numbers):\n    return sum(numbers) / len(numbers) if numbers else 0\n",
-  "boss": true
+  "boss": true,
+  "learn": "return-none"
 }

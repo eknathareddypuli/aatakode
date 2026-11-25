@@ -40,5 +40,6 @@
   "requires": [
     "w-unique"
   ],
-  "solution": "{'a': 10, 'b': 20}"
+  "solution": "{'a': 10, 'b': 20}",
+  "learn": "dict-iter"
 }

@@ -47,5 +47,6 @@
     "p-default"
   ],
   "solution": "def total(*nums):\n    return sum(nums)\n",
-  "alt": "def total(*nums):\n    result = 0\n    for n in nums:\n        result += n\n    return result\n"
+  "alt": "def total(*nums):\n    result = 0\n    for n in nums:\n        result += n\n    return result\n",
+  "learn": "star-args"
 }

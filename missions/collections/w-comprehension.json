@@ -44,5 +44,6 @@
         "pattern": "\\[[^\\]]+\\bfor\\b[^\\]]+\\]"
       }
     ]
-  }
+  },
+  "learn": "comprehension"
 }

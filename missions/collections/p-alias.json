@@ -41,5 +41,6 @@
   "requires": [
     "w-list-ops"
   ],
-  "solution": "[1, 2, 3]"
+  "solution": "[1, 2, 3]",
+  "learn": "alias"
 }

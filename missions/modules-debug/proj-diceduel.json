@@ -67,5 +67,6 @@
   ],
   "solution": "import random\n\n\ndef roll_many(n, sides=6):\n    return [random.randint(1, sides) for _ in range(n)]\n\n\ndef play(rolls_a, rolls_b):\n    a, b = sum(rolls_a), sum(rolls_b)\n    if a > b:\n        return \"A\"\n    if b > a:\n        return \"B\"\n    return \"draw\"\n",
   "alt": "import random\n\n\ndef roll_many(n, sides=6):\n    rolls = []\n    for _ in range(n):\n        rolls.append(random.randint(1, sides))\n    return rolls\n\n\ndef play(rolls_a, rolls_b):\n    diff = sum(rolls_a) - sum(rolls_b)\n    return \"A\" if diff > 0 else \"B\" if diff < 0 else \"draw\"\n",
-  "project": true
+  "project": true,
+  "learn": "modules"
 }

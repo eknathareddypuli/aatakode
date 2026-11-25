@@ -47,5 +47,6 @@
     "w-dates"
   ],
   "solution": "from collections import Counter\n\n\ndef most_common(words):\n    return Counter(words).most_common(1)[0][0]\n",
-  "alt": "def most_common(words):\n    best = None\n    best_count = 0\n    for w in set(words):\n        if words.count(w) > best_count:\n            best, best_count = w, words.count(w)\n    return best\n"
+  "alt": "def most_common(words):\n    best = None\n    best_count = 0\n    for w in set(words):\n        if words.count(w) > best_count:\n            best, best_count = w, words.count(w)\n    return best\n",
+  "learn": "counting"
 }

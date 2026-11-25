@@ -71,5 +71,6 @@
   ],
   "solution": "coins = int(input())\nif coins == 10:\n    print(\"Exact change\")\nelif coins > 10:\n    print(\"Overpaid\")\nelse:\n    print(\"Not enough\")\n",
   "alt": "coins = int(input())\nif coins < 10:\n    print(\"Not enough\")\nelif coins == 10:\n    print(\"Exact change\")\nelse:\n    print(\"Overpaid\")\n",
-  "boss": true
+  "boss": true,
+  "learn": "wrong-door"
 }

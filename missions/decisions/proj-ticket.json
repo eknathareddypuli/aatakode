@@ -86,5 +86,6 @@
   ],
   "solution": "age = int(input())\nday = input()\nif age < 5:\n    price = 0\nelif age <= 12 or age >= 60:\n    price = 80\nelse:\n    price = 150\nif day in (\"sat\", \"sun\") and price > 0:\n    price += 20\nprint(price)\n",
   "alt": "age = int(input())\nday = input()\nif age < 5:\n    price = 0\nelse:\n    price = 80 if (age <= 12 or age >= 60) else 150\n    if day == \"sat\" or day == \"sun\":\n        price = price + 20\nprint(price)\n",
-  "project": true
+  "project": true,
+  "learn": "modulo-logic"
 }

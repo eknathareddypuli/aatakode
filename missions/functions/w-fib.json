@@ -65,5 +65,6 @@
     "blanks": [
       "a, b = b, a + b"
     ]
-  }
+  },
+  "learn": "recursion"
 }

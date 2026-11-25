@@ -55,5 +55,6 @@
     "p-return-none"
   ],
   "solution": "def greet(name, excited=False):\n    if excited:\n        return \"Hello, \" + name + \"!\"\n    return \"Hello, \" + name\n",
-  "alt": "def greet(name, excited=False):\n    return f\"Hello, {name}\" + (\"!\" if excited else \"\")\n"
+  "alt": "def greet(name, excited=False):\n    return f\"Hello, {name}\" + (\"!\" if excited else \"\")\n",
+  "learn": "args-default"
 }

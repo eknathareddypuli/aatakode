@@ -40,5 +40,6 @@
   "requires": [
     "f-return"
   ],
-  "solution": "hi\nNone"
+  "solution": "hi\nNone",
+  "learn": "return-none"
 }

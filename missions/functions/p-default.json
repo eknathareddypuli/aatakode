@@ -41,5 +41,6 @@
   "requires": [
     "w-kwargs"
   ],
-  "solution": "[1, 2]"
+  "solution": "[1, 2]",
+  "learn": "args-default"
 }

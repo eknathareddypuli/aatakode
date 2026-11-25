@@ -48,5 +48,6 @@
     "p-scope"
   ],
   "solution": "def rect_area(width, height):\n    return width * height\n",
-  "alt": "def rect_area(width, height):\n    area = width * height\n    return area\n"
+  "alt": "def rect_area(width, height):\n    area = width * height\n    return area\n",
+  "learn": "def-basics"
 }
