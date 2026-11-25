@@ -139,7 +139,7 @@ def _run(code, stdin_json, trace):
 
 
 def _res(t, ok, **extra):
-    d = {"label": t.get("label") or t.get("kind"), "ok": bool(ok), "hidden": bool(t.get("hidden"))}
+    d = {"label": t.get("label") or t.get("kind"), "ok": bool(ok), "hidden": bool(t.get("hidden")), "star": bool(t.get("star"))}
     if not t.get("hidden"):
         d.update({k: v for k, v in extra.items() if v is not None})
     return d
@@ -154,6 +154,22 @@ def _grade(code, tests_json):
         if k == "source":
             found = re.search(t["pattern"], code) is not None
             results.append(_res(t, (not found) if t.get("absent") else found))
+        elif k == "raises":
+            if base is None:
+                base = _exec(code, [])
+            if base["err"]:
+                results.append(_res(t, False, err=base["err"], expect=t["exc"]))
+                continue
+            try:
+                _guarded(lambda: eval(t["expr"], base["ns"]))
+                results.append(_res(t, False, got="no error", expect=t["exc"], expr=t["expr"]))
+            except _Limit:
+                results.append(_res(t, False, err={"type": "Timeout", "msg": "ran for too long", "line": None}, expr=t["expr"]))
+            except BaseException as e:
+                results.append(_res(t, type(e).__name__ == t["exc"], got=type(e).__name__, expect=t["exc"], expr=t["expr"]))
+        elif k == "maxlines":
+            n = len([l for l in code.split("\n") if l.strip() and not l.strip().startswith("#")])
+            results.append(_res(t, n <= t["max"], got=str(n), expect="at most " + str(t["max"])))
         elif k == "stdout":
             r = _exec(code, t.get("stdin") or [])
             exp = _norm(t["expect"])

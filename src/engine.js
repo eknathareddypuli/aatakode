@@ -11,11 +11,13 @@
   /* ---------------------------------------------------------------- 1. ranks, dates */
   AK.RANKS = [
     { xp: 0, en: "Seedling", te: "విత్తు" },
-    { xp: 60, en: "Sprout", te: "మొలక" },
-    { xp: 150, en: "Sapling", te: "మొక్క" },
-    { xp: 300, en: "Branch", te: "కొమ్మ" },
-    { xp: 500, en: "Tree", te: "చెట్టు" },
-    { xp: 800, en: "Forest", te: "వనం" },
+    { xp: 100, en: "Sprout", te: "మొలక" },
+    { xp: 300, en: "Sapling", te: "మొక్క" },
+    { xp: 700, en: "Branch", te: "కొమ్మ" },
+    { xp: 1300, en: "Tree", te: "చెట్టు" },
+    { xp: 2200, en: "Forest", te: "వనం" },
+    { xp: 3400, en: "Grove", te: "తోపు" },
+    { xp: 5000, en: "Banyan", te: "మర్రి" },
   ];
 
   AK.rankFor = function (xp) {
@@ -56,8 +58,9 @@
       v: 1, name: "", classCode: "", xp: 0, solved: {}, drafts: {}, hintLvl: {},
       testOut: {}, explains: {}, votes: {},
       streak: { count: 0, best: 0, last: "", freezes: 0 },
-      badges: {}, weekly: {},
-      settings: { lang: "en", theme: "dark", motion: "auto", socratic: false },
+      badges: {}, weekly: {}, askLvl: {},
+      dailyXp: 0, dailyDone: 0, daily: { date: "", done: {}, pts: 0, bonus: false },
+      settings: { lang: "en", theme: "dark", motion: "auto", socratic: false, outfit: "none", editor: "classic" },
       created: new Date().toISOString(),
     };
   };
@@ -66,6 +69,7 @@
     let xp = 0;
     for (const id in S.solved) xp += S.solved[id].xp || 0;
     for (const id in S.explains) if (S.explains[id].bonus) xp += 5;
+    xp += S.dailyXp || 0;
     S.xp = xp;
     return xp;
   };
@@ -116,6 +120,9 @@
     if (st.count > 0 && st.count % 7 === 0) st.freezes = Math.min(2, st.freezes + 1);
   }
 
+  AK.touchStreak = touchStreak;
+  AK.starsOf = function (S, id) { const r = S.solved[id]; return r ? (r.stars != null ? r.stars : r.hints === 0 ? 2 : 1) : 0; };
+  AK.totalStars = function (S) { let n = 0; for (const id in S.solved) n += AK.starsOf(S, id); return n; };
   AK.BADGES = [
     { id: "first-spark", icon: "✨", en: "First Spark", te: "మొదటి మెరుపు", desc: "Solve your first mission." },
     { id: "no-hints", icon: "🧠", en: "Own Brain", te: "స్వంత బుద్ధి", desc: "Solve a mission without any hints." },
@@ -126,6 +133,11 @@
     { id: "streak-7", icon: "🌋", en: "7-Day Streak", te: "7 రోజుల వరుస", desc: "Learn on 7 days in a row." },
     { id: "outage-survivor", icon: "🚨", en: "Outage Survivor", te: "అంతరాయ విజేత", desc: "Fix a server outage in the simulated terminal." },
     { id: "weekly-hero", icon: "🏅", en: "Weekly Hero", te: "వారపు వీరుడు", desc: "Solve the Outage of the Week during its week." },
+    { id: "three-stars", icon: "⭐", en: "Triple Star", te: "మూడు నక్షత్రాలు", desc: "Earn 3 stars on a mission: no hints and a clean solution." },
+    { id: "star-collector", icon: "🌟", en: "Star Collector", te: "నక్షత్ర సేకర్త", desc: "Collect 40 stars across missions." },
+    { id: "predictor", icon: "🔮", en: "Mind Compiler", te: "మనసు కంపైలర్", desc: "Predict the output correctly in 10 missions." },
+    { id: "pest-control", icon: "🪲", en: "Pest Control", te: "పురుగుల వేట", desc: "Finish a Daily Quest." },
+    { id: "daily-7", icon: "📅", en: "Daily Habit", te: "రోజువారీ అలవాటు", desc: "Finish 7 Daily Quests." },
     { id: "python-graduate", icon: "🎓", en: "Python Graduate", te: "పైథాన్ పట్టభద్రుడు", desc: "Complete every Python Quest region." },
   ];
   AK.regionBadge = function (region) {
@@ -148,6 +160,11 @@
     if (S.streak.count >= 7) give("streak-7");
     if (solvedMs.some((m) => m.type === "terminal")) give("outage-survivor");
     if (Object.keys(S.weekly).length) give("weekly-hero");
+    if (solvedMs.some((m) => AK.starsOf(S, m.id) >= 3)) give("three-stars");
+    if (AK.totalStars(S) >= 40) give("star-collector");
+    if (solvedMs.filter((m) => m.type === "predict").length >= 10) give("predictor");
+    if (S.dailyDone >= 1) give("pest-control");
+    if (S.dailyDone >= 7) give("daily-7");
     const pyRegions = data.regions.filter((r) => r.track === "python");
     for (const r of data.regions) if (AK.regionComplete(S, data, r.id)) give("region-" + r.id);
     if (pyRegions.length && pyRegions.every((r) => AK.regionComplete(S, data, r.id))) give("python-graduate");
@@ -166,15 +183,58 @@
     if (hints > 0) breakdown.push({ label: "Hints used: " + hints, xp: 0 });
     let total = main;
     if (hints === 0) { breakdown.push({ label: "No-hints bonus", xp: 10 }); total += 10; }
+    const stars = starsFor(m, hints, opts);
+    if (stars === 3) { breakdown.push({ label: "Mastery star bonus", xp: 5 }); total += 5; }
     if (opts.weeklyId && opts.weeklyId === m.id) {
       breakdown.push({ label: "Outage of the Week", xp: 30 }); total += 30;
       S.weekly[String(AK.weekIndex(now))] = m.id;
     }
-    S.solved[m.id] = { xp: total, hints: hints, at: AK.dateKey(now), code: opts.code || "" };
+    S.solved[m.id] = { xp: total, hints: hints, at: AK.dateKey(now), code: opts.code || "", stars: stars };
     touchStreak(S, now);
     AK.recomputeXp(S);
     const newBadges = AK.checkBadges(S, data, now);
-    return { repeat: false, gained: total, breakdown: breakdown, newBadges: newBadges, rankUp: AK.rankFor(S.xp).index > before };
+    return { repeat: false, gained: total, stars: stars, breakdown: breakdown, newBadges: newBadges, rankUp: AK.rankFor(S.xp).index > before };
+  };
+
+  /* 1 star = solved; 2 = no hints; 3 = no hints and (clean-up challenge passed, or solved on the first check). */
+  function starsFor(m, hints, opts) {
+    if (hints > 0) return 1;
+    const third = m.clean ? opts.cleanPass === true : opts.firstTry !== false;
+    return third ? 3 : 2;
+  }
+  /* Re-checking a solved mission can upgrade its stars (e.g. after finishing the clean-up challenge). */
+  AK.restar = function (S, data, m, opts) {
+    const r = S.solved[m.id]; if (!r) return { upgraded: false, newBadges: [] };
+    const now = opts.now || new Date(), cur = AK.starsOf(S, m.id), want = starsFor(m, r.hints || 0, opts);
+    if (want <= cur) return { upgraded: false, stars: cur, newBadges: [] };
+    r.stars = want;
+    if (want === 3) r.xp = (r.xp || 0) + 5;
+    AK.recomputeXp(S);
+    return { upgraded: true, stars: want, bonus: want === 3 ? 5 : 0, newBadges: AK.checkBadges(S, data, now) };
+  };
+
+  /* Daily Quest: three quick predict-the-output cards, picked per day. */
+  function hash(str) { let h = 5381; for (let i = 0; i < str.length; i++) h = ((h * 33) ^ str.charCodeAt(i)) >>> 0; return h; }
+  AK.dailySet = function (S, data, now) {
+    const key = AK.dateKey(now);
+    const preds = data.missions.filter((m) => m.type === "predict");
+    const openRegions = new Set(data.regions.filter((r) => { const f = AK.regionMissions(data, r.id)[0]; return f && AK.isUnlocked(S, data, f, null); }).map((r) => r.id));
+    let pool = preds.filter((m) => openRegions.has(m.region));
+    if (pool.length < 3) pool = preds;
+    return pool.slice().sort((a, b) => hash(key + a.id) - hash(key + b.id)).slice(0, 3);
+  };
+  AK.dailyAnswer = function (S, data, id, firstTry, now) {
+    now = now || new Date();
+    const key = AK.dateKey(now), set = AK.dailySet(S, data, now).map((m) => m.id);
+    if (S.daily.date !== key) S.daily = { date: key, done: {}, pts: 0, bonus: false };
+    if (!set.includes(id) || S.daily.done[id]) return { gained: 0, complete: false, newBadges: [] };
+    const pts = firstTry ? 5 : 2;
+    S.daily.done[id] = true; S.daily.pts += pts; S.dailyXp += pts;
+    let gained = pts, complete = false;
+    if (set.every((x) => S.daily.done[x]) && !S.daily.bonus) { complete = true; S.daily.bonus = true; S.dailyXp += 10; gained += 10; S.dailyDone += 1; }
+    touchStreak(S, now);
+    AK.recomputeXp(S);
+    return { gained: gained, complete: complete, newBadges: AK.checkBadges(S, data, now) };
   };
 
   AK.addExplanation = function (S, data, id, text, now) {
@@ -197,6 +257,9 @@
     for (const id in inc.testOut || {}) if (inc.testOut[id]) out.testOut[id] = true;
     for (const id in inc.votes || {}) out.votes[id] = Object.assign({}, inc.votes[id], out.votes[id] || {});
     for (const id in inc.weekly || {}) out.weekly[id] = inc.weekly[id];
+    out.dailyXp = Math.max(out.dailyXp || 0, inc.dailyXp || 0); out.dailyDone = Math.max(out.dailyDone || 0, inc.dailyDone || 0);
+    if (inc.daily && inc.daily.date > (out.daily.date || "")) out.daily = inc.daily;
+    for (const id in inc.askLvl || {}) out.askLvl[id] = Math.max((out.askLvl || {})[id] || 0, inc.askLvl[id]);
     for (const id in inc.hintLvl || {}) out.hintLvl[id] = Math.max(out.hintLvl[id] || 0, inc.hintLvl[id]);
     if ((inc.streak || {}).best > out.streak.best) out.streak.best = inc.streak.best;
     if ((inc.streak || {}).last > out.streak.last) out.streak = Object.assign({}, inc.streak);

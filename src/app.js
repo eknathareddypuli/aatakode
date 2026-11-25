@@ -14,10 +14,10 @@
 
   /* ------------------------------------------------------------ i18n (interface only; lessons are English for now) */
   const I = {
-    en: { nav_home: "Home", nav_map: "Map", nav_arena: "Arena", nav_profile: "Profile", nav_teacher: "Teachers", nav_about: "About",
+    en: { nav_home: "Home", nav_map: "Map", nav_arena: "Arena", nav_profile: "Profile", nav_daily: "Daily", nav_teacher: "Teachers", nav_about: "About",
       play: "Play a mission now", map: "Map", run: "Run", submit: "Check my code", hint: "Hint", step: "Step through", reset: "Reset",
       back: "Back to map", next: "Next mission", headline: "Play your way to code.", free: "Free for everyone.", ask: "Nudge me with a question" },
-    te: { nav_home: "హోమ్", nav_map: "పటం", nav_arena: "అరేనా", nav_profile: "ప్రొఫైల్", nav_teacher: "ఉపాధ్యాయులు", nav_about: "గురించి",
+    te: { nav_home: "హోమ్", nav_map: "పటం", nav_arena: "అరేనా", nav_profile: "ప్రొఫైల్", nav_daily: "రోజువారీ", nav_teacher: "ఉపాధ్యాయులు", nav_about: "గురించి",
       play: "ఇప్పుడే ఆడండి", map: "పటం", run: "నడుపు", submit: "సమర్పించు", hint: "సూచన", step: "అడుగు అడుగుగా", reset: "రీసెట్",
       back: "పటానికి తిరిగి", next: "తరువాత మిషన్", headline: "ఆడుతూ కోడ్ నేర్చుకోండి.", free: "అందరికీ ఉచితం.", ask: "ప్రశ్నతో సాయం చేయండి" },
   };
@@ -44,7 +44,7 @@
 
   function applySettings() {
     const d = document.documentElement;
-    d.dataset.theme = S.settings.theme; d.dataset.motion = S.settings.motion; d.lang = S.settings.lang === "te" ? "te" : "en";
+    d.dataset.theme = S.settings.theme; d.dataset.motion = S.settings.motion; d.dataset.editor = S.settings.editor || "classic"; d.lang = S.settings.lang === "te" ? "te" : "en";
   }
   const reducedMotion = () => S.settings.motion === "reduce" || (S.settings.motion === "auto" && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 
@@ -59,8 +59,28 @@
     for (let i = 0; i < 36; i++) { const p = document.createElement("i"); p.style.left = Math.random() * 100 + "%"; p.style.background = cols[i % 4]; p.style.animationDelay = Math.random() * 0.5 + "s"; box.appendChild(p); }
     document.body.appendChild(box); setTimeout(() => box.remove(), 2600);
   }
-  function parrot(size) {
-    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 64 64" role="img" aria-label="Chilaka the parrot"><rect x="20" y="18" width="26" height="30" rx="8" fill="#4ade9f"/><rect x="14" y="10" width="22" height="20" rx="8" fill="#4ade9f"/><rect x="8" y="18" width="10" height="7" rx="2" fill="#f2b531"/><circle cx="26" cy="19" r="3.2" fill="#15123a"/><circle cx="27" cy="18" r="1" fill="#fff"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#ff7a6b"/><rect x="26" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="38" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="18" y="4" width="4" height="8" rx="2" fill="#ff7a6b"/><rect x="24" y="2" width="4" height="9" rx="2" fill="#f2b531"/></svg>';
+  const OUTFITS = [
+    { id: "none", name: "Plain", hint: "", svg: "" },
+    { id: "scarf", name: "Gate scarf", region: "first-steps", hint: "clear First Steps", svg: '<rect x="16" y="28" width="26" height="6" rx="3" fill="#ff7a6b"/><rect x="34" y="30" width="6" height="14" rx="2" fill="#ff7a6b"/>' },
+    { id: "cap", name: "Crossroads cap", region: "decisions", hint: "clear Decisions", svg: '<rect x="12" y="6" width="26" height="7" rx="3" fill="#74c7ff"/><rect x="8" y="10" width="12" height="4" rx="2" fill="#74c7ff"/>' },
+    { id: "goggles", name: "Wheel goggles", region: "loops", hint: "clear Loops", svg: '<circle cx="22" cy="18" r="6" fill="none" stroke="#f2b531" stroke-width="3"/><circle cx="32" cy="18" r="6" fill="none" stroke="#f2b531" stroke-width="3"/>' },
+    { id: "specs", name: "Library specs", region: "collections", hint: "clear Collections", svg: '<rect x="18" y="14" width="9" height="8" rx="2" fill="none" stroke="#fff" stroke-width="2"/><rect x="29" y="14" width="9" height="8" rx="2" fill="none" stroke="#fff" stroke-width="2"/>' },
+    { id: "belt", name: "Tool belt", region: "functions", hint: "clear Functions", svg: '<rect x="20" y="40" width="26" height="5" rx="2" fill="#8a5a2b"/><rect x="38" y="38" width="5" height="9" rx="1" fill="#f2b531"/>' },
+    { id: "bag", name: "Postman bag", region: "files-errors", hint: "clear Files and Errors", svg: '<rect x="36" y="34" width="14" height="12" rx="3" fill="#8a5a2b"/><rect x="38" y="30" width="10" height="6" rx="2" fill="none" stroke="#8a5a2b" stroke-width="2"/>' },
+    { id: "crown", name: "Graduate crown", all: true, hint: "finish every Python region", svg: '<polygon points="14,10 18,2 24,8 30,0 34,8 40,2 36,10" fill="#f2b531"/>' },
+  ];
+  const EDITORS = [
+    { id: "classic", name: "Classic indigo", rank: 0 }, { id: "contrast", name: "High contrast", rank: 0 },
+    { id: "turmeric", name: "Turmeric", rank: 1 }, { id: "mint", name: "Mint terminal", rank: 2 }, { id: "paper", name: "Paper", rank: 3 },
+  ];
+  function outfitUnlocked(o) {
+    if (o.region) return AK.regionComplete(S, DATA, o.region);
+    if (o.all) return DATA.regions.filter((r) => r.track === "python").every((r) => AK.regionComplete(S, DATA, r.id));
+    return true;
+  }
+  function parrot(size, outfit) {
+    const o = OUTFITS.find((x) => x.id === (outfit || S.settings.outfit)) || OUTFITS[0];
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 64 64" role="img" aria-label="Chilaka the parrot' + (o.id !== "none" ? " wearing the " + o.name : "") + '"><rect x="20" y="18" width="26" height="30" rx="8" fill="#4ade9f"/><rect x="14" y="10" width="22" height="20" rx="8" fill="#4ade9f"/><rect x="8" y="18" width="10" height="7" rx="2" fill="#f2b531"/><circle cx="26" cy="19" r="3.2" fill="#15123a"/><circle cx="27" cy="18" r="1" fill="#fff"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#ff7a6b"/><rect x="26" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="38" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="18" y="4" width="4" height="8" rx="2" fill="#ff7a6b"/><rect x="24" y="2" width="4" height="9" rx="2" fill="#f2b531"/>' + o.svg + "</svg>";
   }
   const rankName = (xp) => lt(AK.rankFor(xp).current, "en") && (S.settings.lang === "te" ? AK.rankFor(xp).current.te : AK.rankFor(xp).current.en);
   const weekly = () => AK.featuredOutage(DATA.missions, new Date());
@@ -97,11 +117,11 @@
   /* ------------------------------------------------------------ header / footer */
   function renderHeader(page) {
     const st = AK.streakStatus(S, new Date()), rk = AK.rankFor(S.xp);
-    const nav = [["home", "nav_home"], ["map", "nav_map"], ["arena", "nav_arena"], ["profile", "nav_profile"], ["teacher", "nav_teacher"], ["about", "nav_about"]];
+    const nav = [["home", "nav_home"], ["map", "nav_map"], ["daily", "nav_daily"], ["arena", "nav_arena"], ["profile", "nav_profile"], ["teacher", "nav_teacher"], ["about", "nav_about"]];
     $("#hdr").innerHTML =
       '<a class="logo" href="#/home">' + parrot(30) + '<span>Aata<b>Kode</b></span></a>' +
       '<nav class="nav" aria-label="Main">' + nav.map((n) => '<a href="#/' + n[0] + '"' + (page === n[0] || (n[0] === "map" && page === "mission") ? ' aria-current="page"' : "") + ">" + t(n[1]) + "</a>").join("") + "</nav>" +
-      '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '</span><span class="chip gold" title="Experience points">' + S.xp + ' XP</span>' +
+      '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '</span><span class="chip gold" title="Experience points">' + S.xp + ' XP</span><span class="chip" title="Stars earned">⭐ ' + AK.totalStars(S) + '</span>' +
       '<span class="chip" title="Day streak' + (st.atRisk ? " (learn today to keep it)" : "") + '">🔥 ' + st.count + (S.streak.freezes ? " ❄" + S.streak.freezes : "") + "</span>" +
       '<button class="iconbtn" id="langBtn" aria-label="Switch language">' + (S.settings.lang === "te" ? "EN" : "తె") + "</button>" +
       '<button class="iconbtn" id="themeBtn" aria-label="Toggle light and dark theme">' + (S.settings.theme === "dark" ? "☀" : "🌙") + "</button></div>";
@@ -131,7 +151,7 @@
     const nxt = nextMissionFor(null) || orderedMissions[0], w = weekly(), started = Object.keys(S.solved).length > 0;
     v.innerHTML =
       '<section class="hero"><div><h1>' + esc(t("headline")) + " <em>" + esc(t("free")) + "</em></h1>" +
-      '<p class="lead">Real code, real tests, no paywall. Learn Python and fix broken servers by playing. Works offline once loaded.</p>' +
+      '<p class="lead">Real code, real tests, no paywall. A full Python course in ' + DATA.regions.filter((r) => r.track === 'python').length + ' regions (' + DATA.missions.filter((m) => m.type !== 'terminal').length + ' missions), plus broken servers to fix. Works offline once loaded.</p>' +
       '<div class="row"><a class="btn primary" id="playBtn" href="#/mission/' + nxt.id + '">▶ ' + esc(started ? "Continue your quest" : t("play")) + '</a><a class="btn" href="#/map">🗺 ' + esc(t("map")) + "</a></div>" +
       '<p class="muted" style="margin-top:.9rem"><b>Aata</b> (ఆట) means “play” in Telugu. No sign-up needed: your progress saves on this device.</p></div>' +
       '<div class="art"><div style="text-align:center">' + parrot(150) + '<div class="codepeek" style="text-align:left;margin-top:.8rem"><span class="cm"># Chilaka says hi</span><br><span class="fn">print</span>(<span class="st">"Hello, Aata!"</span>)</div></div></div></section>' +
@@ -146,19 +166,27 @@
   };
 
   /* ---- map */
+  const TYPE_ICON = { predict: "🔮", fill: "✏️", order: "🧩", "fix-the-bug": "🔧", terminal: "💻", "write-code": "⌨️" };
+  const nodeIcon = (m) => (m.boss ? "🐛" : m.project ? "🏗️" : TYPE_ICON[m.type] || "⌨️");
+  const starRow = (n) => "★".repeat(n) + "☆".repeat(3 - n);
   VIEWS.map = function (v) {
-    const w = weekly();
-    let html = '<div class="row spread"><h2>🗺 ' + esc(t("map")) + '</h2><span class="muted">' + Object.keys(S.solved).length + " / " + DATA.missions.length + " missions</span></div>";
+    const w = weekly(), pyRegions = DATA.regions.filter((r) => r.track === "python");
+    const restored = pyRegions.filter((r) => AK.regionComplete(S, DATA, r.id)).length;
+    let html = '<div class="row spread"><h2>🗺 ' + esc(t("map")) + '</h2><span class="muted">' + Object.keys(S.solved).length + " / " + DATA.missions.length + " missions · ⭐ " + AK.totalStars(S) + " / " + DATA.missions.length * 3 + "</span></div>";
+    html += '<div class="card village"><b>🏘 Aata-gram: ' + restored + " of " + pyRegions.length + ' places restored</b><div class="strip">' +
+      pyRegions.map((r) => '<span class="place' + (AK.regionComplete(S, DATA, r.id) ? " on" : "") + '" title="' + esc(r.place + (AK.regionComplete(S, DATA, r.id) ? " (restored)" : " (broken)")) + '">' + r.icon + "</span>").join("") + "</div></div>";
     DATA.tracks.forEach(function (tr) {
       html += '<div class="track"><h3>' + esc(lt(tr, "title")) + '</h3><div class="muted">' + esc(tr.blurb) + "</div></div>";
       DATA.regions.filter((r) => r.track === tr.id).forEach(function (r, ri) {
         const ms = AK.regionMissions(DATA, r.id), done = ms.filter((m) => S.solved[m.id]).length, complete = AK.regionComplete(S, DATA, r.id);
+        const stars = ms.reduce((n, m) => n + AK.starsOf(S, m.id), 0);
         const first = ms[0], locked = !AK.isUnlocked(S, DATA, first, w && w.id);
-        html += '<div class="region card' + (locked ? " locked" : "") + '"><div><div class="row"><span style="font-size:1.6rem">' + r.icon + "</span><div><b class='mono'>" + esc(lt(r, "title")) + "</b><div class='muted' style='font-size:.85rem'>" + esc(r.blurb) + "</div><span class='tag'>" + done + "/" + ms.length + (complete ? " ✔" : "") + "</span></div></div></div><div class='nodes'>";
+        html += '<div class="region card' + (locked ? " locked" : "") + '"><div><div class="row"><span style="font-size:1.6rem">' + (complete ? "✅" : r.icon) + "</span><div><b class='mono'>" + esc(lt(r, "title")) + "</b><div class='muted' style='font-size:.85rem'>" + esc(r.blurb) + "</div><span class='tag'>" + done + "/" + ms.length + (complete ? " ✔" : "") + "</span> <span class='tag'>★ " + stars + "/" + ms.length * 3 + "</span></div></div>" +
+          (r.story ? "<div class='muted' style='font-size:.8rem;margin-top:.4rem'><b>" + esc(r.place) + ":</b> " + esc(r.story) + "</div>" : "") + "</div><div class='nodes'>";
         ms.forEach(function (m, i) {
           const solved = !!S.solved[m.id], open = AK.isUnlocked(S, DATA, m, w && w.id), cls = "node" + (m.boss ? " boss" : "") + (solved ? " done" : open ? " open" : " locked");
           html += (i ? '<span class="link' + (solved ? " done" : "") + '"></span>' : "") +
-            '<button class="' + cls + '" data-m="' + m.id + '" aria-label="' + esc(m.title + (solved ? ", done" : open ? "" : ", locked")) + '" title="' + esc(m.title) + '">' + (m.boss ? "🐛" : i + 1) + (w && w.id === m.id ? '<span class="star" title="Outage of the Week">⭐</span>' : "") + "</button>";
+            '<button class="' + cls + '" data-m="' + m.id + '" aria-label="' + esc("Mission " + (i + 1) + ": " + m.title + (solved ? ", done, " + AK.starsOf(S, m.id) + " stars" : open ? "" : ", locked")) + '" title="' + esc(m.title) + '">' + nodeIcon(m) + (w && w.id === m.id ? '<span class="star" title="Outage of the Week">⭐</span>' : "") + (solved ? '<i class="nstars">' + starRow(AK.starsOf(S, m.id)) + "</i>" : "") + "</button>";
         });
         const canTest = tr.id === "python" && ri > 0 && locked && !S.testOut[r.id];
         html += "</div>" + (canTest ? '<div style="grid-column:1/-1"><button class="btn small" data-testout="' + r.id + '">⚡ Test out: attempt the boss to skip ahead</button></div>' : "") + "</div>";
@@ -174,25 +202,30 @@
   };
 
   /* ---- mission (shared pieces) */
+  const tries = {}; // failed checks per mission in this visit: decides the "first try" star
+  const allTests = (m) => m.tests.concat(m.clean ? m.clean.tests.map((x, i) => Object.assign({}, x, { star: true, label: "★ " + (i === 0 ? "Clean-up challenge: " + m.clean.label : x.label || m.clean.label) })) : []);
+
   function renderTests(m, results) {
-    return '<ul class="tests" id="testlist">' + m.tests.map(function (tt, i) {
+    const tests = allTests(m);
+    return '<ul class="tests" id="testlist">' + tests.map(function (tt, i) {
       const r = results && results[i], label = tt.hidden && !r ? "Hidden check" : (r && r.label) || tt.label || tt.note || tt.kind;
-      const cls = !r ? "idle" : r.ok ? "ok" : "no", icon = !r ? "○" : r.ok ? "✔" : "✘";
+      const cls = !r ? "idle" : r.ok ? "ok" : tt.star ? "idle" : "no", icon = !r ? "○" : r.ok ? "✔" : tt.star ? "☆" : "✘";
       let detail = "";
-      if (r && !r.ok) {
+      if (r && !r.ok && !tt.star) {
         if (r.hidden) detail = "A hidden check failed. Try other inputs.";
         else if (r.err) { const f = AK.friendlyError(r.err); detail = f.title + ": " + f.hint + (f.line ? " (line " + f.line + ")" : ""); }
         else if (r.stdin !== undefined && r.expect !== undefined) detail = (r.stdin && r.stdin.length ? "Input: " + r.stdin.join(" ⏎ ") + "\n" : "") + "Expected:\n" + r.expect + "\nGot:\n" + (r.got || "(nothing printed)");
         else if (r.expr) detail = r.expr + "\nexpected " + r.expect + "\ngot " + r.got;
+        else if (r.got !== undefined) detail = "Expected " + r.expect + ", got " + r.got;
       }
-      return '<li><span class="' + cls + '" aria-hidden="true">' + icon + '</span><span><span class="sr">' + (r ? (r.ok ? "Passed: " : "Failed: ") : "Not run: ") + "</span>" + esc(label) + (detail ? '<div class="detail">' + esc(detail) + "</div>" : "") + "</span></li>";
+      return '<li' + (tt.star ? ' class="starrow"' : "") + '><span class="' + cls + '" aria-hidden="true">' + icon + '</span><span><span class="sr">' + (r ? (r.ok ? "Passed: " : tt.star ? "Optional, not yet: " : "Failed: ") : "Not run: ") + "</span>" + esc(label) + (detail ? '<div class="detail">' + esc(detail) + "</div>" : "") + "</span></li>";
     }).join("") + "</ul>";
   }
 
   function hintsHtml(m) {
     const lvl = S.hintLvl[m.id] || 0, ask = (S.askLvl && S.askLvl[m.id]) || 0;
     const qs = m.socratic.slice(0, ask).map((q, i) => '<div class="hintbox">❓ <b>Question ' + (i + 1) + ":</b> " + esc(q) + "</div>").join("");
-    const hs = m.hints.slice(0, lvl).map((h, i) => '<div class="hintbox">💡 <b>' + (i === 2 ? "Full solution" : "Hint " + (i + 1)) + (i === 2 ? "" : "") + ":</b>" + (i === 2 || /\n/.test(h) ? "<pre>" + esc(h) + "</pre>" : " " + esc(h)) + "</div>").join("");
+    const hs = m.hints.slice(0, lvl).map((h, i) => '<div class="hintbox">💡 <b>' + (i === 2 ? (m.type === "predict" ? "The answer" : "Full solution") : "Hint " + (i + 1)) + ":</b>" + (i === 2 || /\n/.test(h) ? "<pre>" + esc(h) + "</pre>" : " " + esc(h)) + "</div>").join("");
     return '<div class="row"><button class="btn small" id="askBtn"' + (ask >= 3 ? " disabled" : "") + ">❓ " + esc(t("ask")) + " (free)</button><button class=\"btn small\" id=\"hintBtn\"" + (lvl >= 3 ? " disabled" : "") + ">💡 " + esc(t("hint")) + (lvl === 2 ? " (reveals solution, −5 XP)" : " (−5 XP)") + "</button></div>" + qs + hs;
   }
 
@@ -201,23 +234,39 @@
     return '<div class="card" style="margin-top:.6rem"><b>Explain it (+5 XP)</b><div class="muted">' + esc(m.explain) + '</div><textarea class="input" id="explainBox" rows="2" placeholder="Write one sentence in your own words">' + esc(e ? e.text : "") + '</textarea><div class="row" style="margin-top:.4rem"><button class="btn small" id="explainBtn">Save explanation</button><span class="muted" id="explainMsg">' + (e && e.bonus ? "Saved ✔" : "") + "</span></div></div>";
   }
 
+  const badgeLine = (ids) => ids.map((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); return b ? esc(b.icon + " " + b.en) : ""; }).join(", ");
   function rewardHtml(res, m) {
     const nx = nextMissionFor(m);
-    return '<div class="reward stretch" id="reward"><b class="mono">🎉 Mission complete! +' + res.gained + " XP</b><ul>" +
+    return '<div class="reward stretch" id="reward"><b class="mono">🎉 Mission complete! +' + res.gained + ' XP</b><div class="bigstars" aria-label="' + res.stars + ' of 3 stars">' + starRow(res.stars) + "</div><ul>" +
       res.breakdown.map((b) => "<li>" + esc(b.label) + (b.xp ? ": +" + b.xp : "") + "</li>").join("") + "</ul>" +
+      (res.stars < 3 ? '<p class="muted">' + (S.hintLvl[m.id] ? "Solve it without hints next time for more stars." : m.clean ? "Third star: improve your code for the clean-up challenge, then press Check again." : "Third star: solve it on your first check without hints.") + "</p>" : "") +
       (res.rankUp ? '<p><b>⬆ New rank: ' + esc(rankName(S.xp)) + "!</b></p>" : "") +
-      (res.newBadges.length ? "<p>🏅 New badge" + (res.newBadges.length > 1 ? "s" : "") + ": " + res.newBadges.map((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); return b ? esc(b.icon + " " + b.en) : ""; }).join(", ") + "</p>" : "") +
+      (res.newBadges.length ? "<p>🏅 New badge" + (res.newBadges.length > 1 ? "s" : "") + ": " + badgeLine(res.newBadges) + "</p>" : "") +
       '<div class="row"><a class="btn primary" href="' + (nx ? "#/mission/" + nx.id : "#/map") + '">' + esc(nx ? t("next") + " →" : t("back")) + "</a><a class=\"btn small\" href=\"#/map\">🗺 " + esc(t("map")) + "</a></div></div>";
   }
+  function setHeadStatus(m) {
+    const el = $("#mstatus"); if (el) el.innerHTML = S.solved[m.id] ? '<span class="chip">✔ solved</span> <span class="chip gold" title="Stars">' + starRow(AK.starsOf(S, m.id)) + "</span>" : "";
+  }
+  function badgeToasts(ids) { ids.forEach((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); if (b) toast("Badge: " + b.icon + " " + b.en); }); }
 
   function afterSolve(m, res, node) {
-    save(); renderHeader("mission");
-    if (res.repeat) { toast("Already solved. No extra XP, but great practice!"); return; }
+    save(); renderHeader("mission"); setHeadStatus(m);
     node.innerHTML = rewardHtml(res, m); confetti();
-    const ex = $("#explainSlot"); if (ex) ex.innerHTML = explainHtml(m), bindExplain(m);
+    const ex = $("#explainSlot"); if (ex) { ex.innerHTML = explainHtml(m); bindExplain(m); }
     refreshCompare(m);
     if (res.rankUp) toast("Rank up: " + rankName(S.xp));
-    res.newBadges.forEach((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); if (b) toast("Badge: " + b.icon + " " + b.en); });
+    badgeToasts(res.newBadges);
+  }
+  /* Solving for the first time awards XP; re-checking a solved mission can upgrade stars. */
+  function finishMission(m, w, o) {
+    const now = new Date(), common = { now: now, cleanPass: o.cleanPass, firstTry: !tries[m.id] };
+    if (!S.solved[m.id]) {
+      afterSolve(m, AK.applySolve(S, DATA, m, Object.assign({ hintsUsed: S.hintLvl[m.id] || 0, code: o.code, weeklyId: w && w.id }, common)), $("#rewardSlot"));
+    } else {
+      const r = AK.restar(S, DATA, m, common); save(); renderHeader("mission"); setHeadStatus(m);
+      toast(r.upgraded ? "⭐ Stars upgraded to " + r.stars + (r.bonus ? " (+" + r.bonus + " XP)" : "") : "Already solved. Great practice!");
+      badgeToasts(r.newBadges);
+    }
   }
 
   function bindExplain(m) {
@@ -225,7 +274,7 @@
     btn.onclick = () => {
       const r = AK.addExplanation(S, DATA, m.id, $("#explainBox").value, new Date()); save(); renderHeader("mission");
       $("#explainMsg").textContent = r.bonus ? "Saved ✔ +5 XP" : "Saved. Write a bit more (12+ characters) to earn XP.";
-      r.newBadges.forEach((id) => { const b = AK.allBadges(DATA).find((x) => x.id === id); if (b) toast("Badge: " + b.icon + " " + b.en); });
+      badgeToasts(r.newBadges);
     };
   }
 
@@ -253,15 +302,14 @@
       solutionsFor(m).map((s) => "<div><b>" + esc(s.title) + "</b>" + (votes[s.key] ? ' <span class="tag">your pick</span>' : "") + "<pre>" + esc(s.code) + '</pre><button class="btn small" data-vote="' + s.key + '">👍 Cleanest</button></div>').join("") + "</div>";
     $$("[data-vote]", slot).forEach((b) => (b.onclick = () => {
       S.votes[m.id] = {}; S.votes[m.id][b.dataset.vote] = 1;
-      const ns = AK.checkBadges(S, DATA, new Date()); save(); refreshCompare(m);
-      ns.forEach((id) => { const bd = AK.allBadges(DATA).find((x) => x.id === id); if (bd) toast("Badge: " + bd.icon + " " + bd.en); });
+      const ns = AK.checkBadges(S, DATA, new Date()); save(); refreshCompare(m); badgeToasts(ns);
     }));
   }
 
   function missionFrame(m, extraRight) {
-    const reg = regionById[m.region];
-    return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "</a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : "") + "</span><h2>" + esc(m.title) + '</h2><span class="chip gold">' + m.xp + ' XP</span>' + (S.solved[m.id] ? '<span class="chip">✔ solved</span>' : "") + '<span class="pill load" id="pypill"></span></div>' +
-      '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '</div><div class="goal"><b>Goal:</b> ' + esc(m.goal) + "</div><b>Checks</b>" + renderTests(m, null) + '<div id="hintSlot"></div><div id="rewardSlot"></div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "</div></aside>" +
+    const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT" }[m.type];
+    return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "</a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : m.project ? " · PROJECT" : kind ? " · " + kind : "") + "</span><h2>" + esc(m.title) + '</h2><span class="chip gold">' + m.xp + ' XP</span><span id="mstatus"></span><span class="pill load" id="pypill"></span></div>' +
+      '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '</div><div class="goal"><b>Goal:</b> ' + esc(m.goal) + "</div>" + (m.type === "predict" ? "" : "<b>Checks</b>" + renderTests(m, null)) + '<div id="hintSlot"></div><div id="rewardSlot"></div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "</div></aside>" +
       '<section id="midpane"></section><section class="card" id="rightpane"><div class="tabs" role="tablist">' + extraRight.tabs + "</div>" + extraRight.panels + '<div id="tab-compare" hidden></div></section></div>';
   }
   function bindTabs(m) {
@@ -282,66 +330,154 @@
       v.innerHTML = '<div class="card"><h2>🔒 Locked</h2><p>Finish <b>' + esc(need ? need.title : "the previous mission") + '</b> first, or use “Test out” on the map to attempt the boss.</p><a class="btn primary" href="' + (need ? "#/mission/" + need.id : "#/map") + '">Go there</a></div>';
       return;
     }
-    if (m.type === "terminal") missionTerminal(v, m, w); else missionPython(v, m, w);
+    if (m.type === "terminal") missionTerminal(v, m, w); else if (m.type === "predict") missionPredict(v, m, w); else missionPython(v, m, w);
   };
 
-  /* ---- python mission */
-  function missionPython(v, m, w) {
-    v.innerHTML = missionFrame(m, {
-      tabs: tabBtn("out", "Output", true) + tabBtn("steps", "Step-through") + tabBtn("blocks", "Blocks") + tabBtn("compare", "Compare"),
-      panels: '<div id="tab-out"><label class="muted" for="stdin">Test input (one line per input() call)</label><textarea class="input" id="stdin" rows="2" spellcheck="false"></textarea><div class="out" id="outbox" aria-live="polite" style="margin-top:.5rem">Press Run to see your program\'s output.</div><div id="errbox"></div></div>' +
-        '<div id="tab-steps" hidden><p class="muted">Press “Step through” to watch your program run one line at a time.</p><div id="stepper"></div></div><div id="tab-blocks" hidden><p class="muted">Your code as blocks (read-only). Edit the code and the blocks follow.</p><div class="blocks" id="blockbox"></div></div>',
+  /* ---- predict-the-output card (used by missions and the Daily Quest) */
+  function predictCard(m, opts) {
+    const el = document.createElement("div"); el.className = "card predict"; let wrong = 0, finished = false;
+    const uid = "p" + Math.random().toString(36).slice(2, 8);
+    el.innerHTML = '<b>' + esc(m.title) + '</b><pre class="codeview">' + esc(m.code) + '</pre><fieldset class="opts"><legend>What does it print?</legend>' +
+      m.options.map((o, i) => '<label class="opt" data-i="' + i + '"><input type="radio" name="' + uid + '" value="' + i + '"><pre>' + esc(o) + "</pre></label>").join("") +
+      '</fieldset><div class="row"><button class="btn good" data-act="check">✔ Check</button></div><div class="pmsg" aria-live="polite"></div>';
+    const msg = $(".pmsg", el), labels = $$(".opt", el);
+    function reveal() {
+      finished = true; labels.forEach((l) => { l.classList.add("lock"); $("input", l).disabled = true; });
+      const c = labels[m.answer]; c.classList.add("good"); $("input", c).checked = true; $('[data-act="check"]', el).disabled = true;
+      msg.innerHTML = "<b>Why:</b> " + esc(m.why);
+    }
+    if (opts.done) reveal();
+    $('[data-act="check"]', el).onclick = () => {
+      if (finished) return;
+      const sel = $("input:checked", el); if (!sel) { toast("Pick an answer first."); return; }
+      const i = Number(sel.value);
+      if (i === m.answer) { reveal(); msg.innerHTML = "<b>✔ Correct!</b> " + esc(m.why); opts.onCorrect(wrong === 0); }
+      else { wrong++; const l = labels[i]; l.classList.add("bad", "lock"); sel.checked = false; sel.disabled = true; msg.textContent = "Not quite. Trace it line by line, or use a hint. That option is crossed out."; if (opts.onWrong) opts.onWrong(); }
+    };
+    return el;
+  }
+
+  function missionPredict(v, m, w) {
+    v.innerHTML = missionFrame(m, { tabs: tabBtn("out", "Run it", true), panels: '<div id="tab-out"><p class="muted">Answer first, then run the code yourself and see it print the same thing.</p><div class="row"><button class="btn small" id="runBtn" disabled>▶ Run it</button></div><div class="out" id="outbox" style="margin-top:.5rem">(locked until you answer)</div><div id="errbox"></div></div>' });
+    bindHints(m); bindTabs(m); setHeadStatus(m); bindExplain(m); setPyPill();
+    const enableRun = () => { $("#runBtn").disabled = false; $("#outbox").textContent = "Press Run it."; };
+    $("#runBtn").onclick = async () => {
+      $("#outbox").textContent = "Running…"; let api; try { api = await ensurePy(); } catch (e) { $("#outbox").textContent = PY_OFFLINE; return; }
+      const r = api.run(m.code, [], false); $("#outbox").textContent = r.out || "(nothing printed)";
+      const f = r.err ? AK.friendlyError(r.err) : null; $("#errbox").innerHTML = f ? '<div class="err" role="alert"><b>' + esc(f.title) + "</b><div>" + esc(f.hint) + "</div></div>" : "";
+    };
+    $("#midpane").appendChild(predictCard(m, {
+      done: !!S.solved[m.id],
+      onWrong: () => { tries[m.id] = (tries[m.id] || 0) + 1; },
+      onCorrect: (first) => {
+        enableRun();
+        if (!S.solved[m.id]) afterSolve(m, AK.applySolve(S, DATA, m, { hintsUsed: S.hintLvl[m.id] || 0, now: new Date(), code: m.options[m.answer], firstTry: first && !tries[m.id] }), $("#rewardSlot"));
+      },
+    }));
+    if (S.solved[m.id]) { enableRun(); $("#rewardSlot").innerHTML = '<div class="reward"><b>✔ You solved this mission.</b> <a href="#/map">Back to the map</a></div>'; }
+  }
+
+  /* ---- Daily Quest: three quick predictions, a few XP each, keeps the streak */
+  VIEWS.daily = function (v) {
+    const now = new Date(), set = AK.dailySet(S, DATA, now), key = AK.dateKey(now);
+    const doneToday = (id) => S.daily.date === key && S.daily.done[id];
+    const count = () => set.filter((m) => doneToday(m.id)).length;
+    v.innerHTML = '<h2>📅 Daily Quest · Pest Control</h2><p class="muted">Three quick bug-hunt predictions. +5 XP each on the first try (+2 otherwise), +10 for finishing all three, and it keeps your streak alive. A new set arrives each day.</p><div class="card"><div class="row spread"><b id="dprog"></b><span class="chip gold">🔥 streak ' + AK.streakStatus(S, now).count + '</span></div><div class="bar"><i id="dbar"></i></div></div><div id="dlist" class="grid" style="margin-top:1rem;gap:1rem"></div><div id="dend"></div>';
+    const refresh = () => { const n = count(); $("#dprog").textContent = n + " of 3 done today"; $("#dbar").style.width = Math.round((n / 3) * 100) + "%"; $("#dend").innerHTML = n === 3 ? '<div class="reward stretch" style="margin-top:1rem"><b class="mono">🎉 Daily Quest complete!</b><p>Come back tomorrow for a fresh set. Daily quests finished: ' + S.dailyDone + '.</p><a class="btn primary" href="#/map">🗺 Back to the map</a></div>' : ""; };
+    set.forEach((m) => {
+      const card = predictCard(m, {
+        done: doneToday(m.id),
+        onCorrect: (first) => {
+          const r = AK.dailyAnswer(S, DATA, m.id, first, new Date()); save(); renderHeader("daily");
+          toast("+" + r.gained + " XP" + (r.complete ? " · Daily Quest complete!" : "")); if (r.complete) confetti(); badgeToasts(r.newBadges); refresh();
+        },
+      });
+      $("#dlist").appendChild(card);
     });
-    bindHints(m); const show = bindTabs(m);
-    const firstIn = (m.tests.find((x) => x.stdin) || {}).stdin; $("#stdin").value = firstIn ? firstIn.join("\n") : "";
-    $("#midpane").innerHTML = '<div class="editor"><div class="gutter" id="gutter" aria-hidden="true">1</div><textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code editor. Press Escape then Tab to leave the editor."></textarea></div>' +
-      '<div class="row" style="margin-top:.6rem"><button class="btn primary" id="runBtn">▶ ' + esc(t("run")) + '</button><button class="btn" id="stepBtn">👣 ' + esc(t("step")) + '</button><button class="btn good" id="submitBtn">✔ ' + esc(t("submit")) + '</button><button class="btn small" id="resetBtn">↺ ' + esc(t("reset")) + '</button></div><p class="muted" style="font-size:.85rem">Tip: Ctrl+Enter runs. Press Esc then Tab to move out of the editor.</p>';
-    const ta = $("#code"), gut = $("#gutter"); ta.value = S.drafts[m.id] != null ? S.drafts[m.id] : m.starter; refreshCompare(m);
+    refresh();
+  };
+
+  /* ---- python-style missions: write-code, fix-the-bug, fill, order */
+  const draftArr = (id, n, fallback) => { try { const a = JSON.parse(S.drafts[id]); if (Array.isArray(a) && a.length === n) return a; } catch (e) { /* none */ } return fallback; };
+  function buildCodeEditor(m, mid, changed) {
+    mid.innerHTML = '<div class="editor"><div class="gutter" id="gutter" aria-hidden="true">1</div><textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code editor. Press Escape then Tab to leave the editor."></textarea></div>';
+    const ta = $("#code"), gut = $("#gutter"); ta.value = S.drafts[m.id] != null ? S.drafts[m.id] : m.starter;
+    const sync = () => { const n = ta.value.split("\n").length; gut.textContent = Array.from({ length: n }, (_, i) => i + 1).join("\n"); gut.scrollTop = ta.scrollTop; };
     let timer = null;
-    refreshBlocks = () => { $("#blockbox").innerHTML = AK.toBlocks(ta.value).map((b) => '<div class="blk ' + b.kind + '" style="margin-left:' + b.depth * 18 + 'px">' + esc(b.label) + "</div>").join("") || '<span class="muted">Write some code to see blocks.</span>'; };
-    const sync = () => { const n = ta.value.split("\n").length; gut.textContent = Array.from({ length: n }, (_, i) => i + 1).join("\n"); gut.scrollTop = ta.scrollTop; if (!$("#tab-blocks").hidden) refreshBlocks(); };
-    ta.addEventListener("input", () => { sync(); clearTimeout(timer); timer = setTimeout(() => { S.drafts[m.id] = ta.value; save(); }, 400); });
+    ta.addEventListener("input", () => { sync(); changed(); clearTimeout(timer); timer = setTimeout(() => { S.drafts[m.id] = ta.value; save(); }, 400); });
     ta.addEventListener("scroll", () => (gut.scrollTop = ta.scrollTop));
     let escaped = false; ta.addEventListener("focus", () => (escaped = false));
     ta.addEventListener("keydown", (e) => {
       if (e.key === "Escape") { escaped = true; return; }
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); $("#runBtn").click(); return; }
-      if (e.key === "Tab" && !escaped) {
-        e.preventDefault(); const s = ta.selectionStart, en = ta.selectionEnd; ta.setRangeText("    ", s, en, "end"); sync(); return;
-      }
-      if (e.key === "Enter") {
-        e.preventDefault(); const s = ta.selectionStart, before = ta.value.slice(0, s), line = before.split("\n").pop();
-        const indent = line.match(/^ */)[0] + (/:\s*$/.test(line) ? "    " : ""); ta.setRangeText("\n" + indent, s, ta.selectionEnd, "end"); sync();
-      }
+      if (e.key === "Tab" && !escaped) { e.preventDefault(); ta.setRangeText("    ", ta.selectionStart, ta.selectionEnd, "end"); sync(); changed(); return; }
+      if (e.key === "Enter") { e.preventDefault(); const s = ta.selectionStart, line = ta.value.slice(0, s).split("\n").pop(); const indent = line.match(/^ */)[0] + (/:\s*$/.test(line) ? "    " : ""); ta.setRangeText("\n" + indent, s, ta.selectionEnd, "end"); sync(); changed(); }
     });
     sync();
-    const grab = () => ({ code: ta.value, stdin: $("#stdin").value === "" ? [] : $("#stdin").value.split("\n") });
-    async function engine() {
-      try { return await ensurePy(); } catch (e) { $("#outbox").textContent = PY_OFFLINE; return null; }
+    return { getCode: () => ta.value, reset: () => { ta.value = m.starter; S.drafts[m.id] = m.starter; save(); sync(); changed(); } };
+  }
+  function buildFill(m, mid, changed) {
+    const parts = m.starter.split("___"), n = parts.length - 1; let vals = draftArr(m.id, n, new Array(n).fill(""));
+    mid.innerHTML = '<p class="muted">Fill every blank <span class="mono">___</span> so the program does what the goal says.</p><div class="fill" id="fillbox">' +
+      parts.map((p, i) => esc(p) + (i < n ? '<input class="blank" data-i="' + i + '" size="' + Math.max(5, (vals[i] || "").length + 1) + '" value="' + esc(vals[i] || "") + '" aria-label="Blank ' + (i + 1) + ' of ' + n + '" autocomplete="off" autocapitalize="off" spellcheck="false">' : "")).join("") + "</div>";
+    $$(".blank", mid).forEach((inp) => inp.addEventListener("input", () => { vals[Number(inp.dataset.i)] = inp.value; inp.size = Math.max(5, inp.value.length + 1); S.drafts[m.id] = JSON.stringify(vals); save(); changed(); }));
+    return { getCode: () => parts.map((p, i) => p + (i < n ? vals[i] || "" : "")).join(""), reset: () => { vals = new Array(n).fill(""); $$(".blank", mid).forEach((x) => { x.value = ""; x.size = 5; }); S.drafts[m.id] = JSON.stringify(vals); save(); changed(); } };
+  }
+  function buildOrder(m, mid, changed) {
+    let lines = draftArr(m.id, m.lines.length, m.lines.slice()), dragFrom = -1;
+    const box = document.createElement("div");
+    mid.innerHTML = '<p class="muted">Arrange the lines (drag them, or use the arrow buttons). Indentation shows which lines belong together.</p>'; mid.appendChild(box);
+    const persist = () => { S.drafts[m.id] = JSON.stringify(lines); save(); changed(); };
+    const move = (i, j) => { if (j < 0 || j >= lines.length) return; const x = lines.splice(i, 1)[0]; lines.splice(j, 0, x); persist(); draw(j); };
+    function draw(focusIdx, focusDir) {
+      box.innerHTML = '<ol class="order">' + lines.map((l, i) => '<li draggable="true" data-i="' + i + '"><span class="grip" aria-hidden="true">⠿</span><code>' + esc(l) + '</code><span class="mv"><button class="btn small" data-up="' + i + '" aria-label="Move line ' + (i + 1) + ' up">▲</button><button class="btn small" data-dn="' + i + '" aria-label="Move line ' + (i + 1) + ' down">▼</button></span></li>').join("") + "</ol>";
+      $$("[data-up]", box).forEach((b) => (b.onclick = () => move(Number(b.dataset.up), Number(b.dataset.up) - 1)));
+      $$("[data-dn]", box).forEach((b) => (b.onclick = () => move(Number(b.dataset.dn), Number(b.dataset.dn) + 1)));
+      $$("li", box).forEach((li) => {
+        li.addEventListener("dragstart", (e) => { dragFrom = Number(li.dataset.i); e.dataTransfer.effectAllowed = "move"; try { e.dataTransfer.setData("text/plain", String(dragFrom)); } catch (er) { /* old browsers */ } li.classList.add("drag"); });
+        li.addEventListener("dragend", () => li.classList.remove("drag"));
+        li.addEventListener("dragover", (e) => { e.preventDefault(); });
+        li.addEventListener("drop", (e) => { e.preventDefault(); const to = Number(li.dataset.i); if (dragFrom >= 0 && dragFrom !== to) move(dragFrom, to); dragFrom = -1; });
+      });
+      if (focusIdx != null) { const b = $((focusDir === "up" ? "[data-up=\"" : "[data-dn=\"") + focusIdx + '"]', box) || $('[data-dn="' + focusIdx + '"]', box); if (b) b.focus(); }
     }
+    draw();
+    return { getCode: () => lines.join("\n") + "\n", reset: () => { lines = m.lines.slice(); persist(); draw(); } };
+  }
+
+  function missionPython(v, m, w) {
+    const kind = m.type === "fill" ? "fill" : m.type === "order" ? "order" : "code";
+    v.innerHTML = missionFrame(m, {
+      tabs: tabBtn("out", "Output", true) + tabBtn("steps", "Step-through") + tabBtn("blocks", "Blocks") + tabBtn("compare", "Compare"),
+      panels: '<div id="tab-out"><label class="muted" for="stdin">Test input (one line per input() call)</label><textarea class="input" id="stdin" rows="2" spellcheck="false"></textarea><div class="out" id="outbox" aria-live="polite" style="margin-top:.5rem">Press Run to see your program\'s output.</div><div id="errbox"></div></div>' +
+        '<div id="tab-steps" hidden><p class="muted">Press “Step through” to watch your program run one line at a time.</p><div id="stepper"></div></div><div id="tab-blocks" hidden><p class="muted">Your code as blocks (read-only). Change the code and the blocks follow.</p><div class="blocks" id="blockbox"></div></div>',
+    });
+    bindHints(m); const show = bindTabs(m); setHeadStatus(m);
+    const firstIn = (m.tests.find((x) => x.stdin) || {}).stdin; $("#stdin").value = firstIn ? firstIn.join("\n") : "";
+    const changed = () => { if (!$("#tab-blocks").hidden) refreshBlocks(); };
+    const ed = (kind === "fill" ? buildFill : kind === "order" ? buildOrder : buildCodeEditor)(m, $("#midpane"), changed);
+    const mid = $("#midpane");
+    mid.insertAdjacentHTML("beforeend", '<div class="row" style="margin-top:.6rem"><button class="btn primary" id="runBtn">▶ ' + esc(t("run")) + '</button><button class="btn" id="stepBtn">👣 ' + esc(t("step")) + '</button><button class="btn good" id="submitBtn">✔ ' + esc(t("submit")) + '</button><button class="btn small" id="resetBtn">↺ ' + esc(t("reset")) + '</button></div>' + (kind === "code" ? '<p class="muted" style="font-size:.85rem">Tip: Ctrl+Enter runs. Press Esc then Tab to move out of the editor.</p>' : ""));
+    refreshBlocks = () => { $("#blockbox").innerHTML = AK.toBlocks(ed.getCode()).map((b) => '<div class="blk ' + b.kind + '" style="margin-left:' + b.depth * 18 + 'px">' + esc(b.label) + "</div>").join("") || '<span class="muted">Write some code to see blocks.</span>'; };
+    refreshCompare(m);
+    const grab = () => ({ code: ed.getCode(), stdin: $("#stdin").value === "" ? [] : $("#stdin").value.split("\n") });
+    async function engine() { try { return await ensurePy(); } catch (e) { $("#outbox").textContent = PY_OFFLINE; return null; } }
     function showRun(r) {
       $("#outbox").textContent = r.out || (r.err ? "" : "(your program printed nothing)");
       const f = r.err ? AK.friendlyError(r.err) : null;
       $("#errbox").innerHTML = f ? '<div class="err" role="alert"><b>' + esc(f.title) + (f.line ? " on line " + f.line : "") + "</b><div>" + esc(f.hint) + '</div><div class="muted mono" style="font-size:.8rem">' + esc(f.raw) + "</div></div>" : "";
     }
-    $("#runBtn").onclick = async () => {
-      show("out"); $("#outbox").textContent = "Running…"; const api = await engine(); if (!api) return;
-      const g = grab(); showRun(api.run(g.code, g.stdin, false));
-    };
-    $("#stepBtn").onclick = async () => {
-      show("steps"); $("#stepper").textContent = "Preparing…"; const api = await engine(); if (!api) { $("#stepper").textContent = PY_OFFLINE; return; }
-      const g = grab(); renderStepper(api.run(g.code, g.stdin, true), g.code);
-    };
-    $("#resetBtn").onclick = () => { if ($("#resetBtn").dataset.sure) { ta.value = m.starter; S.drafts[m.id] = m.starter; save(); sync(); $("#resetBtn").textContent = "↺ " + t("reset"); delete $("#resetBtn").dataset.sure; } else { $("#resetBtn").dataset.sure = "1"; $("#resetBtn").textContent = "Click again to restore the starter code"; } };
+    $("#runBtn").onclick = async () => { show("out"); $("#outbox").textContent = "Running…"; const api = await engine(); if (!api) return; const g = grab(); showRun(api.run(g.code, g.stdin, false)); };
+    $("#stepBtn").onclick = async () => { show("steps"); $("#stepper").textContent = "Preparing…"; const api = await engine(); if (!api) { $("#stepper").textContent = PY_OFFLINE; return; } const g = grab(); renderStepper(api.run(g.code, g.stdin, true), g.code); };
+    $("#resetBtn").onclick = () => { const b = $("#resetBtn"); if (b.dataset.sure) { ed.reset(); b.textContent = "↺ " + t("reset"); delete b.dataset.sure; } else { b.dataset.sure = "1"; b.textContent = "Click again to restore the starter"; } };
     $("#submitBtn").onclick = async () => {
       const api = await engine(); if (!api) return;
-      const results = api.grade(ta.value, m.tests); $("#testlist").outerHTML = renderTests(m, results);
-      if (results.every((r) => r.ok)) {
-        const res = AK.applySolve(S, DATA, m, { hintsUsed: S.hintLvl[m.id] || 0, now: new Date(), code: ta.value, weeklyId: w && w.id });
-        afterSolve(m, res, $("#rewardSlot")); $(".mhead .chip.gold").insertAdjacentHTML("afterend", S.solved[m.id] && !$(".mhead .chip:not(.gold)") ? '<span class="chip">✔ solved</span>' : "");
-      } else { toast("Not yet. Read the failed checks and try again."); }
+      const code = ed.getCode(), results = api.grade(code, allTests(m)); $("#testlist").outerHTML = renderTests(m, results);
+      const main = results.filter((r) => !r.star), extra = results.filter((r) => r.star);
+      if (main.every((r) => r.ok)) finishMission(m, w, { code: code, cleanPass: m.clean ? extra.every((r) => r.ok) : null });
+      else { tries[m.id] = (tries[m.id] || 0) + 1; toast("Not yet. Read the failed checks and try again."); }
     };
-    if (!S.solved[m.id]) $("#rewardSlot").innerHTML = ""; else $("#rewardSlot").innerHTML = '<div class="reward"><b>✔ You solved this mission.</b> <a href="#/map">Back to the map</a></div>';
+    $("#rewardSlot").innerHTML = S.solved[m.id] ? '<div class="reward"><b>✔ You solved this mission.</b> <span class="muted">Improve your code and press Check again to earn more stars.</span> <a href="#/map">Back to the map</a></div>' : "";
     bindExplain(m); setPyPill();
   }
 
@@ -394,12 +530,11 @@
     $("#checkBtn").onclick = () => {
       const results = AK.gradeTerminal(m, T, hasAnswer ? $("#ans").value : ""); $("#testlist").outerHTML = renderTests(m, results);
       if (results.every((r) => r.ok)) {
-        const res = AK.applySolve(S, DATA, m, { hintsUsed: S.hintLvl[m.id] || 0, now: new Date(), code: T.history.join("\n"), weeklyId: w && w.id });
-        afterSolve(m, res, $("#rewardSlot"));
-      } else toast("Not yet. Look at the failed checks.");
+        finishMission(m, w, { code: T.history.join("\n"), cleanPass: null });
+      } else { tries[m.id] = (tries[m.id] || 0) + 1; toast("Not yet. Look at the failed checks."); }
     };
     $("#rewardSlot").innerHTML = S.solved[m.id] ? '<div class="reward"><b>✔ You solved this mission.</b> <a href="#/map">Back to the map</a></div>' : "";
-    bindExplain(m); $("#pypill").remove(); inp.focus();
+    bindExplain(m); setHeadStatus(m); $("#pypill").remove(); inp.focus();
   }
 
   /* ---- arena */
@@ -411,27 +546,50 @@
       '<div class="card" style="margin-top:1.2rem"><b>Coming next</b><p class="muted">Opt-in weekly leagues, duels and co-op bug raids need accounts, so they are planned for the beta. Nothing here ranks you against strangers.</p></div>';
   };
 
+  /* ---- certificates: a shareable PNG, honest about being self-reported */
+  function certificate(title, icon, kicker) {
+    const c = document.createElement("canvas"); c.width = 1200; c.height = 630; const x = c.getContext("2d"), mono = "ui-monospace, Menlo, Consolas, monospace", sans = "system-ui, -apple-system, Segoe UI, sans-serif";
+    const g = x.createLinearGradient(0, 0, 1200, 630); g.addColorStop(0, "#1d1856"); g.addColorStop(1, "#0f0d2e"); x.fillStyle = g; x.fillRect(0, 0, 1200, 630);
+    x.strokeStyle = "#f2b531"; x.lineWidth = 10; x.strokeRect(24, 24, 1152, 582); x.lineWidth = 2; x.strokeRect(46, 46, 1108, 538);
+    x.textAlign = "center"; x.fillStyle = "#f2b531"; x.font = "700 34px " + mono; x.fillText("AataKode · ఆటకోడ్", 600, 108);
+    x.fillStyle = "#e9e7ff"; x.font = "28px " + sans; x.fillText(kicker, 600, 168);
+    x.font = "90px " + sans; x.fillText(icon, 600, 270);
+    x.fillStyle = "#4ade9f"; x.font = "700 58px " + mono; x.fillText(title, 600, 355);
+    x.fillStyle = "#ffffff"; x.font = "700 44px " + sans; x.fillText(S.name || "A learner", 600, 430);
+    x.fillStyle = "#c9c6f5"; x.font = "24px " + sans; x.fillText(rankName(S.xp) + " · " + S.xp + " XP · ⭐ " + AK.totalStars(S) + " · " + AK.dateKey(new Date()), 600, 480);
+    x.fillStyle = "#8f8cc4"; x.font = "20px " + sans; x.fillText("Self-reported progress from aatakode.eknathalabs.com. Not an accredited certificate.", 600, 548);
+    c.toBlob((b) => { const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "aatakode-" + title.toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".png"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); });
+  }
+
   /* ---- profile */
   VIEWS.profile = function (v) {
-    const rk = AK.rankFor(S.xp), st = AK.streakStatus(S, new Date()), badges = AK.allBadges(DATA);
+    const rk = AK.rankFor(S.xp), st = AK.streakStatus(S, new Date()), badges = AK.allBadges(DATA), pyRegions = DATA.regions.filter((r) => r.track === "python");
     const skills = {}; DATA.missions.forEach((m) => { if (S.solved[m.id]) (m.skills || []).forEach((s) => (skills[s] = (skills[s] || 0) + 1)); });
-    const maxSk = Math.max(1, ...Object.values(skills));
+    const skillKeys = Object.keys(skills).sort((a, b) => skills[b] - skills[a] || (a < b ? -1 : 1)), maxSk = Math.max(1, ...Object.values(skills));
+    const cleared = pyRegions.filter((r) => AK.regionComplete(S, DATA, r.id)), grad = badgesHas("python-graduate");
+    function badgesHas(id) { return !!S.badges[id]; }
     v.innerHTML = '<h2>👤 Profile</h2><div class="grid g2">' +
-      '<div class="card"><div class="row">' + parrot(60) + '<div class="grow"><label class="muted" for="pname">Your name (optional)</label><input class="input" id="pname" maxlength="40" value="' + esc(S.name) + '" placeholder="e.g. Asha"><label class="muted" for="pclass">Class code (optional, for teachers)</label><input class="input" id="pclass" maxlength="24" value="' + esc(S.classCode) + '" placeholder="e.g. 9B-2025"></div></div>' +
-      '<h3 style="margin-top:1rem">' + esc(rankName(S.xp)) + " · " + S.xp + ' XP</h3><div class="bar" role="progressbar" aria-valuenow="' + rk.pct + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + rk.pct + '%"></i></div><div class="muted">' + (rk.next ? (rk.next.xp - S.xp) + " XP to " + (S.settings.lang === "te" ? rk.next.te : rk.next.en) : "Top rank reached 🌲") + '</div>' +
-      '<p>🔥 Streak: <b>' + st.count + "</b> day" + (st.count === 1 ? "" : "s") + " · best " + S.streak.best + " · ❄ freezes: " + S.streak.freezes + '</p><p class="muted">Learn on 7 days in a row to earn a freeze that saves your streak if you miss a day.</p></div>' +
-      '<div class="card"><h3>Skills</h3>' + (Object.keys(skills).length ? Object.keys(skills).sort().map((k) => '<div class="skillrow"><span>' + esc(k) + '</span><div class="bar"><i style="width:' + Math.round((skills[k] / maxSk) * 100) + '%"></i></div><span>' + skills[k] + "</span></div>").join("") : '<p class="muted">Solve missions to grow your skills.</p>') + "</div></div>" +
+      '<div class="card"><div class="row"><div id="pmascot">' + parrot(70) + '</div><div class="grow"><label class="muted" for="pname">Your name (optional)</label><input class="input" id="pname" maxlength="40" value="' + esc(S.name) + '" placeholder="e.g. Asha"><label class="muted" for="pclass">Class code (optional, for teachers)</label><input class="input" id="pclass" maxlength="24" value="' + esc(S.classCode) + '" placeholder="e.g. 9B-2025"></div></div>' +
+      '<h3 style="margin-top:1rem">' + esc(rankName(S.xp)) + " · " + S.xp + ' XP · ⭐ ' + AK.totalStars(S) + '</h3><div class="bar" role="progressbar" aria-valuenow="' + rk.pct + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + rk.pct + '%"></i></div><div class="muted">' + (rk.next ? (rk.next.xp - S.xp) + " XP to " + (S.settings.lang === "te" ? rk.next.te : rk.next.en) : "Top rank reached 🌳") + '</div>' +
+      '<p>🔥 Streak: <b>' + st.count + "</b> day" + (st.count === 1 ? "" : "s") + " · best " + S.streak.best + " · ❄ freezes: " + S.streak.freezes + ' · 📅 daily quests: ' + S.dailyDone + '</p><p class="muted">Learn on 7 days in a row to earn a freeze that saves your streak if you miss a day. <a href="#/daily">Today\'s Daily Quest →</a></p></div>' +
+      '<div class="card"><h3>Skills</h3>' + (skillKeys.length ? skillKeys.slice(0, 12).map((k) => '<div class="skillrow"><span>' + esc(k) + '</span><div class="bar"><i style="width:' + Math.round((skills[k] / maxSk) * 100) + '%"></i></div><span>' + skills[k] + "</span></div>").join("") + (skillKeys.length > 12 ? '<p class="muted">+ ' + (skillKeys.length - 12) + " more skills</p>" : "") : '<p class="muted">Solve missions to grow your skills.</p>') + "</div></div>" +
+      '<h3 style="margin-top:1.4rem">Chilaka\'s wardrobe <span class="muted" style="font-size:.8rem">(free, unlocked by clearing regions)</span></h3><div class="wardrobe" id="wardrobe">' +
+      OUTFITS.map((o) => { const open = outfitUnlocked(o); return '<button class="outfit' + (S.settings.outfit === o.id ? " on" : "") + '" data-o="' + o.id + '"' + (open ? "" : " disabled") + ' title="' + esc(open ? o.name : "Locked: " + o.hint) + '">' + parrot(48, o.id) + "<div>" + esc(o.name) + (open ? "" : " 🔒") + "</div></button>"; }).join("") + "</div>" +
+      '<h3 style="margin-top:1.4rem">Certificates</h3><div class="card">' + (cleared.length || grad ? '<p class="muted">Download a card to share. It says plainly that it is self-reported.</p><div class="row">' + cleared.map((r) => '<button class="btn small" data-cert="' + r.id + '">' + r.icon + " " + esc(r.title) + "</button>").join("") + (grad ? '<button class="btn primary small" data-cert="__grad">🎓 Python Graduate</button>' : "") + "</div>" : '<p class="muted">Beat a region boss to unlock its card. Finish every Python region to unlock the Python Graduate card.</p>') + "</div>" +
       '<h3 style="margin-top:1.4rem">Badges</h3><div class="badges">' + badges.map((b) => '<div class="badge' + (S.badges[b.id] ? "" : " off") + '" title="' + esc(b.desc) + '"><div class="ico">' + b.icon + "</div><b>" + esc(S.settings.lang === "te" ? b.te : b.en) + '</b><div class="muted" style="font-size:.78rem">' + esc(S.badges[b.id] ? "Earned " + S.badges[b.id] : b.desc) + "</div></div>").join("") + "</div>" +
       '<div class="grid g2" style="margin-top:1.4rem"><div class="card"><h3>Your data</h3><p class="muted">Everything lives on this device. Export a backup, move it to another device, or start over.</p><div class="row"><button class="btn" id="exp">⬇ Export progress</button><label class="btn" for="imp">⬆ Import</label><input type="file" id="imp" accept="application/json,.json" class="sr"><button class="btn small" id="wipe">Reset everything</button></div><p id="datamsg" class="muted"></p></div>' +
       '<div class="card"><h3>Teacher card</h3><p class="muted">Give this code to your teacher. It lists your name, XP and solved missions (not your code).</p><textarea class="input" id="card" rows="3" readonly></textarea><div class="row" style="margin-top:.4rem"><button class="btn small" id="copycard">Copy code</button></div></div></div>' +
-      '<div class="card" style="margin-top:1rem"><h3>Settings</h3><div class="row"><label>Language <select id="selLang" class="input" style="width:auto"><option value="en">English</option><option value="te">తెలుగు (interface)</option></select></label><label>Theme <select id="selTheme" class="input" style="width:auto"><option value="dark">Dark</option><option value="light">Light</option></select></label><label>Motion <select id="selMotion" class="input" style="width:auto"><option value="auto">Follow my device</option><option value="reduce">Reduce motion</option></select></label></div></div>';
-    $("#selLang").value = S.settings.lang; $("#selTheme").value = S.settings.theme; $("#selMotion").value = S.settings.motion;
+      '<div class="card" style="margin-top:1rem"><h3>Settings</h3><div class="row"><label>Language <select id="selLang" class="input" style="width:auto"><option value="en">English</option><option value="te">తెలుగు (interface)</option></select></label><label>Theme <select id="selTheme" class="input" style="width:auto"><option value="dark">Dark</option><option value="light">Light</option></select></label><label>Code colours <select id="selEditor" class="input" style="width:auto">' + EDITORS.map((e) => "<option value=\"" + e.id + "\"" + (AK.rankFor(S.xp).index >= e.rank ? "" : " disabled") + ">" + esc(e.name + (AK.rankFor(S.xp).index >= e.rank ? "" : " (rank " + AK.RANKS[e.rank].en + ")")) + "</option>").join("") + '</select></label><label>Motion <select id="selMotion" class="input" style="width:auto"><option value="auto">Follow my device</option><option value="reduce">Reduce motion</option></select></label></div></div>';
+    $("#selLang").value = S.settings.lang; $("#selTheme").value = S.settings.theme; $("#selMotion").value = S.settings.motion; $("#selEditor").value = S.settings.editor;
     const refreshCard = () => ($("#card").value = AK.encodeCard(S)); refreshCard();
     $("#pname").oninput = (e) => { S.name = e.target.value; save(); refreshCard(); };
     $("#pclass").oninput = (e) => { S.classCode = e.target.value; save(); refreshCard(); };
     $("#selLang").onchange = (e) => { S.settings.lang = e.target.value; save(); applySettings(); route(); };
     $("#selTheme").onchange = (e) => { S.settings.theme = e.target.value; save(); applySettings(); renderHeader("profile"); };
+    $("#selEditor").onchange = (e) => { S.settings.editor = e.target.value; save(); applySettings(); };
     $("#selMotion").onchange = (e) => { S.settings.motion = e.target.value; save(); applySettings(); };
+    $$("[data-o]", v).forEach((b) => (b.onclick = () => { S.settings.outfit = b.dataset.o; save(); renderHeader("profile"); VIEWS.profile(v); }));
+    $$("[data-cert]", v).forEach((b) => (b.onclick = () => { if (b.dataset.cert === "__grad") certificate("Python Graduate", "🎓", "has completed every region of the Python Quest"); else { const r = regionById[b.dataset.cert]; certificate(r.title, r.icon, "cleared the region"); } }));
     $("#copycard").onclick = () => { $("#card").select(); try { navigator.clipboard.writeText($("#card").value); toast("Teacher card copied"); } catch (e) { document.execCommand("copy"); toast("Copied"); } };
     $("#exp").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], { type: "application/json" })); a.download = "aatakode-progress-" + AK.dateKey(new Date()) + ".json"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); $("#datamsg").textContent = "Exported ✔"; };
     $("#imp").onchange = (e) => {
@@ -447,19 +605,22 @@
     const load = () => { try { return JSON.parse(store.get(ROSTER_KEY) || "[]"); } catch (e) { return []; } };
     let roster = load(); const saveR = () => store.set(ROSTER_KEY, JSON.stringify(roster));
     const total = DATA.missions.length;
+    const goalKey = "aatakode.goal";
     function draw() {
-      const regs = DATA.regions;
+      const regs = DATA.regions, order = roster.map((c, i) => i).sort((a, b) => roster[b].x - roster[a].x);
+      const solvedTotal = roster.reduce((n, c) => n + c.s.length, 0), goal = Number(store.get(goalKey)) || Math.max(10, roster.length * 10);
       v.innerHTML = '<h2>🍎 Teacher dashboard</h2><div class="card"><p>Free for every teacher, and it works with no server. Students open <b>Profile → Teacher card</b> and send you their code. Paste the codes below (one per line) to see class progress. Cards are self-reported: the tests run on each student\'s device, so use this for encouragement and check-ins, not exams.</p>' +
         '<textarea class="input" id="cards" rows="3" placeholder="Paste AK1:… codes here, one per line"></textarea><div class="row" style="margin-top:.5rem"><button class="btn primary" id="addCards">Add to class</button><button class="btn" id="csv"' + (roster.length ? "" : " disabled") + '>⬇ Export CSV</button><button class="btn small" id="clearR"' + (roster.length ? "" : " disabled") + '>Clear class</button><span class="muted" id="tmsg"></span></div></div>' +
-        (roster.length ? '<div class="card scroll" style="margin-top:1rem"><table class="tbl"><thead><tr><th>Student</th><th>Class</th><th>Rank</th><th>XP</th><th>Missions</th>' + regs.map((r) => "<th title=\"" + esc(r.title) + "\">" + r.icon + "</th>").join("") + "<th>Streak</th><th>Badges</th><th>Updated</th><th></th></tr></thead><tbody>" +
-          roster.map((c, i) => "<tr><td>" + esc(c.n || "(no name)") + "</td><td>" + esc(c.c || "") + "</td><td>" + esc(AK.rankFor(c.x).current.en) + "</td><td>" + c.x + "</td><td>" + c.s.length + "/" + total + "</td>" +
+        (roster.length ? '<div class="card" style="margin-top:1rem"><b>Class goal</b> <span class="muted">(a team target, not a ranking of students)</span><div class="row" style="margin:.4rem 0"><label>Missions to solve together <input class="input" id="goal" type="number" min="1" style="width:6rem" value="' + goal + '"></label><span class="chip gold">' + solvedTotal + " / " + goal + '</span></div><div class="bar"><i style="width:' + Math.min(100, Math.round((solvedTotal / goal) * 100)) + '%"></i></div></div><div class="card scroll" style="margin-top:1rem"><table class="tbl"><thead><tr><th>#</th><th>Student</th><th>Class</th><th>Rank</th><th>XP</th><th>Missions</th>' + regs.map((r) => "<th title=\"" + esc(r.title) + "\">" + r.icon + "</th>").join("") + "<th>Streak</th><th>Badges</th><th>Updated</th><th></th></tr></thead><tbody>" +
+          order.map((i, pos) => { const c = roster[i]; return "<tr><td>" + (pos + 1) + "</td><td>" + esc(c.n || "(no name)") + "</td><td>" + esc(c.c || "") + "</td><td>" + esc(AK.rankFor(c.x).current.en) + "</td><td>" + c.x + "</td><td>" + c.s.length + "/" + total + "</td>" +
             regs.map((r) => { const ms = AK.regionMissions(DATA, r.id), d = ms.filter((m) => c.s.includes(m.id)).length; return "<td>" + (d === ms.length ? "✔" : d + "/" + ms.length) + "</td>"; }).join("") +
-            "<td>🔥 " + c.k + "</td><td>" + c.b.length + "</td><td>" + esc((c.t || "").slice(0, 10)) + '</td><td><button class="btn small" data-rm="' + i + '" aria-label="Remove ' + esc(c.n || "student") + '">✕</button></td></tr>').join("") + "</tbody></table></div>" : '<p class="muted" style="margin-top:1rem">No students yet.</p>');
+            "<td>🔥 " + c.k + "</td><td>" + c.b.length + "</td><td>" + esc((c.t || "").slice(0, 10)) + '</td><td><button class="btn small" data-rm="' + i + '" aria-label="Remove ' + esc(c.n || "student") + '">✕</button></td></tr>'; }).join("") + "</tbody></table></div>" : '<p class="muted" style="margin-top:1rem">No students yet.</p>');
       $("#addCards").onclick = () => {
         let added = 0, bad = 0;
         $("#cards").value.split(/\s+/).filter(Boolean).forEach((s) => { const c = AK.decodeCard(s); if (!c) { bad++; return; } const k = roster.findIndex((r) => r.n === c.n && r.c === c.c); if (k >= 0) roster[k] = c; else roster.push(c); added++; });
         saveR(); draw(); $("#tmsg").textContent = added + " added" + (bad ? ", " + bad + " not recognised" : "");
       };
+      const gi = $("#goal"); if (gi) gi.onchange = () => { store.set(goalKey, String(Math.max(1, Number(gi.value) || 1))); draw(); };
       $$("[data-rm]", v).forEach((b) => (b.onclick = () => { roster.splice(Number(b.dataset.rm), 1); saveR(); draw(); }));
       $("#clearR").onclick = () => { if ($("#clearR").dataset.sure) { roster = []; saveR(); draw(); } else { $("#clearR").dataset.sure = "1"; $("#clearR").textContent = "Click again to clear"; } };
       $("#csv").onclick = () => {

@@ -6,14 +6,15 @@
 - [x] In-browser grader (tests run client-side)
 - [x] Simulated terminal for shell missions
 - [x] XP and progress in localStorage, export/import
-- [ ] 10 missions: "Debug the Outage" region
+- [x] "Debug the Outage" region (4 missions so far; 6 more planned)
 
 ## Phase 2: Alpha (weeks 4–8)
 - [x] Step-through visualizer (variables, loops, call stack)
 - [x] Streaks with freeze days, badges, skill-tree map
 - [ ] Verifiable certificates
 - [x] Mobile layout, accessibility pass (keyboard, contrast, reduced motion)
-- [ ] 3 regions, test with 10–20 learners
+- [x] 12 Python regions (137 missions) built and verified
+- [ ] Test with 10–20 real learners and tune difficulty
 
 ## Phase 3: Beta (months 3–4)
 - [ ] Optional accounts and cloud sync
@@ -31,4 +32,5 @@
 - Rewards track demonstrated skill, not time spent.
 - Anything public (certificates, leaderboards) is verified server-side.
 
+- Also built: Daily Quest, stars, story map, outfits, certificate cards, class goal.
 - Built so far: 20 missions (Python Quest + 4 outages), teacher dashboard (offline), Outage of the Week, solution comparison, block view, Telugu UI.

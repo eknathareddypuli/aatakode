@@ -29,7 +29,7 @@ const ok = () => { checks++; };
 // ---- structure
 const ids = new Set(missions.map((m) => m.id));
 const REQUIRED = ["id", "region", "order", "title", "story", "goal", "type", "starter", "tests", "hints", "socratic", "explain", "xp", "skills", "requires", "solution"];
-const TYPES = ["write-code", "fix-the-bug", "terminal"];
+const TYPES = ["write-code", "fix-the-bug", "terminal", "predict", "fill", "order"];
 const seen = new Set();
 for (const m of missions) {
   for (const k of REQUIRED) if (!(k in m)) bad(m, `missing field "${k}"`); else ok();
@@ -41,6 +41,19 @@ for (const m of missions) {
   if (!Array.isArray(m.socratic) || m.socratic.length !== 3) bad(m, "needs exactly 3 socratic questions");
   for (const r of m.requires || []) if (!ids.has(r)) bad(m, `requires unknown mission "${r}"`);
   if (!Array.isArray(m.tests) || !m.tests.length) bad(m, "needs tests");
+  if (m.type === "predict") {
+    if (typeof m.code !== "string" || !Array.isArray(m.options) || m.options.length < 3 || m.options.length > 4) bad(m, "predict needs code and 3-4 options");
+    else if (new Set(m.options.map((o) => o.trim())).size !== m.options.length) bad(m, "predict options must be distinct");
+    if (!Number.isInteger(m.answer) || m.answer < 0 || m.answer >= (m.options || []).length) bad(m, "predict answer must index options");
+    if (!m.why) bad(m, "predict needs a why explanation");
+  }
+  if (m.type === "fill" && (m.starter.match(/___/g) || []).length < 1) bad(m, "fill starter needs ___ blanks");
+  if (m.type === "fill" && /___/.test(m.solution)) bad(m, "fill solution still has blanks");
+  if (m.type === "order") {
+    if (!Array.isArray(m.lines) || m.lines.length < 3) bad(m, "order needs a lines array");
+    else if (m.lines.slice().sort().join("\n") !== String(m.solution).replace(/\n$/, "").split("\n").sort().join("\n")) bad(m, "order lines must be a permutation of the solution lines");
+    else if (m.lines.join("\n") === String(m.solution).replace(/\n$/, "")) bad(m, "order lines must start shuffled");
+  }
   if (!(m.xp > 0)) bad(m, "xp must be positive");
   if (m.file.split("/")[2] !== m.id + ".json") bad(m, "file name must be <id>.json");
 }
@@ -57,17 +70,33 @@ AK.py.init(py);
 
 const summarize = (res) => res.filter((r) => !r.ok).map((r) => r.label).join("; ");
 
-for (const m of missions.filter((x) => x.type !== "terminal")) {
+// predict missions: the marked option must equal what the code really prints
+for (const m of missions.filter((x) => x.type === "predict")) {
+  const r = AK.py.run(m.code, m.stdin || [], false);
+  const actual = (r.out.replace(/\s+$/, "") + (r.err ? (r.out.trim() ? "\n" : "") + "Error: " + r.err.type : "")).trim();
+  const want = m.options[m.answer].trim();
+  if (actual.trim() === want) ok(); else bad(m, `marked answer "${want}" but the code really gives "${actual}"`);
+  m.options.forEach((o, i) => { if (i !== m.answer && o.trim() === actual.trim()) bad(m, `option ${i} is also correct`); });
+  if (m.solution !== m.options[m.answer]) bad(m, "solution must equal the correct option text");
+}
+
+for (const m of missions.filter((x) => x.type !== "terminal" && x.type !== "predict")) {
   if (typeof m.solution !== "string") { bad(m, "solution must be a string of code"); continue; }
   let res = AK.py.grade(m.solution, m.tests);
   if (res.every((r) => r.ok)) ok(); else bad(m, `reference solution fails: ${summarize(res)}`);
   if (m.alt) {
     res = AK.py.grade(m.alt, m.tests);
     if (res.every((r) => r.ok)) ok(); else bad(m, `alternative solution fails: ${summarize(res)}`);
-  } else bad(m, "missing alternative solution");
+  } else if (m.type === "write-code" || m.type === "fix-the-bug") bad(m, "missing alternative solution");
   res = AK.py.grade(m.starter, m.tests);
   if (res.every((r) => r.ok)) bad(m, "starter already passes (nothing to learn)"); else ok();
   // fix-the-bug missions must start with a failing program, not an empty one
+  if (m.clean) {
+    res = AK.py.grade(m.solution, m.clean.tests);
+    const resAlt = m.alt ? AK.py.grade(m.alt, m.clean.tests) : [{ ok: false }];
+    if (res.every((r) => r.ok) || resAlt.every((r) => r.ok)) ok(); else bad(m, `neither reference nor alternative meets the clean-up challenge: ${summarize(res)}`);
+    if (!m.clean.label) bad(m, "clean needs a label");
+  }
   if (m.type === "fix-the-bug" && m.starter.trim().split("\n").length < 3) bad(m, "bug-fix starter looks too small");
   // hint 3 should reveal a working answer, either on its own or added to the starter's code lines
   const h3 = m.hints[2];
@@ -104,6 +133,11 @@ while (progressed && guard++ < 100) {
 }
 for (const m of missions) if (!S.solved[m.id]) bad(m, "unreachable: never unlocks from a fresh start");
 const totalXp = S.xp;
+const preds = missions.filter((m) => m.type === "predict").length;
+if (preds < 30) bad({ id: "daily" }, `needs 30+ predict missions for a varied Daily Quest, has ${preds}`); else ok();
+const ds = AK.dailySet(AK.newState(), data, new Date());
+if (ds.length === 3) ok(); else bad({ id: "daily" }, "daily set is not 3 items");
+console.log("types:", Object.entries(missions.reduce((a, m) => ((a[m.type] = (a[m.type] || 0) + 1), a), {})).map((e) => e.join("=")).join(", "));
 
 console.log(`\n${missions.length} missions, ${checks} checks, total XP when finishing everything with no hints: ${totalXp}`);
 if (totalXp < AK.RANKS[AK.RANKS.length - 1].xp) bad({ id: "ranks" }, `top rank needs ${AK.RANKS[AK.RANKS.length - 1].xp} XP but only ${totalXp} is available`);

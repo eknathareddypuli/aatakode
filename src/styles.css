@@ -147,3 +147,45 @@ table.tbl th,table.tbl td{padding:.4rem .5rem;border-bottom:1px solid var(--line
 @media(prefers-reduced-motion:reduce){:root[data-motion="auto"] *{animation:none!important;transition:none!important}}
 footer{border-top:3px solid var(--line);padding:1rem 0;color:var(--muted);font-size:.9rem}
 .gutter{white-space:pre}.sr:focus{position:fixed;left:8px;top:8px;width:auto;height:auto;clip:auto;background:var(--gold,#f2b531);color:#000;padding:.4rem .7rem;z-index:99}
+
+/* v2: new mission types, stars, daily quest, wardrobe */
+html{--codeink:var(--ink)}
+.editor textarea,.fill,.order code,.codeview,.out,.opt pre{color:var(--codeink)}
+[data-editor=contrast]{--code:#000;--codeink:#fff}
+[data-editor=turmeric]{--code:#2a1d06;--codeink:#ffd98a}
+[data-editor=mint]{--code:#04170f;--codeink:#a7f3d0}
+[data-editor=paper]{--code:#fffdf5;--codeink:#222}
+.nodes{row-gap:1.4rem}
+.node .nstars{position:absolute;bottom:-15px;left:-8px;right:-8px;text-align:center;font:.62rem var(--mono);color:var(--gold);letter-spacing:1px;font-style:normal;pointer-events:none}
+.node{font-size:1.25rem}
+.village .strip{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.village .place{font-size:1.5rem;filter:grayscale(1) opacity(.4);transition:filter .3s}
+.village .place.on{filter:none}
+.starrow .idle{color:var(--gold)}
+.bigstars{font-size:1.8rem;color:var(--gold);letter-spacing:.2rem}
+.codeview{background:var(--code);border:2px solid var(--line);border-radius:8px;padding:.7rem;font:.92rem/1.55 var(--mono);overflow:auto;margin:.6rem 0}
+.opts{border:0;padding:0;margin:.6rem 0;display:grid;gap:.5rem}
+.opts legend{font-weight:700;margin-bottom:.3rem}
+.opt{display:flex;gap:.6rem;align-items:flex-start;border:2px solid var(--line);border-radius:8px;padding:.45rem .7rem;cursor:pointer;background:var(--panel2)}
+.opt pre{margin:0;font:.9rem/1.45 var(--mono);white-space:pre-wrap;background:transparent;border:0;padding:0}
+.opt:hover:not(.lock){border-color:var(--gold)}
+.opt.good{border-color:var(--mint);background:rgba(74,222,159,.15)}
+.opt.bad{border-color:var(--coral);opacity:.6;text-decoration:line-through}
+.pmsg{margin-top:.5rem;min-height:1.4em}
+.fill{white-space:pre-wrap;font:.95rem/2.1 var(--mono);background:var(--code);border:2px solid var(--line);border-radius:8px;padding:.7rem;overflow:auto}
+.blank{font:inherit;color:var(--gold);background:rgba(242,181,49,.12);border:0;border-bottom:2px dashed var(--gold);border-radius:4px;padding:0 .25rem;text-align:center;outline:none;min-width:3.5ch}
+.blank:focus{background:rgba(242,181,49,.28)}
+.order{list-style:none;margin:.4rem 0;padding:0;display:grid;gap:.35rem}
+.order li{display:flex;align-items:center;gap:.5rem;background:var(--code);border:2px solid var(--line);border-radius:8px;padding:.3rem .5rem;cursor:grab}
+.order li.drag{opacity:.4}
+.order code{flex:1;white-space:pre;font:.9rem var(--mono)}
+.order .grip{color:var(--muted)}
+.order .mv{display:flex;gap:.25rem}
+.wardrobe{display:flex;gap:.6rem;flex-wrap:wrap}
+.outfit{border:2px solid var(--line);background:var(--panel2);border-radius:10px;padding:.5rem;width:110px;text-align:center;cursor:pointer;color:var(--ink);font:.78rem var(--mono)}
+.outfit.on{border-color:var(--gold);box-shadow:0 0 0 3px rgba(242,181,49,.3)}
+.outfit:disabled{opacity:.45;cursor:not-allowed}
+#midpane,#leftpane,#rightpane{min-width:0}
+.order li{min-width:0}
+.order code{min-width:0;overflow-x:auto}
+.fill,.codeview{max-width:100%}
