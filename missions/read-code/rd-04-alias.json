@@ -1,0 +1,46 @@
+{
+  "id": "rd-04-alias",
+  "region": "read-code",
+  "order": 4,
+  "title": "Two Names",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\n3"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "b is another name for the same list, so append through b changes what a sees: 3 items.",
+  "learn": "alias",
+  "mode": "output",
+  "code": "a = [1, 2]\nb = a\nb.append(3)\nprint(len(a))",
+  "options": [
+    "3",
+    "2",
+    "5",
+    "1"
+  ],
+  "answer": 0,
+  "solution": "3",
+  "requires": [
+    "rd-03-dict"
+  ]
+}

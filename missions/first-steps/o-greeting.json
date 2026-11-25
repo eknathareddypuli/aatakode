@@ -59,5 +59,6 @@
   "requires": [
     "p-print-sep"
   ],
-  "solution": "name = input()\ngreeting = \"Hello, \" + name\nprint(greeting)\nprint(len(name))\n"
+  "solution": "name = input()\ngreeting = \"Hello, \" + name\nprint(greeting)\nprint(len(name))\n",
+  "learn": "print"
 }

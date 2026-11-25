@@ -1,0 +1,48 @@
+{
+  "id": "rd-17-purpose-a",
+  "region": "read-code",
+  "order": 17,
+  "title": "What Does This Function Do?",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Choose what this function does.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Try the function with a tiny input and trace it.",
+    "Ignore the names and watch what changes.",
+    "It: Removes duplicates and keeps the first-seen order"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "The set remembers what was seen, so each item is added only once, in original order.",
+  "learn": "sets",
+  "mode": "purpose",
+  "code": "def f(xs):\n    seen = set()\n    out = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            out.append(x)\n    return out",
+  "demo": "print(f([3, 1, 3, 2, 1]))",
+  "demo_out": "[3, 1, 2]",
+  "options": [
+    "Sorts the list",
+    "Removes duplicates and keeps the first-seen order",
+    "Counts each item",
+    "Reverses the list"
+  ],
+  "answer": 1,
+  "solution": "Removes duplicates and keeps the first-seen order",
+  "requires": [
+    "rd-16-bug-case"
+  ]
+}

@@ -49,5 +49,6 @@
     "w-api"
   ],
   "solution": "def count_levels(log):\n    counts = {}\n    for line in log.splitlines():\n        parts = line.split()\n        if len(parts) >= 3:\n            counts[parts[2]] = counts.get(parts[2], 0) + 1\n    return counts\n",
-  "alt": "import re\nfrom collections import Counter\n\n\ndef count_levels(log):\n    return dict(Counter(re.findall(r\"^\\S+ \\S+ (\\w+)\", log, re.M)))\n"
+  "alt": "import re\nfrom collections import Counter\n\n\ndef count_levels(log):\n    return dict(Counter(re.findall(r\"^\\S+ \\S+ (\\w+)\", log, re.M)))\n",
+  "learn": "regex"
 }

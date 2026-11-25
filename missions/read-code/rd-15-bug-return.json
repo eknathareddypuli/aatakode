@@ -1,0 +1,48 @@
+{
+  "id": "rd-15-bug-return",
+  "region": "read-code",
+  "order": 15,
+  "title": "Where Is the Bug: Double",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Click the line that holds the bug.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Run the code in your head. Where does the result stop matching what you want?",
+    "The problem is not the first line that looks odd, but the first line that is wrong.",
+    "Look at line 2."
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "print shows the value but the function returns None. Use return.",
+  "learn": "def-basics",
+  "mode": "bug",
+  "code": "def double(n):\n    print(n * 2)\nprint(double(4) + 1)",
+  "options": [
+    "Line 1",
+    "Line 2",
+    "Line 3"
+  ],
+  "answer": 1,
+  "fixed_line": "    return n * 2",
+  "bugline": 2,
+  "expect": "9",
+  "solution": "Line 2",
+  "requires": [
+    "rd-14-bug-key"
+  ]
+}

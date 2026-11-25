@@ -1,0 +1,46 @@
+{
+  "id": "rd-09-try",
+  "region": "read-code",
+  "order": 9,
+  "title": "Which Line Runs",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\na\nc\nd"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "'a' prints, int('x') raises, 'b' is skipped, except prints c, finally always prints d.",
+  "learn": "finally",
+  "mode": "output",
+  "code": "try:\n    print('a')\n    int('x')\n    print('b')\nexcept ValueError:\n    print('c')\nfinally:\n    print('d')",
+  "options": [
+    "a\nb\nd",
+    "a\nc\nd",
+    "a\nc",
+    "c\nd"
+  ],
+  "answer": 1,
+  "solution": "a\nc\nd",
+  "requires": [
+    "rd-08-comp"
+  ]
+}

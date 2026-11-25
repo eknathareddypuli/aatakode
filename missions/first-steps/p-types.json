@@ -41,5 +41,6 @@
   "requires": [
     "py-02-variables"
   ],
-  "solution": "10 55 10.0"
+  "solution": "10 55 10.0",
+  "learn": "types"
 }

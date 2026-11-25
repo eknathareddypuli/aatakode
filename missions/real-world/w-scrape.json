@@ -48,5 +48,6 @@
     "p-html"
   ],
   "solution": "import re\n\n\ndef prices(html):\n    found = re.findall(r'class=\"price\">Rs (\\d+)<', html)\n    return [int(p) for p in found]\n",
-  "alt": "import re\n\n\ndef prices(html):\n    result = []\n    for m in re.finditer(r'<span class=\"price\">Rs\\s*(\\d+)</span>', html):\n        result.append(int(m.group(1)))\n    return result\n"
+  "alt": "import re\n\n\ndef prices(html):\n    result = []\n    for m in re.finditer(r'<span class=\"price\">Rs\\s*(\\d+)</span>', html):\n        result.append(int(m.group(1)))\n    return result\n",
+  "learn": "html-scrape"
 }

@@ -37,5 +37,6 @@
   ],
   "requires": [],
   "solution": "print(\"Hello, Aata!\")\n",
-  "alt": "print('Hello, ' + 'Aata!')\n"
+  "alt": "print('Hello, ' + 'Aata!')\n",
+  "learn": "print"
 }

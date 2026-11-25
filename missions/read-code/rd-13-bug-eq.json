@@ -1,0 +1,48 @@
+{
+  "id": "rd-13-bug-eq",
+  "region": "read-code",
+  "order": 13,
+  "title": "Where Is the Bug: Gate",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Click the line that holds the bug.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Run the code in your head. Where does the result stop matching what you want?",
+    "The problem is not the first line that looks odd, but the first line that is wrong.",
+    "Look at line 2."
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "A single = is assignment. A comparison needs == or here >=.",
+  "learn": "bool-compare",
+  "mode": "bug",
+  "code": "age = 20\nif age = 18:\n    print('adult')",
+  "options": [
+    "Line 1",
+    "Line 2",
+    "Line 3"
+  ],
+  "answer": 1,
+  "fixed_line": "if age >= 18:",
+  "bugline": 2,
+  "expect": "adult",
+  "solution": "Line 2",
+  "requires": [
+    "rd-12-bug-range"
+  ]
+}

@@ -32,5 +32,6 @@
   "requires": [
     "w-regex"
   ],
-  "solution": "import argparse\nparser = argparse.ArgumentParser()\nparser.add_argument(\"--name\", default=\"world\")\nargs = parser.parse_args([\"--name\", \"Asha\"])\nprint(\"Hello, \" + args.name)\n"
+  "solution": "import argparse\nparser = argparse.ArgumentParser()\nparser.add_argument(\"--name\", default=\"world\")\nargs = parser.parse_args([\"--name\", \"Asha\"])\nprint(\"Hello, \" + args.name)\n",
+  "learn": "cli"
 }

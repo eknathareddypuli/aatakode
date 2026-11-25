@@ -48,5 +48,6 @@
     "p-json"
   ],
   "solution": "import json\n\n\ndef parse_weather(text):\n    data = json.loads(text)\n    sky = \"wet\" if data.get(\"rain\", False) else \"dry\"\n    return f\"{data['city']}: {data['temp_c']}C, {sky}\"\n",
-  "alt": "import json\n\n\ndef parse_weather(text):\n    d = json.loads(text)\n    if d.get(\"rain\"):\n        sky = \"wet\"\n    else:\n        sky = \"dry\"\n    return d[\"city\"] + \": \" + str(d[\"temp_c\"]) + \"C, \" + sky\n"
+  "alt": "import json\n\n\ndef parse_weather(text):\n    d = json.loads(text)\n    if d.get(\"rain\"):\n        sky = \"wet\"\n    else:\n        sky = \"dry\"\n    return d[\"city\"] + \": \" + str(d[\"temp_c\"]) + \"C, \" + sky\n",
+  "learn": "api-json"
 }

@@ -49,5 +49,6 @@
   ],
   "solution": "def unhealthy(statuses):\n    bad = []\n    for name, code in statuses.items():\n        if not 200 <= code < 400:\n            bad.append(name)\n    return sorted(bad)\n",
   "alt": "def unhealthy(statuses):\n    return sorted(name for name, code in statuses.items() if code < 200 or code >= 400)\n",
-  "boss": true
+  "boss": true,
+  "learn": "api-json"
 }

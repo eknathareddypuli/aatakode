@@ -1,0 +1,46 @@
+{
+  "id": "rd-01-slice",
+  "region": "read-code",
+  "order": 1,
+  "title": "Slice and Dice",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\nchima"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "s[:3] is the first three letters 'chi' and s[-2:] the last two 'ma', giving 'chima'.",
+  "learn": "str-index",
+  "mode": "output",
+  "code": "s = \"chilakamma\"\nprint(s[:3] + s[-2:])",
+  "options": [
+    "chilma",
+    "chima",
+    "hilam",
+    "chiam"
+  ],
+  "answer": 1,
+  "solution": "chima",
+  "requires": [
+    "py-07-bugfix-2"
+  ]
+}

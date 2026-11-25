@@ -40,5 +40,6 @@
   "requires": [
     "f-fstring"
   ],
-  "solution": "3.5\n3\n1"
+  "solution": "3.5\n3\n1",
+  "learn": "types"
 }

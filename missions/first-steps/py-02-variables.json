@@ -57,5 +57,6 @@
     "blanks": [
       "lives = 3"
     ]
-  }
+  },
+  "learn": "variables"
 }

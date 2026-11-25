@@ -1,0 +1,48 @@
+{
+  "id": "rd-18-purpose-b",
+  "region": "read-code",
+  "order": 18,
+  "title": "What Does This Function Do?",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Choose what this function does.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Try the function with a tiny input and trace it.",
+    "Ignore the names and watch what changes.",
+    "It: Checks whether a word reads the same backwards"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "s[::-1] is the reverse, so f compares the word with its reverse: a palindrome test.",
+  "learn": "str-index",
+  "mode": "purpose",
+  "code": "def f(s):\n    return s == s[::-1]",
+  "demo": "print(f('noon'), f('parrot'))",
+  "demo_out": "True False",
+  "options": [
+    "Reverses a word",
+    "Checks if a word is empty",
+    "Checks whether a word reads the same backwards",
+    "Counts the letters"
+  ],
+  "answer": 2,
+  "solution": "Checks whether a word reads the same backwards",
+  "requires": [
+    "rd-17-purpose-a"
+  ]
+}

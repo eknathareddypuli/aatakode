@@ -1,0 +1,47 @@
+{
+  "id": "rd-14-bug-key",
+  "region": "read-code",
+  "order": 14,
+  "title": "Where Is the Bug: Menu",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Click the line that holds the bug.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Run the code in your head. Where does the result stop matching what you want?",
+    "The problem is not the first line that looks odd, but the first line that is wrong.",
+    "Look at line 2."
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "The key 'coffee' does not exist. Use get with a default.",
+  "learn": "dict-basics",
+  "mode": "bug",
+  "code": "menu = {'tea': 10}\nprint(menu['coffee'])",
+  "options": [
+    "Line 1",
+    "Line 2"
+  ],
+  "answer": 1,
+  "fixed_line": "print(menu.get('coffee', 0))",
+  "bugline": 2,
+  "expect": "0",
+  "solution": "Line 2",
+  "requires": [
+    "rd-13-bug-eq"
+  ]
+}

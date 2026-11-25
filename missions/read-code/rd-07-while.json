@@ -1,0 +1,46 @@
+{
+  "id": "rd-07-while",
+  "region": "read-code",
+  "order": 7,
+  "title": "How Many Rounds",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\n4"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "20 becomes 10, 5, 2, 1: four halvings.",
+  "learn": "while",
+  "mode": "output",
+  "code": "n, r = 20, 0\nwhile n > 1:\n    n //= 2\n    r += 1\nprint(r)",
+  "options": [
+    "10",
+    "5",
+    "3",
+    "4"
+  ],
+  "answer": 3,
+  "solution": "4",
+  "requires": [
+    "rd-06-return"
+  ]
+}

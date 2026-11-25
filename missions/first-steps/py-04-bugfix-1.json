@@ -59,5 +59,6 @@
   ],
   "solution": "name = input()\nage = int(input())\nprint(\"Hello \" + name + \"!\")\nprint(\"Next year you will be \" + str(age + 1))\n",
   "alt": "name = input()\nage = int(input())\nprint(f\"Hello {name}!\")\nprint(f\"Next year you will be {age + 1}\")\n",
-  "boss": true
+  "boss": true,
+  "learn": "name-error-bug"
 }

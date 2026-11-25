@@ -40,5 +40,6 @@
   "requires": [
     "f-argparse"
   ],
-  "solution": "2 tea"
+  "solution": "2 tea",
+  "learn": "html-scrape"
 }

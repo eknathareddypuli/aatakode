@@ -1,0 +1,46 @@
+{
+  "id": "rd-06-return",
+  "region": "read-code",
+  "order": 6,
+  "title": "Falling Off the End",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\nNone"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "No return runs for -1 so the function gives back None, and print shows None.",
+  "learn": "early-return",
+  "mode": "output",
+  "code": "def f(n):\n    if n > 0:\n        return 'pos'\nprint(f(-1))",
+  "options": [
+    "neg",
+    "pos",
+    "None",
+    "False"
+  ],
+  "answer": 2,
+  "solution": "None",
+  "requires": [
+    "rd-05-func"
+  ]
+}

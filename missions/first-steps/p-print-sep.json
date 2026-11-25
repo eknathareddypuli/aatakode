@@ -40,5 +40,6 @@
   "requires": [
     "w-swap"
   ],
-  "solution": "a-b\nx!y"
+  "solution": "a-b\nx!y",
+  "learn": "print"
 }

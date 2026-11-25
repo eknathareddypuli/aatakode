@@ -40,5 +40,6 @@
   "requires": [
     "ps-boss"
   ],
-  "solution": "Asha 2"
+  "solution": "Asha 2",
+  "learn": "json-data"
 }

@@ -1,0 +1,48 @@
+{
+  "id": "rd-12-bug-range",
+  "region": "read-code",
+  "order": 12,
+  "title": "Where Is the Bug: Countdown",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Click the line that holds the bug.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Run the code in your head. Where does the result stop matching what you want?",
+    "The problem is not the first line that looks odd, but the first line that is wrong.",
+    "Look at line 1."
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "range(3, 0) is empty because it counts upward by default. Add the step -1.",
+  "learn": "range-offbyone",
+  "mode": "bug",
+  "code": "for i in range(3, 0):\n    print(i)\nprint('liftoff')",
+  "options": [
+    "Line 1",
+    "Line 2",
+    "Line 3"
+  ],
+  "answer": 0,
+  "fixed_line": "for i in range(3, 0, -1):",
+  "bugline": 1,
+  "expect": "3\n2\n1\nliftoff",
+  "solution": "Line 1",
+  "requires": [
+    "rd-11-bug-avg"
+  ]
+}

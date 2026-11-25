@@ -65,5 +65,6 @@
     "blanks": [
       "print(snacks * 5)"
     ]
-  }
+  },
+  "learn": "input-math"
 }

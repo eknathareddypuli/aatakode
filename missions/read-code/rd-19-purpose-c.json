@@ -1,0 +1,48 @@
+{
+  "id": "rd-19-purpose-c",
+  "region": "read-code",
+  "order": 19,
+  "title": "What Does This Function Do?",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Choose what this function does.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Try the function with a tiny input and trace it.",
+    "Ignore the names and watch what changes.",
+    "It: Finds the largest item"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "best keeps the biggest value seen so far. It is a hand-written max().",
+  "learn": "accumulator",
+  "mode": "purpose",
+  "code": "def f(xs):\n    best = xs[0]\n    for x in xs:\n        if x > best:\n            best = x\n    return best",
+  "demo": "print(f([4, 9, 2]))",
+  "demo_out": "9",
+  "options": [
+    "Finds the smallest item",
+    "Adds all items",
+    "Returns the first item",
+    "Finds the largest item"
+  ],
+  "answer": 3,
+  "solution": "Finds the largest item",
+  "requires": [
+    "rd-18-purpose-b"
+  ]
+}

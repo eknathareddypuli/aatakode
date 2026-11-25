@@ -1,0 +1,805 @@
+{
+ "limit": 300,
+ "puzzles": [
+  {
+   "id": "c01",
+   "mode": "fastest",
+   "title": "Add two numbers",
+   "spec": "Read two integers on one line and print their sum.",
+   "solution": "a, b = map(int, input().split())\nprint(a + b)",
+   "ghosts": [
+    25,
+    40,
+    70,
+    110,
+    170
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "3 4"
+     ],
+     "out": "7"
+    },
+    {
+     "stdin": [
+      "10 -2"
+     ],
+     "out": "8"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "0 0"
+     ],
+     "out": "0"
+    },
+    {
+     "stdin": [
+      "100 250"
+     ],
+     "out": "350"
+    },
+    {
+     "stdin": [
+      "-5 -7"
+     ],
+     "out": "-12"
+    },
+    {
+     "stdin": [
+      "123 877"
+     ],
+     "out": "1000"
+    }
+   ],
+   "par": 45
+  },
+  {
+   "id": "c02",
+   "mode": "fastest",
+   "title": "Mirror",
+   "spec": "Read a word and print it backwards.",
+   "solution": "print(input()[::-1])",
+   "ghosts": [
+    20,
+    35,
+    55,
+    90,
+    150
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "parrot"
+     ],
+     "out": "torrap"
+    },
+    {
+     "stdin": [
+      "abc"
+     ],
+     "out": "cba"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "a"
+     ],
+     "out": "a"
+    },
+    {
+     "stdin": [
+      "level"
+     ],
+     "out": "level"
+    },
+    {
+     "stdin": [
+      "python"
+     ],
+     "out": "nohtyp"
+    },
+    {
+     "stdin": [
+      "Aata Kode"
+     ],
+     "out": "edoK ataA"
+    }
+   ],
+   "par": 20
+  },
+  {
+   "id": "c03",
+   "mode": "fastest",
+   "title": "Vowel count",
+   "spec": "Read a line and print how many vowels (a e i o u, any case) it has.",
+   "solution": "s = input().lower()\nprint(sum(c in 'aeiou' for c in s))",
+   "ghosts": [
+    45,
+    70,
+    100,
+    150,
+    230
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "Chilaka"
+     ],
+     "out": "3"
+    },
+    {
+     "stdin": [
+      "rhythm"
+     ],
+     "out": "0"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "AEIOU"
+     ],
+     "out": "5"
+    },
+    {
+     "stdin": [
+      "hello world"
+     ],
+     "out": "3"
+    },
+    {
+     "stdin": [
+      "xyz"
+     ],
+     "out": "0"
+    },
+    {
+     "stdin": [
+      "Programming Is Fun"
+     ],
+     "out": "5"
+    }
+   ],
+   "par": 55
+  },
+  {
+   "id": "c04",
+   "mode": "fastest",
+   "title": "Fizz and Buzz",
+   "spec": "Read n. Print Fizz if n is a multiple of 3, Buzz if of 5, FizzBuzz if of both, otherwise n itself.",
+   "solution": "n = int(input())\nprint('Fizz' * (n % 3 == 0) + 'Buzz' * (n % 5 == 0) or n)",
+   "ghosts": [
+    50,
+    80,
+    120,
+    180,
+    260
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "9"
+     ],
+     "out": "Fizz"
+    },
+    {
+     "stdin": [
+      "7"
+     ],
+     "out": "7"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "15"
+     ],
+     "out": "FizzBuzz"
+    },
+    {
+     "stdin": [
+      "10"
+     ],
+     "out": "Buzz"
+    },
+    {
+     "stdin": [
+      "1"
+     ],
+     "out": "1"
+    },
+    {
+     "stdin": [
+      "30"
+     ],
+     "out": "FizzBuzz"
+    },
+    {
+     "stdin": [
+      "11"
+     ],
+     "out": "11"
+    }
+   ],
+   "par": 74
+  },
+  {
+   "id": "c05",
+   "mode": "shortest",
+   "title": "Palindrome?",
+   "spec": "Read a word. Print yes if it reads the same both ways, otherwise no.",
+   "solution": "s = input()\nprint('yes' if s == s[::-1] else 'no')",
+   "ghosts": [
+    40,
+    60,
+    90,
+    140,
+    200
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "level"
+     ],
+     "out": "yes"
+    },
+    {
+     "stdin": [
+      "parrot"
+     ],
+     "out": "no"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "a"
+     ],
+     "out": "yes"
+    },
+    {
+     "stdin": [
+      "abba"
+     ],
+     "out": "yes"
+    },
+    {
+     "stdin": [
+      "abca"
+     ],
+     "out": "no"
+    },
+    {
+     "stdin": [
+      "noon"
+     ],
+     "out": "yes"
+    },
+    {
+     "stdin": [
+      "Aa"
+     ],
+     "out": "no"
+    }
+   ],
+   "par": 50
+  },
+  {
+   "id": "c06",
+   "mode": "shortest",
+   "title": "Digit sum",
+   "spec": "Read a whole number and print the sum of its digits.",
+   "solution": "print(sum(map(int, input())))",
+   "ghosts": [
+    30,
+    50,
+    80,
+    120,
+    190
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "123"
+     ],
+     "out": "6"
+    },
+    {
+     "stdin": [
+      "90"
+     ],
+     "out": "9"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "0"
+     ],
+     "out": "0"
+    },
+    {
+     "stdin": [
+      "7"
+     ],
+     "out": "7"
+    },
+    {
+     "stdin": [
+      "999"
+     ],
+     "out": "27"
+    },
+    {
+     "stdin": [
+      "1000"
+     ],
+     "out": "1"
+    },
+    {
+     "stdin": [
+      "48271"
+     ],
+     "out": "22"
+    }
+   ],
+   "par": 29
+  },
+  {
+   "id": "c07",
+   "mode": "reverse",
+   "title": "Mystery rule A",
+   "spec": "(Reverse mode) The task is hidden. Study the examples and the failing checks, then infer the rule.",
+   "solution": "n = int(input())\nprint(n * (n + 1) // 2)",
+   "ghosts": [
+    90,
+    140,
+    200,
+    300,
+    420
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "1"
+     ],
+     "out": "1"
+    },
+    {
+     "stdin": [
+      "4"
+     ],
+     "out": "10"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "0"
+     ],
+     "out": "0"
+    },
+    {
+     "stdin": [
+      "2"
+     ],
+     "out": "3"
+    },
+    {
+     "stdin": [
+      "10"
+     ],
+     "out": "55"
+    },
+    {
+     "stdin": [
+      "100"
+     ],
+     "out": "5050"
+    },
+    {
+     "stdin": [
+      "7"
+     ],
+     "out": "28"
+    }
+   ],
+   "par": 40
+  },
+  {
+   "id": "c08",
+   "mode": "reverse",
+   "title": "Mystery rule B",
+   "spec": "(Reverse mode) The task is hidden. Study the examples and the failing checks, then infer the rule.",
+   "solution": "print(input().title())",
+   "ghosts": [
+    60,
+    100,
+    150,
+    230,
+    340
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "hello world"
+     ],
+     "out": "Hello World"
+    },
+    {
+     "stdin": [
+      "aata kode"
+     ],
+     "out": "Aata Kode"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "x"
+     ],
+     "out": "X"
+    },
+    {
+     "stdin": [
+      "one two three"
+     ],
+     "out": "One Two Three"
+    },
+    {
+     "stdin": [
+      "a b"
+     ],
+     "out": "A B"
+    },
+    {
+     "stdin": [
+      "python is fun"
+     ],
+     "out": "Python Is Fun"
+    }
+   ],
+   "par": 22
+  },
+  {
+   "id": "c09",
+   "mode": "fastest",
+   "title": "Biggest",
+   "spec": "Read integers on one line and print the largest.",
+   "solution": "print(max(map(int, input().split())))",
+   "ghosts": [
+    35,
+    55,
+    85,
+    130,
+    200
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "3 9 2"
+     ],
+     "out": "9"
+    },
+    {
+     "stdin": [
+      "-4 -1 -8"
+     ],
+     "out": "-1"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "5"
+     ],
+     "out": "5"
+    },
+    {
+     "stdin": [
+      "1 1 1"
+     ],
+     "out": "1"
+    },
+    {
+     "stdin": [
+      "100 -100"
+     ],
+     "out": "100"
+    },
+    {
+     "stdin": [
+      "7 3 7 9 9"
+     ],
+     "out": "9"
+    }
+   ],
+   "par": 37
+  },
+  {
+   "id": "c10",
+   "mode": "shortest",
+   "title": "Factorial",
+   "spec": "Read n (0 to 10) and print n factorial.",
+   "solution": "import math\nprint(math.factorial(int(input())))",
+   "ghosts": [
+    45,
+    75,
+    110,
+    170,
+    250
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "5"
+     ],
+     "out": "120"
+    },
+    {
+     "stdin": [
+      "0"
+     ],
+     "out": "1"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "1"
+     ],
+     "out": "1"
+    },
+    {
+     "stdin": [
+      "3"
+     ],
+     "out": "6"
+    },
+    {
+     "stdin": [
+      "7"
+     ],
+     "out": "5040"
+    },
+    {
+     "stdin": [
+      "10"
+     ],
+     "out": "3628800"
+    },
+    {
+     "stdin": [
+      "2"
+     ],
+     "out": "2"
+    }
+   ],
+   "par": 47
+  },
+  {
+   "id": "c11",
+   "mode": "reverse",
+   "title": "Mystery rule C",
+   "spec": "(Reverse mode) The task is hidden. Study the examples and the failing checks, then infer the rule.",
+   "solution": "n = int(input())\nfor i in range(1, n + 1):\n    print('*' * i)",
+   "ghosts": [
+    120,
+    180,
+    260,
+    380,
+    520
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "3"
+     ],
+     "out": "*\n**\n***"
+    },
+    {
+     "stdin": [
+      "1"
+     ],
+     "out": "*"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "2"
+     ],
+     "out": "*\n**"
+    },
+    {
+     "stdin": [
+      "4"
+     ],
+     "out": "*\n**\n***\n****"
+    },
+    {
+     "stdin": [
+      "5"
+     ],
+     "out": "*\n**\n***\n****\n*****"
+    }
+   ],
+   "par": 61
+  },
+  {
+   "id": "c12",
+   "mode": "fastest",
+   "title": "Word count",
+   "spec": "Read a line and print how many words it has.",
+   "solution": "print(len(input().split()))",
+   "ghosts": [
+    25,
+    40,
+    65,
+    100,
+    160
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "one two three"
+     ],
+     "out": "3"
+    },
+    {
+     "stdin": [
+      "hi"
+     ],
+     "out": "1"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "a b c d e"
+     ],
+     "out": "5"
+    },
+    {
+     "stdin": [
+      "  spaced   out  "
+     ],
+     "out": "2"
+    },
+    {
+     "stdin": [
+      "word"
+     ],
+     "out": "1"
+    },
+    {
+     "stdin": [
+      "the quick brown fox jumps"
+     ],
+     "out": "5"
+    }
+   ],
+   "par": 27
+  },
+  {
+   "id": "c13",
+   "mode": "reverse",
+   "title": "Mystery rule D",
+   "spec": "(Reverse mode) The task is hidden. Study the examples and the failing checks, then infer the rule.",
+   "solution": "print(''.join(sorted(input())))",
+   "ghosts": [
+    70,
+    110,
+    170,
+    250,
+    360
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "parrot"
+     ],
+     "out": "aoprrt"
+    },
+    {
+     "stdin": [
+      "dcba"
+     ],
+     "out": "abcd"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "a"
+     ],
+     "out": "a"
+    },
+    {
+     "stdin": [
+      "zyx"
+     ],
+     "out": "xyz"
+    },
+    {
+     "stdin": [
+      "hello"
+     ],
+     "out": "ehllo"
+    },
+    {
+     "stdin": [
+      "banana"
+     ],
+     "out": "aaabnn"
+    }
+   ],
+   "par": 31
+  },
+  {
+   "id": "c14",
+   "mode": "shortest",
+   "title": "Even or odd",
+   "spec": "Read an integer. Print even or odd.",
+   "solution": "print('even' if int(input()) % 2 == 0 else 'odd')",
+   "ghosts": [
+    20,
+    35,
+    55,
+    85,
+    130
+   ],
+   "examples": [
+    {
+     "stdin": [
+      "4"
+     ],
+     "out": "even"
+    },
+    {
+     "stdin": [
+      "7"
+     ],
+     "out": "odd"
+    }
+   ],
+   "tests": [
+    {
+     "stdin": [
+      "0"
+     ],
+     "out": "even"
+    },
+    {
+     "stdin": [
+      "1"
+     ],
+     "out": "odd"
+    },
+    {
+     "stdin": [
+      "-3"
+     ],
+     "out": "odd"
+    },
+    {
+     "stdin": [
+      "-8"
+     ],
+     "out": "even"
+    },
+    {
+     "stdin": [
+      "1001"
+     ],
+     "out": "odd"
+    }
+   ],
+   "par": 49
+  }
+ ]
+}

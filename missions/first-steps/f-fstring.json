@@ -38,5 +38,6 @@
   "requires": [
     "py-03-input-math"
   ],
-  "solution": "name = \"Asha\"\nscore = 42\nprint(f\"{name} scored {score} points\")\n"
+  "solution": "name = \"Asha\"\nscore = 42\nprint(f\"{name} scored {score} points\")\n",
+  "learn": "fstring"
 }

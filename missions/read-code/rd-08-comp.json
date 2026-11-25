@@ -1,0 +1,46 @@
+{
+  "id": "rd-08-comp",
+  "region": "read-code",
+  "order": 8,
+  "title": "One-line Filter",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\n['HI', 'YO']"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "Only words longer than 1 letter pass the filter, then they are upper-cased.",
+  "learn": "comprehension",
+  "mode": "output",
+  "code": "print([w.upper() for w in ['hi', 'a', 'yo'] if len(w) > 1])",
+  "options": [
+    "['HI', 'YO']",
+    "['HI', 'A', 'YO']",
+    "['hi', 'yo']",
+    "['A']"
+  ],
+  "answer": 0,
+  "solution": "['HI', 'YO']",
+  "requires": [
+    "rd-07-while"
+  ]
+}

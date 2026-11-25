@@ -1,0 +1,46 @@
+{
+  "id": "rd-10-class",
+  "region": "read-code",
+  "order": 10,
+  "title": "Whose Count",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\n2 1"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "self.n += 1 creates an object-level n, so a has 2 and b has 1.",
+  "learn": "class-shared",
+  "mode": "output",
+  "code": "class C:\n    n = 0\n    def inc(self):\n        self.n += 1\na, b = C(), C()\na.inc(); a.inc(); b.inc()\nprint(a.n, b.n)",
+  "options": [
+    "3 3",
+    "1 2",
+    "2 1",
+    "0 0"
+  ],
+  "answer": 2,
+  "solution": "2 1",
+  "requires": [
+    "rd-09-try"
+  ]
+}

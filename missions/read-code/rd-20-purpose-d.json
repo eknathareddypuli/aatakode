@@ -1,0 +1,49 @@
+{
+  "id": "rd-20-purpose-d",
+  "region": "read-code",
+  "order": 20,
+  "title": "What Does This Function Do?",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Choose what this function does.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Try the function with a tiny input and trace it.",
+    "Ignore the names and watch what changes.",
+    "It: Adds up the digits of a number"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "n % 10 is the last digit, n //= 10 drops it, and c collects the digits: 1 + 2 + 3.",
+  "learn": "while",
+  "mode": "purpose",
+  "code": "def f(n):\n    c = 0\n    while n:\n        c += n % 10\n        n //= 10\n    return c",
+  "demo": "print(f(123))",
+  "demo_out": "6",
+  "options": [
+    "Adds up the digits of a number",
+    "Counts how many digits it has",
+    "Reverses a number",
+    "Divides a number by 10"
+  ],
+  "answer": 0,
+  "solution": "Adds up the digits of a number",
+  "requires": [
+    "rd-19-purpose-c"
+  ],
+  "boss": true
+}

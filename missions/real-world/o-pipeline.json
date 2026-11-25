@@ -39,5 +39,6 @@
   "requires": [
     "w-cli"
   ],
-  "solution": "log = \"ok\\nerror a\\nok\\nerror b\"\nlines = log.split(\"\\n\")\nerrors = [l for l in lines if l.startswith(\"error\")]\nprint(len(errors))\n"
+  "solution": "log = \"ok\\nerror a\\nok\\nerror b\"\nlines = log.split(\"\\n\")\nerrors = [l for l in lines if l.startswith(\"error\")]\nprint(len(errors))\n",
+  "learn": "pipeline"
 }

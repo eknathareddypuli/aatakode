@@ -1,0 +1,51 @@
+{
+  "id": "rd-11-bug-avg",
+  "region": "read-code",
+  "order": 11,
+  "title": "Where Is the Bug: Average",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Click the line that holds the bug.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Run the code in your head. Where does the result stop matching what you want?",
+    "The problem is not the first line that looks odd, but the first line that is wrong.",
+    "Look at line 5."
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "The divisor is hard-coded as 2. It should be len(xs).",
+  "learn": "debug-print",
+  "mode": "bug",
+  "code": "def avg(xs):\n    total = 0\n    for x in xs:\n        total += x\n    return total / 2\nprint(avg([2, 4, 6]))",
+  "options": [
+    "Line 1",
+    "Line 2",
+    "Line 3",
+    "Line 4",
+    "Line 5",
+    "Line 6"
+  ],
+  "answer": 4,
+  "fixed_line": "    return total / len(xs)",
+  "bugline": 5,
+  "expect": "4.0",
+  "solution": "Line 5",
+  "requires": [
+    "rd-10-class"
+  ]
+}

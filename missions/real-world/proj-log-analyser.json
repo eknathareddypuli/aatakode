@@ -50,5 +50,6 @@
   ],
   "solution": "from collections import Counter\n\n\ndef analyse(log):\n    lines = [l for l in log.splitlines() if l.strip()]\n    errors = [l.split(\" \", 1)[1] for l in lines if l.startswith(\"ERROR \")]\n    top = Counter(errors).most_common(1)[0][0] if errors else None\n    return {\"total\": len(lines), \"errors\": len(errors), \"top_error\": top}\n",
   "alt": "def analyse(log):\n    total = 0\n    counts = {}\n    n_errors = 0\n    for line in log.splitlines():\n        if not line.strip():\n            continue\n        total += 1\n        if line.startswith(\"ERROR \"):\n            n_errors += 1\n            msg = line[6:]\n            counts[msg] = counts.get(msg, 0) + 1\n    top = max(counts, key=counts.get) if counts else None\n    return {\"total\": total, \"errors\": n_errors, \"top_error\": top}\n",
-  "project": true
+  "project": true,
+  "learn": "pipeline"
 }

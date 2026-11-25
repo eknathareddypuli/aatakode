@@ -1,0 +1,51 @@
+{
+  "id": "rd-16-bug-case",
+  "region": "read-code",
+  "order": 16,
+  "title": "Where Is the Bug: Yes or No",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Click the line that holds the bug.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Run the code in your head. Where does the result stop matching what you want?",
+    "The problem is not the first line that looks odd, but the first line that is wrong.",
+    "Look at line 2."
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "Comparing 'YES' to 'yes' fails because case matters. Lower-case first.",
+  "learn": "str-methods",
+  "mode": "bug",
+  "code": "ans = 'YES'\nif ans == 'yes':\n    print('ok')\nelse:\n    print('no')\nprint('done')",
+  "options": [
+    "Line 1",
+    "Line 2",
+    "Line 3",
+    "Line 4",
+    "Line 5",
+    "Line 6"
+  ],
+  "answer": 1,
+  "fixed_line": "if ans.lower() == 'yes':",
+  "bugline": 2,
+  "expect": "ok\ndone",
+  "solution": "Line 2",
+  "requires": [
+    "rd-15-bug-return"
+  ]
+}

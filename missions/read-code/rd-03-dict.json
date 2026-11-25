@@ -1,0 +1,46 @@
+{
+  "id": "rd-03-dict",
+  "region": "read-code",
+  "order": 3,
+  "title": "Counting Letters",
+  "story": "No typing today. Read the code like a detective and decide what is true.",
+  "goal": "Predict the exact output.",
+  "type": "read",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose your answer"
+    }
+  ],
+  "hints": [
+    "Trace the code one line at a time and write down every variable.",
+    "Which line decides the result?",
+    "The output is:\n{'a': 2, 'b': 1}"
+  ],
+  "socratic": [
+    "What does the first line do?",
+    "Which line is the trickiest, and what does Python do there?",
+    "Say the result out loud before you choose."
+  ],
+  "explain": "In one sentence: how did you know?",
+  "xp": 15,
+  "skills": [
+    "reading code"
+  ],
+  "why": "get gives 0 the first time, so 'a' ends at 2 and 'b' at 1.",
+  "learn": "counting",
+  "mode": "output",
+  "code": "d = {}\nfor c in \"aab\":\n    d[c] = d.get(c, 0) + 1\nprint(d)",
+  "options": [
+    "{'a': 1, 'b': 1}",
+    "{'a': 2}",
+    "{'b': 1, 'a': 2}",
+    "{'a': 2, 'b': 1}"
+  ],
+  "answer": 3,
+  "solution": "{'a': 2, 'b': 1}",
+  "requires": [
+    "rd-02-loop-sum"
+  ]
+}
