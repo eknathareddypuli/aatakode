@@ -34,12 +34,17 @@ with sync_playwright() as p:
     order = [m for r in regions for m in sorted([x for x in data["missions"] if x["region"] == r], key=lambda x: x["order"])]
     # python track first (sequential unlocking), ops missions are unlocked from the start
     done = 0; t0 = time.time()
+    import re
+    ONLY = os.environ.get("AK_ONLY")
+    if ONLY:
+        pg.evaluate("""(re)=>{const S=AK_CORE.state();const R=new RegExp(re);AK_DATA.missions.forEach(m=>{if(!R.test(m.id)&&!S.solved[m.id])S.solved[m.id]={stars:1,xp:0,hints:0,at:new Date().toISOString(),code:m.solution&&typeof m.solution==='string'?m.solution:undefined}});AK_CORE.save()}""", ONLY)
     for m in order:
         mid = m["id"]
+        if ONLY and not re.search(ONLY, mid): continue
         try:
             pg.evaluate(f"location.hash='#/mission/{mid}'")
-            pg.wait_for_selector("#midpane, #dopts", timeout=10000)
-            if pg.locator("text=Locked").count() and not pg.locator("#midpane").count():
+            pg.wait_for_selector("#midpane, #dopts, .lesson", timeout=10000)
+            if pg.locator("text=Locked").count() and not pg.locator("#midpane, .lesson").count():
                 raise Exception("locked")
             t = m["type"]
             if t == "predict":
@@ -51,6 +56,37 @@ with sync_playwright() as p:
                     pg.fill("#tin", c); pg.press("#tin", "Enter")
                 if pg.locator("#ans").count(): pg.fill("#ans", sol.get("answer", ""))
                 pg.click("#checkBtn")
+            elif t == "lesson":
+                for i, blk in enumerate(m["blocks"]):
+                    if blk["kind"] == "try":
+                        pg.fill(f"#lt{i}", blk["solution"]); pg.click(f'[data-chk="{i}"]'); pg.wait_for_selector(f'.lblock[data-i="{i}"].done', timeout=20000)
+                    elif blk["kind"] == "quiz":
+                        pg.click(f'[data-q="{i}"][data-k="{blk["answer"]}"]')
+                    elif blk["kind"] == "gofill":
+                        for k, bl in enumerate(blk["blanks"]): pg.locator(f'[data-gf="{i}"][data-b="{k}"]').fill(bl["answers"][0])
+                        pg.click(f'[data-gchk="{i}"]')
+            elif t == "go":
+                pg.wait_for_selector("#submitBtn", timeout=10000)
+                if m["mode"] == "fill":
+                    for i, bl in enumerate(m["blanks"]): pg.locator(".blank").nth(i).fill(bl["answers"][0])
+                else:
+                    target = m["orders"][0]
+                    for k, line in enumerate(target):
+                        cur = pg.evaluate("Array.from(document.querySelectorAll('.order code')).map(e=>e.textContent)")
+                        j = cur.index(line, k)
+                        for _ in range(j - k):
+                            pg.locator(f'[data-up="{j}"]').click(); j -= 1
+                pg.click("#submitBtn")
+            elif t == "hunt":
+                for n in m["bad"]: pg.locator(f'.hl[data-n="{n}"]').click()
+                pg.click("#reportBtn"); pg.wait_for_selector("#fixcard", timeout=5000)
+                pg.locator(f'.fixopt[data-k="{m["fix"]["answer"]}"]').click()
+            elif t == "grid":
+                pg.wait_for_selector("#submitBtn", timeout=10000); pg.fill("#code", m["solution"]); pg.click("#submitBtn")
+            elif t == "pipe":
+                pg.wait_for_selector("#submitBtn", timeout=10000)
+                for i in m["answer_steps"]: pg.locator(f'[data-add="{i}"]').click()
+                pg.click("#submitBtn")
             elif t == "sql":
                 pg.wait_for_selector("#sqlcode", timeout=10000)
                 pg.fill("#sqlcode", m["solution"]); pg.click("#submitBtn")
@@ -77,6 +113,8 @@ with sync_playwright() as p:
             fails.append((mid, t, str(e).split("\n")[0][:120]))
             pg.screenshot(path=f"/tmp/fail-{mid}.png")
     print(f"played {done}/{len(order)} missions through the UI in {time.time()-t0:.0f}s")
+    if ONLY:
+        print("FAILS:", fails if fails else "none"); print("\n".join(errs) or "no JS errors"); b.close(); sys.exit(0)
     st = pg.evaluate("(()=>{const s=AK_APP.state();return {solved:Object.keys(s.solved).length,xp:s.xp,stars:AK.totalStars(s),badges:Object.keys(s.badges).length}})()")
     print("state:", st)
     pg.evaluate("location.hash='#/map'"); pg.wait_for_selector(".village"); pg.screenshot(path="/tmp/map-done.png", full_page=True)

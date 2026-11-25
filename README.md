@@ -20,6 +20,9 @@ Not built yet (premium/P2): cloud sync, AI tutor, human review, leagues, verifia
 - **Arena:** Code Golf Shrine, Pair Parrot (diagnose, then fix), Speed Run, Predict Blitz, Endless Dungeon, and a placement quiz.
 - **Feel:** parrot reactions and companions, test-by-test lighting, worked-example fading, sound (synthesised, can be silenced), phone haptics, a village you rebuild and decorate with Seeds, with day and night.
 
+## v3
+Learn-and-practice lessons, real multi-step projects (Log Analyzer, Key-Value Store, Link Shortener), shareable proof (cards, Markdown portfolio, Proof ID), Daily Quests with a chest, visual puzzles (Robot Maze, Pipeline Plumber), Security Hunt, a Go track (checked statically; answers verified with real `go`), an HTTP/API track with a simulated `curl` and `jq`, plus animation (parrot growth, star map, streak flame, weather, hearts, confetti tiers) and festival and place-name culture touches. Festival greetings in Telugu, Hindi, Kannada, Tamil and Malayalam are unreviewed by native speakers. Corrections welcome.
+
 ## Develop
 ```
 python3 build.py                      # writes index.html + sw.js from src/ and missions/

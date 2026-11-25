@@ -35,3 +35,8 @@
 
 - Also built: Daily Quest, stars, story map, outfits, certificate cards, class goal.
 - Built so far: 20 missions (Python Quest + 4 outages), teacher dashboard (offline), Outage of the Week, solution comparison, block view, Telugu UI.
+
+## After v3
+- Native-speaker review of festival greetings and the new nav labels (they fall back to English).
+- Real Go in the browser (WASM toolchain) to replace static grading.
+- More projects and a Rust track.

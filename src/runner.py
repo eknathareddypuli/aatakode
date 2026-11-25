@@ -37,9 +37,11 @@ def _norm(s):
     return "\n".join(lines)
 
 
-def _exec(code, stdin=None, echo=False, trace=False, limit=150000, max_steps=300):
+def _exec(code, stdin=None, echo=False, trace=False, limit=150000, max_steps=300, inject=None):
     buf = io.StringIO()
     ns = {"__name__": "__main__"}
+    if inject:
+        ns.update(inject)
     queue = list(stdin or [])
     steps = []
     count = [0]
@@ -310,3 +312,69 @@ def _sql_schema(setup):
         total = con.execute("select count(*) from " + name).fetchone()[0]
         out.append({"name": name, "cols": [{"name": c[1], "type": c[2], "pk": bool(c[5])} for c in info], "rows": [_nrow(r) for r in rows], "total": total})
     return json.dumps(out)
+
+
+class RobotError(Exception):
+    pass
+
+
+def _grid_run(code, grid_json):
+    """Robot maze: runs learner code against a map and returns the recorded actions for the animation."""
+    g = json.loads(grid_json)
+    rows = g["rows"]
+    H, W = len(rows), len(rows[0])
+    facing = {"N": 0, "E": 1, "S": 2, "W": 3}[g.get("facing", "E")]
+    walls, coins, start, goal = set(), set(), None, None
+    for y, r in enumerate(rows):
+        for x, c in enumerate(r):
+            if c == "#":
+                walls.add((x, y))
+            elif c == "S":
+                start = (x, y)
+            elif c == "G":
+                goal = (x, y)
+            elif c == "o":
+                coins.add((x, y))
+    total = len(coins)
+    st = {"x": start[0], "y": start[1], "d": facing, "got": 0}
+    acts = []
+    DX, DY = [0, 1, 0, -1], [-1, 0, 1, 0]
+    maxact = int(g.get("max") or 400) * 3
+    ahead = lambda k=0: (st["x"] + DX[(st["d"] + k) % 4], st["y"] + DY[(st["d"] + k) % 4])
+    free = lambda p: 0 <= p[0] < W and 0 <= p[1] < H and p not in walls
+
+    def log(a):
+        acts.append({"a": a, "x": st["x"], "y": st["y"], "d": st["d"], "got": st["got"]})
+        if len(acts) > maxact:
+            raise RobotError("The parrot ran out of energy (too many steps). Is there a loop that never ends?")
+
+    def move():
+        p = ahead()
+        if not free(p):
+            raise RobotError("Bump! There is a wall in front of the parrot. Check front_clear() first.")
+        st["x"], st["y"] = p
+        log("move")
+
+    def turn_left():
+        st["d"] = (st["d"] + 3) % 4
+        log("left")
+
+    def turn_right():
+        st["d"] = (st["d"] + 1) % 4
+        log("right")
+
+    def pick_coin():
+        p = (st["x"], st["y"])
+        if p in coins:
+            coins.discard(p)
+            st["got"] += 1
+            log("coin")
+
+    api = {
+        "move": move, "turn_left": turn_left, "turn_right": turn_right, "pick_coin": pick_coin,
+        "front_clear": lambda: free(ahead()), "left_clear": lambda: free(ahead(3)), "right_clear": lambda: free(ahead(1)),
+        "at_goal": lambda: (st["x"], st["y"]) == goal, "coin_here": lambda: (st["x"], st["y"]) in coins,
+    }
+    r = _exec(code, [], echo=True, inject=api)
+    return json.dumps({"err": r["err"], "out": r["out"], "acts": acts, "reached": (st["x"], st["y"]) == goal, "coins": st["got"], "total": total,
+                       "start": list(start), "goal": list(goal), "facing": facing})

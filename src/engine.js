@@ -611,13 +611,14 @@
     setRunnerSource: function (src) { PY.runner = src; },
     init: function (pyodide) {
       pyodide.runPython(PY.runner);
-      PY.fns = { run: pyodide.globals.get("_run"), grade: pyodide.globals.get("_grade"), sqlGrade: pyodide.globals.get("_sql_grade"), sqlRun: pyodide.globals.get("_sql_run"), sqlSchema: pyodide.globals.get("_sql_schema") };
+      PY.fns = { run: pyodide.globals.get("_run"), grade: pyodide.globals.get("_grade"), sqlGrade: pyodide.globals.get("_sql_grade"), sqlRun: pyodide.globals.get("_sql_run"), sqlSchema: pyodide.globals.get("_sql_schema"), gridRun: pyodide.globals.get("_grid_run") };
     },
     run: function (code, stdin, trace) { return JSON.parse(PY.fns.run(code, JSON.stringify(stdin || []), !!trace)); },
     grade: function (code, tests) { return JSON.parse(PY.fns.grade(code, JSON.stringify(tests))); },
     sqlGrade: function (query, setup, tests) { return JSON.parse(PY.fns.sqlGrade(query, setup, JSON.stringify(tests))); },
     sqlRun: function (query, setup) { return JSON.parse(PY.fns.sqlRun(query, setup)); },
     sqlSchema: function (setup) { return JSON.parse(PY.fns.sqlSchema(setup)); },
+    gridRun: function (code, grid) { return JSON.parse(PY.fns.gridRun(code, JSON.stringify(grid))); },
   };
 
   /* ---------------------------------------------------------------- 6. teacher cards */

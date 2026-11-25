@@ -39,7 +39,7 @@
     const plain = (a) => a.filter((x) => !(x[0] === "-" && x.length > 1 && !/^-\d+$/.test(x)));
     const sub = (p, base) => (p === base ? [p] : []);
 
-    cmds.help = () => "Commands: ls cd pwd cat head tail grep wc echo sort uniq cut awk tr find diff\n  ps top kill pkill ss netstat lsof df du free uptime date whoami\n  touch mkdir rm mv cp chmod chown sudo sed env export which history clear\n  systemctl journalctl crontab curl" + (T.gitSpec || (AK._termExt && T.git) ? "\n  git (init status add commit log diff branch switch merge restore reset revert stash tag show blame)" : "") + "\nPipes (|), chaining (; &&) and redirects (> >>) work. Nothing touches your real computer.";
+    cmds.help = () => "Commands: ls cd pwd cat head tail grep wc echo sort uniq cut awk tr find diff\n  ps top kill pkill ss netstat lsof df du free uptime date whoami\n  touch mkdir rm mv cp chmod chown sudo sed env export which history clear\n  systemctl journalctl crontab curl jq" + (T.gitSpec || (AK._termExt && T.git) ? "\n  git (init status add commit log diff branch switch merge restore reset revert stash tag show blame)" : "") + "\nPipes (|), chaining (; &&) and redirects (> >>) work. Nothing touches your real computer.";
 
     cmds.ls = (a) => {
       const fl = flagsOf(a), long = fl.includes("l"), all = fl.includes("a"), args = plain(a), targets = args.length ? args : ["."];
@@ -291,22 +291,108 @@
     };
     cmds.crontab = (a) => { if (!a.includes("-l")) return "crontab: use -l to list (edit the file with sed)"; const p = "/var/spool/cron/crontabs/" + T.user; return isFile(p) ? T.files[p].replace(/\n$/, "") : "no crontab for " + T.user; };
 
-    /* curl against rule-based fake endpoints */
-    T.httpFor = function (url) {
-      const key = String(url).replace(/^https?:\/\//, "").replace(/\/$/, "");
-      const hit = Object.keys(T.http).find((k) => k.replace(/\/$/, "") === key);
+    /* curl against rule-based fake endpoints. A spec is a string, {status, body, headers}, {cases:[{if,status,body}], default},
+       or {routes:[{method, auth, header:{Name:"part"}, bodyHas, query, status, body, headers}], default}. */
+    T.reqLog = [];
+    const REASON = { 200: "OK", 201: "Created", 202: "Accepted", 204: "No Content", 301: "Moved Permanently", 302: "Found", 304: "Not Modified", 307: "Temporary Redirect", 308: "Permanent Redirect", 400: "Bad Request", 401: "Unauthorized", 403: "Forbidden", 404: "Not Found", 405: "Method Not Allowed", 409: "Conflict", 415: "Unsupported Media Type", 422: "Unprocessable Entity", 429: "Too Many Requests", 500: "Internal Server Error", 502: "Bad Gateway", 503: "Service Unavailable", 504: "Gateway Timeout" };
+    T.reason = (c) => REASON[c] || "Status";
+    const stripUrl = (u) => String(u).replace(/^https?:\/\//, "").replace(/\/$/, "");
+    T.httpFor = function (url, req) {
+      req = req || { method: "GET", headers: {}, body: "" };
+      const full = stripUrl(url), qi = full.indexOf("?"), path = qi < 0 ? full : full.slice(0, qi), query = qi < 0 ? "" : full.slice(qi + 1);
+      const hit = Object.keys(T.http).find((k) => stripUrl(k) === full) || Object.keys(T.http).find((k) => stripUrl(k) === path);
       if (hit === undefined) return null;
       let spec = T.http[hit];
-      if (typeof spec === "string") return { status: 200, body: spec };
+      if (typeof spec === "string") return { status: 200, body: spec, headers: {} };
       if (Array.isArray(spec.cases)) { const c = spec.cases.find((x) => (x.if || []).every((cd) => T.cond(cd))); spec = c || spec.default || { status: 503, body: "Service Unavailable" }; }
-      return { status: spec.status || 200, body: spec.body || "" };
+      else if (Array.isArray(spec.routes)) {
+        const lower = {}; Object.keys(req.headers || {}).forEach((k) => (lower[k.toLowerCase()] = req.headers[k]));
+        const r = spec.routes.find((x) => (!x.method || x.method === (req.method === "HEAD" ? "GET" : req.method)) && (x.auth === undefined || lower.authorization === x.auth) &&
+          Object.keys(x.header || {}).every((h) => (lower[h.toLowerCase()] || "").toLowerCase().includes(String(x.header[h]).toLowerCase())) &&
+          (x.bodyHas === undefined || String(req.body || "").includes(x.bodyHas)) && (x.query === undefined || query.includes(x.query)) && (x.noAuth !== true || !lower.authorization));
+        spec = r || spec.default || { status: 405, body: "Method Not Allowed" };
+      }
+      const headers = Object.assign({}, spec.headers || {}); if (spec.redirect) headers.Location = spec.redirect;
+      return { status: spec.status || 200, body: spec.body === undefined ? "" : spec.body, headers: headers };
+    };
+    const ctype = (b) => (/^\s*[\[{]/.test(b) ? "application/json" : "text/plain");
+    const parseCurl = (a) => {
+      const o = { method: null, headers: {}, data: null, out: null, fmt: null, flags: {}, url: null, user: null };
+      for (let i = 0; i < a.length; i++) {
+        const x = a[i];
+        if (x === "-X" || x === "--request") o.method = String(a[++i] || "").toUpperCase();
+        else if (x === "-H" || x === "--header") { const h = String(a[++i] || ""), k = h.indexOf(":"); if (k > 0) o.headers[h.slice(0, k).trim()] = h.slice(k + 1).trim(); }
+        else if (x === "-d" || x === "--data" || x === "--data-raw") o.data = (o.data === null ? "" : o.data + "&") + String(a[++i] || "");
+        else if (x === "-o" || x === "--output") o.out = a[++i];
+        else if (x === "-w" || x === "--write-out") o.fmt = String(a[++i] || "");
+        else if (x === "-u" || x === "--user") o.user = a[++i];
+        else if (x === "--max-time" || x === "-m" || x === "--retry") i++;
+        else if (x === "--json") { o.data = String(a[++i] || ""); o.headers["Content-Type"] = "application/json"; o.headers.Accept = "application/json"; }
+        else if (x[0] === "-" && x.length > 1) x.replace(/^-+/, "").split("").forEach((c) => (o.flags[c] = true));
+        else if (!o.url) o.url = x;
+      }
+      return o;
     };
     cmds.curl = (a) => {
-      const fl = flagsOf(a), url = plain(a)[0]; if (!url) return "curl: try 'curl --help' for more information";
-      const r = T.httpFor(url);
-      if (!r) { const port = (String(url).match(/:(\d+)/) || [])[1]; return port && listening(Number(port)) ? "" : "curl: (7) Failed to connect to " + String(url).replace(/^https?:\/\//, "").split("/")[0].replace(":", " port ") + ": Connection refused"; }
-      if (fl.includes("I")) return "HTTP/1.1 " + r.status + " " + (r.status === 200 ? "OK" : r.status === 502 ? "Bad Gateway" : r.status === 503 ? "Service Unavailable" : r.status === 404 ? "Not Found" : "Error");
-      return r.body + (fl.includes("w") ? "" : "");
+      const o = parseCurl(a), fl = o.flags; let url = o.url; if (!url) return "curl: try 'curl --help' for more information";
+      let method = o.method || (fl.I ? "HEAD" : o.data !== null ? "POST" : "GET"), hops = 0, r, shown = "";
+      const headers = Object.assign({}, o.headers); if (o.user) headers.Authorization = "Basic " + btoa(o.user);
+      if (o.data !== null && !Object.keys(headers).some((k) => k.toLowerCase() === "content-type")) headers["Content-Type"] = "application/x-www-form-urlencoded";
+      for (;;) {
+        const req = { method: method, headers: headers, body: o.data || "" };
+        r = T.httpFor(url, req);
+        if (!r) { const port = (String(url).match(/:(\d+)/) || [])[1]; return port && listening(Number(port)) ? "" : "curl: (7) Failed to connect to " + String(url).replace(/^https?:\/\//, "").split("/")[0].replace(":", " port ") + ": Connection refused"; }
+        T.reqLog.push({ method: method, url: String(url), headers: Object.assign({}, headers), body: o.data || "", status: r.status });
+        if (fl.v) { const hostp = stripUrl(url); shown += "> " + method + " /" + hostp.split("/").slice(1).join("/") + " HTTP/1.1\n> Host: " + hostp.split("/")[0] + "\n> User-Agent: curl/8.5.0\n> Accept: */*\n" + Object.keys(headers).map((k) => "> " + k + ": " + headers[k] + "\n").join("") + ">\n"; }
+        const loc = r.headers.Location;
+        if (fl.L && loc && r.status >= 300 && r.status < 400 && hops < 5) { shown += fl.v || fl.i ? "HTTP/1.1 " + r.status + " " + T.reason(r.status) + "\n" + Object.keys(r.headers).map((k) => k + ": " + r.headers[k]).join("\n") + "\n\n" : ""; url = /^https?:/.test(loc) ? loc : String(url).replace(/^(https?:\/\/[^/]+).*$/, "$1") + loc; if (r.status === 303 || ((r.status === 301 || r.status === 302) && method === "POST")) method = "GET"; hops++; continue; }
+        break;
+      }
+      const hd = Object.assign({ "Content-Type": ctype(r.body), "Content-Length": String(String(r.body).length) }, r.headers);
+      const head = "HTTP/1.1 " + r.status + " " + T.reason(r.status) + "\n" + Object.keys(hd).map((k) => k + ": " + hd[k]).join("\n") + "\n";
+      let out = "";
+      if (fl.I) out = head;
+      else {
+        if (fl.v) out += shown + "< " + head.replace(/\n(?=.)/g, "\n< ").replace(/\n$/, "\n") + "<\n";
+        else out += shown;
+        if (fl.i) out += head + "\n";
+        if (o.out) { if (o.out !== "/dev/null") T.files[abs(o.out)] = String(r.body) + "\n"; } else out += r.body;
+      }
+      if (o.fmt !== null) out += (out && !/\n$/.test(out) ? "\n" : "") + o.fmt.replace(/%\{http_code\}/g, String(r.status)).replace(/\\n/g, "\n");
+      if (fl.f && r.status >= 400) return "curl: (22) The requested URL returned error: " + r.status;
+      return out.replace(/\n$/, "");
+    };
+
+    /* jq: a small subset (paths, [], pipes, length, keys, -r, -c) so API missions can read JSON from curl */
+    cmds.jq = (a, inp) => {
+      const fl = flagsOf(a), args = plain(a), filter = args[0] || ".", file = args[1];
+      let src = inp; if (file) { const r = readFile(file); if (r.err) return "jq: error: Could not open " + r.err; src = r.text; }
+      let data; try { data = JSON.parse(src); } catch (e) { return "jq: error (at <stdin>:0): Cannot parse input as JSON"; }
+      const step = (vals, st) => {
+        st = st.trim(); const out = [];
+        vals.forEach((v) => {
+          if (st === "length") out.push(v === null ? 0 : typeof v === "object" ? (Array.isArray(v) ? v.length : Object.keys(v).length) : String(v).length);
+          else if (st === "keys") out.push(Object.keys(v).sort());
+          else if (st === ".") out.push(v);
+          else {
+            let cur = [v]; const re = /\.([A-Za-z_][\w-]*)|\.?\[(\d+)\]|\.?\[\]|\."([^"]+)"/g; let m, used = 0;
+            while ((m = re.exec(st)) !== null) {
+              used += m[0].length; const next = [];
+              cur.forEach((c) => {
+                if (m[1] !== undefined || m[3] !== undefined) { const k = m[1] !== undefined ? m[1] : m[3]; next.push(c && typeof c === "object" && k in c ? c[k] : null); }
+                else if (m[2] !== undefined) next.push(Array.isArray(c) ? (c[Number(m[2])] === undefined ? null : c[Number(m[2])]) : null);
+                else if (Array.isArray(c)) c.forEach((x) => next.push(x)); else if (c && typeof c === "object") Object.keys(c).forEach((k) => next.push(c[k]));
+              });
+              cur = next;
+            }
+            if (used !== st.length) throw new Error("jq: error: syntax error in filter: " + st);
+            cur.forEach((x) => out.push(x));
+          }
+        });
+        return out;
+      };
+      let res; try { res = filter.split("|").reduce((vals, st) => step(vals, st), [data]); } catch (e) { return e.message; }
+      return res.map((v) => (fl.includes("r") && typeof v === "string" ? v : fl.includes("c") ? JSON.stringify(v) : JSON.stringify(v, null, 2))).join("\n");
     };
     void sub;
   });
@@ -322,6 +408,7 @@
       case "file-missing": return T.files[abs(t.path)] === undefined;
       case "file-equals": return (T.files[abs(t.path)] || "").trim() === String(t.text).trim();
       case "file-regex": return new RegExp(t.pattern, "m").test(T.files[abs(t.path)] || "");
+      case "req-made": return T.reqLog.some((q) => (!t.method || q.method === t.method) && (!t.url || q.url.includes(t.url)) && (t.status === undefined || q.status === t.status) && Object.keys(t.header || {}).every((h) => { const k = Object.keys(q.headers).find((x) => x.toLowerCase() === h.toLowerCase()); return k && q.headers[k].toLowerCase().includes(String(t.header[h]).toLowerCase()); }) && (t.bodyHas === undefined || q.body.includes(t.bodyHas)));
       case "curl-ok": { const r = T.httpFor(t.url); return !!r && r.status === (t.status || 200) && (t.contains === undefined || r.body.includes(t.contains)); }
       case "cond": return T.cond(t.cond);
       case "history-has": return T.history.some((h) => h.includes(t.text));

@@ -13,7 +13,7 @@
 
   /* ------------------------------------------------------------ i18n (interface only; lessons are English for now) */
   const I = {
-    en: { nav_home: "Home", nav_village: "Village", nav_map: "Map", nav_arena: "Arena", nav_profile: "Profile", nav_daily: "Daily", nav_teacher: "Teachers", nav_about: "About",
+    en: { nav_home: "Home", nav_village: "Village", nav_map: "Map", nav_arena: "Arena", nav_profile: "Profile", nav_daily: "Daily", nav_quests: "Quests", nav_proof: "Proof", nav_teacher: "Teachers", nav_about: "About",
       play: "Play a mission now", map: "Map", run: "Run", submit: "Check my code", hint: "Hint", step: "Step through", reset: "Reset",
       back: "Back to map", next: "Next mission", headline: "Play your way to code.", free: "Free for everyone.", ask: "Nudge me with a question" },
     te: { nav_home: "హోమ్", nav_village: "గ్రామం", nav_map: "పటం", nav_arena: "అరేనా", nav_profile: "ప్రొఫైల్", nav_daily: "రోజువారీ", nav_teacher: "ఉపాధ్యాయులు", nav_about: "గురించి",
@@ -41,7 +41,7 @@
     return base;
   }
   let S = loadState();
-  const save = () => store.set(KEY, JSON.stringify(S));
+  const save = () => { store.set(KEY, JSON.stringify(S)); try { const f = window.AK_UI && window.AK_UI.hooks && window.AK_UI.hooks.saved; if (f) f(); } catch (e) { /* ignore */ } };
   const LANGS = [["en", "English", "EN"], ["te", "తెలుగు", "తె"], ["hi", "हिन्दी", "हि"], ["kn", "ಕನ್ನಡ", "ಕ"], ["ta", "தமிழ்", "த"], ["ml", "മലയാളം", "മ"]];
   const t = (k) => (I[S.settings.lang] && I[S.settings.lang][k]) || I.en[k] || k;
   const lt = (o, f) => (S.settings.lang === "te" && o[f + "_te"]) || o[f];
@@ -82,9 +82,17 @@
     if (o.all) return DATA.regions.filter((r) => r.track === "python").every((r) => AK.regionComplete(S, DATA, r.id));
     return true;
   }
-  function parrot(size, outfit) {
-    const o = OUTFITS.find((x) => x.id === (outfit || S.settings.outfit)) || OUTFITS[0];
-    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 64 64" role="img" aria-label="Chilaka the parrot' + (o.id !== "none" ? " wearing the " + o.name : "") + '"><rect x="20" y="18" width="26" height="30" rx="8" fill="#4ade9f"/><rect x="14" y="10" width="22" height="20" rx="8" fill="#4ade9f"/><rect x="8" y="18" width="10" height="7" rx="2" fill="#f2b531"/><circle cx="26" cy="19" r="3.2" fill="#15123a"/><circle cx="27" cy="18" r="1" fill="#fff"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#ff7a6b"/><rect x="26" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="38" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="18" y="4" width="4" height="8" rx="2" fill="#ff7a6b"/><rect x="24" y="2" width="4" height="9" rx="2" fill="#f2b531"/>' + o.svg + "</svg>";
+  const PARROT_STAGES = [
+    '<ellipse cx="32" cy="58" rx="16" ry="3" fill="rgba(0,0,0,.25)"/><ellipse cx="32" cy="36" rx="17" ry="22" fill="#fff3d6"/><circle cx="25" cy="30" r="2.4" fill="#f2b531"/><circle cx="38" cy="42" r="2.8" fill="#ff7a6b"/><circle cx="27" cy="46" r="2" fill="#74c7ff"/><path d="M16 36 l5 -5 l4 6 l5 -7 l5 6 l5 -5 l6 5" fill="none" stroke="#8a5a2b" stroke-width="1.8"/><path d="M29 25 l3 -5 l3 5z" fill="#f2b531"/>',
+    '<rect x="22" y="26" width="22" height="24" rx="10" fill="#b7f0c6"/><rect x="17" y="14" width="22" height="20" rx="10" fill="#b7f0c6"/><rect x="10" y="23" width="9" height="6" rx="2" fill="#f2b531"/><circle cx="27" cy="23" r="3.8" fill="#15123a"/><circle cx="28.3" cy="21.8" r="1.3" fill="#fff"/><rect x="33" y="33" width="10" height="11" rx="5" fill="#8fe3a8"/><rect x="26" y="49" width="6" height="9" rx="2" fill="#f2b531"/><rect x="36" y="49" width="6" height="9" rx="2" fill="#f2b531"/><rect x="26" y="8" width="3" height="8" rx="1.5" fill="#f2b531"/>',
+    '<rect x="20" y="18" width="26" height="30" rx="8" fill="#4ade9f"/><rect x="14" y="10" width="22" height="20" rx="8" fill="#4ade9f"/><rect x="8" y="18" width="10" height="7" rx="2" fill="#f2b531"/><circle cx="26" cy="19" r="3.2" fill="#15123a"/><circle cx="27" cy="18" r="1" fill="#fff"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#ff7a6b"/><rect x="26" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="38" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="24" y="2" width="4" height="9" rx="2" fill="#f2b531"/>',
+    '<rect x="40" y="44" width="6" height="19" rx="3" fill="#ff7a6b"/><rect x="46" y="40" width="6" height="22" rx="3" fill="#74c7ff"/><rect x="34" y="48" width="6" height="15" rx="3" fill="#f2b531"/><rect x="20" y="18" width="26" height="30" rx="8" fill="#4ade9f"/><rect x="14" y="10" width="22" height="20" rx="8" fill="#4ade9f"/><rect x="8" y="18" width="10" height="7" rx="2" fill="#f2b531"/><circle cx="26" cy="19" r="3.2" fill="#15123a"/><circle cx="27" cy="18" r="1" fill="#fff"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#ff7a6b"/><rect x="26" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="38" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="18" y="4" width="4" height="8" rx="2" fill="#ff7a6b"/><rect x="24" y="2" width="4" height="9" rx="2" fill="#f2b531"/><rect x="30" y="3" width="4" height="8" rx="2" fill="#74c7ff"/>',
+    '<rect x="40" y="44" width="6" height="19" rx="3" fill="#ff7a6b"/><rect x="46" y="40" width="6" height="22" rx="3" fill="#74c7ff"/><rect x="34" y="48" width="6" height="15" rx="3" fill="#f2b531"/><rect x="20" y="18" width="26" height="30" rx="8" fill="#4ade9f"/><rect x="14" y="10" width="22" height="20" rx="8" fill="#4ade9f"/><rect x="8" y="18" width="10" height="7" rx="2" fill="#f2b531"/><circle cx="26" cy="19" r="3.2" fill="#15123a"/><circle cx="27" cy="18" r="1" fill="#fff"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#ff7a6b"/><rect x="26" y="46" width="8" height="12" rx="2" fill="#f2b531"/><rect x="38" y="46" width="8" height="12" rx="2" fill="#f2b531"/><polygon points="14,10 18,2 24,8 30,0 36,8 42,2 38,10" fill="#f2b531" stroke="#c98a00" stroke-width="1"/><path class="spark" d="M55 10 l1.8 4.4 4.4 1.8 -4.4 1.8 -1.8 4.4 -1.8 -4.4 -4.4 -1.8 4.4 -1.8z" fill="#fff"/>',
+  ];
+  const STAGE_NAMES = ["egg", "hatchling", "fledgling", "plumed", "royal"];
+  function parrot(size, outfit, stageIn) {
+    const o = OUTFITS.find((x) => x.id === (outfit || S.settings.outfit)) || OUTFITS[0], stage = stageIn != null ? stageIn : AK.parrotStage(S.xp);
+    return '<svg class="chilaka stage' + stage + '" width="' + size + '" height="' + size + '" viewBox="0 0 64 64" role="img" aria-label="Chilaka the parrot, ' + STAGE_NAMES[stage] + (o.id !== "none" && stage >= 2 ? ", wearing the " + o.name : "") + '">' + PARROT_STAGES[stage] + (stage >= 2 ? o.svg : "") + "</svg>";
   }
   const rankName = (xp) => lt(AK.rankFor(xp).current, "en") && (S.settings.lang === "te" ? AK.rankFor(xp).current.te : AK.rankFor(xp).current.en);
   const weekly = () => AK.featuredOutage(DATA.missions, new Date());
@@ -119,14 +127,16 @@
   const PY_OFFLINE = "The Python engine could not load. Connect to the internet once so it can download and cache for offline use. The Debug the Outage missions work without it.";
 
   /* ------------------------------------------------------------ header / footer */
+  const flameChip = (st) => { try { return window.AK_UI && window.AK_UI.flame ? window.AK_UI.flame(st, S.streak.freezes) : null; } catch (e) { return null; } };
+  const questChip = () => { try { return window.AK_UI && window.AK_UI.questChip ? window.AK_UI.questChip() : ""; } catch (e) { return ""; } };
   function renderHeader(page) {
     const st = AK.streakStatus(S, new Date()), rk = AK.rankFor(S.xp);
-    const nav = [["home", "nav_home"], ["map", "nav_map"], ["village", "nav_village"], ["daily", "nav_daily"], ["arena", "nav_arena"], ["profile", "nav_profile"], ["teacher", "nav_teacher"], ["about", "nav_about"]];
+    const nav = [["home", "nav_home"], ["map", "nav_map"], ["village", "nav_village"], ["daily", "nav_daily"], ["quests", "nav_quests"], ["arena", "nav_arena"], ["proof", "nav_proof"], ["profile", "nav_profile"], ["teacher", "nav_teacher"], ["about", "nav_about"]];
     $("#hdr").innerHTML =
       '<a class="logo" href="#/home">' + parrot(30) + '<span>Aata<b>Kode</b></span></a>' +
       '<nav class="nav" aria-label="Main">' + nav.map((n) => '<a href="#/' + n[0] + '"' + (page === n[0] || (n[0] === "map" && page === "mission") ? ' aria-current="page"' : "") + ">" + t(n[1]) + "</a>").join("") + "</nav>" +
-      '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '</span><span class="chip" title="Seeds: spend them in the Village shop">🌱 ' + AK.seedBalance(S) + '</span><span class="chip gold" title="Experience points">' + S.xp + ' XP</span><span class="chip" title="Stars earned">⭐ ' + AK.totalStars(S) + '</span>' +
-      '<span class="chip" title="Day streak' + (st.atRisk ? " (learn today to keep it)" : "") + '">🔥 ' + st.count + (S.streak.freezes ? " ❄" + S.streak.freezes : "") + "</span>" +
+      '<div class="right"><span class="chip" title="Rank">🌳 ' + esc(rankName(S.xp)) + '</span><span class="chip" id="seedChip" title="Seeds: spend them in the Village shop">🌱 <b id="seedNum">' + AK.seedBalance(S) + '</b></span><span class="chip gold" title="Experience points">' + S.xp + ' XP</span><span class="chip" title="Stars earned">⭐ ' + AK.totalStars(S) + '</span>' +
+      (flameChip(st) || '<span class="chip" title="Day streak' + (st.atRisk ? " (learn today to keep it)" : "") + '">🔥 ' + st.count + (S.streak.freezes ? " ❄" + S.streak.freezes : "") + "</span>") + questChip() +
       '<select class="iconbtn" id="langBtn" aria-label="Interface language" style="width:auto">' + LANGS.map((l) => '<option value="' + l[0] + '"' + (S.settings.lang === l[0] ? " selected" : "") + ">" + l[2] + "</option>").join("") + "</select>" +
       '<button class="iconbtn" id="themeBtn" aria-label="Toggle light and dark theme">' + (S.settings.theme === "dark" ? "☀" : "🌙") + "</button></div>";
     $("#langBtn").onchange = (e) => { S.settings.lang = e.target.value; save(); applySettings(); route(); };
@@ -173,8 +183,8 @@
   };
 
   /* ---- map */
-  const TYPE_ICON = { predict: "🔮", fill: "✏️", order: "🧩", "fix-the-bug": "🔧", terminal: "💻", "write-code": "⌨️" };
-  const nodeIcon = (m) => (m.boss ? "🐛" : m.project ? "🏗️" : TYPE_ICON[m.type] || "⌨️");
+  const TYPE_ICON = { predict: "🔮", fill: "✏️", order: "🧩", "fix-the-bug": "🔧", terminal: "💻", "write-code": "⌨️", lesson: "📖", go: "🐹", hunt: "🕵️", grid: "🤖", pipe: "🔧", sql: "🗄️", pair: "🦜" };
+  const nodeIcon = (m) => (m.boss ? "🐛" : m.project || m.project_step ? "🏗️" : m.type === "hunt" && m.lang === "go" ? "🐹" : TYPE_ICON[m.type] || "⌨️");
   const starRow = (n) => "★".repeat(n) + "☆".repeat(3 - n);
   VIEWS.map = function (v) {
     const w = weekly(), pyRegions = DATA.regions.filter((r) => r.track === "python");
@@ -275,7 +285,7 @@
   function afterSolve(m, res, node) {
     save(); renderHeader("mission"); setHeadStatus(m);
     if (node) node.innerHTML = rewardHtml(res, m);
-    confetti(); H("solved", m, res);
+    if (!H("celebrate", m, res)) confetti(); H("solved", m, res);
     const ex = $("#explainSlot"); if (ex) { ex.innerHTML = explainHtml(m); bindExplain(m); }
     refreshCompare(m);
     if (res.rankUp) toast("Rank up: " + rankName(S.xp));
@@ -332,8 +342,8 @@
   }
 
   function missionFrame(m, extraRight) {
-    const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT", sql: "SQL QUERY", pair: "PAIR PARROT" }[m.type] || (m.mystery ? "CASE FILE" : m.golf ? "CODE GOLF" : "");
-    return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "</a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : m.project ? " · PROJECT" : kind ? " · " + kind : "") + "</span><h2>" + esc(m.title) + '</h2><span class="chip gold">' + m.xp + ' XP</span><span id="mstatus"></span><span class="pill load" id="pypill"></span></div>' +
+    const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT", sql: "SQL QUERY", pair: "PAIR PARROT", lesson: "LESSON", go: "GO PRACTICE", hunt: m.lang === "go" ? "COMPILER HUNT" : "SECURITY HUNT", grid: "ROBOT CODING", pipe: "BUILD A PIPELINE" }[m.type] || (m.mystery ? "CASE FILE" : m.golf ? "CODE GOLF" : "");
+    return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "</a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : m.project ? " · PROJECT" : m.project_step ? " · PROJECT STEP" : kind ? " · " + kind : "") + "</span><h2>" + esc(m.title) + '</h2><span class="chip gold">' + m.xp + ' XP</span><span id="mstatus"></span><span class="pill load" id="pypill"></span></div>' +
       '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '</div><div class="goal"><b>Goal:</b> ' + esc(m.goal) + "</div>" + (m.type === "predict" ? "" : "<b>Checks</b>" + renderTests(m, null)) + '<div id="hintSlot"></div><div id="rewardSlot"></div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "</div></aside>" +
       '<section id="midpane"></section><section class="card" id="rightpane"><div class="tabs" role="tablist">' + extraRight.tabs + "</div>" + extraRight.panels + '<div id="tab-compare" hidden></div></section></div>';
   }
@@ -677,7 +687,7 @@
     parrot: parrot, ensurePy: ensurePy, confetti: confetti, reducedMotion: reducedMotion, missionFrame: missionFrame, tabBtn: tabBtn, bindTabs: bindTabs, bindHints: bindHints, bindExplain: bindExplain,
     setHeadStatus: setHeadStatus, renderTests: renderTests, allTests: allTests, lightTests: lightTests, finishMission: finishMission, tries: tries, refreshCompare: refreshCompare, setPyPill: setPyPill,
     buildCodeEditor: buildCodeEditor, missionPython: missionPython, missionTerminal: missionTerminal, missionPredict: missionPredict, predictCard: predictCard, weekly: weekly, featIds: featIds,
-    diag: diag, setDay: (id) => { dayMode = id; }, PY_OFFLINE: PY_OFFLINE, applySettings: applySettings, rankName: rankName, badgeToasts: badgeToasts, nodeIcon: nodeIcon, orderedMissions: orderedMissions,
+    parrotStage: () => AK.parrotStage(S.xp), STAGE_NAMES: STAGE_NAMES, save2: save, diag: diag, setDay: (id) => { dayMode = id; }, PY_OFFLINE: PY_OFFLINE, applySettings: applySettings, rankName: rankName, badgeToasts: badgeToasts, nodeIcon: nodeIcon, orderedMissions: orderedMissions,
   };
   if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js").catch(() => {});
   window.AK_APP = { state: () => S, route: route };

@@ -46,3 +46,17 @@ Rules for authors: one concept per mission, 5–10 minutes, grade behaviour not 
 - `fade: {example: {title, code, note}, partial, blanks[]}` on a write-code mission. `partial` contains `____`; filling the blanks in order must pass the tests.
 - Terminal missions: `tool: "git"` with `starter.git`, `mystery: true` for case files. Extra test kinds: `service-state`, `file-mode`, `file-owner`, `file-exists`, `file-missing`, `file-equals`, `file-regex`, `curl-ok`, `cond`, `history-has`, and `git` (with `check`). See `src/git.js` and `src/term_extra.js`.
 - `missions/placement.json`: ten predict-style questions, one per level 0 to 9, whose marked answers are checked against real Python.
+
+## v3 additions
+
+New mission types (all verified by `tests/verify.mjs`):
+- `lesson`: `blocks[]` of `{kind:"text",text}`, `{kind:"code",title,code,output?,run?}`, `{kind:"try",prompt,starter,tests,solution}` (graded in Python), `{kind:"quiz",q,options,answer,why}`, `{kind:"gofill",prompt,template,blanks[{answers[]}],why}`. Every `try`, `quiz` and `gofill` block must be completed.
+- `go` (`lang:"go"`): graded statically, because browsers cannot run Go. `mode:"fill"` has `template` with `___`, `blanks[{answers[]}]`, `expect`. `mode:"order"` has shuffled `lines`, `lines_ok` and `orders[]` (every accepted order), `expect`. Every shipped answer must be run with real `go`. `gen_v3_go.py` style generators compute `expect` that way.
+- `predict` with `lang:"go"`: output checked against real `go run`, not Pyodide.
+- `hunt`: `code`, `bad[]` (1-based line numbers), `why_lines{line: text}`, `fix{question,options,answer,why}`. With `lang:"go"` the bad lines must equal the lines `go build` reports.
+- `grid` (Robot Maze): `grid{rows,facing,max}` using `#` wall, `S` start, `G` goal, `o` coin, `.` floor; `maps[]` hidden extra maps. Test kinds `grid-reach`, `grid-coins`, `grid-max {n}` (each may carry `map` index), plus `source` and `maxlines`. Robot API: `move turn_left turn_right pick_coin front_clear left_clear right_clear at_goal coin_here`.
+- `pipe` (Pipeline Plumber): `input`, `target`, `blocks[{cmd,args}]`, `answer_steps[]` (indices into blocks). Commands: cat grep sort uniq head tail wc cut col tr rev. Test kinds `pipe-out {input?,expect}`, `pipe-uses`, `pipe-max`. Expected output must come from the real shell with `LC_ALL=C`.
+- Projects: a region with `capstone:true`; checkpoints have `project_step:true` and `carry:{from,stub}` (starter = your solved code from `from` plus `stub`). `solution` is the full cumulative program; tests are cumulative; the last step has `project:true`. `alt` is optional for project steps.
+- Terminal HTTP: `curl` (flags -X -H -d -o -w -u -L -s -i -I -v -f --json), a mini `jq`, endpoint specs `{routes:[{method,auth,header,bodyHas,query,status,body,headers}],default}` and test kind `req-made {method,url,status,header,bodyHas}`.
+- Python `eval` test `expect` is a Python expression string (use `repr`).
+- `regions.json`: regions may set `capstone:true`; tracks added: go, http, security, visual, projects.

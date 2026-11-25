@@ -10,7 +10,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
 const require = createRequire(import.meta.url);
 const AK = require(join(root, "src", "engine.js"));
-for (const f of ["term_extra.js", "git.js", "play.js"]) require(join(root, "src", f));
+for (const f of ["term_extra.js", "git.js", "play.js", "more.js"]) require(join(root, "src", f));
 
 const regionsFile = JSON.parse(readFileSync(join(root, "missions", "regions.json"), "utf8"));
 const regionIds = regionsFile.regions.map((r) => r.id);
@@ -30,7 +30,7 @@ const ok = () => { checks++; };
 // ---- structure
 const ids = new Set(missions.map((m) => m.id));
 const REQUIRED = ["id", "region", "order", "title", "story", "goal", "type", "starter", "tests", "hints", "socratic", "explain", "xp", "skills", "requires", "solution"];
-const TYPES = ["write-code", "fix-the-bug", "terminal", "predict", "fill", "order", "sql", "pair"];
+const TYPES = ["write-code", "fix-the-bug", "terminal", "predict", "fill", "order", "sql", "pair", "lesson", "go", "hunt", "grid", "pipe"];
 const seen = new Set();
 for (const m of missions) {
   for (const k of REQUIRED) if (!(k in m)) bad(m, `missing field "${k}"`); else ok();
@@ -55,6 +55,29 @@ for (const m of missions) {
     else if (m.lines.slice().sort().join("\n") !== String(m.solution).replace(/\n$/, "").split("\n").sort().join("\n")) bad(m, "order lines must be a permutation of the solution lines");
     else if (m.lines.join("\n") === String(m.solution).replace(/\n$/, "")) bad(m, "order lines must start shuffled");
   }
+  if (m.type === "lesson") {
+    if (!Array.isArray(m.blocks) || !m.blocks.length) bad(m, "lesson needs blocks");
+    else if (!AK.lessonNeed(m).length) bad(m, "lesson needs at least one interactive block");
+    for (const b of m.blocks || []) {
+      if (b.kind === "quiz" && (!Array.isArray(b.options) || b.options.length < 2 || !Number.isInteger(b.answer) || b.answer < 0 || b.answer >= b.options.length || !b.why)) bad(m, "bad quiz block");
+      if (b.kind === "try" && (!b.starter || !b.tests || !b.solution)) bad(m, "try block needs starter, tests, solution");
+      if (b.kind === "gofill" && (!b.template || !b.blanks)) bad(m, "gofill block needs template and blanks");
+    }
+  }
+  if (m.type === "go") {
+    if (m.lang !== "go" || !m.expect) bad(m, "go mission needs lang go and expect");
+    if (m.mode === "fill" && ((m.template.match(/___/g) || []).length !== (m.blanks || []).length)) bad(m, "go fill: blank count mismatch");
+    if (m.mode === "order" && (!Array.isArray(m.lines) || !Array.isArray(m.orders) || m.orders.some((o) => o.slice().sort().join() !== m.lines.slice().sort().join()) || m.orders.some((o) => o.join("\n") === m.lines.join("\n")))) bad(m, "go order: lines must be shuffled and orders a permutation");
+  }
+  if (m.type === "hunt") {
+    const n = String(m.code || "").replace(/\n$/, "").split("\n").length;
+    if (!Array.isArray(m.bad) || !m.bad.length || m.bad.some((x) => !(x >= 1 && x <= n))) bad(m, "hunt bad lines out of range");
+    else for (const b of m.bad) if (!(m.why_lines || {})[b]) bad(m, "hunt needs why_lines for line " + b);
+    const f = m.fix || {}; if (!f.question || !Array.isArray(f.options) || f.options.length < 3 || !(f.answer >= 0 && f.answer < f.options.length) || !f.why) bad(m, "hunt fix is incomplete");
+  }
+  if (m.type === "grid" && (!m.grid || !Array.isArray(m.grid.rows))) bad(m, "grid needs grid.rows");
+  if (m.type === "pipe" && (!m.input || !m.target || !Array.isArray(m.blocks) || !Array.isArray(m.answer_steps))) bad(m, "pipe needs input, target, blocks, answer_steps");
+  if (m.carry && !(ids.has(m.carry.from) && typeof m.carry.stub === "string")) bad(m, "carry needs a valid from and a stub");
   if (!(m.xp > 0)) bad(m, "xp must be positive");
   if (m.file.split("/")[2] !== m.id + ".json") bad(m, "file name must be <id>.json");
 }
@@ -73,7 +96,7 @@ AK.py.init(py);
 const summarize = (res) => res.filter((r) => !r.ok).map((r) => r.label).join("; ");
 
 // predict missions: the marked option must equal what the code really prints
-for (const m of missions.filter((x) => x.type === "predict")) {
+for (const m of missions.filter((x) => x.type === "predict" && x.lang !== "go")) {
   const r = AK.py.run(m.code, m.stdin || [], false);
   const actual = (r.out.replace(/\s+$/, "") + (r.err ? (r.out.trim() ? "\n" : "") + "Error: " + r.err.type : "")).trim();
   const want = m.options[m.answer].trim();
@@ -131,14 +154,15 @@ const place = JSON.parse(readFileSync(join(root, "missions", "placement.json"), 
   }
 }
 
-for (const m of missions.filter((x) => x.type !== "terminal" && x.type !== "predict" && x.type !== "sql")) {
+const NEWT = ["lesson", "go", "hunt", "grid", "pipe"];
+for (const m of missions.filter((x) => x.type !== "terminal" && x.type !== "predict" && x.type !== "sql" && !NEWT.includes(x.type))) {
   if (typeof m.solution !== "string") { bad(m, "solution must be a string of code"); continue; }
   let res = AK.py.grade(m.solution, m.tests);
   if (res.every((r) => r.ok)) ok(); else bad(m, `reference solution fails: ${summarize(res)}`);
   if (m.alt) {
     res = AK.py.grade(m.alt, m.tests);
     if (res.every((r) => r.ok)) ok(); else bad(m, `alternative solution fails: ${summarize(res)}`);
-  } else if (["write-code", "fix-the-bug", "pair"].includes(m.type)) bad(m, "missing alternative solution");
+  } else if (["write-code", "fix-the-bug", "pair"].includes(m.type) && !m.project_step) bad(m, "missing alternative solution");
   res = AK.py.grade(m.starter, m.tests);
   if (res.every((r) => r.ok)) bad(m, "starter already passes (nothing to learn)"); else ok();
   // fix-the-bug missions must start with a failing program, not an empty one
@@ -156,6 +180,39 @@ for (const m of missions.filter((x) => x.type !== "terminal" && x.type !== "pred
     const alone = AK.py.grade(h3, m.tests), combined = AK.py.grade(starterCode + "\n" + h3, m.tests);
     if (alone.every((r) => r.ok) || combined.every((r) => r.ok)) ok(); else bad(m, `hint 3 code does not pass: ${summarize(alone)}`);
   }
+}
+
+// ---- v3 types
+for (const m of missions.filter((x) => x.type === "lesson")) {
+  for (const b of m.blocks) if (b.kind === "try") { const res = AK.py.grade(b.solution, b.tests); if (res.every((r) => r.ok)) ok(); else bad(m, "lesson try solution fails: " + summarize(res)); if (AK.py.grade(b.starter, b.tests).every((r) => r.ok)) bad(m, "lesson try starter already passes"); }
+  for (const b of m.blocks) if (b.kind === "gofill") { const ans = (b.blanks || []).map((x) => x.answers[0]); if (AK.goFillCheck(b, ans).every(Boolean)) ok(); else bad(m, "gofill own answers fail"); if (AK.goFillCheck(b, ans.map(() => "")).some(Boolean)) bad(m, "gofill accepts empty"); }
+}
+for (const m of missions.filter((x) => x.type === "go")) {
+  if (m.mode === "fill") {
+    const ans = m.blanks.map((b) => b.answers[0]); if (AK.goFillCheck(m, ans).every(Boolean)) ok(); else bad(m, "go fill reference fails");
+    if (AK.goFillCode(m, ans).replace(/\s+$/, "") === m.solution.replace(/\s+$/, "")) ok(); else bad(m, "go fill solution is not the template filled with the first answers");
+    if (AK.goFillCheck(m, ans.map(() => "")).some(Boolean)) bad(m, "go fill accepts empty blanks");
+  } else {
+    for (const o of m.orders) if (AK.goOrderOk(m, o)) ok(); else bad(m, "go order alternative rejected");
+    if (AK.goOrderOk(m, m.lines)) bad(m, "go order starter already passes"); else ok();
+    if (m.orders[0].join("\n") !== m.solution) bad(m, "go order solution mismatch");
+  }
+}
+for (const m of missions.filter((x) => x.type === "hunt")) {
+  if (AK.huntCheck(m, m.bad).ok) ok(); else bad(m, "hunt reference fails");
+  if (AK.huntCheck(m, []).ok || AK.huntCheck(m, m.bad.slice(1)).ok) bad(m, "hunt accepts too little"); else ok();
+}
+for (const m of missions.filter((x) => x.type === "grid")) {
+  AK.py.gridRun = AK.py.gridRun || null;
+  const tryCode = (code, label) => { const res = AK.gridGrade(m, code); if (res.every((r) => r.ok)) ok(); else bad(m, label + " fails: " + res.filter((r) => !r.ok).map((r) => r.label + (r.err ? " (" + r.err + ")" : "")).join("; ")); };
+  tryCode(m.solution, "reference solution"); if (m.alt) tryCode(m.alt, "alternative solution"); else bad(m, "grid needs an alternative solution");
+  if (AK.gridGrade(m, m.starter).every((r) => r.ok)) bad(m, "grid starter already passes"); else ok();
+  try { AK.gridParse(m.grid); for (const x of m.maps || []) AK.gridParse(x); ok(); } catch (e) { bad(m, "bad map: " + e.message); }
+}
+for (const m of missions.filter((x) => x.type === "pipe")) {
+  const steps = m.answer_steps.map((i) => m.blocks[i]); const res = AK.pipeGrade(m, steps);
+  if (res.every((r) => r.ok)) ok(); else bad(m, "pipe reference fails: " + res.filter((r) => !r.ok).map((r) => r.label + " got " + JSON.stringify(r.got)).join("; "));
+  if (AK.pipeGrade(m, []).every((r) => r.ok)) bad(m, "pipe empty pipeline already passes"); else ok();
 }
 
 // ---- terminal missions
@@ -227,6 +284,40 @@ const A = (c, msg) => { if (c) ok(); else bad({ id: "engine" }, msg); };
   const ST = AK.newState(); for (let i = 0; i < 7; i++) AK.touchStreak(ST, new Date(2026, 2, 1 + i)); A(AK.seedBalance(ST) >= 10 && ST.streak.count === 7, "7-day streak pays seeds");
   // outage-of-the-day solve gives bonus
   const ob = AK.newState(); const om = outs[0]; const sres = AK.applySolve(ob, D, om, { hintsUsed: 0, now: new Date(2026, 4, 5), dayId: om.id }); A(sres.seeds >= 5 && ob.outageDays && Object.keys(ob.outageDays).length >= 1, "daily outage pays seeds and is recorded");
+  // ---- v3: stages, festivals, quests, merge, proof
+  A(AK.parrotStage(0) === 0 && AK.parrotStage(19) === 0 && AK.parrotStage(20) === 1 && AK.parrotStage(299) === 1 && AK.parrotStage(300) === 2 && AK.parrotStage(1300) === 3 && AK.parrotStage(3400) === 4 && AK.parrotStage(99999) === 4, "parrot stages by XP");
+  A((AK.festivalFor(new Date(2026, 10, 8)) || {}).id === "diwali" && (AK.festivalFor(new Date(2027, 0, 14)) || {}).id === "sankranti" && AK.festivalFor(new Date(2026, 5, 10, 12)) === null, "festival lookup by date");
+  A((AK.festivalFor(new Date(2026, 2, 19)) || {}).id === "ugadi" && (AK.festivalFor(new Date(2027, 3, 7)) || {}).id === "ugadi", "ugadi dates 2026 and 2027");
+  for (const f of AK.FESTIVALS) { const ok6 = ["en", "te", "hi", "kn", "ta", "ml"].every((l) => AK.festivalHello(f, l) && AK.festivalName(f, l)); A(ok6, "festival has greetings in all 6 languages: " + f.id); }
+  {
+    const Q = AK.newState(), now = new Date(2026, 5, 10, 12), q0 = AK.questsFor(Q, D, now);
+    A(q0.goals.length === 3 && new Set(q0.goals.map((g) => g.id)).size === 3 && !q0.chest, "a day has 3 distinct quest goals");
+    A(JSON.stringify(AK.questsFor(AK.newState(), D, now).goals.map((g) => g.id)) === JSON.stringify(q0.goals.map((g) => g.id)), "quest goals are stable for a day");
+    const b0 = AK.seedBalance(Q), x0 = Q.xp; AK.drainFeed();
+    for (let i = 0; i < 6; i++) for (const e of ["solve", "type:write-code", "type:predict", "type:terminal", "type:sql", "track:python", "track:sql", "track:ops", "nohint", "star3", "predict_ok", "blitz", "speed", "golf", "daily_card", "explain", "floor", "project", "outage_day"]) AK.questEvent(Q, e, 1, now, D);
+    const q1 = AK.questsFor(Q, D, now), feed = AK.drainFeed();
+    A(q1.goals.every((g) => g.done) && q1.chest, "finishing all goals opens the chest");
+    A(AK.seedBalance(Q) - b0 === 3 * 2 + 10 && Q.xp - x0 === 20, "goals pay 2 seeds each, chest pays 10 seeds and 20 XP");
+    A(feed.filter((f) => f.kind === "goal").length === 3 && feed.filter((f) => f.kind !== "goal").length === 1, "feed has 3 goal items and one chest item");
+    const b1 = AK.seedBalance(Q); AK.questEvent(Q, "solve", 1, now, D); A(AK.seedBalance(Q) === b1, "quests never pay twice in a day");
+    const later = new Date(2026, 5, 11, 12); A(AK.questsFor(Q, D, later).date !== q1.date && !AK.questsFor(Q, D, later).chest, "a new day starts a new quest board");
+  }
+  {
+    const Fv = AK.newState(), diwali = new Date(2026, 10, 8, 12), m1 = missions.find((m) => m.type === "write-code"), m2 = missions.filter((m) => m.type === "write-code")[1];
+    const r1 = AK.applySolve(Fv, D, m1, { hintsUsed: 0, now: diwali }), r2 = AK.applySolve(Fv, D, m2, { hintsUsed: 0, now: diwali });
+    A(r1.festival && !r2.festival, "festival bonus only on the first solve of the day");
+    const Nv = AK.newState(), r3 = AK.applySolve(Nv, D, m1, { hintsUsed: 0, now: new Date(2026, 5, 10, 12) }); A(!r3.festival, "no festival bonus on a normal day");
+    const St = AK.newState(); St.xp = 19; const up = AK.applySolve(St, D, missions.find((m) => m.type === "write-code"), { hintsUsed: 0, now: new Date(2026, 5, 10, 12) }); A(up.stageUp === true && St.stage >= 1, "crossing an XP line grows the parrot");
+  }
+  {
+    const M1 = AK.newState(), M2b = AK.newState(); M1.solved = { a: { stars: 1 } }; M2b.solved = { b: { stars: 2 } }; M1.lessons = { x: { 1: true } }; M2b.lessons = { x: { 2: true } }; M1.stage = 1; M2b.stage = 3; M1.festSeen = { f1: 1 }; M2b.festSeen = { f2: 1 };
+    const Mg = AK.mergeState(M1, M2b); A(Mg.lessons.x[1] && Mg.lessons.x[2] && Mg.stage === 3 && Mg.festSeen.f1 && Mg.festSeen.f2, "mergeState unions lessons and festivals, keeps the higher stage");
+    const P1 = AK.newState(); P1.name = "Asha"; const id1 = AK.proofId(P1); P1.solved[missions[0].id] = { stars: 3 }; const id2 = AK.proofId(P1);
+    A(/^[0-9A-F]{10}$/.test(id1) && id1 !== id2 && AK.proofId(P1) === id2, "proof id is stable, 10 hex chars, and changes with progress");
+    const md = AK.portfolioMarkdown(P1, Object.assign({ tracks: regionsFile.tracks }, D)); A(md.indexOf("Asha") >= 0 && md.indexOf(id2) >= 0 && /Project: /.test(md), "portfolio markdown names the learner, proof id and projects");
+  }
+  A(AK.pipeRun("b\na\nb", [{ cmd: "sort", args: [] }, { cmd: "uniq", args: ["-c"] }]).out === "      1 a\n      2 b", "pipeRun sort | uniq -c matches the real tool");
+  { const T = AK.newTerminal ? null : null; void T; }
   // state merge keeps seeds
   const A1 = AK.newState(), B1 = AK.newState(); AK.earnSeeds(A1, 9); AK.earnSeeds(B1, 4); A1.speed = { a: { best: 5000, runs: 1 } }; B1.speed = { a: { best: 4000, runs: 2 } };
   const M2 = AK.mergeState(A1, B1); A(M2.seeds.earned >= 9 && M2.speed.a.best === 4000, "mergeState keeps best seeds and best times");
