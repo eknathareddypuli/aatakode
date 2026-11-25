@@ -53,5 +53,6 @@
     "w-json"
   ],
   "solution": "def check_age(age):\n    if age < 0 or age > 150:\n        raise ValueError(\"age out of range\")\n    return age\n",
-  "alt": "def check_age(age):\n    if not 0 <= age <= 150:\n        raise ValueError(f\"bad age: {age}\")\n    return age\n"
+  "alt": "def check_age(age):\n    if not 0 <= age <= 150:\n        raise ValueError(f\"bad age: {age}\")\n    return age\n",
+  "learn": "raise"
 }

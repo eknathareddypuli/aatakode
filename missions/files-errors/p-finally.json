@@ -41,5 +41,6 @@
   "requires": [
     "w-write-read"
   ],
-  "solution": "cleanup\ntry"
+  "solution": "cleanup\ntry",
+  "learn": "finally"
 }

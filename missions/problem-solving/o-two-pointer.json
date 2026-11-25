@@ -44,5 +44,6 @@
   "requires": [
     "w-anagram"
   ],
-  "solution": "word = \"level\"\nleft, right = 0, len(word) - 1\nok = True\nwhile left < right:\n    if word[left] != word[right]:\n        ok = False\n    left += 1\n    right -= 1\nprint(ok)\n"
+  "solution": "word = \"level\"\nleft, right = 0, len(word) - 1\nok = True\nwhile left < right:\n    if word[left] != word[right]:\n        ok = False\n    left += 1\n    right -= 1\nprint(ok)\n",
+  "learn": "search"
 }

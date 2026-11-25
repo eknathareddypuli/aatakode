@@ -60,5 +60,6 @@
     "w-linear"
   ],
   "solution": "def binary_search(items, target):\n    low, high = 0, len(items) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if items[mid] == target:\n            return mid\n        if items[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n",
-  "alt": "def binary_search(items, target):\n    lo, hi = 0, len(items)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if items[mid] < target:\n            lo = mid + 1\n        elif items[mid] > target:\n            hi = mid\n        else:\n            return mid\n    return -1\n"
+  "alt": "def binary_search(items, target):\n    lo, hi = 0, len(items)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if items[mid] < target:\n            lo = mid + 1\n        elif items[mid] > target:\n            hi = mid\n        else:\n            return mid\n    return -1\n",
+  "learn": "search"
 }

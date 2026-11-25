@@ -54,5 +54,6 @@
     "p-try"
   ],
   "solution": "def to_int(text, default=0):\n    try:\n        return int(text)\n    except ValueError:\n        return default\n",
-  "alt": "def to_int(text, default=0):\n    text = text.strip()\n    if text.lstrip(\"-\").isdigit():\n        return int(text)\n    return default\n"
+  "alt": "def to_int(text, default=0):\n    text = text.strip()\n    if text.lstrip(\"-\").isdigit():\n        return int(text)\n    return default\n",
+  "learn": "try-except"
 }

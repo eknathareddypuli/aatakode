@@ -48,5 +48,6 @@
     "w-count-lines"
   ],
   "solution": "def average_from_csv(text):\n    lines = text.strip().split(\"\\n\")[1:]\n    scores = [int(line.split(\",\")[1]) for line in lines]\n    return sum(scores) / len(scores) if scores else 0.0\n",
-  "alt": "def average_from_csv(text):\n    total = 0\n    count = 0\n    for line in text.strip().split(\"\\n\")[1:]:\n        total += int(line.split(\",\")[1])\n        count += 1\n    if count == 0:\n        return 0.0\n    return total / count\n"
+  "alt": "def average_from_csv(text):\n    total = 0\n    count = 0\n    for line in text.strip().split(\"\\n\")[1:]:\n        total += int(line.split(\",\")[1])\n        count += 1\n    if count == 0:\n        return 0.0\n    return total / count\n",
+  "learn": "csv-data"
 }

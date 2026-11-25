@@ -32,5 +32,6 @@
   "requires": [
     "w-binary"
   ],
-  "solution": "nums = [5, 2, 9, 1]\nfor i in range(len(nums)):\n    for j in range(len(nums) - 1 - i):\n        if nums[j] > nums[j + 1]:\n            nums[j], nums[j + 1] = nums[j + 1], nums[j]\nprint(nums)\n"
+  "solution": "nums = [5, 2, 9, 1]\nfor i in range(len(nums)):\n    for j in range(len(nums) - 1 - i):\n        if nums[j] > nums[j + 1]:\n            nums[j], nums[j + 1] = nums[j + 1], nums[j]\nprint(nums)\n",
+  "learn": "big-o"
 }

@@ -50,5 +50,6 @@
   ],
   "solution": "def read_numbers(path):\n    try:\n        with open(path) as f:\n            return sum(int(line) for line in f if line.strip())\n    except FileNotFoundError:\n        return 0\n",
   "alt": "def read_numbers(path):\n    nums = []\n    try:\n        with open(path) as f:\n            for line in f:\n                if line.strip() == \"\":\n                    continue\n                nums.append(int(line))\n    except FileNotFoundError:\n        return 0\n    return sum(nums)\n",
-  "boss": true
+  "boss": true,
+  "learn": "crashing-counter"
 }

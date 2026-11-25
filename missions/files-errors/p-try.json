@@ -40,5 +40,6 @@
   "requires": [
     "py-16-bugfix-5"
   ],
-  "solution": "12\nbad number"
+  "solution": "12\nbad number",
+  "learn": "try-except"
 }

@@ -40,5 +40,6 @@
   "requires": [
     "f-sort"
   ],
-  "solution": "10"
+  "solution": "10",
+  "learn": "recursion"
 }

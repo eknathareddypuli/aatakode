@@ -49,5 +49,6 @@
     "w-csv"
   ],
   "solution": "import json\n\n\ndef save_progress(path, data):\n    with open(path, \"w\") as f:\n        json.dump(data, f)\n\n\ndef load_progress(path, default=None):\n    try:\n        with open(path) as f:\n            return json.load(f)\n    except FileNotFoundError:\n        return default\n",
-  "alt": "import json\n\n\ndef save_progress(path, data):\n    f = open(path, \"w\")\n    f.write(json.dumps(data))\n    f.close()\n\n\ndef load_progress(path, default=None):\n    try:\n        f = open(path)\n    except FileNotFoundError:\n        return default\n    data = json.loads(f.read())\n    f.close()\n    return data\n"
+  "alt": "import json\n\n\ndef save_progress(path, data):\n    f = open(path, \"w\")\n    f.write(json.dumps(data))\n    f.close()\n\n\ndef load_progress(path, default=None):\n    try:\n        f = open(path)\n    except FileNotFoundError:\n        return default\n    data = json.loads(f.read())\n    f.close()\n    return data\n",
+  "learn": "json-data"
 }

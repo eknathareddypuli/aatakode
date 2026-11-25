@@ -32,5 +32,6 @@
   "requires": [
     "w-safe-int"
   ],
-  "solution": "def divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return None\n\nprint(divide(6, 0))\n"
+  "solution": "def divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return None\n\nprint(divide(6, 0))\n",
+  "learn": "try-except"
 }

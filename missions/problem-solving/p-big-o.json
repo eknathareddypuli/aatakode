@@ -40,5 +40,6 @@
   "requires": [
     "cc-boss"
   ],
-  "solution": "12"
+  "solution": "12",
+  "learn": "big-o"
 }

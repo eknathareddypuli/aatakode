@@ -61,5 +61,6 @@
   ],
   "solution": "from collections import deque\n\n\ndef solvable(grid):\n    rows, cols = len(grid), len(grid[0])\n    start = None\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == \"S\":\n                start = (r, c)\n    queue = deque([start])\n    seen = {start}\n    while queue:\n        r, c = queue.popleft()\n        if grid[r][c] == \"E\":\n            return True\n        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] != \"#\" and (nr, nc) not in seen:\n                seen.add((nr, nc))\n                queue.append((nr, nc))\n    return False\n",
   "alt": "def solvable(grid):\n    rows, cols = len(grid), len(grid[0])\n    stack = [(r, c) for r in range(rows) for c in range(cols) if grid[r][c] == \"S\"]\n    seen = set(stack)\n    while stack:\n        r, c = stack.pop()\n        if grid[r][c] == \"E\":\n            return True\n        for nr, nc in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] != \"#\" and (nr, nc) not in seen:\n                seen.add((nr, nc))\n                stack.append((nr, nc))\n    return False\n",
-  "project": true
+  "project": true,
+  "learn": "search"
 }

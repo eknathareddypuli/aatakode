@@ -47,5 +47,6 @@
     "f-except"
   ],
   "solution": "def save_note(path, text):\n    with open(path, \"w\") as f:\n        f.write(text)\n\n\ndef read_note(path):\n    with open(path) as f:\n        return f.read()\n",
-  "alt": "def save_note(path, text):\n    f = open(path, \"w\")\n    f.write(text)\n    f.close()\n\n\ndef read_note(path):\n    f = open(path, \"r\")\n    data = f.read()\n    f.close()\n    return data\n"
+  "alt": "def save_note(path, text):\n    f = open(path, \"w\")\n    f.write(text)\n    f.close()\n\n\ndef read_note(path):\n    f = open(path, \"r\")\n    data = f.read()\n    f.close()\n    return data\n",
+  "learn": "files"
 }

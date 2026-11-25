@@ -42,5 +42,6 @@
     "p-finally"
   ],
   "solution": "def count_lines(path):\n    count = 0\n    with open(path) as f:\n        for line in f:\n            if line.strip():\n                count += 1\n    return count\n",
-  "alt": "def count_lines(path):\n    with open(path) as f:\n        return len([l for l in f if l.strip()])\n"
+  "alt": "def count_lines(path):\n    with open(path) as f:\n        return len([l for l in f if l.strip()])\n",
+  "learn": "files"
 }

@@ -49,5 +49,6 @@
   ],
   "solution": "def total_by_category(lines):\n    totals = {}\n    for line in lines:\n        try:\n            name, amount = line.split(\",\")\n            totals[name] = totals.get(name, 0) + int(amount)\n        except ValueError:\n            continue\n    return totals\n",
   "alt": "def total_by_category(lines):\n    totals = {}\n    for line in lines:\n        parts = line.split(\",\")\n        if len(parts) != 2 or not parts[1].strip().lstrip(\"-\").isdigit():\n            continue\n        totals[parts[0]] = totals.get(parts[0], 0) + int(parts[1])\n    return totals\n",
-  "project": true
+  "project": true,
+  "learn": "files"
 }
