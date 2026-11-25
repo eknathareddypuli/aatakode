@@ -161,7 +161,7 @@
     const hash = location.hash.replace(/^#\/?/, "") || "home", parts = hash.split("/"), name = parts[0], arg = parts.slice(1).join("/");
     renderHeader(VIEWS[name] ? name : "home");
     const view = $("#view"); (VIEWS[name] || VIEWS.home)(view, arg);
-    window.scrollTo(0, 0); H("route", name);
+    window.scrollTo(0, 0); H("route", name, arg);
   }
 
   /* ---- home */

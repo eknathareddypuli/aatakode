@@ -412,3 +412,30 @@ body.zen #hdr .chip.gold,body.zen #seedChip,body.zen #hdr .flame,body.zen #hdr .
   .sheet,.cert{box-shadow:none;margin:0;max-width:none}.sheet{page-break-after:always}
 }
 @media (max-width:640px){.arena-view{flex-direction:column}.trow{grid-template-columns:1fr}.heat{grid-template-columns:repeat(7,1fr)}}
+/* v5 */
+.goalgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.6rem;margin:.8rem 0}
+.goal{display:flex;flex-direction:column;gap:.2rem;text-align:left;padding:.8rem;border-radius:14px;border:2px solid var(--line,#ddd);background:var(--card,#fff);color:inherit;cursor:pointer;font:inherit;min-height:44px}
+.goal:hover,.goal:focus-visible{border-color:var(--accent,#2a7)}.goal.on{border-color:var(--accent,#2a7);box-shadow:0 0 0 2px var(--accent,#2a7) inset}
+.goal .gi{font-size:1.6rem}.goal .muted{font-size:.85rem}
+.chooser{border:2px solid var(--accent,#2a7)}
+.pathbar .row.spread,.boss-hp .row.spread,.mrow .row.spread{display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap}
+.pathmini{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.6rem 0;padding:.5rem .8rem}
+.region.onpath{outline:2px solid var(--accent,#2a7);outline-offset:2px}
+.node.next{animation:nextpulse 2s ease-in-out infinite;box-shadow:0 0 0 3px var(--accent,#2a7)}
+@keyframes nextpulse{50%{box-shadow:0 0 0 7px transparent}}
+.pathlist li.done{opacity:.7}
+.pgwrap{position:relative;display:inline-block}
+.pgbadge{position:absolute;right:-6px;bottom:-4px;font-size:1.3rem}
+.pg-builder svg{filter:drop-shadow(0 0 6px #fb3)}.pg-detective svg{filter:drop-shadow(0 0 6px #68f)}.pg-sage svg{filter:drop-shadow(0 0 6px #9d6)}
+.pg-t-swift svg{animation:pgswift 2.4s ease-in-out infinite}.pg-t-calm svg{animation:pgcalm 5s ease-in-out infinite}.pg-t-bold svg{animation:pgbold 3s ease-in-out infinite}
+.pg-c-gold .pgbadge{text-shadow:0 0 6px gold}.pg-c-emerald .pgbadge{text-shadow:0 0 6px #2c8}.pg-c-violet .pgbadge{text-shadow:0 0 6px #a5f}
+@keyframes pgswift{50%{transform:translateX(4px)}}@keyframes pgcalm{50%{transform:translateY(-3px)}}@keyframes pgbold{50%{transform:scale(1.05)}}
+@media (prefers-reduced-motion:reduce){.pgwrap svg,.node.next{animation:none!important}}
+.grow-step{margin:.4rem 0}.grow-step.lock{opacity:.6}
+.mastery .mrow .bar,.hpbar{height:10px;border-radius:6px;background:rgba(128,128,128,.25);overflow:hidden}.mastery .mrow .bar i,.hpbar i{display:block;height:100%;background:var(--accent,#2a7);transition:width .4s}
+.hpbar i{background:#d44}
+.boss-hp{margin:.6rem 0}.boss-top{display:flex;gap:.8rem;align-items:center}.boss-face{font-size:3rem}.boss-face.down{transform:rotate(90deg);opacity:.6}
+.boss-choices{display:grid;gap:.5rem}.boss-card .story-line p.new{animation:fadein .5s}
+.misc{border-left:4px solid #e90;margin:.6rem 0}.ab-flag{filter:drop-shadow(0 0 3px gold)}
+.card.focus{border-left:4px solid var(--accent,#2a7)}
+@media (max-width:640px){.goalgrid{grid-template-columns:1fr 1fr}}

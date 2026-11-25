@@ -132,7 +132,7 @@ with sync_playwright() as p:
     pg.wait_for_selector("text=Your starting point", timeout=15000); check("placement places the learner", st("!!S.placed && S.placed.index >= 3"))
     # --- arena hub + outage of the day
     go("#/arena"); pg.wait_for_selector(".tile")
-    check("arena hub tiles (old six plus Bot Arena, Clash, Morning)", pg.locator(".tile").count() == 9)
+    check("arena hub tiles (old six plus Bot Arena, Clash, Morning, Maze Dash)", pg.locator(".tile").count() == 10)
     d = pg.evaluate("AK.outageOfDay(AK_DATA.missions,new Date()).id")
     fresh(d); go(f"#/mission/{d}/day"); pg.wait_for_selector("#tin")
     sol = pg.evaluate(f"AK_DATA.missions.find(m=>m.id==='{d}').solution")

@@ -19,11 +19,12 @@
 
   /* ---------------------------------------------------------------- Bot Arena */
   function board(frame, walls, size, opts) {
+    opts = opts || {};
     var u = 26, W = size * u, svg = '<svg class="arena-board" viewBox="0 0 ' + W + " " + W + '" role="img" aria-label="Seed Grab board">';
     svg += '<rect width="' + W + '" height="' + W + '" rx="8" class="ab-floor"/>';
     for (var i = 1; i < size; i++) svg += '<path d="M' + i * u + " 0V" + W + "M0 " + i * u + "H" + W + '" class="ab-grid"/>';
     walls.forEach(function (w) { svg += '<rect x="' + (w[0] * u + 2) + '" y="' + (w[1] * u + 2) + '" width="' + (u - 4) + '" height="' + (u - 4) + '" rx="4" class="ab-wall"/>'; });
-    frame.seeds.forEach(function (s) { svg += '<circle cx="' + (s[0] * u + u / 2) + '" cy="' + (s[1] * u + u / 2) + '" r="6" class="ab-seed"/>'; });
+    frame.seeds.forEach(function (s) { svg += opts.flag ? '<text x="' + (s[0] * u + u / 2) + '" y="' + (s[1] * u + u / 2 + 6) + '" class="ab-flag" text-anchor="middle">⚑</text>' : '<circle cx="' + (s[0] * u + u / 2) + '" cy="' + (s[1] * u + u / 2) + '" r="6" class="ab-seed"/>'; });
     svg += '<circle cx="' + (frame.pos[1][0] * u + u / 2) + '" cy="' + (frame.pos[1][1] * u + u / 2) + '" r="10" class="ab-foe"/><text x="' + (frame.pos[1][0] * u + u / 2) + '" y="' + (frame.pos[1][1] * u + u / 2 + 4) + '" class="ab-t">B</text>';
     svg += '<circle cx="' + (frame.pos[0][0] * u + u / 2) + '" cy="' + (frame.pos[0][1] * u + u / 2) + '" r="10" class="ab-me"/><text x="' + (frame.pos[0][0] * u + u / 2) + '" y="' + (frame.pos[0][1] * u + u / 2 + 4) + '" class="ab-t">A</text>';
     return svg + "</svg>";
@@ -32,7 +33,7 @@
     var frames = m.frames, i = 0, timer = null;
     host.innerHTML = '<div class="arena-view"><div id="abBoard"></div><div class="grow"><div class="row spread"><b id="abTitle"></b><span class="chip" id="abScore"></span></div><input type="range" id="abSlide" min="0" max="' + (frames.length - 1) + '" value="0" aria-label="Turn"><div class="row" style="margin:.4rem 0"><button class="btn small" id="abPrev" aria-label="Previous turn">◀</button><button class="btn small primary" id="abPlay">▶ Play</button><button class="btn small" id="abNext" aria-label="Next turn">▶|</button><button class="btn small" id="abEnd">⏭ End</button></div><div class="muted mono" id="abMoves" style="font-size:.85rem"></div></div></div>';
     function draw() {
-      var f = frames[i]; Q("#abBoard").innerHTML = board(f, m.walls, m.size);
+      var f = frames[i]; Q("#abBoard").innerHTML = board(f, m.walls, m.size, { flag: m.flag });
       Q("#abTitle").textContent = (label || "Match") + " · turn " + f.t + " of " + (frames.length - 1); Q("#abScore").textContent = "You (A) " + f.score[0] + " : " + f.score[1] + " (B)";
       Q("#abMoves").textContent = i ? "Moves: A " + f.mv[0] + "  ·  B " + f.mv[1] : "Both bots wait at their start squares."; Q("#abSlide").value = i;
     }
@@ -47,33 +48,33 @@
   function C_onLeave(fn) { leaveFns.push({ h: location.hash, fn: fn }); }
   window.addEventListener("hashchange", function () { leaveFns = leaveFns.filter(function (x) { if (x.h === location.hash) return true; try { x.fn(); } catch (e) { /* ignore */ } return false; }); });
 
-  VIEWS.bots = function (v, arg) {
-    var st = S(), a = AK.v4(st).arena, cur = Math.max(0, A.leagues.findIndex(function (l) { return l.id === arg; }));
-    if (!arg) cur = AK.arenaLeagueIndex(st, A);
+  function botsView(v, arg, G) {
+    var A = G.A, st = S(), a = G.rec(st), cur = Math.max(0, A.leagues.findIndex(function (l) { return l.id === arg; }));
+    if (!arg) cur = G.index(st, A);
     var L = A.leagues[cur], busy = false;
-    v.innerHTML = '<div class="mhead"><a class="btn small" href="#/arena">← Arena</a><span class="tag">BOT ARENA · LOCAL AND OFFLINE</span><h2>🤖 Seed Grab</h2></div>' +
+    v.innerHTML = '<div class="mhead"><a class="btn small" href="#/arena">← Arena</a><span class="tag">BOT ARENA · LOCAL AND OFFLINE</span><h2>' + G.icon + " " + G.name + '</h2></div>' +
       '<p class="muted">Write <span class="mono">play(state)</span> in Python. Your bot and the opponent move at the same time on a shared board. The rules never change and are all here. Everything runs on your device.</p>' +
-      '<div class="league-row" role="tablist" aria-label="Leagues">' + A.leagues.map(function (l, i) { var open = AK.arenaOpen(st, A, l.id), done = a.done[l.id]; return '<button role="tab" class="league' + (i === cur ? " on" : "") + (done ? " done" : "") + (open ? "" : " locked") + '" data-l="' + l.id + '"' + (open ? "" : " disabled") + ' aria-selected="' + (i === cur) + '">' + (done ? "✅ " : open ? "" : "🔒 ") + esc(l.name) + "</button>"; }).join("") + "</div>" +
+      '<div class="league-row" role="tablist" aria-label="Leagues">' + A.leagues.map(function (l, i) { var open = G.open(st, A, l.id), done = a.done[l.id]; return '<button role="tab" class="league' + (i === cur ? " on" : "") + (done ? " done" : "") + (open ? "" : " locked") + '" data-l="' + l.id + '"' + (open ? "" : " disabled") + ' aria-selected="' + (i === cur) + '">' + (done ? "✅ " : open ? "" : "🔒 ") + esc(l.name) + "</button>"; }).join("") + "</div>" +
       '<div class="grid g2" style="margin-top:.8rem;align-items:start"><div class="card"><div class="row spread"><b>' + esc(L.name) + " league: " + esc(L.opp) + "</b><span class=\"chip gold\">" + (a.wins[L.id] || 0) + "/" + A.leagues[cur].seeds.length + " best</span></div><p class=\"muted\">" + esc(L.blurb) + "</p><p class=\"muted\" style=\"font-size:.85rem\">Win <b>" + L.need + " of " + L.seeds.length + "</b> fixed matches to clear this league." + (L.walls ? " Walls on the board: " + L.walls * 2 + " squares." : "") + "</p>" +
-      '<details class="rules" open><summary><b>Rules (always visible)</b></summary><ul>' + A.rules.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") + '</ul><p class="mono" style="font-size:.85rem">state = {"me": [x, y], "foe": [x, y], "seeds": [[x, y], …], "walls": [[x, y], …], "size": 11, "turn": 1, "turns": 40, "score": [mine, theirs]}<br>return "N", "E", "S", "W" or "STAY"   (N is up, y grows downward)</p></details>' +
+      '<details class="rules" open><summary><b>Rules (always visible)</b></summary><ul>' + A.rules.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") + '</ul><p class="mono" style="font-size:.85rem">' + G.doc + '<br>return "N", "E", "S", "W" or "STAY"   (N is up, y grows downward)</p></details>' +
       '<textarea id="botCode" class="input mono" rows="16" spellcheck="false" aria-label="Your bot code"></textarea><div class="row" style="margin-top:.5rem"><button class="btn good" id="botSeries">🏁 Run the league series (5 matches)</button><button class="btn" id="botPractice">🎲 Practice match</button><button class="btn" id="botPrev" title="Plays the version you ran in the previous league series">⏪ vs my previous version</button></div>' +
       '<div class="row" style="margin-top:.4rem"><label class="muted" for="botSeed">Replay by seed</label><input id="botSeed" class="input" type="number" min="1" style="width:6rem" placeholder="seed"><button class="btn small" id="botReplay">▶ Replay</button><button class="btn small" id="botStarter">↺ Starter</button><button class="btn small" id="botRef"' + (a.done[L.id] ? "" : " disabled") + ' title="Unlocks after you clear this league">👀 Reference bot</button></div><div id="botMsg" class="muted" aria-live="polite" style="margin-top:.5rem"></div></div>' +
       '<div class="card"><div id="botView"><p class="muted">Run a match to watch it here. Step through every turn, or drag the slider.</p></div><div id="botTable"></div></div></div>' +
       (a.done[L.id] ? '<details class="card" style="margin-top:1rem"><summary><b>Read the opponent\'s code</b> (unlocked: you cleared this league)</summary>' + code(L.opp_code) + "</details>" : "");
     var ta = Q("#botCode"); ta.value = a.code || A.starter; tabKey(ta); ta.oninput = function () { a.code = ta.value; };
-    $$(".league", v).forEach(function (b) { b.onclick = function () { location.hash = "#/bots/" + b.dataset.l; }; });
+    $$(".league", v).forEach(function (b) { b.onclick = function () { location.hash = "#/" + G.route + "/" + b.dataset.l; }; });
     function msg(t) { Q("#botMsg").textContent = t; }
     function fail(err) { msg("⚠ " + err.type + ": " + err.msg + (err.line ? " (line " + err.line + ")" : "")); sfx("no"); }
     async function withApi(fn) { if (busy) return; busy = true; msg("Warming up the Python engine…"); try { var api = await engine(); if (api) await fn(api); } finally { busy = false; } }
     function table(series, label) {
       Q("#botTable").innerHTML = '<table class="arena-tab"><caption class="muted">' + esc(label) + '</caption><tr><th>Seed</th><th>Score</th><th>Result</th><th></th></tr>' + series.results.map(function (r, i) { return "<tr><td>" + r.seed + "</td><td>" + (r.score ? r.score[0] + " : " + r.score[1] : "–") + "</td><td>" + (r.winner === 0 ? "🏆 win" : r.winner === 1 ? "loss" : "draw") + '</td><td><button class="btn small" data-w="' + i + '">Watch</button></td></tr>'; }).join("") + "</table>";
-      $$("[data-w]", v).forEach(function (b) { b.onclick = function () { var r = series.results[+b.dataset.w]; viewer(Q("#botView"), r, "Seed " + r.seed); }; });
-      var first = series.results.find(function (r) { return r.frames && r.frames.length; }); if (first) viewer(Q("#botView"), first, "Seed " + first.seed);
+      $$("[data-w]", v).forEach(function (b) { b.onclick = function () { var r = series.results[+b.dataset.w]; viewer(Q("#botView"), Object.assign({ flag: G.flag }, r), "Seed " + r.seed); }; });
+      var first = series.results.find(function (r) { return r.frames && r.frames.length; }); if (first) viewer(Q("#botView"), Object.assign({ flag: G.flag }, first), "Seed " + first.seed);
     }
     Q("#botSeries").onclick = function () { withApi(async function (api) {
       var src = ta.value, ser = AK.arenaSeries(A, L, src, function (c, o, g) { return api.arenaRun(c, o, g); });
       if (ser.err) { fail(ser.err); return; }
-      var rec = AK.arenaRecord(st, L, ser, src, new Date()); C.save(); C.renderHeader("bots");
+      var rec = G.record(st, L, ser, src, new Date()); C.save(); C.renderHeader("bots");
       table(ser, "League series vs " + L.opp);
       msg(ser.passed ? "🏆 " + ser.wins + " of 5 won. " + L.name + " league cleared!" + (rec.promoted ? " +" + rec.seeds + " seeds" : "") : ser.wins + " of 5 won. You need " + L.need + ". Watch a lost match to see why.");
       if (ser.passed) { sfx("league", cur); C.confetti(); if (rec.promoted && A.leagues[cur + 1]) C.toast("Next league unlocked: " + A.leagues[cur + 1].name); var nt = AK.newTitles(st, DATA); nt.forEach(function (t) { C.toast("Title: " + t.icon + " " + t.en); }); C.save(); if (rec.promoted) setTimeout(function () { VIEWS.bots(v, L.id); }, 1800); } else sfx("no");
@@ -84,7 +85,11 @@
     Q("#botPrev").onclick = function () { if (!a.prev) { msg("No earlier version yet. Change your bot and run a league series: the version before it is kept here."); return; } withApi(async function (api) { var ser = AK.arenaSeries(A, L, ta.value, function (c, o, g) { return api.arenaRun(c, o, g); }, a.prev); if (ser.err) { fail(ser.err); return; } table(ser, "Now vs my previous saved version"); if (ser.wins >= 3 && ser.wins > 0) { a.beatPrev += 1; C.save(); } msg(ser.wins >= 3 ? "📈 Better than your last version: " + ser.wins + " of 5 matches won." : "Your last version is as good or better: you won " + ser.wins + " of 5."); }); };
     Q("#botStarter").onclick = function () { ta.value = A.starter; a.code = ta.value; };
     Q("#botRef").onclick = function () { ta.value = L.ref; msg("Reference bot loaded. Compare it with yours, then change something and test."); };
-  };
+  }
+  var SEEDGRAB = { A: A, name: "Seed Grab", icon: "🤖", route: "bots", flag: false, rec: function (st) { return AK.v4(st).arena; }, index: function (st, X) { return AK.arenaLeagueIndex(st, X); }, open: function (st, X, id) { return AK.arenaOpen(st, X, id); }, record: function (st, L, ser, src, now) { return AK.arenaRecord(st, L, ser, src, now); },
+    doc: 'state = {"me": [x, y], "foe": [x, y], "seeds": [[x, y], …], "walls": [[x, y], …], "size": 11, "turn": 1, "turns": 40, "score": [mine, theirs]}' };
+  VIEWS.bots = function (v, arg) { botsView(v, arg, SEEDGRAB); };
+  UI.botsView = botsView;
 
   /* ---------------------------------------------------------------- Clash of Code (solo, sync-free) */
   VIEWS.clash = function (v, arg) {

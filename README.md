@@ -33,6 +33,16 @@ Learn-and-practice lessons, real multi-step projects (Log Analyzer, Key-Value St
 - **Feel:** sound packs, micro-sounds, an optional music layer that grows with the village, league and festival stingers, more outfits by track and companions.
 - **Practical:** offline install guide with a "download Pyodide now" button, a local mission health dashboard (JSON and CSV export), printable worksheets, answer keys and certificates.
 
+## v5
+- "What do you want to learn?" goal chooser (9 goals) on first visit, a path bar on Home, and a Switch path page (`#/path`). Nothing is locked; a goal only orders the next missions. Optional "show only my path" map filter.
+- Mastery map per concept (`#/mastery`): first-try solves count fully, retries and hints count less, shaky ones get a gentle revisit link. No penalties.
+- Build-a-game track (Game Workshop, plus the Adventure capstone) and Real-world Micro-Jobs track, each ending in a boss.
+- Maze Dash: a second Arena game (`#/dash`) with 4 leagues, local and offline.
+- Story boss battles: a skippable intro, a choice (scout, bold, patient) with perks that never penalise, an HP bar driven by passing checks.
+- Parrot growth with choices (path, trait, crest), always changeable from Profile.
+- Misconception detector: 22 rules show a "common mix-up" card after a failed run.
+- Telugu strings for the new tracks need native review.
+
 ## Develop
 ```
 python3 build.py                      # writes index.html + sw.js from src/ and missions/

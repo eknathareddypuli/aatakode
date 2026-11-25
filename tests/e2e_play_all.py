@@ -44,6 +44,9 @@ with sync_playwright() as p:
         try:
             pg.evaluate(f"location.hash='#/mission/{mid}'")
             pg.wait_for_selector("#midpane, #dopts, .lesson", timeout=10000)
+            pg.wait_for_timeout(150)
+            if pg.locator("#bsSkip").count(): pg.click("#bsSkip")
+            pg.evaluate("document.querySelectorAll('.boss-ov').forEach(o=>{if(!o.querySelector('#bsSkip')&&!o.querySelector('#bsNext'))o.remove()})")
             if pg.locator("text=Locked").count() and not pg.locator("#midpane, .lesson").count():
                 raise Exception("locked")
             t = m["type"]

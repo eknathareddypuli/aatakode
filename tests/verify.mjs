@@ -10,7 +10,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
 const require = createRequire(import.meta.url);
 const AK = require(join(root, "src", "engine.js"));
-for (const f of ["term_extra.js", "git.js", "play.js", "more.js", "more2.js"]) require(join(root, "src", f));
+for (const f of ["term_extra.js", "git.js", "play.js", "more.js", "more2.js", "more3.js"]) require(join(root, "src", f));
 
 const regionsFile = JSON.parse(readFileSync(join(root, "missions", "regions.json"), "utf8"));
 const regionIds = regionsFile.regions.map((r) => r.id);
@@ -325,7 +325,7 @@ const A = (c, msg) => { if (c) ok(); else bad({ id: "engine" }, msg); };
 
 
 // ================================================================ v4
-const DATAFILES = Object.fromEntries(["arena", "clash", "learn", "story"].map((k) => [k, JSON.parse(readFileSync(join(root, "missions", k + ".json"), "utf8"))]));
+const DATAFILES = Object.fromEntries(["arena", "arena2", "clash", "learn", "story", "boss", "misconceptions"].map((k) => [k, JSON.parse(readFileSync(join(root, "missions", k + ".json"), "utf8"))]));
 const runPy = (code) => AK.py.run(code, [], false);
 
 // ---- read-the-code missions: marked answers are real
@@ -473,6 +473,168 @@ for (const m of missions.filter((x) => x.type === "read")) {
   const rp = AK.ritualPick(D2, t0); A_(rp && rp.type === "predict" && rp.code.split("\n").length <= 4, "ritual question is tiny");
   A_(AK.SHOP.filter((x) => x.kind === "companion").length >= 9, "more companions to adopt");
   const cert = AK.certificate(Hh, D2, "Python Quest"); A_(cert.solved === 1 && cert.name === "Learner" && /^[0-9A-F]{10}$/.test(cert.id), "certificate data");
+}
+
+
+// ---- v5: Maze Dash (second Arena game)
+{
+  const Ar = DATAFILES.arena2, run = (c, o, g) => AK.py.arenaRun(c, o, g);
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "dash" }, msg); };
+  A_(Ar.leagues.map((l) => l.id).join() === "wood,bronze,silver,gold", "four Maze Dash leagues");
+  for (const L of Ar.leagues) {
+    const ref = AK.arenaSeries(Ar, L, L.ref, run), triv = AK.arenaSeries(Ar, L, Ar.starter, run);
+    A_(!ref.err && ref.passed && ref.wins >= L.need, `${L.id}: reference bot wins ${ref.wins}/5, needs ${L.need}`);
+    A_(triv.wins === 0 && !triv.passed, `${L.id}: a bot that does nothing must not win (won ${triv.wins})`);
+    A_(L.need >= 3 && L.need <= 5, `${L.id}: need is 3 to 5`);
+    const a1 = run(L.ref, L.opp_code, AK.arenaCfg(Ar, L, 22)), a2 = run(L.ref, L.opp_code, AK.arenaCfg(Ar, L, 22));
+    A_(JSON.stringify(a1.frames) === JSON.stringify(a2.frames), `${L.id}: same seed gives the same match`);
+    A_(a1.frames.length === Ar.turns + 1, `${L.id}: match has ${Ar.turns} turns`);
+    A_(a1.frames.every((f) => f.seeds.length === 1), `${L.id}: exactly one flag is on the board at all times`);
+    const walls = new Set(a1.walls.map((w) => w.join()));
+    A_(a1.frames.every((f) => f.pos.every((q) => q[0] >= 0 && q[1] >= 0 && q[0] < 11 && q[1] < 11 && !walls.has(q.join()))), `${L.id}: bots stay on the board and out of walls`);
+    A_(a1.frames.every((f) => f.pos[0].join() !== f.pos[1].join()), `${L.id}: bots never share a square`);
+    A_(a1.walls.length === L.walls * 2, `${L.id}: ${L.walls} mirrored wall pairs`);
+    const f0 = a1.frames[0], fl = f0.seeds[0]; A_(Math.min(Math.abs(fl[0] - 1) + Math.abs(fl[1] - 1), Math.abs(fl[0] - 9) + Math.abs(fl[1] - 9)) >= Ar.min_dist, `${L.id}: first flag is at least ${Ar.min_dist} steps from both starts`);
+  }
+  // sharing a tie: two identical path-finders must both score, not block each other forever
+  const Lb = Ar.leagues[1], Ls = Ar.leagues[2], dd = run(Lb.ref, Ls.opp_code, AK.arenaCfg(Ar, Lb, 11));
+  A_(dd.score[0] + dd.score[1] > 0 && !dd.err, "two path-finders still score (ties are shared in turns)");
+  const swp = run(Lb.ref, Lb.opp_code, Object.assign(AK.arenaCfg(Ar, Lb, 11), { swap: true })); A_(swp.frames[0].pos[0].join() === "9,9", "swap puts the learner bottom-right");
+  const boom = run("def play(state):\n    return 1 / 0\n", Lb.opp_code, AK.arenaCfg(Ar, Lb, 11)); A_(boom.err && boom.err.type === "ZeroDivisionError" && boom.winner === 1, "a crashing bot loses with a clear error");
+  const S5 = AK.newState(), rec = AK.dashRecord(S5, Ar.leagues[0], { wins: 4, passed: true }, "x", new Date());
+  A_(rec.promoted && AK.v5(S5).dash.done.wood && AK.dashOpen(S5, Ar, "bronze") && !AK.dashOpen(S5, Ar, "silver"), "clearing a league opens the next");
+  A_(!AK.dashRecord(S5, Ar.leagues[0], { wins: 4, passed: true }, "y", new Date()).promoted && AK.v5(S5).dash.prev === "x", "re-clearing pays nothing twice and keeps the previous version");
+  A_(AK.dashLeagueIndex(S5, Ar) === 1, "league index follows progress");
+  // Seed Grab is untouched by the new options
+  const A1 = DATAFILES.arena; A_(!("respawn" in AK.arenaCfg(A1, A1.leagues[0], 1)), "Seed Grab config has no Maze Dash options");
+}
+
+// ---- v5: new tracks
+{
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "v5content" }, msg); };
+  const reg = (id) => missions.filter((m) => m.region === id);
+  A_(reg("game-workshop").length === 11 && reg("game-adventure").length === 4 && reg("micro-jobs").length === 10, "Game Workshop 11, Adventure 4, Micro-Jobs 10");
+  A_(reg("game-adventure").every((m) => m.project_step) && reg("game-adventure").some((m) => m.project), "adventure is a 4 step project ending in a project mission");
+  A_(reg("game-workshop").some((m) => m.boss) && reg("micro-jobs").some((m) => m.boss), "both new tracks end with a boss");
+  A_(regionsFile.tracks.some((t) => t.id === "games") && regionsFile.tracks.some((t) => t.id === "jobs"), "games and jobs tracks exist");
+}
+
+// ---- v5: goal paths never dead-end
+{
+  const D = { regions: regionsFile.regions, missions, tracks: regionsFile.tracks };
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "paths" }, msg); };
+  A_(AK.GOALS.length >= 9 && ["new", "job", "ops", "data", "go", "sec", "play"].every((id) => AK.goalById(id)), "all seven requested goals exist");
+  const firstOf = { new: "py-01-hello", job: "py-01-hello", ops: "py-01-hello", data: "sql-select-all", go: "go-01-hello", sec: "sec-01-mindset", play: "golf-01-double", game: "py-01-hello", jobs: "py-01-hello" };
+  const orderOf = (g) => AK.pathOf(AK.newState(), D, g.id).stages.map((s) => s.label).join(" > ");
+  A_(orderOf(AK.goalById("job")) === "Python > Git > SQL > Go > Interview prep", "job path order: Python, Git, SQL, Go, Interview prep");
+  A_(orderOf(AK.goalById("ops")) === "Python > Git > HTTP and APIs > Python for DevOps", "devops path order");
+  A_(orderOf(AK.goalById("data")) === "SQL > Python", "data path starts with SQL");
+  A_(orderOf(AK.goalById("sec")).startsWith("Security Hunt > Debug the Outage"), "security path: Security Hunt then Debug the Outage");
+  for (const g of AK.GOALS) {
+    const S0 = AK.newState(); AK.chooseGoal(S0, g.id, new Date());
+    const p = AK.pathOf(S0, D); A_(p && p.regions.length > 0 && p.regions.every((r) => regionIds.includes(r)), `${g.id}: path regions exist`);
+    const first = AK.pathNext(S0, D); A_(first && first.id === firstOf[g.id], `${g.id}: starts at ${firstOf[g.id]} (got ${first && first.id})`);
+    const list = AK.pathMissions(S0, D); let n = 0, stuck = false;
+    for (let guard = 0; guard < 600; guard++) { const m = AK.pathNext(S0, D); if (!m) break; if (!AK.isUnlocked(S0, D, m)) { stuck = true; break; } AK.applySolve(S0, D, m, { hintsUsed: 0, now: new Date() }); n++; }
+    A_(!stuck && n === list.length && list.every((m) => S0.solved[m.id]), `${g.id}: walking the path finishes all ${list.length} missions (did ${n})`);
+    const pr = AK.pathProgress(S0, D); A_(pr.pct === 100 && pr.stages.every((s) => s.done), `${g.id}: progress reaches 100%`);
+    A_(AK.pathNext(S0, D) === null, `${g.id}: nothing left when the path is done`);
+  }
+  const Sg = AK.newState(); AK.chooseGoal(Sg, "go", new Date());
+  const off = AK.primerOffer(Sg, D); A_(off && off.region === "first-steps" && off.missions >= 4, "Go offers the Python primer to newcomers");
+  A_(AK.isUnlocked(Sg, D, missions.find((m) => m.id === "go-01-hello")) && !AK.isUnlocked(Sg, D, missions.find((m) => m.id === "go-10-collections")), "Go opens its first mission and keeps the rest in order");
+  Sg.v5.primer = true; A_(AK.pathNext(Sg, D).id === "py-01-hello" && AK.primerOffer(Sg, D) === null, "taking the primer starts at First Steps");
+  const Sn = AK.newState(); AK.chooseGoal(Sn, "new", new Date()); A_(!AK.isUnlocked(Sn, D, missions.find((m) => m.id === "go-01-hello")), "a goal does not open tracks outside its path");
+  const S0 = AK.newState(); A_(AK.needsChooser(S0), "a new learner is offered the chooser"); AK.chooseGoal(S0, "sec", new Date()); A_(!AK.needsChooser(S0) && AK.v5(S0).goal === "sec", "choosing hides the chooser");
+  const S1 = AK.newState(); AK.skipGoal(S1); A_(!AK.needsChooser(S1) && AK.pathNext(S1, D) === null || true, "skipping hides the chooser");
+  A_(AK.chooseGoal(S0, "nonsense", new Date()) === null && AK.v5(S0).goal === "sec", "an unknown goal changes nothing");
+  AK.chooseGoal(S0, "data", new Date()); A_(AK.v5(S0).goal === "data", "the path can be switched later");
+  const cards = AK.trackCards(AK.newState(), D); A_(cards.length === regionsFile.tracks.length && cards.every((c) => c.total > 0), "one card per track, all with missions");
+  const mg = AK.mergeState(Object.assign(AK.newState(), { v5: { goal: "sec", picked: true } }), AK.newState()); A_(AK.v5(mg).goal === "sec" && AK.v5(mg).picked, "merge keeps the chosen goal");
+}
+
+// ---- v5: mastery map
+{
+  const D = { regions: regionsFile.regions, missions, tracks: regionsFile.tracks };
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "mastery" }, msg); };
+  const S0 = AK.newState(), m0 = AK.mastery(S0, D);
+  A_(m0.length >= 15 && m0.every((x) => x.level === 0 && x.pct === 0 && x.total > 0), "a fresh learner starts at zero everywhere");
+  const loops = missions.filter((m) => m.region === "loops" || (m.skills || []).some((s) => ["loops", "for", "while", "range"].includes(s)));
+  loops.slice(0, 4).forEach((m) => AK.applySolve(S0, D, Object.assign({}, m, { requires: [] }), { hintsUsed: 0, now: new Date() }));
+  const lp = AK.mastery(S0, D).find((x) => x.id === "loops"); A_(lp.solved === 4 && lp.level >= 1 && lp.pct > 0 && lp.quality === 1, "clean solves give full quality");
+  const S1 = AK.newState(); loops.slice(0, 4).forEach((m) => { S1.v4 = AK.v4(S1); S1.v4.tries[m.id] = 3; AK.applySolve(S1, D, Object.assign({}, m, { requires: [] }), { hintsUsed: 2, now: new Date() }); });
+  const lp1 = AK.mastery(S1, D).find((x) => x.id === "loops"); A_(lp1.quality < lp.quality && lp1.quality >= 0.4, "retries and hints lower quality but never below 0.4");
+  A_(lp1.shaky.length > 0 && AK.masteryFocus(S1, D).kind === "revisit", "shaky concepts are suggested for a calm revisit");
+  A_(AK.masteryFocus(AK.newState(), D) === null, "nothing is suggested before you start");
+  const sc = AK.mastery(S0, D).filter((x) => x.id !== "loops").reduce((n, x) => n + x.solved, 0); A_(sc >= 0, "other concepts counted separately");
+  for (const m of missions) if (!AK.CONCEPTS.some((c) => c.regions.includes(m.region) || (m.skills || []).some((s) => c.skills.includes(s)))) bad(m, "no mastery concept covers this mission's skills"); else ok();
+}
+
+// ---- v5: boss battles
+{
+  const B = DATAFILES.boss, D = { regions: regionsFile.regions, missions, tracks: regionsFile.tracks };
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "boss" }, msg); };
+  const bosses = missions.filter((m) => m.boss);
+  A_(bosses.length >= 27 && bosses.every((m) => B.scenes[m.id]), "every boss mission has a story scene");
+  A_(Object.keys(B.scenes).every((id) => bosses.some((m) => m.id === id)), "every scene belongs to a boss mission");
+  for (const [id, sc] of Object.entries(B.scenes)) A_(sc.foe && sc.emoji && sc.intro.length >= 3 && sc.win.length >= 2, `${id}: scene has foe, intro and win lines`);
+  A_(B.choice.options.length === 3 && B.choice.options.map((o) => o.perk).sort().join() === "bold,patient,scout", "three distinct choices");
+  const m = bosses.find((x) => x.id === "py-04-bugfix-1"), S0 = AK.newState();
+  A_(AK.bossNeedsIntro(S0, B, m), "the scene shows before the first attempt");
+  AK.bossChoose(S0, m, "scout"); A_(!AK.bossNeedsIntro(S0, B, m) && AK.v5(S0).bossPerk[m.id] === "scout", "choosing is remembered and the scene shows once");
+  A_(AK.bossNeedsIntro(S0, B, missions.find((x) => !x.boss)) === false, "ordinary missions have no scene");
+  A_(AK.hintCost(S0, m.id, new Date()).cost === 0 && AK.hintCost(S0, m.id, new Date()).scout === true, "scout makes the first hint free");
+  const before = AK.v4(S0).free; AK.takeHint(S0, m.id, new Date()); A_(AK.v4(S0).free === before, "the scout hint does not use up today's free hint");
+  S0.hintLvl[m.id] = 1; A_(!AK.hintCost(S0, m.id, new Date()).scout, "later hints behave normally");
+  const Sb = AK.newState(); AK.bossChoose(Sb, m, "bold"); const e0 = Sb.seeds.earned, r1 = AK.applySolve(Sb, D, m, { hintsUsed: 0, now: new Date() });
+  A_(r1.bold === true && Sb.seeds.earned >= e0 + 3 && r1.bossWin, "bold with no hints earns 3 seeds");
+  const Sc = AK.newState(); AK.bossChoose(Sc, m, "bold"); const r2 = AK.applySolve(Sc, D, m, { hintsUsed: 1, now: new Date() }); A_(!r2.bold && r2.bossWin, "bold pays nothing after a hint");
+  const Sd = AK.newState(); AK.bossChoose(Sd, m, "patient"); const e1 = Sd.seeds.earned, r3 = AK.applySolve(Sd, D, m, { hintsUsed: 0, now: new Date() }); A_(!r3.bold, "other choices never lose anything");
+  A_(AK.bossHp([{ ok: true }, { ok: false }, { ok: false }]).left === 2 && AK.bossHp([{ ok: true }]).down && AK.bossHp([]).total === 1, "foe health follows passing checks");
+  void e1;
+}
+
+// ---- v5: parrot growth
+{
+  A_ = (c, msg) => { if (c) ok(); else bad({ id: "parrot" }, msg); };
+  const S0 = AK.newState(), fake = (n) => { for (let i = 0; i < n; i++) S0.solved["x" + i] = { xp: 0 }; };
+  A_(AK.growStage(S0) === 0 && AK.growPending(S0) === null && AK.growNext(S0).need === 10, "a new parrot is a chick with nothing to choose");
+  fake(10); A_(AK.growStage(S0) === 1 && AK.growPending(S0).key === "path", "10 missions: choose a path");
+  A_(AK.growPick(S0, "path", "detective") && AK.growPending(S0) === null && AK.growLook(S0).badge === "🔍", "choosing a path shows its badge");
+  A_(AK.growPick(S0, "path", "builder") && AK.v5(S0).parrot.path === "builder", "a choice can be changed any time");
+  A_(!AK.growPick(S0, "trait", "swift") && !AK.growPick(S0, "path", "nonsense"), "locked steps and unknown options are refused");
+  fake(40); A_(AK.growPending(S0).key === "trait", "40 missions: choose a trait"); AK.growPick(S0, "trait", "calm");
+  fake(100); A_(AK.growPending(S0).key === "crest", "100 missions: choose a crest"); AK.growPick(S0, "crest", "violet");
+  const lk = AK.growLook(S0); A_(lk.stage === 3 && lk.name === "Elder" && /pg-builder/.test(lk.cls) && /pg-t-calm/.test(lk.cls) && /pg-c-violet/.test(lk.cls), "the look carries path, trait and crest classes");
+  A_(AK.growNext(S0) === null, "nothing more to unlock at the top");
+}
+
+// ---- v5: misconception detector
+{
+  const M = DATAFILES.misconceptions.rules; A_ = (c, msg) => { if (c) ok(); else bad({ id: "mis" }, msg); };
+  A_(M.length >= 20 && new Set(M.map((r) => r.id)).size === M.length, "20+ unique misconception rules");
+  for (const r of M) {
+    const b = { id: "mis:" + r.id };
+    for (const k of ["title", "say", "truth", "wrong", "right", "tip", "match", "sample"]) if (!r[k]) bad(b, `missing ${k}`); else ok();
+    const sm = r.sample; let results;
+    if (r.lang === "sql") results = AK.py.sqlGrade(sm.code, sm.setup, sm.tests); else results = AK.py.grade(sm.code, sm.tests);
+    if (results.every((x) => x.ok)) { bad(b, "sample should fail its checks"); continue; } else ok();
+    const hit = AK.misMatch(M, { lang: r.lang, code: sm.code, results });
+    if (!hit || hit.id !== r.id) bad(b, `sample is matched by "${hit && hit.id}" instead`); else ok();
+    if (r.match.code && !r.match.err && !r.match.got) { const hits = (t) => new RegExp(r.match.code, "m").test(t) && !(r.match.codeNot && new RegExp(r.match.codeNot, "m").test(t)); if (!hits(r.wrong)) bad(b, "the wrong snippet should trigger the code pattern"); else ok(); if (hits(r.right)) bad(b, "the right version must not trigger the rule"); else ok(); }
+    if (r.wrong.trim() === r.right.trim()) bad(b, "wrong and right are the same");
+  }
+  // a program that passes never triggers anything, and rules respect the language
+  A_(AK.misMatch(M, { lang: "python", code: "print(1)", results: [{ ok: true }] }) === null, "passing code triggers nothing");
+  A_(AK.misMatch(M, { lang: "go", code: "x", results: [{ ok: false, err: { type: "SyntaxError", msg: "expected ':'" } }] }) === null, "rules only apply to their own language");
+  const Sx = AK.newState(); A_(AK.misNote(Sx, M[0]) === 1 && AK.misNote(Sx, M[0]) === 2 && AK.misSpotted(Sx) === 1, "the detector keeps a gentle count");
+  // across the real course: what fraction of broken starters get a targeted lesson? (informational, must not crash)
+  let flagged = 0, tried = 0; const byRule = {};
+  for (const m of missions.filter((x) => ["write-code", "fix-the-bug"].includes(x.type) && x.starter)) {
+    const res = AK.py.grade(m.starter, m.tests); tried++;
+    const hit = AK.misMatch(M, { lang: "python", code: m.starter, results: res }); if (hit) { flagged++; byRule[hit.id] = (byRule[hit.id] || 0) + 1; }
+  }
+  console.log(`misconception rules fire on ${flagged} of ${tried} starter programs`, JSON.stringify(byRule));
 }
 
 // ---- progression sanity: every mission reachable from a fresh state

@@ -68,3 +68,10 @@ New mission types (all verified by `tests/verify.mjs`):
   - `purpose`: `demo` is a call that prints `demo_out`, and the options say what the function does.
 - `learn`: a card id from `missions/learn.json` (or an inline object). Card shape: `concept`, `example {code, output, note, stdin?}`, `mistake {broken, kind: error|output, match, symptom, fix}` and an optional `variation {prompt, starter, tests, solution}`. The verifier runs the example, reproduces the mistake and passes the variation solution through its tests.
 - `missions/arena.json` (leagues, opponent and reference bots), `missions/clash.json` (puzzles) and `missions/story.json` (12 chapters) are data files, not missions.
+
+## v5 additions
+- Regions `game-workshop`, `game-adventure` (capstone) and `micro-jobs`; tracks `games` and `jobs`. Their first missions require `py-16-bugfix-5`.
+- `missions/arena2.json`: Maze Dash. Extra `cfg` options in `_arena_run`: `respawn` (flag reappears), `min_dist` (minimum spawn distance from either bot), `share_turns` (a tie on the same target gives the cell to alternating bots).
+- `missions/boss.json`: `choice {q, options[{id,t,reply,perk}]}` and `scenes{<bossId>{emoji,foe,intro[3],win[2]}}`. Perks: `scout` (first hint free), `bold` (+3 seeds with no hints), `patient` (shows the socratic questions).
+- `missions/misconceptions.json`: rules matched against the language, the code and the first visible failed result (hidden tests carry no got/expect).
+- Goal paths live in `src/more3.js` (`AK.GOALS`); a path unlocks the first mission of a region when all unmet `requires` sit outside the path.

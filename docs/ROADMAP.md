@@ -39,6 +39,9 @@
 ## v4 (built)
 Bot Arena, Clash of Code, read-the-code, Explain panel, fair motivation design, calm mode, install guide, health dashboard, printables.
 
+## v5 (built)
+Goal chooser, mastery map, Game Workshop and Micro-Jobs tracks, Maze Dash, story bosses, parrot growth, misconception detector.
+
 ## After v4
 - A friends leaderboard that needs no account (shared files), and more Arena games beyond Seed Grab.
 - Native-speaker review of translations.

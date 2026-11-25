@@ -422,12 +422,16 @@ def _arena_run(code, opp_code, cfg_json):
     if cfg.get("swap"):
         starts.reverse()
     seeds = set()
+    respawn, mind = cfg.get("respawn", False), cfg.get("min_dist", 0)
+    cur = list(starts)
 
     def spawn(n):
         k = 0
         while k < n:
             p = (rnd.randrange(size), rnd.randrange(size))
             if p in walls or p in starts or p in seeds or False:
+                continue
+            if mind and min(abs(p[0] - q[0]) + abs(p[1] - q[1]) for q in cur) < mind:
                 continue
             seeds.add(p)
             k += 1
@@ -477,12 +481,24 @@ def _arena_run(code, opp_code, cfg_json):
             n = (pos[i][0] + dx, pos[i][1] + dy)
             tg.append(n if 0 <= n[0] < size and 0 <= n[1] < size and n not in walls else pos[i])
         if tg[0] == tg[1]:
-            tg = list(pos)
+            if cfg.get("share_turns"):
+                w = t % 2                      # ties are won in turns, so nobody is blocked forever
+                if pos[1 - w] != tg[w]:
+                    tg[1 - w] = pos[1 - w]
+                else:
+                    tg = list(pos)
+            else:
+                tg = list(pos)
         pos = tg
+        cur[:] = pos
+        taken = 0
         for i in (0, 1):
             if pos[i] in seeds:
                 seeds.discard(pos[i])
                 score[i] += 1
+                taken += 1
+        if respawn and taken:
+            spawn(taken)
         if every and t % every == 0:
             spawn(1)
         frames.append({"t": t, "pos": [list(p) for p in pos], "seeds": sorted(list(s) for s in seeds), "score": list(score), "mv": mv})
@@ -490,3 +506,5 @@ def _arena_run(code, opp_code, cfg_json):
     if out["err"] and out["who"] == 0:
         winner = 1
     return json.dumps({"err": out["err"], "who": out["who"], "frames": frames, "walls": wl, "size": size, "score": score, "winner": winner})
+
+
