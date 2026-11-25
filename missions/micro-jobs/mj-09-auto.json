@@ -1,0 +1,73 @@
+{
+  "id": "mj-09-auto",
+  "region": "micro-jobs",
+  "order": 9,
+  "title": "Job: The Auto-Rickshaw Meter",
+  "story": "Job brief from the auto stand: the first 1.5 km costs a flat ₹30. After that every started kilometre costs ₹15. Waiting time costs ₹2 per minute.",
+  "goal": "Write auto_fare(km, waiting_min=0) returning the fare in rupees. A started kilometre counts as a whole one (use math.ceil).",
+  "type": "write-code",
+  "starter": "import math\n\ndef auto_fare(km, waiting_min=0):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Short hop",
+      "expr": "auto_fare(1)",
+      "expect": "30"
+    },
+    {
+      "kind": "eval",
+      "label": "Just over the flat part",
+      "expr": "auto_fare(1.6)",
+      "expect": "45"
+    },
+    {
+      "kind": "eval",
+      "label": "Four km",
+      "expr": "auto_fare(4)",
+      "expect": "75"
+    },
+    {
+      "kind": "eval",
+      "label": "With waiting",
+      "expr": "auto_fare(3, waiting_min=10)",
+      "expect": "80"
+    },
+    {
+      "kind": "eval",
+      "label": "Exactly 1.5 km",
+      "expr": "auto_fare(1.5)",
+      "expect": "30",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Long ride",
+      "expr": "auto_fare(12.2)",
+      "expect": "195",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Take off the free 1.5 km first. Anything left over is charged.",
+    "math.ceil rounds up, so 0.1 extra km still counts as a whole km.",
+    "import math\n\ndef auto_fare(km, waiting_min=0):\n    extra = max(0, km - 1.5)\n    return 30 + math.ceil(extra) * 15 + waiting_min * 2\n"
+  ],
+  "socratic": [
+    "How many chargeable km is a 3 km ride?",
+    "What if the ride is shorter than 1.5 km?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: The Auto-Rickshaw Meter”?",
+  "xp": 25,
+  "skills": [
+    "modules",
+    "functions",
+    "real-world"
+  ],
+  "requires": [
+    "mj-08-attendance"
+  ],
+  "solution": "import math\n\ndef auto_fare(km, waiting_min=0):\n    extra = max(0, km - 1.5)\n    return 30 + math.ceil(extra) * 15 + waiting_min * 2\n",
+  "alt": "import math\n\ndef auto_fare(km, waiting_min=0):\n    fare = 30\n    if km > 1.5:\n        fare += math.ceil(km - 1.5) * 15\n    return fare + 2 * waiting_min\n",
+  "learn": "modules"
+}

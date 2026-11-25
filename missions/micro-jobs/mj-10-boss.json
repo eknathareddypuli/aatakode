@@ -1,0 +1,68 @@
+{
+  "id": "mj-10-boss",
+  "region": "micro-jobs",
+  "order": 10,
+  "title": "Boss: The Wrong Change",
+  "story": "The sweet shop's till gives the wrong notes back: the same note keeps getting counted again and again.",
+  "goal": "Fix make_change(amount) so it returns how many of each note to give back (largest first, only notes that are used). 730 should give one 500, two 100s, one 20 and one 10.",
+  "type": "fix-the-bug",
+  "starter": "def make_change(amount, notes=(500, 100, 50, 20, 10)):\n    result = {}\n    for note in notes:\n        count = amount // note\n        if count:\n            result[note] = count\n    return result\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Mixed notes",
+      "expr": "make_change(730)",
+      "expect": "{500: 1, 100: 2, 20: 1, 10: 1}"
+    },
+    {
+      "kind": "eval",
+      "label": "One note",
+      "expr": "make_change(500)",
+      "expect": "{500: 1}"
+    },
+    {
+      "kind": "eval",
+      "label": "Nothing to return",
+      "expr": "make_change(0)",
+      "expect": "{}"
+    },
+    {
+      "kind": "eval",
+      "label": "Needs every note",
+      "expr": "make_change(680)",
+      "expect": "{500: 1, 100: 1, 50: 1, 20: 1, 10: 1}",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Smaller change",
+      "expr": "make_change(90)",
+      "expect": "{50: 1, 20: 2}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "After giving some 500s, how much money is still left to return?",
+    "Update amount after each note: amount = amount % note.",
+    "def make_change(amount, notes=(500, 100, 50, 20, 10)):\n    result = {}\n    for note in notes:\n        count = amount // note\n        if count:\n            result[note] = count\n        amount = amount % note\n    return result\n"
+  ],
+  "socratic": [
+    "What does 730 // 100 count, and what is left afterwards?",
+    "Which line should change amount?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 70,
+  "skills": [
+    "debugging",
+    "loops",
+    "real-world"
+  ],
+  "requires": [
+    "mj-09-auto"
+  ],
+  "solution": "def make_change(amount, notes=(500, 100, 50, 20, 10)):\n    result = {}\n    for note in notes:\n        count = amount // note\n        if count:\n            result[note] = count\n        amount = amount % note\n    return result\n",
+  "alt": "def make_change(amount, notes=(500, 100, 50, 20, 10)):\n    result = {}\n    for note in notes:\n        count, amount = divmod(amount, note)\n        if count:\n            result[note] = count\n    return result\n",
+  "boss": true,
+  "learn": "accumulator"
+}

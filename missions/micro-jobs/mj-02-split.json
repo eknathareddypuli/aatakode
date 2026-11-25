@@ -1,0 +1,67 @@
+{
+  "id": "mj-02-split",
+  "region": "micro-jobs",
+  "order": 2,
+  "title": "Job: Split the Chai Bill",
+  "story": "Job brief from four friends: we owe ₹100 for chai and cannot pay in coins. Split it so everyone pays whole rupees and the total is exact.",
+  "goal": "Write split(total, n) returning a list of n whole-rupee shares that add up to total. If it does not divide evenly, the first people pay one rupee extra.",
+  "type": "write-code",
+  "starter": "def split(total, n):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Even split",
+      "expr": "split(100, 4)",
+      "expect": "[25, 25, 25, 25]"
+    },
+    {
+      "kind": "eval",
+      "label": "One rupee left over",
+      "expr": "split(100, 3)",
+      "expect": "[34, 33, 33]"
+    },
+    {
+      "kind": "eval",
+      "label": "Two left over",
+      "expr": "split(11, 3)",
+      "expect": "[4, 4, 3]"
+    },
+    {
+      "kind": "eval",
+      "label": "Shares always add up",
+      "expr": "sum(split(1001, 7)) == 1001",
+      "expect": "True",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "One person",
+      "expr": "split(40, 1)",
+      "expect": "[40]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "divmod(total, n) gives the whole share and the leftover in one go.",
+    "The leftover rupees go one each to the first few people.",
+    "def split(total, n):\n    base, extra = divmod(total, n)\n    return [base + 1 if i < extra else base for i in range(n)]\n"
+  ],
+  "socratic": [
+    "What is 100 // 3 and what is 100 % 3?",
+    "How many people pay extra?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: Split the Chai Bill”?",
+  "xp": 25,
+  "skills": [
+    "functions",
+    "arithmetic",
+    "real-world"
+  ],
+  "requires": [
+    "mj-01-late-fee"
+  ],
+  "solution": "def split(total, n):\n    base, extra = divmod(total, n)\n    return [base + 1 if i < extra else base for i in range(n)]\n",
+  "alt": "def split(total, n):\n    shares = [total // n] * n\n    for i in range(total % n):\n        shares[i] += 1\n    return shares\n",
+  "learn": "modulo-logic"
+}

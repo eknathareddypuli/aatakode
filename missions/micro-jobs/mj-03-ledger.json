@@ -1,0 +1,67 @@
+{
+  "id": "mj-03-ledger",
+  "region": "micro-jobs",
+  "order": 3,
+  "title": "Job: The Ration Shop Ledger",
+  "story": "Job brief from the ration shop: each line says an item and a quantity. Positive means stock came in, negative means it went out. Tell me the stock left.",
+  "goal": "Write stock(entries): entries is a list of (item, qty). Return a dict of item to total quantity, leaving out items whose total is 0.",
+  "type": "write-code",
+  "starter": "def stock(entries):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "One item",
+      "expr": "stock([('rice', 50)])",
+      "expect": "{'rice': 50}"
+    },
+    {
+      "kind": "eval",
+      "label": "In and out",
+      "expr": "stock([('rice', 50), ('dal', 20), ('rice', -15)])",
+      "expect": "{'rice': 35, 'dal': 20}"
+    },
+    {
+      "kind": "eval",
+      "label": "Sold out disappears",
+      "expr": "stock([('sugar', 10), ('sugar', -10), ('oil', 5)])",
+      "expect": "{'oil': 5}"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty ledger",
+      "expr": "stock([])",
+      "expect": "{}",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Many movements",
+      "expr": "stock([('a', 1)] * 5 + [('a', -2)])",
+      "expect": "{'a': 3}",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Keep a running total per item in a dictionary.",
+    "totals.get(item, 0) + qty adds to what you had, or starts from zero. Filter out zeros at the end.",
+    "def stock(entries):\n    totals = {}\n    for item, qty in entries:\n        totals[item] = totals.get(item, 0) + qty\n    return {item: n for item, n in totals.items() if n != 0}\n"
+  ],
+  "socratic": [
+    "What should the total be the first time you see an item?",
+    "How do you drop the zeros?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: The Ration Shop Ledger”?",
+  "xp": 25,
+  "skills": [
+    "dictionaries",
+    "loops",
+    "real-world"
+  ],
+  "requires": [
+    "mj-02-split"
+  ],
+  "solution": "def stock(entries):\n    totals = {}\n    for item, qty in entries:\n        totals[item] = totals.get(item, 0) + qty\n    return {item: n for item, n in totals.items() if n != 0}\n",
+  "alt": "def stock(entries):\n    totals = {}\n    for item, qty in entries:\n        if item in totals:\n            totals[item] += qty\n        else:\n            totals[item] = qty\n    return {k: v for k, v in totals.items() if v}\n",
+  "learn": "counting"
+}

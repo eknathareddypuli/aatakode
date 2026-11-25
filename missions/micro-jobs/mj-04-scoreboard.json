@@ -1,0 +1,67 @@
+{
+  "id": "mj-04-scoreboard",
+  "region": "micro-jobs",
+  "order": 4,
+  "title": "Job: The Cricket Scoreboard",
+  "story": "Job brief from the local cricket club: show runs, overs and strike rate on the board. Overs are written like 7.3, which means 7 overs and 3 balls.",
+  "goal": "Write scoreboard(runs, balls) returning text like \"45 runs in 7.3 overs, SR 128.57\". Strike rate is runs per 100 balls with 2 decimals, and 0.00 when no balls were faced.",
+  "type": "write-code",
+  "starter": "def scoreboard(runs, balls):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Mid innings",
+      "expr": "scoreboard(45, 35)",
+      "expect": "'45 runs in 5.5 overs, SR 128.57'"
+    },
+    {
+      "kind": "eval",
+      "label": "Whole overs",
+      "expr": "scoreboard(60, 36)",
+      "expect": "'60 runs in 6.0 overs, SR 166.67'"
+    },
+    {
+      "kind": "eval",
+      "label": "Nothing faced yet",
+      "expr": "scoreboard(0, 0)",
+      "expect": "'0 runs in 0.0 overs, SR 0.00'"
+    },
+    {
+      "kind": "eval",
+      "label": "Fast scoring",
+      "expr": "scoreboard(100, 50)",
+      "expect": "'100 runs in 8.2 overs, SR 200.00'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Runs but one ball",
+      "expr": "scoreboard(6, 1)",
+      "expect": "'6 runs in 0.1 overs, SR 600.00'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Overs are balls divided by 6; the balls left over are balls % 6.",
+    "Guard the division: if balls is 0, the strike rate is 0. Format with :.2f.",
+    "def scoreboard(runs, balls):\n    sr = runs * 100 / balls if balls else 0\n    return f\"{runs} runs in {balls // 6}.{balls % 6} overs, SR {sr:.2f}\"\n"
+  ],
+  "socratic": [
+    "How many full overs are 35 balls?",
+    "What goes wrong if balls is 0?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: The Cricket Scoreboard”?",
+  "xp": 25,
+  "skills": [
+    "strings",
+    "formatting",
+    "real-world"
+  ],
+  "requires": [
+    "mj-03-ledger"
+  ],
+  "solution": "def scoreboard(runs, balls):\n    sr = runs * 100 / balls if balls else 0\n    return f\"{runs} runs in {balls // 6}.{balls % 6} overs, SR {sr:.2f}\"\n",
+  "alt": "def scoreboard(runs, balls):\n    overs, left = divmod(balls, 6)\n    rate = 0.0\n    if balls > 0:\n        rate = runs / balls * 100\n    return f\"{runs} runs in {overs}.{left} overs, SR {rate:.2f}\"\n",
+  "learn": "fstring"
+}

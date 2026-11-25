@@ -1,0 +1,67 @@
+{
+  "id": "mj-05-fare",
+  "region": "micro-jobs",
+  "order": 5,
+  "title": "Job: The Train Fare Desk",
+  "story": "Job brief from the booking counter: tickets cost ₹20 plus ₹2 per km. Senior citizens (60 and over) get 40% off, and senior women get 50% off.",
+  "goal": "Write fare(km, age, female=False) returning the ticket price as a whole number of rupees.",
+  "type": "write-code",
+  "starter": "def fare(km, age, female=False):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Adult",
+      "expr": "fare(50, 30)",
+      "expect": "120"
+    },
+    {
+      "kind": "eval",
+      "label": "Senior man",
+      "expr": "fare(50, 65)",
+      "expect": "72"
+    },
+    {
+      "kind": "eval",
+      "label": "Senior woman",
+      "expr": "fare(50, 70, female=True)",
+      "expect": "60"
+    },
+    {
+      "kind": "eval",
+      "label": "Woman under 60 pays full",
+      "expr": "fare(50, 40, female=True)",
+      "expect": "120",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Exactly 60",
+      "expr": "fare(100, 60)",
+      "expect": "132",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Compute the full price first, then apply a discount only if the rule matches.",
+    "Percent off: price * (100 - off) // 100 keeps whole rupees.",
+    "def fare(km, age, female=False):\n    price = 20 + 2 * km\n    if age >= 60:\n        off = 50 if female else 40\n        price = price * (100 - off) // 100\n    return price\n"
+  ],
+  "socratic": [
+    "Does a 45 year old woman get a discount?",
+    "Which condition comes first, age or gender?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: The Train Fare Desk”?",
+  "xp": 25,
+  "skills": [
+    "conditions",
+    "functions",
+    "real-world"
+  ],
+  "requires": [
+    "mj-04-scoreboard"
+  ],
+  "solution": "def fare(km, age, female=False):\n    price = 20 + 2 * km\n    if age >= 60:\n        off = 50 if female else 40\n        price = price * (100 - off) // 100\n    return price\n",
+  "alt": "def fare(km, age, female=False):\n    price = 20 + 2 * km\n    if age < 60:\n        return price\n    if female:\n        return price // 2\n    return price * 60 // 100\n",
+  "learn": "ifelse"
+}

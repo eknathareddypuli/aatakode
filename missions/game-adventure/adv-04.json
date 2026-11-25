@@ -1,0 +1,130 @@
+{
+  "id": "adv-04",
+  "region": "game-adventure",
+  "order": 4,
+  "title": "Step 4: Play the Game",
+  "story": "The temple door is locked. Only someone carrying the key can enter. Time to run a whole game from a list of commands.",
+  "goal": "Add run(commands): start in \"hut\" with an empty bag. \"go <direction>\" moves, \"take\" picks up, anything else is ignored. The temple needs the key to enter. Return (room, bag).",
+  "type": "write-code",
+  "starter": "def run(commands):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Describes the hut",
+      "expr": "describe('hut')",
+      "expect": "'hut: exits north'"
+    },
+    {
+      "kind": "eval",
+      "label": "Exits are sorted",
+      "expr": "describe('market')",
+      "expect": "'market: exits east, south'"
+    },
+    {
+      "kind": "eval",
+      "label": "Describes the temple",
+      "expr": "describe('temple')",
+      "expect": "'temple: exits west'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Move north",
+      "expr": "move('hut', 'north')",
+      "expect": "'market'"
+    },
+    {
+      "kind": "eval",
+      "label": "Wall keeps you in place",
+      "expr": "move('hut', 'west')",
+      "expect": "'hut'"
+    },
+    {
+      "kind": "eval",
+      "label": "Two moves",
+      "expr": "move(move('hut', 'north'), 'east')",
+      "expect": "'temple'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Pick up the lamp",
+      "expr": "pick('hut', [])",
+      "expect": "['lamp']"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty room gives nothing",
+      "expr": "pick('temple', ['lamp'])",
+      "expect": "['lamp']"
+    },
+    {
+      "kind": "eval",
+      "label": "No duplicate pick",
+      "expr": "pick('hut', ['lamp'])",
+      "expect": "['lamp']",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Original bag untouched",
+      "expr": "(lambda b: [pick('hut', b), b])([])",
+      "expect": "[['lamp'], []]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Locked temple without the key",
+      "expr": "run(['go north', 'go east'])",
+      "expect": "('market', [])"
+    },
+    {
+      "kind": "eval",
+      "label": "Key opens the temple",
+      "expr": "run(['go north', 'take', 'go east'])",
+      "expect": "('temple', ['key'])"
+    },
+    {
+      "kind": "eval",
+      "label": "Collect everything",
+      "expr": "run(['take', 'go north', 'take', 'go east'])",
+      "expect": "('temple', ['lamp', 'key'])",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Unknown commands are ignored",
+      "expr": "run(['dance', 'go north'])",
+      "expect": "('market', [])",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Keep two variables, room and bag, and loop over the commands.",
+    "For \"go x\", cmd[3:] is the direction. Block the move if it would enter the temple without the key.",
+    "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n\ndef move(room, direction):\n    return ROOMS[room][\"exits\"].get(direction, room)\n\ndef pick(room, bag):\n    item = ROOMS[room][\"item\"]\n    if item and item not in bag:\n        return bag + [item]\n    return bag\n\ndef run(commands):\n    room, bag = \"hut\", []\n    for cmd in commands:\n        if cmd == \"take\":\n            bag = pick(room, bag)\n        elif cmd.startswith(\"go \"):\n            nxt = move(room, cmd[3:])\n            if nxt == \"temple\" and \"key\" not in bag:\n                continue\n            room = nxt\n    return room, bag\n"
+  ],
+  "socratic": [
+    "Which earlier functions can run() reuse?",
+    "What if the player walks into the locked door?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 40,
+  "skills": [
+    "functions",
+    "project",
+    "games"
+  ],
+  "requires": [
+    "adv-03"
+  ],
+  "solution": "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n\ndef move(room, direction):\n    return ROOMS[room][\"exits\"].get(direction, room)\n\ndef pick(room, bag):\n    item = ROOMS[room][\"item\"]\n    if item and item not in bag:\n        return bag + [item]\n    return bag\n\ndef run(commands):\n    room, bag = \"hut\", []\n    for cmd in commands:\n        if cmd == \"take\":\n            bag = pick(room, bag)\n        elif cmd.startswith(\"go \"):\n            nxt = move(room, cmd[3:])\n            if nxt == \"temple\" and \"key\" not in bag:\n                continue\n            room = nxt\n    return room, bag\n",
+  "learn": "toolkit",
+  "project_step": true,
+  "project": true,
+  "carry": {
+    "from": "adv-03",
+    "stub": "def run(commands):\n    pass\n"
+  }
+}

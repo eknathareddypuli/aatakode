@@ -1,0 +1,67 @@
+{
+  "id": "mj-08-attendance",
+  "region": "micro-jobs",
+  "order": 8,
+  "title": "Job: Attendance Shortage",
+  "story": "Job brief from the college office: students need 75% attendance. Tell each student how many classes in a row they must attend to reach it.",
+  "goal": "Write classes_needed(present, total, target=75): the smallest number of extra classes to attend (and not miss) so that attendance reaches the target percent. Return 0 if already there.",
+  "type": "write-code",
+  "starter": "def classes_needed(present, total, target=75):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Already fine",
+      "expr": "classes_needed(8, 10)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Needs six more",
+      "expr": "classes_needed(6, 10)",
+      "expect": "6"
+    },
+    {
+      "kind": "eval",
+      "label": "Exactly at the target",
+      "expr": "classes_needed(3, 4)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Big shortfall",
+      "expr": "classes_needed(10, 40)",
+      "expect": "80",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Different target",
+      "expr": "classes_needed(5, 10, target=90)",
+      "expect": "40",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Pretend to attend one class at a time and stop when you reach the target.",
+    "Each class attended adds 1 to both present and total.",
+    "def classes_needed(present, total, target=75):\n    extra = 0\n    while (present + extra) * 100 < target * (total + extra):\n        extra += 1\n    return extra\n"
+  ],
+  "socratic": [
+    "What is attendance after attending one more class?",
+    "When should the loop stop?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: Attendance Shortage”?",
+  "xp": 30,
+  "skills": [
+    "loops",
+    "while",
+    "real-world"
+  ],
+  "requires": [
+    "mj-07-invoice"
+  ],
+  "solution": "def classes_needed(present, total, target=75):\n    extra = 0\n    while (present + extra) * 100 < target * (total + extra):\n        extra += 1\n    return extra\n",
+  "alt": "def classes_needed(present, total, target=75):\n    k = 0\n    p, t = present, total\n    while p * 100 / t < target:\n        p += 1\n        t += 1\n        k += 1\n    return k\n",
+  "learn": "while"
+}

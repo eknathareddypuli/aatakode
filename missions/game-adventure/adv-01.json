@@ -1,0 +1,54 @@
+{
+  "id": "adv-01",
+  "region": "game-adventure",
+  "order": 1,
+  "title": "Step 1: Describe a Room",
+  "story": "You are building a text adventure: Escape the Village. First, the narrator must be able to describe where you are.",
+  "goal": "Write describe(room): return \"<room>: exits <a>, <b>\" with the exits sorted alphabetically. ROOMS is given.",
+  "type": "write-code",
+  "starter": "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Describes the hut",
+      "expr": "describe('hut')",
+      "expect": "'hut: exits north'"
+    },
+    {
+      "kind": "eval",
+      "label": "Exits are sorted",
+      "expr": "describe('market')",
+      "expect": "'market: exits east, south'"
+    },
+    {
+      "kind": "eval",
+      "label": "Describes the temple",
+      "expr": "describe('temple')",
+      "expect": "'temple: exits west'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "ROOMS[room][\"exits\"] is a dictionary. Its keys are the directions.",
+    "sorted(...) puts the exits in order and \", \".join(...) glues them with commas.",
+    "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n"
+  ],
+  "socratic": [
+    "Which part of ROOMS holds the exits?",
+    "Why sort the exits?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "dictionaries",
+    "project",
+    "games"
+  ],
+  "requires": [
+    "gw-11-boss"
+  ],
+  "solution": "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n",
+  "learn": "dict-iter",
+  "project_step": true
+}

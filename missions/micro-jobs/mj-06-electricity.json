@@ -1,0 +1,79 @@
+{
+  "id": "mj-06-electricity",
+  "region": "micro-jobs",
+  "order": 6,
+  "title": "Job: The Electricity Bill",
+  "story": "Job brief from the housing society: the first 100 units are free, units 101 to 200 cost ₹3 each, and every unit above 200 costs ₹6. There is a fixed charge of ₹50 whenever any units were used.",
+  "goal": "Write bill(units) returning the amount in rupees.",
+  "type": "write-code",
+  "starter": "def bill(units):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "No usage, no charge",
+      "expr": "bill(0)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Free slab only",
+      "expr": "bill(80)",
+      "expect": "50"
+    },
+    {
+      "kind": "eval",
+      "label": "Edge of free slab",
+      "expr": "bill(100)",
+      "expect": "50"
+    },
+    {
+      "kind": "eval",
+      "label": "Into the second slab",
+      "expr": "bill(150)",
+      "expect": "200"
+    },
+    {
+      "kind": "eval",
+      "label": "Into the third slab",
+      "expr": "bill(250)",
+      "expect": "650"
+    },
+    {
+      "kind": "eval",
+      "label": "Exactly 200",
+      "expr": "bill(200)",
+      "expect": "350",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Heavy user",
+      "expr": "bill(400)",
+      "expect": "1550",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Charge each slab separately: how many units fall inside it?",
+    "Units in the middle slab: min(units, 200) - 100. Units in the top slab: units - 200.",
+    "def bill(units):\n    if units <= 0:\n        return 0\n    total = 50\n    if units > 100:\n        total += (min(units, 200) - 100) * 3\n    if units > 200:\n        total += (units - 200) * 6\n    return total\n"
+  ],
+  "socratic": [
+    "How many units are charged at ₹3 when usage is 150?",
+    "Why can't you just multiply all units by one price?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: The Electricity Bill”?",
+  "xp": 30,
+  "skills": [
+    "conditions",
+    "arithmetic",
+    "real-world"
+  ],
+  "requires": [
+    "mj-05-fare"
+  ],
+  "solution": "def bill(units):\n    if units <= 0:\n        return 0\n    total = 50\n    if units > 100:\n        total += (min(units, 200) - 100) * 3\n    if units > 200:\n        total += (units - 200) * 6\n    return total\n",
+  "alt": "def bill(units):\n    if units == 0:\n        return 0\n    mid = max(0, min(units, 200) - 100)\n    high = max(0, units - 200)\n    return 50 + mid * 3 + high * 6\n",
+  "learn": "elif-chain"
+}

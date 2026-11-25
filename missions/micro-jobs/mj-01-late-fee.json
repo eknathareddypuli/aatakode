@@ -1,0 +1,67 @@
+{
+  "id": "mj-01-late-fee",
+  "region": "micro-jobs",
+  "order": 1,
+  "title": "Job: The School Late Fee",
+  "story": "Job brief from the school office: parents pay ₹10 for every day the fee is late, but never more than ₹200 in total.",
+  "goal": "Write late_fee(days_late) that returns the fee in rupees. No days late means no fee.",
+  "type": "write-code",
+  "starter": "def late_fee(days_late):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "On time",
+      "expr": "late_fee(0)",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "Five days",
+      "expr": "late_fee(5)",
+      "expect": "50"
+    },
+    {
+      "kind": "eval",
+      "label": "Hits the cap",
+      "expr": "late_fee(20)",
+      "expect": "200"
+    },
+    {
+      "kind": "eval",
+      "label": "Way past the cap",
+      "expr": "late_fee(90)",
+      "expect": "200",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Just under the cap",
+      "expr": "late_fee(19)",
+      "expect": "190",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Work out days times 10 first. Then think about the ceiling.",
+    "min(a, b) picks the smaller number, which is a neat way to apply a cap.",
+    "def late_fee(days_late):\n    return min(days_late * 10, 200)\n"
+  ],
+  "socratic": [
+    "What is the fee after 25 days?",
+    "How can you stop a number going above a limit?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: The School Late Fee”?",
+  "xp": 20,
+  "skills": [
+    "functions",
+    "arithmetic",
+    "real-world"
+  ],
+  "requires": [
+    "py-16-bugfix-5"
+  ],
+  "solution": "def late_fee(days_late):\n    return min(days_late * 10, 200)\n",
+  "alt": "def late_fee(days_late):\n    fee = days_late * 10\n    if fee > 200:\n        fee = 200\n    return fee\n",
+  "learn": "accumulator"
+}

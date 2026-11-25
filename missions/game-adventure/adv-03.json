@@ -1,0 +1,103 @@
+{
+  "id": "adv-03",
+  "region": "game-adventure",
+  "order": 3,
+  "title": "Step 3: Pick Things Up",
+  "story": "Rooms hold items: a lamp in the hut, a key in the market.",
+  "goal": "Add pick(room, bag): if the room has an item that is not in the bag yet, return a NEW bag that includes it; otherwise return the bag unchanged.",
+  "type": "write-code",
+  "starter": "def pick(room, bag):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Describes the hut",
+      "expr": "describe('hut')",
+      "expect": "'hut: exits north'"
+    },
+    {
+      "kind": "eval",
+      "label": "Exits are sorted",
+      "expr": "describe('market')",
+      "expect": "'market: exits east, south'"
+    },
+    {
+      "kind": "eval",
+      "label": "Describes the temple",
+      "expr": "describe('temple')",
+      "expect": "'temple: exits west'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Move north",
+      "expr": "move('hut', 'north')",
+      "expect": "'market'"
+    },
+    {
+      "kind": "eval",
+      "label": "Wall keeps you in place",
+      "expr": "move('hut', 'west')",
+      "expect": "'hut'"
+    },
+    {
+      "kind": "eval",
+      "label": "Two moves",
+      "expr": "move(move('hut', 'north'), 'east')",
+      "expect": "'temple'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Pick up the lamp",
+      "expr": "pick('hut', [])",
+      "expect": "['lamp']"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty room gives nothing",
+      "expr": "pick('temple', ['lamp'])",
+      "expect": "['lamp']"
+    },
+    {
+      "kind": "eval",
+      "label": "No duplicate pick",
+      "expr": "pick('hut', ['lamp'])",
+      "expect": "['lamp']",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Original bag untouched",
+      "expr": "(lambda b: [pick('hut', b), b])([])",
+      "expect": "[['lamp'], []]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "ROOMS[room][\"item\"] is None when the room is empty.",
+    "Check that the item exists and is not already in the bag. bag + [item] builds a new list.",
+    "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n\ndef move(room, direction):\n    return ROOMS[room][\"exits\"].get(direction, room)\n\ndef pick(room, bag):\n    item = ROOMS[room][\"item\"]\n    if item and item not in bag:\n        return bag + [item]\n    return bag\n"
+  ],
+  "socratic": [
+    "What value means \"no item here\"?",
+    "What if you take twice in the same room?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "lists",
+    "project",
+    "games"
+  ],
+  "requires": [
+    "adv-02"
+  ],
+  "solution": "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n\ndef move(room, direction):\n    return ROOMS[room][\"exits\"].get(direction, room)\n\ndef pick(room, bag):\n    item = ROOMS[room][\"item\"]\n    if item and item not in bag:\n        return bag + [item]\n    return bag\n",
+  "learn": "list-basics",
+  "project_step": true,
+  "carry": {
+    "from": "adv-02",
+    "stub": "def pick(room, bag):\n    pass\n"
+  }
+}

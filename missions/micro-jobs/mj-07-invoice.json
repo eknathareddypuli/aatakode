@@ -1,0 +1,67 @@
+{
+  "id": "mj-07-invoice",
+  "region": "micro-jobs",
+  "order": 7,
+  "title": "Job: The GST Invoice",
+  "story": "Job brief from a small shop: add up price times quantity for every item, then add GST (18% unless the item says otherwise on the bill).",
+  "goal": "Write invoice(items, gst=18): items is a list of (name, price, qty). Return the total including GST, rounded to 2 decimals.",
+  "type": "write-code",
+  "starter": "def invoice(items, gst=18):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "One item",
+      "expr": "invoice([('pen', 10, 5)])",
+      "expect": "59.0"
+    },
+    {
+      "kind": "eval",
+      "label": "Two items",
+      "expr": "invoice([('notebook', 40, 3), ('pen', 10, 5)])",
+      "expect": "200.6"
+    },
+    {
+      "kind": "eval",
+      "label": "Lower GST rate",
+      "expr": "invoice([('rice', 100, 2)], gst=5)",
+      "expect": "210.0"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty bill",
+      "expr": "invoice([])",
+      "expect": "0.0",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Paise",
+      "expr": "invoice([('toffee', 0.5, 7)])",
+      "expect": "4.13",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "First the subtotal: price * qty for each line, added up.",
+    "Then multiply by (100 + gst) / 100 and round to 2 decimals.",
+    "def invoice(items, gst=18):\n    subtotal = sum(price * qty for name, price, qty in items)\n    return round(subtotal * (100 + gst) / 100, 2)\n"
+  ],
+  "socratic": [
+    "What is the subtotal of 3 notebooks at ₹40?",
+    "Why does gst have a default value?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Job: The GST Invoice”?",
+  "xp": 25,
+  "skills": [
+    "functions",
+    "loops",
+    "real-world"
+  ],
+  "requires": [
+    "mj-06-electricity"
+  ],
+  "solution": "def invoice(items, gst=18):\n    subtotal = sum(price * qty for name, price, qty in items)\n    return round(subtotal * (100 + gst) / 100, 2)\n",
+  "alt": "def invoice(items, gst=18):\n    subtotal = 0\n    for name, price, qty in items:\n        subtotal += price * qty\n    return round(subtotal * (1 + gst / 100), 2)\n",
+  "learn": "args-default"
+}

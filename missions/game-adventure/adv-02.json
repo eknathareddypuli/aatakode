@@ -1,0 +1,77 @@
+{
+  "id": "adv-02",
+  "region": "game-adventure",
+  "order": 2,
+  "title": "Step 2: Walk Around",
+  "story": "Now the hero can look. Next, the hero must be able to walk.",
+  "goal": "Add move(room, direction): return the room you reach, or the same room if there is no exit that way.",
+  "type": "write-code",
+  "starter": "def move(room, direction):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Describes the hut",
+      "expr": "describe('hut')",
+      "expect": "'hut: exits north'"
+    },
+    {
+      "kind": "eval",
+      "label": "Exits are sorted",
+      "expr": "describe('market')",
+      "expect": "'market: exits east, south'"
+    },
+    {
+      "kind": "eval",
+      "label": "Describes the temple",
+      "expr": "describe('temple')",
+      "expect": "'temple: exits west'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Move north",
+      "expr": "move('hut', 'north')",
+      "expect": "'market'"
+    },
+    {
+      "kind": "eval",
+      "label": "Wall keeps you in place",
+      "expr": "move('hut', 'west')",
+      "expect": "'hut'"
+    },
+    {
+      "kind": "eval",
+      "label": "Two moves",
+      "expr": "move(move('hut', 'north'), 'east')",
+      "expect": "'temple'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "The exits dictionary maps a direction to a room.",
+    ".get(direction, room) returns the current room when the exit is missing.",
+    "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n\ndef move(room, direction):\n    return ROOMS[room][\"exits\"].get(direction, room)\n"
+  ],
+  "socratic": [
+    "What should walking into a wall do?",
+    "Which function do the earlier checks still need?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does this checkpoint build on the last one?",
+  "xp": 30,
+  "skills": [
+    "dictionaries",
+    "project",
+    "games"
+  ],
+  "requires": [
+    "adv-01"
+  ],
+  "solution": "ROOMS = {\n    \"hut\": {\"exits\": {\"north\": \"market\"}, \"item\": \"lamp\"},\n    \"market\": {\"exits\": {\"south\": \"hut\", \"east\": \"temple\"}, \"item\": \"key\"},\n    \"temple\": {\"exits\": {\"west\": \"market\"}, \"item\": None},\n}\n\ndef describe(room):\n    exits = \", \".join(sorted(ROOMS[room][\"exits\"]))\n    return f\"{room}: exits {exits}\"\n\ndef move(room, direction):\n    return ROOMS[room][\"exits\"].get(direction, room)\n",
+  "learn": "dict-basics",
+  "project_step": true,
+  "carry": {
+    "from": "adv-01",
+    "stub": "def move(room, direction):\n    pass\n"
+  }
+}
