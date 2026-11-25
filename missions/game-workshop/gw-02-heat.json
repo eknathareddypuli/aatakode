@@ -1,0 +1,73 @@
+{
+  "id": "gw-02-heat",
+  "region": "game-workshop",
+  "order": 2,
+  "title": "Hot and Cold",
+  "story": "A good guessing game tells you how close you are, not just which way to go.",
+  "goal": "Write heat(guess, secret): return \"found\" for an exact match, \"hot\" if the gap is 1 to 3, \"warm\" if 4 to 10, otherwise \"cold\".",
+  "type": "write-code",
+  "starter": "def heat(guess, secret):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Exact",
+      "expr": "heat(5, 5)",
+      "expect": "'found'"
+    },
+    {
+      "kind": "eval",
+      "label": "Hot",
+      "expr": "heat(5, 8)",
+      "expect": "'hot'"
+    },
+    {
+      "kind": "eval",
+      "label": "Warm",
+      "expr": "heat(5, 15)",
+      "expect": "'warm'"
+    },
+    {
+      "kind": "eval",
+      "label": "Cold",
+      "expr": "heat(5, 50)",
+      "expect": "'cold'"
+    },
+    {
+      "kind": "eval",
+      "label": "Works when the guess is above",
+      "expr": "heat(20, 17)",
+      "expect": "'hot'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Edge of warm",
+      "expr": "heat(0, 10)",
+      "expect": "'warm'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "How far apart are the two numbers, ignoring which is bigger?",
+    "abs() gives the gap. Check the smallest gap first.",
+    "def heat(guess, secret):\n    gap = abs(guess - secret)\n    if gap == 0:\n        return \"found\"\n    if gap <= 3:\n        return \"hot\"\n    if gap <= 10:\n        return \"warm\"\n    return \"cold\"\n"
+  ],
+  "socratic": [
+    "Why check the smallest gap before the larger ones?",
+    "What does abs(3 - 8) give? And abs(8 - 3)?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Hot and Cold”?",
+  "xp": 20,
+  "skills": [
+    "functions",
+    "conditions",
+    "games"
+  ],
+  "requires": [
+    "gw-01-judge"
+  ],
+  "solution": "def heat(guess, secret):\n    gap = abs(guess - secret)\n    if gap == 0:\n        return \"found\"\n    if gap <= 3:\n        return \"hot\"\n    if gap <= 10:\n        return \"warm\"\n    return \"cold\"\n",
+  "alt": "def heat(guess, secret):\n    gap = abs(guess - secret)\n    return \"found\" if gap == 0 else \"hot\" if gap <= 3 else \"warm\" if gap <= 10 else \"cold\"\n",
+  "learn": "elif-chain"
+}

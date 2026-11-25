@@ -1,0 +1,68 @@
+{
+  "id": "gw-11-boss",
+  "region": "game-workshop",
+  "order": 11,
+  "title": "Boss: The Laggy Coin Run",
+  "story": "The coin counter in your game gives the player too many coins. Walking over the same coin twice must not pay twice.",
+  "goal": "Fix coins_collected(path, coins) so each coin is counted once, even if the path visits it again.",
+  "type": "write-code",
+  "starter": "def coins_collected(path, coins):\n    total = 0\n    for spot in path:\n        if spot in coins:\n            total += 1\n    return total\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Each coin once",
+      "expr": "coins_collected([(0, 0), (1, 0), (1, 1), (1, 0)], [(1, 0), (2, 2)])",
+      "expect": "1"
+    },
+    {
+      "kind": "eval",
+      "label": "No coins",
+      "expr": "coins_collected([(0, 0)], [(5, 5)])",
+      "expect": "0"
+    },
+    {
+      "kind": "eval",
+      "label": "All coins",
+      "expr": "coins_collected([(1, 1), (2, 2)], [(1, 1), (2, 2)])",
+      "expect": "2"
+    },
+    {
+      "kind": "eval",
+      "label": "Revisit three times",
+      "expr": "coins_collected([(1, 1), (1, 1), (1, 1)], [(1, 1)])",
+      "expect": "1",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Empty path",
+      "expr": "coins_collected([], [(1, 1)])",
+      "expect": "0",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Where does a coin get counted more than once?",
+    "Count each position only once. A set forgets duplicates.",
+    "def coins_collected(path, coins):\n    total = 0\n    for spot in set(path):\n        if spot in coins:\n            total += 1\n    return total\n"
+  ],
+  "socratic": [
+    "What does set([1, 1, 2]) give?",
+    "Which line decides how often a coin counts?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what was the bug, and how did you fix it?",
+  "xp": 70,
+  "skills": [
+    "debugging",
+    "sets",
+    "games"
+  ],
+  "requires": [
+    "gw-10-fight"
+  ],
+  "solution": "def coins_collected(path, coins):\n    total = 0\n    for spot in set(path):\n        if spot in coins:\n            total += 1\n    return total\n",
+  "alt": "def coins_collected(path, coins):\n    return len(set(path) & set(coins))\n",
+  "boss": true,
+  "learn": "sets"
+}

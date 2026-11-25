@@ -1,0 +1,90 @@
+{
+ "id": "dash",
+ "name": "Maze Dash",
+ "starter": "def play(state):\n    # state[\"me\"] and state[\"foe\"] are [x, y]\n    # state[\"seeds\"] holds the one flag: [[x, y]]\n    # state[\"walls\"] is a list of [x, y]\n    # return \"N\", \"E\", \"S\", \"W\" or \"STAY\"\n    return \"STAY\"\n",
+ "size": 11,
+ "turns": 80,
+ "every": 0,
+ "start_seeds": 1,
+ "respawn": true,
+ "min_dist": 5,
+ "share_turns": true,
+ "rules": [
+  "Board is 11x11 with a maze of walls. The walls are mirrored and you swap sides in alternate matches, so it is fair.",
+  "There is exactly one flag. Reach it first to score 1. A new flag appears at least 5 steps from both bots.",
+  "Each turn both bots move one step at the same time: N, E, S, W or STAY.",
+  "If both want the same cell they take turns winning it (A on even turns, B on odd turns), so nobody is blocked forever.",
+  "The match lasts 80 turns. Win enough of 5 fixed matches to clear a league. Replay any match by its seed.",
+  "Walls make a straight line fail. A breadth-first search finds the shortest way around them."
+ ],
+ "leagues": [
+  {
+   "id": "wood",
+   "name": "Wood",
+   "opp": "Wanderer",
+   "blurb": "The opponent wanders at random. Walk to the flag.",
+   "opp_code": "import random\n\ndef play(state):\n    rng = random.Random(state[\"turn\"] * 17 + state[\"me\"][0] * 5 + state[\"me\"][1] * 3)\n    return rng.choice([\"N\", \"E\", \"S\", \"W\", \"STAY\"])\n",
+   "walls": 0,
+   "need": 4,
+   "ref": "def play(state):\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    x, y = state[\"me\"]\n    fx, fy = state[\"seeds\"][0]\n    order = []\n    if fx != x:\n        order.append(\"E\" if fx > x else \"W\")\n    if fy != y:\n        order.append(\"S\" if fy > y else \"N\")\n    for d in order:\n        nx = x + {\"E\": 1, \"W\": -1}.get(d, 0)\n        ny = y + {\"S\": 1, \"N\": -1}.get(d, 0)\n        if [nx, ny] not in state[\"walls\"]:\n            return d\n    return \"STAY\"\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  },
+  {
+   "id": "bronze",
+   "name": "Bronze",
+   "opp": "Straight-liner",
+   "blurb": "The opponent heads straight for the flag and gets stuck behind walls. Be smarter: go around.",
+   "opp_code": "def play(state):\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    x, y = state[\"me\"]\n    fx, fy = state[\"seeds\"][0]\n    order = []\n    if fx != x:\n        order.append(\"E\" if fx > x else \"W\")\n    if fy != y:\n        order.append(\"S\" if fy > y else \"N\")\n    for d in order:\n        nx = x + {\"E\": 1, \"W\": -1}.get(d, 0)\n        ny = y + {\"S\": 1, \"N\": -1}.get(d, 0)\n        if [nx, ny] not in state[\"walls\"]:\n            return d\n    return \"STAY\"\n",
+   "walls": 6,
+   "need": 3,
+   "ref": "\nDIRS = {\"N\": (0, -1), \"E\": (1, 0), \"S\": (0, 1), \"W\": (-1, 0)}\n\ndef neighbours(cell, state):\n    x, y = cell\n    out = []\n    for name, (dx, dy) in DIRS.items():\n        nx, ny = x + dx, y + dy\n        if 0 <= nx < state[\"size\"] and 0 <= ny < state[\"size\"] and [nx, ny] not in state[\"walls\"]:\n            out.append((name, (nx, ny)))\n    return out\n\ndef distances(start, state):\n    \"\"\"Steps from start to every reachable cell (breadth-first search).\"\"\"\n    dist = {tuple(start): 0}\n    todo = [tuple(start)]\n    for cell in todo:\n        for _, nxt in neighbours(cell, state):\n            if nxt not in dist:\n                dist[nxt] = dist[cell] + 1\n                todo.append(nxt)\n    return dist\n\ndef play(state):\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    goal = tuple(state[\"seeds\"][0])\n    dist = distances(goal, state)          # steps from the flag to every cell\n    me = tuple(state[\"me\"])\n    options = neighbours(me, state)\n    if not options:\n        return \"STAY\"\n    return min(options, key=lambda n: dist.get(n[1], 999))[0]\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  },
+  {
+   "id": "silver",
+   "name": "Silver",
+   "opp": "Path-finder",
+   "blurb": "The opponent finds the shortest path every time. Beat it by waiting in a smart place.",
+   "opp_code": "\nDIRS = {\"N\": (0, -1), \"E\": (1, 0), \"S\": (0, 1), \"W\": (-1, 0)}\n\ndef neighbours(cell, state):\n    x, y = cell\n    out = []\n    for name, (dx, dy) in DIRS.items():\n        nx, ny = x + dx, y + dy\n        if 0 <= nx < state[\"size\"] and 0 <= ny < state[\"size\"] and [nx, ny] not in state[\"walls\"]:\n            out.append((name, (nx, ny)))\n    return out\n\ndef distances(start, state):\n    \"\"\"Steps from start to every reachable cell (breadth-first search).\"\"\"\n    dist = {tuple(start): 0}\n    todo = [tuple(start)]\n    for cell in todo:\n        for _, nxt in neighbours(cell, state):\n            if nxt not in dist:\n                dist[nxt] = dist[cell] + 1\n                todo.append(nxt)\n    return dist\n\ndef play(state):\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    goal = tuple(state[\"seeds\"][0])\n    dist = distances(goal, state)          # steps from the flag to every cell\n    me = tuple(state[\"me\"])\n    options = neighbours(me, state)\n    if not options:\n        return \"STAY\"\n    return min(options, key=lambda n: dist.get(n[1], 999))[0]\n",
+   "walls": 6,
+   "need": 3,
+   "ref": "\nDIRS = {\"N\": (0, -1), \"E\": (1, 0), \"S\": (0, 1), \"W\": (-1, 0)}\n\ndef neighbours(cell, state):\n    x, y = cell\n    out = []\n    for name, (dx, dy) in DIRS.items():\n        nx, ny = x + dx, y + dy\n        if 0 <= nx < state[\"size\"] and 0 <= ny < state[\"size\"] and [nx, ny] not in state[\"walls\"]:\n            out.append((name, (nx, ny)))\n    return out\n\ndef distances(start, state):\n    \"\"\"Steps from start to every reachable cell (breadth-first search).\"\"\"\n    dist = {tuple(start): 0}\n    todo = [tuple(start)]\n    for cell in todo:\n        for _, nxt in neighbours(cell, state):\n            if nxt not in dist:\n                dist[nxt] = dist[cell] + 1\n                todo.append(nxt)\n    return dist\n\ndef play(state):\n    me = tuple(state[\"me\"])\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    goal = tuple(state[\"seeds\"][0])\n    mine = distances(me, state).get(goal, 999)\n    theirs = distances(tuple(state[\"foe\"]), state).get(goal, 999)\n    dist = distances(goal, state)\n    options = neighbours(me, state)\n    if mine <= theirs:\n        # I am closer (or equal): race for it\n        return min(options, key=lambda n: dist.get(n[1], 999))[0]\n    # the foe will win this one: wait near the middle for the next flag\n    centre = (state[\"size\"] // 2, state[\"size\"] // 2)\n    back = distances(centre, state)\n    best = min(options + [(\"STAY\", me)], key=lambda n: back.get(n[1], 999))\n    return best[0]\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  },
+  {
+   "id": "gold",
+   "name": "Gold",
+   "opp": "Tie-breaker",
+   "blurb": "The opponent knows how to share a tie. Outplay it in a denser maze.",
+   "opp_code": "\nDIRS = {\"N\": (0, -1), \"E\": (1, 0), \"S\": (0, 1), \"W\": (-1, 0)}\n\ndef neighbours(cell, state):\n    x, y = cell\n    out = []\n    for name, (dx, dy) in DIRS.items():\n        nx, ny = x + dx, y + dy\n        if 0 <= nx < state[\"size\"] and 0 <= ny < state[\"size\"] and [nx, ny] not in state[\"walls\"]:\n            out.append((name, (nx, ny)))\n    return out\n\ndef distances(start, state):\n    \"\"\"Steps from start to every reachable cell (breadth-first search).\"\"\"\n    dist = {tuple(start): 0}\n    todo = [tuple(start)]\n    for cell in todo:\n        for _, nxt in neighbours(cell, state):\n            if nxt not in dist:\n                dist[nxt] = dist[cell] + 1\n                todo.append(nxt)\n    return dist\n\ndef play(state):\n    me = tuple(state[\"me\"])\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    goal = tuple(state[\"seeds\"][0])\n    dist = distances(goal, state)\n    mine = dist.get(me, 999)\n    theirs = dist.get(tuple(state[\"foe\"]), 999)\n    options = neighbours(me, state)\n    if mine == theirs and state[\"turn\"] % 2 == 0:\n        return \"STAY\"\n    return min(options, key=lambda n: dist.get(n[1], 999))[0]\n",
+   "walls": 9,
+   "need": 3,
+   "ref": "\nDIRS = {\"N\": (0, -1), \"E\": (1, 0), \"S\": (0, 1), \"W\": (-1, 0)}\n\ndef neighbours(cell, state):\n    x, y = cell\n    out = []\n    for name, (dx, dy) in DIRS.items():\n        nx, ny = x + dx, y + dy\n        if 0 <= nx < state[\"size\"] and 0 <= ny < state[\"size\"] and [nx, ny] not in state[\"walls\"]:\n            out.append((name, (nx, ny)))\n    return out\n\ndef distances(start, state):\n    \"\"\"Steps from start to every reachable cell (breadth-first search).\"\"\"\n    dist = {tuple(start): 0}\n    todo = [tuple(start)]\n    for cell in todo:\n        for _, nxt in neighbours(cell, state):\n            if nxt not in dist:\n                dist[nxt] = dist[cell] + 1\n                todo.append(nxt)\n    return dist\n\ndef play(state):\n    me = tuple(state[\"me\"])\n    if not state[\"seeds\"]:\n        return \"STAY\"\n    goal = tuple(state[\"seeds\"][0])\n    mine = distances(me, state).get(goal, 999)\n    theirs = distances(tuple(state[\"foe\"]), state).get(goal, 999)\n    dist = distances(goal, state)\n    options = neighbours(me, state)\n    if mine <= theirs:\n        # I am closer (or equal): race for it\n        return min(options, key=lambda n: dist.get(n[1], 999))[0]\n    # the foe will win this one: wait near the middle for the next flag\n    centre = (state[\"size\"] // 2, state[\"size\"] // 2)\n    back = distances(centre, state)\n    best = min(options + [(\"STAY\", me)], key=lambda n: back.get(n[1], 999))\n    return best[0]\n",
+   "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+   ]
+  }
+ ]
+}

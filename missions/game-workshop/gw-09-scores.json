@@ -1,0 +1,73 @@
+{
+  "id": "gw-09-scores",
+  "region": "game-workshop",
+  "order": 9,
+  "title": "The High-Score Board",
+  "story": "Arcades show the top scores only. Your board keeps the best three.",
+  "goal": "Write add_score(table, name, points, keep=3): return a NEW list of (name, points) pairs, best first, keeping only the top `keep`. Earlier entries win ties.",
+  "type": "write-code",
+  "starter": "def add_score(table, name, points, keep=3):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "First score",
+      "expr": "add_score([], 'Asha', 50)",
+      "expect": "[('Asha', 50)]"
+    },
+    {
+      "kind": "eval",
+      "label": "Sorted best first",
+      "expr": "add_score([('Ravi', 80)], 'Asha', 95)",
+      "expect": "[('Asha', 95), ('Ravi', 80)]"
+    },
+    {
+      "kind": "eval",
+      "label": "Only top three",
+      "expr": "add_score([('a', 9), ('b', 8), ('c', 7)], 'd', 10)",
+      "expect": "[('d', 10), ('a', 9), ('b', 8)]"
+    },
+    {
+      "kind": "eval",
+      "label": "Too low to enter",
+      "expr": "add_score([('a', 9), ('b', 8), ('c', 7)], 'd', 1)",
+      "expect": "[('a', 9), ('b', 8), ('c', 7)]"
+    },
+    {
+      "kind": "eval",
+      "label": "Ties keep the older entry first",
+      "expr": "add_score([('a', 5)], 'b', 5)",
+      "expect": "[('a', 5), ('b', 5)]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Does not change the old table",
+      "expr": "(lambda t: [add_score(t, 'z', 99), t])([('a', 1)])",
+      "expect": "[[('z', 99), ('a', 1)], [('a', 1)]]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Add the new row, order the rows, cut the list.",
+    "sort with key=lambda row: row[1] and reverse, or negate the points. Then slice [:keep].",
+    "def add_score(table, name, points, keep=3):\n    new = table + [(name, points)]\n    new.sort(key=lambda row: -row[1])\n    return new[:keep]\n"
+  ],
+  "socratic": [
+    "What does sorted() do that .sort() does not?",
+    "Why is the slice [:keep] safe when the list is short?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “The High-Score Board”?",
+  "xp": 30,
+  "skills": [
+    "lists",
+    "sorting",
+    "games"
+  ],
+  "requires": [
+    "gw-08-bounce"
+  ],
+  "solution": "def add_score(table, name, points, keep=3):\n    new = table + [(name, points)]\n    new.sort(key=lambda row: -row[1])\n    return new[:keep]\n",
+  "alt": "def add_score(table, name, points, keep=3):\n    new = sorted(table + [(name, points)], key=lambda row: row[1], reverse=True)\n    return new[:keep]\n",
+  "learn": "list-slice"
+}

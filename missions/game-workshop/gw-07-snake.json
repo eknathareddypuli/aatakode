@@ -1,0 +1,60 @@
+{
+  "id": "gw-07-snake",
+  "region": "game-workshop",
+  "order": 7,
+  "title": "Snake: One Step",
+  "story": "A snake is a list of (x, y) cells, head first. Each step the head moves and the tail follows, unless the snake just ate and grows.",
+  "goal": "Write step(snake, direction, grow=False): return the new snake. MOVES gives the change for N, S, E and W. y grows downward.",
+  "type": "write-code",
+  "starter": "MOVES = {\"N\": (0, -1), \"S\": (0, 1), \"E\": (1, 0), \"W\": (-1, 0)}\n\ndef step(snake, direction, grow=False):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Move east",
+      "expr": "step([(2, 2), (1, 2)], 'E')",
+      "expect": "[(3, 2), (2, 2)]"
+    },
+    {
+      "kind": "eval",
+      "label": "Move north",
+      "expr": "step([(2, 2), (1, 2)], 'N')",
+      "expect": "[(2, 1), (2, 2)]"
+    },
+    {
+      "kind": "eval",
+      "label": "Eating makes it longer",
+      "expr": "step([(2, 2), (1, 2)], 'E', grow=True)",
+      "expect": "[(3, 2), (2, 2), (1, 2)]"
+    },
+    {
+      "kind": "eval",
+      "label": "A longer snake",
+      "expr": "step([(3, 1), (2, 1), (1, 1)], 'S')",
+      "expect": "[(3, 2), (3, 1), (2, 1)]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "The new head is the old head plus the move. What happens to the last cell?",
+    "snake[:-1] is the snake without its tail. Put the new head in front.",
+    "MOVES = {\"N\": (0, -1), \"S\": (0, 1), \"E\": (1, 0), \"W\": (-1, 0)}\n\ndef step(snake, direction, grow=False):\n    dx, dy = MOVES[direction]\n    head = (snake[0][0] + dx, snake[0][1] + dy)\n    body = snake if grow else snake[:-1]\n    return [head] + body\n"
+  ],
+  "socratic": [
+    "Which end of the list is the head?",
+    "What changes when grow is True?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Snake: One Step”?",
+  "xp": 30,
+  "skills": [
+    "lists",
+    "tuples",
+    "games"
+  ],
+  "requires": [
+    "gw-06-tictactoe"
+  ],
+  "solution": "MOVES = {\"N\": (0, -1), \"S\": (0, 1), \"E\": (1, 0), \"W\": (-1, 0)}\n\ndef step(snake, direction, grow=False):\n    dx, dy = MOVES[direction]\n    head = (snake[0][0] + dx, snake[0][1] + dy)\n    body = snake if grow else snake[:-1]\n    return [head] + body\n",
+  "alt": "MOVES = {\"N\": (0, -1), \"S\": (0, 1), \"E\": (1, 0), \"W\": (-1, 0)}\n\ndef step(snake, direction, grow=False):\n    x, y = snake[0]\n    dx, dy = MOVES[direction]\n    new = [(x + dx, y + dy)] + list(snake)\n    if not grow:\n        new.pop()\n    return new\n",
+  "learn": "list-slice"
+}

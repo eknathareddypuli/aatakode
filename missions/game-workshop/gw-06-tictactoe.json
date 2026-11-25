@@ -1,0 +1,73 @@
+{
+  "id": "gw-06-tictactoe",
+  "region": "game-workshop",
+  "order": 6,
+  "title": "Noughts and Crosses: Who Won?",
+  "story": "The board is a 9 character string like \"XOX.O.X..\" (dots are empty). Read it row by row.",
+  "goal": "Write winner(board): return \"X\" or \"O\" if that player has three in a row, column or diagonal, otherwise None.",
+  "type": "write-code",
+  "starter": "LINES = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]\n\ndef winner(board):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Top row",
+      "expr": "winner('XXXOO....')",
+      "expect": "'X'"
+    },
+    {
+      "kind": "eval",
+      "label": "Left column",
+      "expr": "winner('OXXOX.O..')",
+      "expect": "'O'"
+    },
+    {
+      "kind": "eval",
+      "label": "Diagonal",
+      "expr": "winner('X.O.XO..X')",
+      "expect": "'X'"
+    },
+    {
+      "kind": "eval",
+      "label": "Nobody yet",
+      "expr": "winner('XOXOXOOXO')",
+      "expect": "None"
+    },
+    {
+      "kind": "eval",
+      "label": "Empty board",
+      "expr": "winner('.........')",
+      "expect": "None",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Other diagonal",
+      "expr": "winner('..OXO.O..')",
+      "expect": "'O'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "There are only eight lines to check. They are listed for you in LINES.",
+    "Loop over LINES. A line wins when all three cells are equal and not empty (\".\").",
+    "LINES = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]\n\ndef winner(board):\n    for a, b, c in LINES:\n        if board[a] != \".\" and board[a] == board[b] == board[c]:\n            return board[a]\n    return None\n"
+  ],
+  "socratic": [
+    "Why must you ignore three dots in a row?",
+    "How can one loop cover rows, columns and diagonals?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Noughts and Crosses: Who Won?”?",
+  "xp": 30,
+  "skills": [
+    "lists",
+    "loops",
+    "games"
+  ],
+  "requires": [
+    "gw-05-bag"
+  ],
+  "solution": "LINES = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]\n\ndef winner(board):\n    for a, b, c in LINES:\n        if board[a] != \".\" and board[a] == board[b] == board[c]:\n            return board[a]\n    return None\n",
+  "alt": "LINES = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]\n\ndef winner(board):\n    for line in LINES:\n        marks = {board[i] for i in line}\n        if len(marks) == 1 and marks != {\".\"}:\n            return marks.pop()\n    return None\n",
+  "learn": "list-basics"
+}

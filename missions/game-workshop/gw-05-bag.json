@@ -1,0 +1,67 @@
+{
+  "id": "gw-05-bag",
+  "region": "game-workshop",
+  "order": 5,
+  "title": "The Adventurer's Bag",
+  "story": "Your hero can carry only a few things, and picking up the same item twice is silly.",
+  "goal": "Write take(bag, item, limit=3): return a NEW list with the item added, unless it is already in the bag or the bag is full. Never change the original list.",
+  "type": "write-code",
+  "starter": "def take(bag, item, limit=3):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Adds an item",
+      "expr": "take([], 'key')",
+      "expect": "['key']"
+    },
+    {
+      "kind": "eval",
+      "label": "No duplicates",
+      "expr": "take(['key'], 'key')",
+      "expect": "['key']"
+    },
+    {
+      "kind": "eval",
+      "label": "Bag full",
+      "expr": "take(['a', 'b', 'c'], 'd')",
+      "expect": "['a', 'b', 'c']"
+    },
+    {
+      "kind": "eval",
+      "label": "Does not change the original",
+      "expr": "(lambda b: [take(b, 'x'), b])([])",
+      "expect": "[['x'], []]",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Custom limit",
+      "expr": "take(['a'], 'b', limit=1)",
+      "expect": "['a']",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Two things stop you from adding. Which two?",
+    "bag + [item] makes a new list; bag.append(item) changes the old one.",
+    "def take(bag, item, limit=3):\n    if item in bag or len(bag) >= limit:\n        return list(bag)\n    return bag + [item]\n"
+  ],
+  "socratic": [
+    "What does list(bag) give you that bag itself does not?",
+    "What if the bag already holds the item AND is full?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “The Adventurer's Bag”?",
+  "xp": 25,
+  "skills": [
+    "lists",
+    "functions",
+    "games"
+  ],
+  "requires": [
+    "gw-04-rooms"
+  ],
+  "solution": "def take(bag, item, limit=3):\n    if item in bag or len(bag) >= limit:\n        return list(bag)\n    return bag + [item]\n",
+  "alt": "def take(bag, item, limit=3):\n    new = list(bag)\n    if item not in new and len(new) < limit:\n        new.append(item)\n    return new\n",
+  "learn": "alias"
+}

@@ -1,0 +1,67 @@
+{
+  "id": "gw-10-fight",
+  "region": "game-workshop",
+  "order": 10,
+  "title": "Turn-Based Fight",
+  "story": "Two fighters take turns. Player 1 always strikes first, and the first to bring the other to 0 or less wins.",
+  "goal": "Write fight(hp1, dmg1, hp2, dmg2): player 1 hits for dmg1, then player 2 hits for dmg2, and so on. Return \"P1\" or \"P2\".",
+  "type": "write-code",
+  "starter": "def fight(hp1, dmg1, hp2, dmg2):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "P1 wins in two hits",
+      "expr": "fight(10, 5, 10, 3)",
+      "expect": "'P1'"
+    },
+    {
+      "kind": "eval",
+      "label": "P2 wins the race",
+      "expr": "fight(10, 3, 10, 5)",
+      "expect": "'P2'"
+    },
+    {
+      "kind": "eval",
+      "label": "First strike matters",
+      "expr": "fight(5, 5, 5, 5)",
+      "expect": "'P1'"
+    },
+    {
+      "kind": "eval",
+      "label": "Big hitter",
+      "expr": "fight(100, 50, 100, 10)",
+      "expect": "'P1'",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Tiny hits take many rounds",
+      "expr": "fight(7, 1, 6, 1)",
+      "expect": "'P1'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use a loop that keeps going until someone is out of health.",
+    "Inside the loop, P1 hits first. Check for a winner after each hit.",
+    "def fight(hp1, dmg1, hp2, dmg2):\n    while True:\n        hp2 -= dmg1\n        if hp2 <= 0:\n            return \"P1\"\n        hp1 -= dmg2\n        if hp1 <= 0:\n            return \"P2\"\n"
+  ],
+  "socratic": [
+    "Why check after every hit and not once per round?",
+    "What happens if the loop never ends?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Turn-Based Fight”?",
+  "xp": 30,
+  "skills": [
+    "loops",
+    "conditions",
+    "games"
+  ],
+  "requires": [
+    "gw-09-scores"
+  ],
+  "solution": "def fight(hp1, dmg1, hp2, dmg2):\n    while True:\n        hp2 -= dmg1\n        if hp2 <= 0:\n            return \"P1\"\n        hp1 -= dmg2\n        if hp1 <= 0:\n            return \"P2\"\n",
+  "alt": "def fight(hp1, dmg1, hp2, dmg2):\n    turn = 1\n    while hp1 > 0 and hp2 > 0:\n        if turn == 1:\n            hp2 -= dmg1\n        else:\n            hp1 -= dmg2\n        turn = 3 - turn\n    return \"P1\" if hp2 <= 0 else \"P2\"\n",
+  "learn": "while"
+}

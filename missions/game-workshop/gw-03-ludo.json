@@ -1,0 +1,67 @@
+{
+  "id": "gw-03-ludo",
+  "region": "game-workshop",
+  "order": 3,
+  "title": "Ludo: Move the Token",
+  "story": "In a board game a token moves by the dice roll, but you must land exactly on the finish square.",
+  "goal": "Write move(pos, roll, finish=30): return pos + roll, unless that would go past finish, then the token stays where it is.",
+  "type": "write-code",
+  "starter": "def move(pos, roll, finish=30):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Normal move",
+      "expr": "move(10, 4)",
+      "expect": "14"
+    },
+    {
+      "kind": "eval",
+      "label": "Overshoot stays",
+      "expr": "move(28, 5)",
+      "expect": "28"
+    },
+    {
+      "kind": "eval",
+      "label": "Exact finish",
+      "expr": "move(28, 2)",
+      "expect": "30"
+    },
+    {
+      "kind": "eval",
+      "label": "Start of the board",
+      "expr": "move(0, 6)",
+      "expect": "6",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Different board size",
+      "expr": "move(8, 3, finish=10)",
+      "expect": "8",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Work out the new square first. Then decide whether it is allowed.",
+    "If pos + roll is more than finish, return the old pos.",
+    "def move(pos, roll, finish=30):\n    new = pos + roll\n    if new > finish:\n        return pos\n    return new\n"
+  ],
+  "socratic": [
+    "Is landing exactly on finish allowed?",
+    "What does the default value finish=30 do?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Ludo: Move the Token”?",
+  "xp": 20,
+  "skills": [
+    "functions",
+    "default-args",
+    "games"
+  ],
+  "requires": [
+    "gw-02-heat"
+  ],
+  "solution": "def move(pos, roll, finish=30):\n    new = pos + roll\n    if new > finish:\n        return pos\n    return new\n",
+  "alt": "def move(pos, roll, finish=30):\n    return pos if pos + roll > finish else pos + roll\n",
+  "learn": "args-default"
+}

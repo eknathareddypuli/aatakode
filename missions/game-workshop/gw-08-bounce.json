@@ -1,0 +1,67 @@
+{
+  "id": "gw-08-bounce",
+  "region": "game-workshop",
+  "order": 8,
+  "title": "Pong: Bounce the Ball",
+  "story": "A ball moves along a line of width cells. When it would leave the screen it turns around.",
+  "goal": "Write bounce(x, dx, width): move the ball by dx. If the new position is outside 0 to width-1, reverse dx and move the other way instead. Return (new_x, new_dx).",
+  "type": "write-code",
+  "starter": "def bounce(x, dx, width):\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Free move",
+      "expr": "bounce(3, 1, 10)",
+      "expect": "(4, 1)"
+    },
+    {
+      "kind": "eval",
+      "label": "Right wall",
+      "expr": "bounce(9, 1, 10)",
+      "expect": "(8, -1)"
+    },
+    {
+      "kind": "eval",
+      "label": "Left wall",
+      "expr": "bounce(0, -1, 10)",
+      "expect": "(1, 1)"
+    },
+    {
+      "kind": "eval",
+      "label": "Fast ball moves by 2",
+      "expr": "bounce(4, 2, 10)",
+      "expect": "(6, 2)",
+      "hidden": true
+    },
+    {
+      "kind": "eval",
+      "label": "Fast ball bounces",
+      "expr": "bounce(8, 2, 10)",
+      "expect": "(6, -2)",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Where would the ball go next? Is that square on the screen?",
+    "If not, flip dx first, then move again.",
+    "def bounce(x, dx, width):\n    nx = x + dx\n    if nx < 0 or nx > width - 1:\n        dx = -dx\n        nx = x + dx\n    return nx, dx\n"
+  ],
+  "socratic": [
+    "What should happen at x = 0 when dx is -1?",
+    "Why return two values?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Pong: Bounce the Ball”?",
+  "xp": 25,
+  "skills": [
+    "functions",
+    "tuples",
+    "games"
+  ],
+  "requires": [
+    "gw-07-snake"
+  ],
+  "solution": "def bounce(x, dx, width):\n    nx = x + dx\n    if nx < 0 or nx > width - 1:\n        dx = -dx\n        nx = x + dx\n    return nx, dx\n",
+  "alt": "def bounce(x, dx, width):\n    if not 0 <= x + dx < width:\n        dx = -dx\n    return x + dx, dx\n",
+  "learn": "def-basics"
+}

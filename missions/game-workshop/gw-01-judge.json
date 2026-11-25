@@ -1,0 +1,60 @@
+{
+  "id": "gw-01-judge",
+  "region": "game-workshop",
+  "order": 1,
+  "title": "Guess the Number: The Judge",
+  "story": "Every guessing game needs a judge. Chilaka thinks of a secret number and you decide how each guess compares.",
+  "goal": "Write judge(guess, secret) that returns \"low\" if the guess is too small, \"high\" if too big, and \"win\" if it matches.",
+  "type": "write-code",
+  "starter": "def judge(guess, secret):\n    # return \"low\", \"high\" or \"win\"\n    pass\n",
+  "tests": [
+    {
+      "kind": "eval",
+      "label": "Too low",
+      "expr": "judge(3, 7)",
+      "expect": "'low'"
+    },
+    {
+      "kind": "eval",
+      "label": "Too high",
+      "expr": "judge(9, 7)",
+      "expect": "'high'"
+    },
+    {
+      "kind": "eval",
+      "label": "Spot on",
+      "expr": "judge(7, 7)",
+      "expect": "'win'"
+    },
+    {
+      "kind": "eval",
+      "label": "Negative numbers",
+      "expr": "judge(-2, -5)",
+      "expect": "'high'",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "There are exactly three outcomes. Which comparisons separate them?",
+    "Use if, then another if (or elif), then a final return for the match.",
+    "def judge(guess, secret):\n    if guess < secret:\n        return \"low\"\n    if guess > secret:\n        return \"high\"\n    return \"win\"\n"
+  ],
+  "socratic": [
+    "What should happen when the guess equals the secret?",
+    "Can a number be both too low and too high?",
+    "Compare your output with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Guess the Number: The Judge”?",
+  "xp": 20,
+  "skills": [
+    "functions",
+    "conditions",
+    "games"
+  ],
+  "requires": [
+    "py-16-bugfix-5"
+  ],
+  "solution": "def judge(guess, secret):\n    if guess < secret:\n        return \"low\"\n    if guess > secret:\n        return \"high\"\n    return \"win\"\n",
+  "alt": "def judge(guess, secret):\n    if guess == secret:\n        return \"win\"\n    elif guess > secret:\n        return \"high\"\n    else:\n        return \"low\"\n",
+  "learn": "elif-chain"
+}
