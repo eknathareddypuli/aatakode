@@ -1,0 +1,53 @@
+{
+  "id": "go-12-map",
+  "region": "go-data",
+  "order": 3,
+  "title": "Count the Words",
+  "story": "Count how many times each fruit appears.",
+  "goal": "Print: 2 1",
+  "type": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tcount := ___[string]int{}\n\tfor _, w := range []string{\"mango\", \"guava\", \"mango\"} {\n\t\tcount[w]___\n\t}\n\tfmt.Println(count[\"mango\"], count[\"guava\"])\n}\n",
+  "tests": [
+    {
+      "kind": "go-static",
+      "label": "Every blank is right"
+    }
+  ],
+  "hints": [
+    "A map type is written map[key]value.",
+    "Add one to a map entry with the increment operator.",
+    "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tcount := map[string]int{}\n\tfor _, w := range []string{\"mango\", \"guava\", \"mango\"} {\n\t\tcount[w]++\n\t}\n\tfmt.Println(count[\"mango\"], count[\"guava\"])\n}\n"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what did the blanks teach you?",
+  "xp": 20,
+  "skills": [
+    "go-data",
+    "maps"
+  ],
+  "requires": [
+    "go-11-slice"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tcount := map[string]int{}\n\tfor _, w := range []string{\"mango\", \"guava\", \"mango\"} {\n\t\tcount[w]++\n\t}\n\tfmt.Println(count[\"mango\"], count[\"guava\"])\n}\n",
+  "lang": "go",
+  "mode": "fill",
+  "template": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tcount := ___[string]int{}\n\tfor _, w := range []string{\"mango\", \"guava\", \"mango\"} {\n\t\tcount[w]___\n\t}\n\tfmt.Println(count[\"mango\"], count[\"guava\"])\n}\n",
+  "blanks": [
+    {
+      "answers": [
+        "map"
+      ]
+    },
+    {
+      "answers": [
+        "++",
+        " ++"
+      ]
+    }
+  ],
+  "expect": "2 1"
+}

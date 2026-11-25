@@ -1,0 +1,83 @@
+{
+  "id": "sec-01-mindset",
+  "region": "sec-spot",
+  "order": 1,
+  "title": "Think Like an Attacker",
+  "story": "The guard dogs of Aata-gram only bark at strangers they have seen before. Real attackers are new. To defend, learn what they look for.",
+  "goal": "Learn the one rule behind most attacks, then try the quick checks.",
+  "type": "lesson",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "lesson",
+      "label": "Finish every try-it and quick check"
+    }
+  ],
+  "hints": [
+    "Read each block, then do the TRY IT and QUICK CHECK parts.",
+    "Every interactive block must be done to finish the lesson.",
+    "Take your time. Nothing here is timed."
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the most useful thing you learned here?",
+  "xp": 25,
+  "skills": [
+    "security"
+  ],
+  "requires": [
+    "py-07-bugfix-2"
+  ],
+  "solution": "lesson",
+  "blocks": [
+    {
+      "kind": "text",
+      "text": "Most security bugs come from one mistake: **trusting input**. Input can be a form field, a URL, a file name, an HTTP header or a command line argument.\n\nIf input reaches something powerful (a database, a shell, a file path, a web page) without being handled safely, an attacker can steer it."
+    },
+    {
+      "kind": "code",
+      "title": "Input steering a database",
+      "code": "name = input()\nquery = \"SELECT * FROM users WHERE name = '\" + name + \"'\"\nprint(query)\n",
+      "output": ""
+    },
+    {
+      "kind": "quiz",
+      "q": "If a user types ' OR '1'='1 as the name, what happens to that query?",
+      "options": [
+        "It matches every row, because the input became part of the SQL",
+        "Nothing, quotes are always escaped",
+        "Python raises an error",
+        "The database ignores it"
+      ],
+      "answer": 0,
+      "why": "The quote closes the string, and OR '1'='1 is always true. That is SQL injection."
+    },
+    {
+      "kind": "quiz",
+      "q": "What is the safe way to put user input into SQL?",
+      "options": [
+        "Parameters (placeholders) so the database treats it only as data",
+        "Remove the spaces",
+        "Make the string uppercase",
+        "Hide the table name"
+      ],
+      "answer": 0,
+      "why": "Placeholders keep data and commands apart."
+    },
+    {
+      "kind": "quiz",
+      "q": "Which of these is NOT user input?",
+      "options": [
+        "A constant string you wrote in your code",
+        "A URL query parameter",
+        "A file name from an upload",
+        "An HTTP header"
+      ],
+      "answer": 0,
+      "why": "Constants written by you are trusted. Everything that arrives from outside is not."
+    }
+  ]
+}

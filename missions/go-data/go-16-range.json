@@ -1,0 +1,46 @@
+{
+  "id": "go-16-range",
+  "region": "go-data",
+  "order": 7,
+  "title": "Ranging Over a Slice",
+  "story": "Be the compiler. Read the Go code and predict what it prints.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line and write down each variable.",
+    "Find the line where Go does something you might not expect.",
+    "The output is:\n80"
+  ],
+  "socratic": [
+    "What does the first statement do?",
+    "Which line is the trickiest?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "go-data",
+    "loops"
+  ],
+  "requires": [
+    "go-15-hunt"
+  ],
+  "solution": "80",
+  "lang": "go",
+  "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\ttotal := 0\n\tfor i, v := range []int{10, 20, 30} {\n\t\ttotal += i * v\n\t}\n\tfmt.Println(total)\n}\n",
+  "options": [
+    "60",
+    "80",
+    "90",
+    "30"
+  ],
+  "answer": 1,
+  "why": "range gives index and value: 0*10 + 1*20 + 2*30 = 80."
+}

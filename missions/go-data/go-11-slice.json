@@ -1,0 +1,46 @@
+{
+  "id": "go-11-slice",
+  "region": "go-data",
+  "order": 2,
+  "title": "Slices Share Memory",
+  "story": "Be the compiler. Read the Go code and predict what it prints.",
+  "goal": "Predict the exact output.",
+  "type": "predict",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "choice",
+      "label": "Choose the output"
+    }
+  ],
+  "hints": [
+    "Trace the code line by line and write down each variable.",
+    "Find the line where Go does something you might not expect.",
+    "The output is:\n[1 99 3 4] [99 3]"
+  ],
+  "socratic": [
+    "What does the first statement do?",
+    "Which line is the trickiest?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: why does it print that?",
+  "xp": 15,
+  "skills": [
+    "go-data",
+    "slices"
+  ],
+  "requires": [
+    "go-10-collections"
+  ],
+  "solution": "[1 99 3 4] [99 3]",
+  "lang": "go",
+  "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\ta := []int{1, 2, 3, 4}\n\tb := a[1:3]\n\tb[0] = 99\n\tfmt.Println(a, b)\n}\n",
+  "options": [
+    "[1 2 3 4] [99 3]",
+    "[1 99 3 4] [2 3]",
+    "[99 2 3 4] [99 3]",
+    "[1 99 3 4] [99 3]"
+  ],
+  "answer": 3,
+  "why": "A sub-slice points at the same array, so changing b[0] changes a[1]."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "sec-05-deserial",
+  "region": "sec-spot",
+  "order": 5,
+  "title": "Hunt: Code from Strangers",
+  "story": "A teammate shipped this code. Read it like an attacker and tap every risky line.",
+  "goal": "Tap every risky line.",
+  "type": "hunt",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "hunt",
+      "label": "Find every risky line, then pick the fix"
+    }
+  ],
+  "hints": [
+    "Look for places where outside input reaches something powerful.",
+    "There are 2 risky line(s).",
+    "Risky lines: 6, 9"
+  ],
+  "socratic": [
+    "Where does untrusted input enter?",
+    "Where does it end up?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what attack does this code allow?",
+  "xp": 25,
+  "skills": [
+    "security"
+  ],
+  "requires": [
+    "sec-04-secrets"
+  ],
+  "solution": "Lines 6, 9",
+  "code": "import pickle\nimport base64\n\ndef load_session(cookie):\n    raw = base64.b64decode(cookie)\n    return pickle.loads(raw)\n\ndef calc(expr):\n    return eval(expr)\n",
+  "bad": [
+    6,
+    9
+  ],
+  "why_lines": {
+    "6": "Unpickling runs code chosen by whoever built the data. A cookie from a user must never be unpickled.",
+    "9": "eval runs any Python expression, including __import__('os').system(...)."
+  },
+  "fix": {
+    "question": "What replaces these two?",
+    "options": [
+      "json.loads for data, and ast.literal_eval or a small parser for expressions",
+      "pickle.dumps",
+      "exec instead of eval",
+      "A try/except around them"
+    ],
+    "answer": 0,
+    "why": "Pick formats that only describe data, never code."
+  }
+}

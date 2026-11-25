@@ -1,0 +1,55 @@
+{
+  "id": "sec-07-hash",
+  "region": "sec-spot",
+  "order": 7,
+  "title": "Hunt: The Quick Hash",
+  "story": "A teammate shipped this code. Read it like an attacker and tap every risky line.",
+  "goal": "Tap every risky line.",
+  "type": "hunt",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "hunt",
+      "label": "Find every risky line, then pick the fix"
+    }
+  ],
+  "hints": [
+    "Look for places where outside input reaches something powerful.",
+    "There are 2 risky line(s).",
+    "Risky lines: 4, 7"
+  ],
+  "socratic": [
+    "Where does untrusted input enter?",
+    "Where does it end up?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what attack does this code allow?",
+  "xp": 25,
+  "skills": [
+    "security"
+  ],
+  "requires": [
+    "sec-06-path"
+  ],
+  "solution": "Lines 4, 7",
+  "code": "import hashlib\n\ndef store_password(pw):\n    return hashlib.md5(pw.encode()).hexdigest()\n\ndef check(pw, stored):\n    return hashlib.md5(pw.encode()).hexdigest() == stored\n",
+  "bad": [
+    4,
+    7
+  ],
+  "why_lines": {
+    "4": "MD5 is very fast and has no salt, so leaked hashes are cracked in bulk.",
+    "7": "Same weak hash again, and a plain == comparison is not constant time."
+  },
+  "fix": {
+    "question": "What should password storage use?",
+    "options": [
+      "SHA-1 instead of MD5",
+      "Base64",
+      "A slow salted hash such as scrypt, bcrypt or PBKDF2",
+      "Two rounds of MD5"
+    ],
+    "answer": 2,
+    "why": "Slow, salted hashes make mass guessing expensive."
+  }
+}

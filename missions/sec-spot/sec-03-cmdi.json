@@ -1,0 +1,55 @@
+{
+  "id": "sec-03-cmdi",
+  "region": "sec-spot",
+  "order": 3,
+  "title": "Hunt: The Shell Door",
+  "story": "A teammate shipped this code. Read it like an attacker and tap every risky line.",
+  "goal": "Tap every risky line.",
+  "type": "hunt",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "hunt",
+      "label": "Find every risky line, then pick the fix"
+    }
+  ],
+  "hints": [
+    "Look for places where outside input reaches something powerful.",
+    "There are 2 risky line(s).",
+    "Risky lines: 4, 5"
+  ],
+  "socratic": [
+    "Where does untrusted input enter?",
+    "Where does it end up?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what attack does this code allow?",
+  "xp": 25,
+  "skills": [
+    "security"
+  ],
+  "requires": [
+    "sec-02-sqli"
+  ],
+  "solution": "Lines 4, 5",
+  "code": "import os\n\ndef ping(host):\n    cmd = \"ping -c 1 \" + host\n    os.system(cmd)\n    return True\n",
+  "bad": [
+    4,
+    5
+  ],
+  "why_lines": {
+    "4": "The host text becomes part of a shell command. A value like 1.1.1.1; rm -rf ~ adds a second command.",
+    "5": "os.system hands the whole string to a shell, which obeys every ; and && in it."
+  },
+  "fix": {
+    "question": "Which is safer?",
+    "options": [
+      "os.popen(cmd)",
+      "subprocess.run([\"ping\", \"-c\", \"1\", host]) after checking host looks like a hostname",
+      "os.system(cmd.lower())",
+      "Add quotes around host"
+    ],
+    "answer": 1,
+    "why": "A list of arguments with no shell means ; has no special meaning, and validating the host adds a second layer."
+  }
+}

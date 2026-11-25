@@ -1,0 +1,90 @@
+{
+  "id": "go-10-collections",
+  "region": "go-data",
+  "order": 1,
+  "title": "Slices, Maps and Structs",
+  "story": "Chilaka needs to store many things. Go has three friends for that.",
+  "goal": "Learn slices, maps and structs, then check yourself.",
+  "type": "lesson",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "lesson",
+      "label": "Finish every try-it and quick check"
+    }
+  ],
+  "hints": [
+    "Read each block, then do the TRY IT and QUICK CHECK parts.",
+    "Every interactive block must be done to finish the lesson.",
+    "Take your time. Nothing here is timed."
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the most useful thing you learned here?",
+  "xp": 25,
+  "skills": [
+    "go-data"
+  ],
+  "requires": [
+    "go-07-const"
+  ],
+  "solution": "lesson",
+  "blocks": [
+    {
+      "kind": "text",
+      "text": "A **slice** is a growing list. A **map** looks things up by key. A **struct** groups named fields into one value."
+    },
+    {
+      "kind": "code",
+      "title": "All three",
+      "code": "package main\n\nimport \"fmt\"\n\ntype Bird struct {\n\tName string\n\tAge  int\n}\n\nfunc main() {\n\tnums := []int{1, 2, 3}\n\tnums = append(nums, 4)\n\tages := map[string]int{\"Chilaka\": 3}\n\tb := Bird{Name: \"Chilaka\", Age: ages[\"Chilaka\"]}\n\tfmt.Println(len(nums), b.Name, b.Age)\n}\n",
+      "output": "4 Chilaka 3"
+    },
+    {
+      "kind": "quiz",
+      "q": "What does `append` return?",
+      "options": [
+        "The new slice",
+        "Nothing, it edits in place",
+        "The length only",
+        "A map"
+      ],
+      "answer": 0,
+      "why": "append returns the new slice, so you assign it back: nums = append(nums, 4)."
+    },
+    {
+      "kind": "gofill",
+      "prompt": "Make a slice of two strings and add a third.",
+      "template": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfruits := []string{\"mango\", \"guava\"}\n\tfruits = ___(fruits, \"papaya\")\n\tfmt.Println(___(fruits))\n}\n",
+      "blanks": [
+        {
+          "answers": [
+            "append"
+          ]
+        },
+        {
+          "answers": [
+            "len"
+          ]
+        }
+      ],
+      "why": "append grows a slice, and len counts it."
+    },
+    {
+      "kind": "quiz",
+      "q": "What does a map return for a key that is not there?",
+      "options": [
+        "The zero value",
+        "An error",
+        "nil always",
+        "It crashes"
+      ],
+      "answer": 0,
+      "why": "Reading a missing key gives the zero value for the type."
+    }
+  ],
+  "lang": "go"
+}

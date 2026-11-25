@@ -1,0 +1,56 @@
+{
+  "id": "go-15-hunt",
+  "region": "go-data",
+  "order": 6,
+  "title": "Compiler Hunt: Types",
+  "story": "This Go file will not compile. Be the compiler and spot every line it rejects.",
+  "goal": "Tap every line the compiler would reject.",
+  "type": "hunt",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "hunt",
+      "label": "Find every bad line, then pick the fix"
+    }
+  ],
+  "hints": [
+    "Read for unused variables, missing imports and type mismatches.",
+    "The compiler reports 2 problem line(s).",
+    "Bad lines: 6, 7"
+  ],
+  "socratic": [
+    "Which line uses something that was never declared or imported?",
+    "Which line is declared but never used?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does the Go compiler enforce here?",
+  "xp": 25,
+  "skills": [
+    "go-data"
+  ],
+  "requires": [
+    "go-14-order"
+  ],
+  "solution": "Lines 6, 7",
+  "lang": "go",
+  "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tvar n int = \"five\"\n\tvar s string = 5\n\tfmt.Println(n, s)\n}\n",
+  "bad": [
+    6,
+    7
+  ],
+  "why_lines": {
+    "6": "A string value cannot be stored in an int variable.",
+    "7": "An int value cannot be stored in a string variable."
+  },
+  "fix": {
+    "question": "What is the fix?",
+    "options": [
+      "Add a cast with (int)",
+      "Use := everywhere",
+      "Remove fmt",
+      "Give each variable a value of its own type"
+    ],
+    "answer": 3,
+    "why": "Go does not convert types silently. Use values that match the declared type."
+  }
+}

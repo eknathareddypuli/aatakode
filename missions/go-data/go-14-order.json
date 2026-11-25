@@ -1,0 +1,67 @@
+{
+  "id": "go-14-order",
+  "region": "go-data",
+  "order": 5,
+  "title": "Fill the Map",
+  "story": "Build a map, add a key and print it.",
+  "goal": "Print: 3",
+  "type": "go",
+  "starter": "package main\n\tfmt.Println(m[\"a\"])\n\tm[\"a\"] = 3\nfunc main() {\n\tm := map[string]int{}\nimport \"fmt\"\n}\n",
+  "tests": [
+    {
+      "kind": "go-static",
+      "label": "Lines in a working order"
+    }
+  ],
+  "hints": [
+    "Make the map before you add to it.",
+    "Print last.",
+    "package main\nimport \"fmt\"\nfunc main() {\n\tm := map[string]int{}\n\tm[\"a\"] = 3\n\tfmt.Println(m[\"a\"])\n}"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what decides the order of these lines?",
+  "xp": 20,
+  "skills": [
+    "go-data"
+  ],
+  "requires": [
+    "go-13-struct"
+  ],
+  "solution": "package main\nimport \"fmt\"\nfunc main() {\n\tm := map[string]int{}\n\tm[\"a\"] = 3\n\tfmt.Println(m[\"a\"])\n}",
+  "lang": "go",
+  "mode": "order",
+  "lines": [
+    "package main",
+    "\tfmt.Println(m[\"a\"])",
+    "\tm[\"a\"] = 3",
+    "func main() {",
+    "\tm := map[string]int{}",
+    "import \"fmt\"",
+    "}"
+  ],
+  "lines_ok": [
+    "package main",
+    "import \"fmt\"",
+    "func main() {",
+    "\tm := map[string]int{}",
+    "\tm[\"a\"] = 3",
+    "\tfmt.Println(m[\"a\"])",
+    "}"
+  ],
+  "orders": [
+    [
+      "package main",
+      "import \"fmt\"",
+      "func main() {",
+      "\tm := map[string]int{}",
+      "\tm[\"a\"] = 3",
+      "\tfmt.Println(m[\"a\"])",
+      "}"
+    ]
+  ],
+  "expect": "3"
+}

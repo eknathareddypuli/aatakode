@@ -1,0 +1,55 @@
+{
+  "id": "sec-02-sqli",
+  "region": "sec-spot",
+  "order": 2,
+  "title": "Hunt: The Open Query",
+  "story": "A teammate shipped this code. Read it like an attacker and tap every risky line.",
+  "goal": "Tap every risky line.",
+  "type": "hunt",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "hunt",
+      "label": "Find every risky line, then pick the fix"
+    }
+  ],
+  "hints": [
+    "Look for places where outside input reaches something powerful.",
+    "There are 2 risky line(s).",
+    "Risky lines: 5, 6"
+  ],
+  "socratic": [
+    "Where does untrusted input enter?",
+    "Where does it end up?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what attack does this code allow?",
+  "xp": 25,
+  "skills": [
+    "security"
+  ],
+  "requires": [
+    "sec-01-mindset"
+  ],
+  "solution": "Lines 5, 6",
+  "code": "import sqlite3\n\ndef find_user(db, name):\n    cur = db.cursor()\n    query = \"SELECT * FROM users WHERE name = '\" + name + \"'\"\n    cur.execute(query)\n    return cur.fetchall()\n",
+  "bad": [
+    5,
+    6
+  ],
+  "why_lines": {
+    "5": "User text is glued into the SQL string, so quotes in the input change the query.",
+    "6": "The glued string is executed as it is. The database cannot tell data from commands."
+  },
+  "fix": {
+    "question": "What is the right fix?",
+    "options": [
+      "Strip spaces from name",
+      "Wrap name in str()",
+      "Run the query twice",
+      "cur.execute(\"SELECT * FROM users WHERE name = ?\", (name,))"
+    ],
+    "answer": 3,
+    "why": "A placeholder makes the database treat the value only as data."
+  }
+}
