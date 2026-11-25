@@ -1,0 +1,80 @@
+{
+  "id": "pipe-03-sort-uniq",
+  "region": "pipe-plumber",
+  "order": 3,
+  "title": "Unique Fruits",
+  "story": "How many different fruits are there on the list?",
+  "goal": "List each fruit once, in alphabetical order.",
+  "type": "pipe",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "pipe-out",
+      "label": "Matches the target",
+      "expect": "guava\nmango\npapaya"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "b\na\nb\nc\na",
+      "expect": "a\nb\nc"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "z\nz\nz",
+      "expect": "z"
+    }
+  ],
+  "hints": [
+    "Think about what each part does to the lines.",
+    "Try the parts one at a time and watch the output change.",
+    "sort | uniq"
+  ],
+  "socratic": [
+    "What should the first part do?",
+    "What does the data look like after each part?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does each part of your pipeline do?",
+  "xp": 25,
+  "skills": [
+    "shell",
+    "pipes"
+  ],
+  "requires": [
+    "pipe-02-grep"
+  ],
+  "solution": "sort | uniq",
+  "input": "mango\nguava\nmango\npapaya\nguava\nmango\n",
+  "target": "guava\nmango\npapaya",
+  "blocks": [
+    {
+      "cmd": "uniq",
+      "args": []
+    },
+    {
+      "cmd": "head",
+      "args": [
+        "-n",
+        "2"
+      ]
+    },
+    {
+      "cmd": "wc",
+      "args": [
+        "-l"
+      ]
+    },
+    {
+      "cmd": "sort",
+      "args": []
+    }
+  ],
+  "answer_steps": [
+    3,
+    0
+  ]
+}

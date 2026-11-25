@@ -1,0 +1,67 @@
+{
+  "id": "maze-07-wall",
+  "region": "maze-basics",
+  "order": 7,
+  "title": "Follow the Wall",
+  "story": "The path snakes about. Use the sensors to choose: forward if clear, otherwise turn.",
+  "goal": "Reach the flag on every map.",
+  "type": "grid",
+  "starter": "while not at_goal():\n    # your decisions here\n    move()\n",
+  "tests": [
+    {
+      "kind": "grid-reach",
+      "label": "Reaches the flag"
+    },
+    {
+      "kind": "grid-reach",
+      "label": "Another snake hidden",
+      "map": 0,
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Ask front_clear() before every move.",
+    "When the front is blocked, look right, then left.",
+    "while not at_goal():\n    if front_clear():\n        move()\n    elif right_clear():\n        turn_right()\n    else:\n        turn_left()\n"
+  ],
+  "socratic": [
+    "What should the parrot do at each step?",
+    "What does the parrot need to look at before it moves?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does your code decide what to do next?",
+  "xp": 25,
+  "skills": [
+    "loops",
+    "robot",
+    "if"
+  ],
+  "requires": [
+    "maze-06-coins"
+  ],
+  "solution": "while not at_goal():\n    if front_clear():\n        move()\n    elif right_clear():\n        turn_right()\n    else:\n        turn_left()\n",
+  "grid": {
+    "rows": [
+      "#######",
+      "S.....#",
+      "#####.#",
+      "#G....#",
+      "#######"
+    ],
+    "facing": "E",
+    "max": 200
+  },
+  "maps": [
+    {
+      "rows": [
+        "#####",
+        "#..G#",
+        "#.###",
+        "S.###"
+      ],
+      "facing": "E",
+      "max": 200
+    }
+  ],
+  "alt": "while not at_goal():\n    if front_clear():\n        move()\n    elif left_clear():\n        turn_left()\n    else:\n        turn_right()\n"
+}

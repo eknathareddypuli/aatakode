@@ -1,0 +1,82 @@
+{
+  "id": "maze-01-meet",
+  "region": "maze-basics",
+  "order": 1,
+  "title": "Meet the Robot Parrot",
+  "story": "Chilaka's cousin Gilaka can follow instructions, but only if they are exact. Your code is the map in its head.",
+  "goal": "Learn the parrot's commands, then try the quick checks.",
+  "type": "lesson",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "lesson",
+      "label": "Finish every try-it and quick check"
+    }
+  ],
+  "hints": [
+    "Read each block, then do the TRY IT and QUICK CHECK parts.",
+    "Every interactive block must be done to finish the lesson.",
+    "Take your time. Nothing here is timed."
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the most useful thing you learned here?",
+  "xp": 25,
+  "skills": [
+    "robot"
+  ],
+  "requires": [
+    "py-10-bugfix-3"
+  ],
+  "solution": "lesson",
+  "blocks": [
+    {
+      "kind": "text",
+      "text": "The parrot understands a few commands:\n\n`move()` goes one step forward. `turn_left()` and `turn_right()` rotate on the spot. `pick_coin()` collects a coin on the current square.\n\nIt can also look around: `front_clear()` is True if the square ahead is free, and `at_goal()` is True on the flag."
+    },
+    {
+      "kind": "code",
+      "title": "A first plan",
+      "code": "move()\nmove()\nturn_right()\nmove()\n"
+    },
+    {
+      "kind": "quiz",
+      "q": "The parrot faces east with a wall straight ahead. What does move() do?",
+      "options": [
+        "It bumps and the program stops with an error",
+        "It walks through the wall",
+        "It turns around",
+        "Nothing happens"
+      ],
+      "answer": 0,
+      "why": "Walking into a wall is an error. Check front_clear() first."
+    },
+    {
+      "kind": "quiz",
+      "q": "Which command asks a question instead of doing something?",
+      "options": [
+        "front_clear()",
+        "move()",
+        "turn_left()",
+        "pick_coin()"
+      ],
+      "answer": 0,
+      "why": "front_clear(), left_clear(), right_clear(), at_goal() and coin_here() all answer True or False."
+    },
+    {
+      "kind": "quiz",
+      "q": "Facing east, you call turn_right(). Which way does the parrot face now?",
+      "options": [
+        "South",
+        "North",
+        "West",
+        "East"
+      ],
+      "answer": 0,
+      "why": "A right turn is clockwise: east becomes south."
+    }
+  ]
+}

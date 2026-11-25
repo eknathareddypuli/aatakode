@@ -1,0 +1,123 @@
+{
+  "id": "pipe-07-boss",
+  "region": "pipe-plumber",
+  "order": 7,
+  "title": "Boss: Who Is Guessing Passwords?",
+  "story": "Someone is hammering the server. Find the address with the most failed logins.",
+  "goal": "Print the address and count of the worst offender, using at most 6 parts.",
+  "type": "pipe",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "pipe-out",
+      "label": "Matches the target",
+      "expect": "      4 10.0.0.5"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "Failed 1.1.1.1 a\nFailed 2.2.2.2 b\nFailed 2.2.2.2 c\nOK 1.1.1.1 d",
+      "expect": "      2 2.2.2.2"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "Failed 5.5.5.5 x",
+      "expect": "      1 5.5.5.5"
+    },
+    {
+      "kind": "pipe-max",
+      "n": 6,
+      "label": "At most 6 parts"
+    }
+  ],
+  "hints": [
+    "Think about what each part does to the lines.",
+    "Try the parts one at a time and watch the output change.",
+    "grep Failed | awk '{print $2}' | sort | uniq -c | sort -nr | head -n 1"
+  ],
+  "socratic": [
+    "What should the first part do?",
+    "What does the data look like after each part?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does each part of your pipeline do?",
+  "xp": 40,
+  "skills": [
+    "shell",
+    "pipes"
+  ],
+  "requires": [
+    "pipe-06-column"
+  ],
+  "solution": "grep Failed | awk '{print $2}' | sort | uniq -c | sort -nr | head -n 1",
+  "input": "Failed 10.0.0.5 root\nOK 10.0.0.2 asha\nFailed 10.0.0.5 admin\nFailed 10.0.0.9 root\nFailed 10.0.0.5 test\nOK 10.0.0.9 ravi\nFailed 10.0.0.9 ubuntu\nFailed 10.0.0.5 pi\n",
+  "target": "      4 10.0.0.5",
+  "blocks": [
+    {
+      "cmd": "col",
+      "args": [
+        "2"
+      ]
+    },
+    {
+      "cmd": "tail",
+      "args": [
+        "-n",
+        "1"
+      ]
+    },
+    {
+      "cmd": "uniq",
+      "args": [
+        "-c"
+      ]
+    },
+    {
+      "cmd": "head",
+      "args": [
+        "-n",
+        "1"
+      ]
+    },
+    {
+      "cmd": "sort",
+      "args": [
+        "-nr"
+      ]
+    },
+    {
+      "cmd": "sort",
+      "args": []
+    },
+    {
+      "cmd": "grep",
+      "args": [
+        "-v",
+        "Failed"
+      ]
+    },
+    {
+      "cmd": "wc",
+      "args": [
+        "-l"
+      ]
+    },
+    {
+      "cmd": "grep",
+      "args": [
+        "Failed"
+      ]
+    }
+  ],
+  "answer_steps": [
+    8,
+    0,
+    5,
+    2,
+    4,
+    3
+  ]
+}

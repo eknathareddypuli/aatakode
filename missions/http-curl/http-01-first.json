@@ -1,0 +1,51 @@
+{
+  "id": "http-01-first",
+  "region": "http-curl",
+  "order": 1,
+  "title": "Knock on the API",
+  "story": "Chilaka's bazaar has a tiny API. Before anything else, check that it is alive.",
+  "goal": "Send a GET request to http://api.bazaar.local/health.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/health": "ok"
+    }
+  },
+  "tests": [
+    {
+      "kind": "req-made",
+      "method": "GET",
+      "url": "/health",
+      "status": 200,
+      "label": "Sent GET /health and got 200"
+    }
+  ],
+  "hints": [
+    "curl followed by the address sends a GET request.",
+    "Try: curl http://api.bazaar.local/health",
+    "Run:\ncurl http://api.bazaar.local/health"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "http",
+    "curl"
+  ],
+  "requires": [
+    "linux-04-runaway"
+  ],
+  "solution": {
+    "commands": [
+      "curl http://api.bazaar.local/health"
+    ]
+  },
+  "tool": "linux"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "http-02-status",
+  "region": "http-curl",
+  "order": 2,
+  "title": "Read the Status Code",
+  "story": "Every response starts with a number. 2xx means fine, 4xx means you did something wrong, 5xx means the server did.",
+  "goal": "Request /missing and report its status code.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/missing": {
+        "status": 404,
+        "body": "not found"
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "curl"
+      ],
+      "label": "Used curl"
+    },
+    {
+      "kind": "answer",
+      "expect": "404",
+      "label": "Reported the status code"
+    }
+  ],
+  "hints": [
+    "curl can print only the status with -s -o /dev/null -w \"%{http_code}\", or show headers with -I.",
+    "Try: curl -I http://api.bazaar.local/missing",
+    "Run:\ncurl -I http://api.bazaar.local/missing\nThen answer: 404"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "http",
+    "status-codes"
+  ],
+  "requires": [
+    "http-01-first"
+  ],
+  "solution": {
+    "commands": [
+      "curl -I http://api.bazaar.local/missing"
+    ],
+    "answer": "404"
+  },
+  "tool": "linux"
+}

@@ -1,0 +1,71 @@
+{
+  "id": "pipe-01-lesson",
+  "region": "pipe-plumber",
+  "order": 1,
+  "title": "Pipes Carry Text",
+  "story": "In the Control Room, every tool does one small thing, and pipes connect them. Chilaka's job: plumb them together.",
+  "goal": "Learn the idea of a pipe, then check yourself.",
+  "type": "lesson",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "lesson",
+      "label": "Finish every try-it and quick check"
+    }
+  ],
+  "hints": [
+    "Read each block, then do the TRY IT and QUICK CHECK parts.",
+    "Every interactive block must be done to finish the lesson.",
+    "Take your time. Nothing here is timed."
+  ],
+  "socratic": [
+    "",
+    "",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what is the most useful thing you learned here?",
+  "xp": 25,
+  "skills": [
+    "shell"
+  ],
+  "requires": [
+    "linux-04-runaway"
+  ],
+  "solution": "lesson",
+  "blocks": [
+    {
+      "kind": "text",
+      "text": "A pipe `|` feeds the output of one command into the next. `grep ERROR` keeps lines with ERROR. `sort` orders lines. `uniq -c` counts neighbours that repeat. `head -n 3` keeps the first three.\n\nBecause `uniq` only compares neighbours, you almost always `sort` first."
+    },
+    {
+      "kind": "code",
+      "title": "How often does each fruit appear?",
+      "code": "cat fruits | sort | uniq -c | sort -nr",
+      "output": "      3 mango\n      1 guava"
+    },
+    {
+      "kind": "quiz",
+      "q": "Why sort before uniq?",
+      "options": [
+        "uniq only merges lines that sit next to each other",
+        "sort makes it faster",
+        "uniq needs a number",
+        "It does not matter"
+      ],
+      "answer": 0,
+      "why": "Equal lines must be neighbours for uniq to notice them."
+    },
+    {
+      "kind": "quiz",
+      "q": "Which part keeps only lines that contain a word?",
+      "options": [
+        "grep",
+        "sort",
+        "head",
+        "wc"
+      ],
+      "answer": 0,
+      "why": "grep is the filter."
+    }
+  ]
+}

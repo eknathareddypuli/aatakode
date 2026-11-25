@@ -1,0 +1,77 @@
+{
+  "id": "http-08-crud",
+  "region": "http-curl",
+  "order": 8,
+  "title": "Update, then Delete",
+  "story": "Last job in the bazaar: change a price, then remove a sold-out item.",
+  "goal": "PUT a new price to /items/7, then DELETE /items/7.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/items/7": {
+        "routes": [
+          {
+            "method": "PUT",
+            "bodyHas": "price",
+            "status": 200,
+            "body": "{\"id\":7,\"price\":30}"
+          },
+          {
+            "method": "DELETE",
+            "status": 204,
+            "body": ""
+          }
+        ],
+        "default": {
+          "status": 405,
+          "body": "method not allowed"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "req-made",
+      "method": "PUT",
+      "url": "/items/7",
+      "status": 200,
+      "label": "PUT updated the item"
+    },
+    {
+      "kind": "req-made",
+      "method": "DELETE",
+      "url": "/items/7",
+      "status": 204,
+      "label": "DELETE removed it"
+    }
+  ],
+  "hints": [
+    "Use -X PUT with -d for the update, then -X DELETE.",
+    "Try: curl -X PUT -d '{\"price\":30}' http://api.bazaar.local/items/7",
+    "Run:\ncurl -X PUT -H 'Content-Type: application/json' -d '{\"price\":30}' http://api.bazaar.local/items/7\ncurl -X DELETE http://api.bazaar.local/items/7"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 35,
+  "skills": [
+    "http",
+    "crud"
+  ],
+  "requires": [
+    "http-07-query"
+  ],
+  "solution": {
+    "commands": [
+      "curl -X PUT -H 'Content-Type: application/json' -d '{\"price\":30}' http://api.bazaar.local/items/7",
+      "curl -X DELETE http://api.bazaar.local/items/7"
+    ]
+  },
+  "tool": "linux"
+}

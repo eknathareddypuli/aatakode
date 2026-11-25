@@ -1,0 +1,81 @@
+{
+  "id": "pipe-04-count",
+  "region": "pipe-plumber",
+  "order": 4,
+  "title": "Count the Lines",
+  "story": "How many errors were there?",
+  "goal": "Print just the number of ERROR lines.",
+  "type": "pipe",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "pipe-out",
+      "label": "Matches the target",
+      "expect": "3"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "ERROR\nok\nERROR",
+      "expect": "2"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "ok\nok",
+      "expect": "0"
+    }
+  ],
+  "hints": [
+    "Think about what each part does to the lines.",
+    "Try the parts one at a time and watch the output change.",
+    "grep ERROR | wc -l"
+  ],
+  "socratic": [
+    "What should the first part do?",
+    "What does the data look like after each part?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does each part of your pipeline do?",
+  "xp": 25,
+  "skills": [
+    "shell",
+    "pipes"
+  ],
+  "requires": [
+    "pipe-03-sort-uniq"
+  ],
+  "solution": "grep ERROR | wc -l",
+  "input": "info start\nERROR disk full\ninfo ok\nERROR timeout\nwarn slow\nERROR disk full\n",
+  "target": "3",
+  "blocks": [
+    {
+      "cmd": "sort",
+      "args": []
+    },
+    {
+      "cmd": "wc",
+      "args": [
+        "-l"
+      ]
+    },
+    {
+      "cmd": "uniq",
+      "args": [
+        "-c"
+      ]
+    },
+    {
+      "cmd": "grep",
+      "args": [
+        "ERROR"
+      ]
+    }
+  ],
+  "answer_steps": [
+    3,
+    1
+  ]
+}

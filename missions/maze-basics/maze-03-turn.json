@@ -1,0 +1,47 @@
+{
+  "id": "maze-03-turn",
+  "region": "maze-basics",
+  "order": 3,
+  "title": "Around the Corner",
+  "story": "The path bends. Turn before the wall.",
+  "goal": "Get the parrot to the flag.",
+  "type": "grid",
+  "starter": "move()\n# turn, then keep going\n",
+  "tests": [
+    {
+      "kind": "grid-reach",
+      "label": "Reaches the flag"
+    }
+  ],
+  "hints": [
+    "Walk three steps east, then turn.",
+    "From facing east, turn_right() faces south.",
+    "move()\nmove()\nmove()\nturn_right()\nmove()\nmove()\n"
+  ],
+  "socratic": [
+    "What should the parrot do at each step?",
+    "What does the parrot need to look at before it moves?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does your code decide what to do next?",
+  "xp": 25,
+  "skills": [
+    "robot"
+  ],
+  "requires": [
+    "maze-02-walk"
+  ],
+  "solution": "move()\nmove()\nmove()\nturn_right()\nmove()\nmove()\n",
+  "grid": {
+    "rows": [
+      "#####",
+      "S...#",
+      "###.#",
+      "###G#"
+    ],
+    "facing": "E",
+    "max": 200
+  },
+  "maps": [],
+  "alt": "for _ in range(3):\n    move()\nturn_right()\nfor _ in range(2):\n    move()\n"
+}

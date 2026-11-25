@@ -1,0 +1,73 @@
+{
+  "id": "http-04-post",
+  "region": "http-curl",
+  "order": 4,
+  "title": "Create Something",
+  "story": "POST sends data to create things. APIs expect to be told the data is JSON.",
+  "goal": "POST {\"item\":\"mango\"} to /orders with a JSON content type and get a 201.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/orders": {
+        "routes": [
+          {
+            "method": "POST",
+            "header": {
+              "Content-Type": "json"
+            },
+            "bodyHas": "mango",
+            "status": 201,
+            "body": "{\"id\":41,\"item\":\"mango\"}"
+          }
+        ],
+        "default": {
+          "status": 400,
+          "body": "bad request"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "req-made",
+      "method": "POST",
+      "url": "/orders",
+      "status": 201,
+      "bodyHas": "mango",
+      "label": "POST /orders returned 201"
+    }
+  ],
+  "hints": [
+    "Use -X POST, -H for the content type and -d for the body. The --json flag sets both header and body.",
+    "Try: curl --json '{\"item\":\"mango\"}' http://api.bazaar.local/orders",
+    "Run:\ncurl -X POST -H 'Content-Type: application/json' -d '{\"item\":\"mango\"}' http://api.bazaar.local/orders"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "http",
+    "post"
+  ],
+  "requires": [
+    "http-03-json"
+  ],
+  "solution": {
+    "commands": [
+      "curl -X POST -H 'Content-Type: application/json' -d '{\"item\":\"mango\"}' http://api.bazaar.local/orders"
+    ]
+  },
+  "tool": "linux",
+  "alt": {
+    "commands": [
+      "curl --json '{\"item\":\"mango\"}' http://api.bazaar.local/orders"
+    ]
+  }
+}

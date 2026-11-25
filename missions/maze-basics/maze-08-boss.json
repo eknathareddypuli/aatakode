@@ -1,0 +1,79 @@
+{
+  "id": "maze-08-boss",
+  "region": "maze-basics",
+  "order": 8,
+  "title": "Boss: The Coin Snake",
+  "story": "A snake of corridors with coins on every bend. Collect all the coins in as few actions as you can.",
+  "goal": "Reach the flag with every coin, in at most 40 actions.",
+  "type": "grid",
+  "starter": "while not at_goal():\n    move()\n",
+  "tests": [
+    {
+      "kind": "grid-coins",
+      "label": "All coins and the flag"
+    },
+    {
+      "kind": "grid-max",
+      "n": 40,
+      "label": "At most 40 actions"
+    },
+    {
+      "kind": "grid-coins",
+      "label": "Hidden snake",
+      "map": 0,
+      "hidden": true
+    },
+    {
+      "kind": "grid-reach",
+      "label": "Hidden snake reaches the flag",
+      "map": 0,
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Combine the two ideas: pick coins, and follow the path.",
+    "Check the coin first, then choose where to go.",
+    "while not at_goal():\n    if coin_here():\n        pick_coin()\n    if front_clear():\n        move()\n    elif right_clear():\n        turn_right()\n    else:\n        turn_left()\n"
+  ],
+  "socratic": [
+    "What should the parrot do at each step?",
+    "What does the parrot need to look at before it moves?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does your code decide what to do next?",
+  "xp": 40,
+  "skills": [
+    "loops",
+    "robot",
+    "if"
+  ],
+  "requires": [
+    "maze-07-wall"
+  ],
+  "solution": "while not at_goal():\n    if coin_here():\n        pick_coin()\n    if front_clear():\n        move()\n    elif right_clear():\n        turn_right()\n    else:\n        turn_left()\n",
+  "grid": {
+    "rows": [
+      "#######",
+      "S.o...#",
+      "#####o#",
+      "#G.o..#",
+      "#######"
+    ],
+    "facing": "E",
+    "max": 200
+  },
+  "maps": [
+    {
+      "rows": [
+        "#######",
+        "S.o.o.#",
+        "#####.#",
+        "#G.o..#",
+        "#######"
+      ],
+      "facing": "E",
+      "max": 200
+    }
+  ],
+  "alt": "while not at_goal():\n    if coin_here():\n        pick_coin()\n    if front_clear():\n        move()\n    elif left_clear():\n        turn_left()\n    else:\n        turn_right()\n"
+}

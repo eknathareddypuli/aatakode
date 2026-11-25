@@ -1,0 +1,69 @@
+{
+  "id": "http-07-query",
+  "region": "http-curl",
+  "order": 7,
+  "title": "Ask with a Query",
+  "story": "Query strings narrow a request. After the ? come key=value pairs.",
+  "goal": "Search for mango and report how many results come back.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/search": {
+        "routes": [
+          {
+            "query": "q=mango",
+            "status": 200,
+            "body": "{\"results\":[\"mango\",\"raw mango\"],\"count\":2}"
+          }
+        ],
+        "default": {
+          "status": 200,
+          "body": "{\"results\":[],\"count\":0}"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "req-made",
+      "method": "GET",
+      "url": "q=mango",
+      "status": 200,
+      "label": "Searched for mango"
+    },
+    {
+      "kind": "answer",
+      "expect": "2",
+      "label": "Reported the count"
+    }
+  ],
+  "hints": [
+    "Put the query after a ? in the URL, and quote the URL.",
+    "Try: curl -s 'http://api.bazaar.local/search?q=mango' | jq .count",
+    "Run:\ncurl -s 'http://api.bazaar.local/search?q=mango' | jq .count\nThen answer: 2"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "http",
+    "query"
+  ],
+  "requires": [
+    "http-06-redirect"
+  ],
+  "solution": {
+    "commands": [
+      "curl -s 'http://api.bazaar.local/search?q=mango' | jq .count"
+    ],
+    "answer": "2"
+  },
+  "tool": "linux"
+}

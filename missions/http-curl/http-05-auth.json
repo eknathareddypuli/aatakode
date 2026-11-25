@@ -1,0 +1,63 @@
+{
+  "id": "http-05-auth",
+  "region": "http-curl",
+  "order": 5,
+  "title": "Show Your Token",
+  "story": "The vault only answers to a bearer token. Without one you get 401.",
+  "goal": "Call /vault with the token abc123 and get a 200.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/vault": {
+        "routes": [
+          {
+            "auth": "Bearer abc123",
+            "status": 200,
+            "body": "{\"gold\":99}"
+          }
+        ],
+        "default": {
+          "status": 401,
+          "body": "unauthorized"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "kind": "req-made",
+      "method": "GET",
+      "url": "/vault",
+      "status": 200,
+      "label": "GET /vault returned 200"
+    }
+  ],
+  "hints": [
+    "Send an Authorization header: -H 'Authorization: Bearer <token>'.",
+    "Try: curl -H 'Authorization: Bearer abc123' http://api.bazaar.local/vault",
+    "Run:\ncurl -H 'Authorization: Bearer abc123' http://api.bazaar.local/vault"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "http",
+    "auth"
+  ],
+  "requires": [
+    "http-04-post"
+  ],
+  "solution": {
+    "commands": [
+      "curl -H 'Authorization: Bearer abc123' http://api.bazaar.local/vault"
+    ]
+  },
+  "tool": "linux"
+}

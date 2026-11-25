@@ -1,0 +1,56 @@
+{
+  "id": "http-06-redirect",
+  "region": "http-curl",
+  "order": 6,
+  "title": "Follow the Signpost",
+  "story": "The old address moved. A 301 response says where to go next.",
+  "goal": "Fetch /old and end up with the real content.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/old": {
+        "status": 301,
+        "redirect": "http://api.bazaar.local/new",
+        "body": ""
+      },
+      "api.bazaar.local/new": "the new home"
+    }
+  },
+  "tests": [
+    {
+      "kind": "req-made",
+      "method": "GET",
+      "url": "/new",
+      "status": 200,
+      "label": "Reached /new through the redirect"
+    }
+  ],
+  "hints": [
+    "curl does not follow redirects unless you ask. The flag is -L.",
+    "Try: curl -L http://api.bazaar.local/old",
+    "Run:\ncurl -L http://api.bazaar.local/old"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "http",
+    "redirects"
+  ],
+  "requires": [
+    "http-05-auth"
+  ],
+  "solution": {
+    "commands": [
+      "curl -L http://api.bazaar.local/old"
+    ]
+  },
+  "tool": "linux"
+}

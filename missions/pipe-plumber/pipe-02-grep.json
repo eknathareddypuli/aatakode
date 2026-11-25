@@ -1,0 +1,75 @@
+{
+  "id": "pipe-02-grep",
+  "region": "pipe-plumber",
+  "order": 2,
+  "title": "Keep the Errors",
+  "story": "A log is full of noise. Keep only the lines that matter.",
+  "goal": "Show only the ERROR lines.",
+  "type": "pipe",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "pipe-out",
+      "label": "Matches the target",
+      "expect": "ERROR disk full\nERROR timeout\nERROR disk full"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "ok 1\nERROR a\nok 2",
+      "expect": "ERROR a"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "no problems here",
+      "expect": ""
+    }
+  ],
+  "hints": [
+    "grep keeps matching lines.",
+    "Pick the grep part.",
+    "grep ERROR"
+  ],
+  "socratic": [
+    "What should the first part do?",
+    "What does the data look like after each part?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does each part of your pipeline do?",
+  "xp": 25,
+  "skills": [
+    "shell",
+    "pipes"
+  ],
+  "requires": [
+    "pipe-01-lesson"
+  ],
+  "solution": "grep ERROR",
+  "input": "info start\nERROR disk full\ninfo ok\nERROR timeout\nwarn slow\nERROR disk full\n",
+  "target": "ERROR disk full\nERROR timeout\nERROR disk full",
+  "blocks": [
+    {
+      "cmd": "grep",
+      "args": [
+        "ERROR"
+      ]
+    },
+    {
+      "cmd": "sort",
+      "args": []
+    },
+    {
+      "cmd": "head",
+      "args": [
+        "-n",
+        "1"
+      ]
+    }
+  ],
+  "answer_steps": [
+    0
+  ]
+}

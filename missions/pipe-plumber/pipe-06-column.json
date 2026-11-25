@@ -1,0 +1,83 @@
+{
+  "id": "pipe-06-column",
+  "region": "pipe-plumber",
+  "order": 6,
+  "title": "Who Visits?",
+  "story": "Each line starts with the visitor's address. Which visitors came, once each?",
+  "goal": "List every distinct address, sorted.",
+  "type": "pipe",
+  "starter": "",
+  "tests": [
+    {
+      "kind": "pipe-out",
+      "label": "Matches the target",
+      "expect": "10.0.0.5\n10.0.0.7\n10.0.0.9"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "1.1.1.1 a\n2.2.2.2 b\n1.1.1.1 c",
+      "expect": "1.1.1.1\n2.2.2.2"
+    },
+    {
+      "kind": "pipe-out",
+      "label": "Hidden data check",
+      "hidden": true,
+      "input": "9.9.9.9 z",
+      "expect": "9.9.9.9"
+    }
+  ],
+  "hints": [
+    "Think about what each part does to the lines.",
+    "Try the parts one at a time and watch the output change.",
+    "awk '{print $1}' | sort -u"
+  ],
+  "socratic": [
+    "What should the first part do?",
+    "What does the data look like after each part?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: what does each part of your pipeline do?",
+  "xp": 25,
+  "skills": [
+    "shell",
+    "pipes"
+  ],
+  "requires": [
+    "pipe-05-top"
+  ],
+  "solution": "awk '{print $1}' | sort -u",
+  "input": "10.0.0.5 GET /home\n10.0.0.9 GET /cart\n10.0.0.5 POST /login\n10.0.0.7 GET /home\n10.0.0.5 GET /cart\n10.0.0.9 GET /home\n",
+  "target": "10.0.0.5\n10.0.0.7\n10.0.0.9",
+  "blocks": [
+    {
+      "cmd": "grep",
+      "args": [
+        "GET"
+      ]
+    },
+    {
+      "cmd": "wc",
+      "args": [
+        "-l"
+      ]
+    },
+    {
+      "cmd": "col",
+      "args": [
+        "1"
+      ]
+    },
+    {
+      "cmd": "sort",
+      "args": [
+        "-u"
+      ]
+    }
+  ],
+  "answer_steps": [
+    2,
+    3
+  ]
+}

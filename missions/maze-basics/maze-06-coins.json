@@ -1,0 +1,79 @@
+{
+  "id": "maze-06-coins",
+  "region": "maze-basics",
+  "order": 6,
+  "title": "Collect the Coins",
+  "story": "Coins lie along the road. Pick up every one on the way.",
+  "goal": "Reach the flag with every coin.",
+  "type": "grid",
+  "starter": "while not at_goal():\n    move()\n",
+  "tests": [
+    {
+      "kind": "grid-coins",
+      "label": "All coins and the flag"
+    },
+    {
+      "kind": "grid-coins",
+      "label": "Other coins hidden",
+      "map": 0,
+      "hidden": true
+    },
+    {
+      "kind": "grid-coins",
+      "label": "More coins hidden",
+      "map": 1,
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "coin_here() tells you whether a coin is under you.",
+    "Check for a coin before each move.",
+    "while not at_goal():\n    if coin_here():\n        pick_coin()\n    move()\n"
+  ],
+  "socratic": [
+    "What should the parrot do at each step?",
+    "What does the parrot need to look at before it moves?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does your code decide what to do next?",
+  "xp": 25,
+  "skills": [
+    "loops",
+    "robot",
+    "if"
+  ],
+  "requires": [
+    "maze-05-while"
+  ],
+  "solution": "while not at_goal():\n    if coin_here():\n        pick_coin()\n    move()\n",
+  "grid": {
+    "rows": [
+      "#######",
+      "S.o.o.G",
+      "#######"
+    ],
+    "facing": "E",
+    "max": 200
+  },
+  "maps": [
+    {
+      "rows": [
+        "#########",
+        "S.oo..o.G",
+        "#########"
+      ],
+      "facing": "E",
+      "max": 200
+    },
+    {
+      "rows": [
+        "#######",
+        "So....G",
+        "#######"
+      ],
+      "facing": "E",
+      "max": 200
+    }
+  ],
+  "alt": "while not at_goal():\n    pick_coin()\n    move()\n"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "http-03-json",
+  "region": "http-curl",
+  "order": 3,
+  "title": "Pick Out JSON",
+  "story": "The bazaar lists its sellers as JSON. jq lets you pull out just one field.",
+  "goal": "Find the name of the first seller and report it.",
+  "type": "terminal",
+  "starter": {
+    "cwd": "/home/learner",
+    "files": {},
+    "services": {},
+    "http": {
+      "api.bazaar.local/sellers": "[{\"name\":\"Lakshmi\",\"stall\":12},{\"name\":\"Ravi\",\"stall\":7}]"
+    }
+  },
+  "tests": [
+    {
+      "kind": "command-used",
+      "anyOf": [
+        "jq"
+      ],
+      "label": "Used jq"
+    },
+    {
+      "kind": "answer",
+      "expect": "Lakshmi",
+      "label": "Reported the first seller"
+    }
+  ],
+  "hints": [
+    "Pipe the response into jq. The first item is .[0].",
+    "Try: curl -s http://api.bazaar.local/sellers | jq -r '.[0].name'",
+    "Run:\ncurl -s http://api.bazaar.local/sellers | jq -r '.[0].name'\nThen answer: Lakshmi"
+  ],
+  "socratic": [
+    "",
+    "",
+    "Which command shows you the evidence you need?"
+  ],
+  "explain": "In one sentence: what was the cause, and how did you fix it?",
+  "xp": 25,
+  "skills": [
+    "http",
+    "jq"
+  ],
+  "requires": [
+    "http-02-status"
+  ],
+  "solution": {
+    "commands": [
+      "curl -s http://api.bazaar.local/sellers | jq -r '.[0].name'"
+    ],
+    "answer": "Lakshmi"
+  },
+  "tool": "linux"
+}

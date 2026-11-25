@@ -1,0 +1,83 @@
+{
+  "id": "maze-05-while",
+  "region": "maze-basics",
+  "order": 5,
+  "title": "Until You Arrive",
+  "story": "You do not know how long the corridor is. Walk until at_goal() says you are there.",
+  "goal": "Reach the flag on every map, even longer ones.",
+  "type": "grid",
+  "starter": "# walk until at the goal\n",
+  "tests": [
+    {
+      "kind": "grid-reach",
+      "label": "Reaches the flag"
+    },
+    {
+      "kind": "grid-reach",
+      "label": "Works on a longer corridor",
+      "map": 0,
+      "hidden": true
+    },
+    {
+      "kind": "grid-reach",
+      "label": "Works on a short corridor",
+      "map": 1,
+      "hidden": true
+    },
+    {
+      "kind": "source",
+      "label": "Uses a while loop",
+      "pattern": "while"
+    }
+  ],
+  "hints": [
+    "while not at_goal(): keeps going until the flag.",
+    "Put move() inside the loop.",
+    "while not at_goal():\n    move()\n"
+  ],
+  "socratic": [
+    "What should the parrot do at each step?",
+    "What does the parrot need to look at before it moves?",
+    "Compare your result with the goal. What differs?"
+  ],
+  "explain": "In one sentence: how does your code decide what to do next?",
+  "xp": 25,
+  "skills": [
+    "loops",
+    "robot"
+  ],
+  "requires": [
+    "maze-04-for"
+  ],
+  "solution": "while not at_goal():\n    move()\n",
+  "grid": {
+    "rows": [
+      "#######",
+      "S.....G",
+      "#######"
+    ],
+    "facing": "E",
+    "max": 200
+  },
+  "maps": [
+    {
+      "rows": [
+        "#############",
+        "S...........G",
+        "#############"
+      ],
+      "facing": "E",
+      "max": 200
+    },
+    {
+      "rows": [
+        "####",
+        "S..G",
+        "####"
+      ],
+      "facing": "E",
+      "max": 200
+    }
+  ],
+  "alt": "while True:\n    if at_goal():\n        break\n    move()\n"
+}
