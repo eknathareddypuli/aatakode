@@ -1,0 +1,160 @@
+{
+  "id": "sqa-09-lag",
+  "region": "sql-advanced",
+  "order": 9,
+  "title": "Compare With the Previous Row",
+  "story": "LAG looks at the previous row. Use it for day-on-day change.",
+  "goal": "For each delivered order (ordered by order_date, id) show id, qty and prev_qty (the previous delivered order's qty, NULL for the first).",
+  "type": "sql",
+  "starter": "SELECT id, qty, NULL AS prev_qty\nFROM orders\nWHERE status = 'delivered'\nORDER BY order_date, id;",
+  "setup": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, stock INTEGER);\nINSERT INTO products VALUES (1,'Mango','fruit',40.0,120),(2,'Banana','fruit',12.0,300),(3,'Rice 5kg','grain',320.0,45),(4,'Dal 1kg','grain',140.0,80),(5,'Ghee','dairy',560.0,20),(6,'Milk','dairy',28.0,200),(7,'Jaggery','sweet',90.0,0),(8,'Tamarind','spice',60.0,35),(9,'Turmeric','spice',45.0,60),(10,'Coconut','fruit',25.0,150);\nCREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, joined TEXT);\nINSERT INTO customers VALUES (1,'Asha','Hyderabad','2025-01-10'),(2,'Ravi','Vijayawada','2025-02-14'),(3,'Meena','Hyderabad','2025-03-02'),(4,'Kiran','Guntur','2025-03-20'),(5,'Lakshmi','Tirupati','2025-04-05'),(6,'Suresh',NULL,'2025-05-18'),(7,'Divya','Vijayawada','2025-06-01');\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, product_id INTEGER, qty INTEGER, order_date TEXT, status TEXT);\nINSERT INTO orders VALUES (1,1,1,3,'2025-06-01','delivered'),(2,1,3,1,'2025-06-03','delivered'),(3,2,2,12,'2025-06-03','delivered'),(4,2,5,1,'2025-06-10','cancelled'),(5,3,4,2,'2025-06-11','delivered'),(6,3,1,5,'2025-06-12','pending'),(7,4,6,10,'2025-06-15','delivered'),(8,4,9,2,'2025-06-16','delivered'),(9,5,10,6,'2025-06-18','pending'),(10,1,6,4,'2025-06-20','delivered'),(11,3,5,1,'2025-06-21','delivered'),(12,5,8,3,'2025-06-22','cancelled'),(13,2,1,2,'2025-06-25','delivered'),(14,6,3,1,'2025-06-26','pending');",
+  "tests": [
+    {
+      "kind": "rows",
+      "label": "Returns the right rows",
+      "expect": [
+        [
+          1,
+          3,
+          null
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          12,
+          1
+        ],
+        [
+          5,
+          2,
+          12
+        ],
+        [
+          7,
+          10,
+          2
+        ],
+        [
+          8,
+          2,
+          10
+        ],
+        [
+          10,
+          4,
+          2
+        ],
+        [
+          11,
+          1,
+          4
+        ],
+        [
+          13,
+          2,
+          1
+        ]
+      ],
+      "ordered": true,
+      "cols": [
+        "id",
+        "qty",
+        "prev_qty"
+      ]
+    },
+    {
+      "kind": "source",
+      "label": "Uses LAG",
+      "pattern": "\\bLAG\\s*\\("
+    },
+    {
+      "kind": "rows",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, stock INTEGER);\nINSERT INTO products VALUES (1,'Mango','fruit',40.0,120),(2,'Banana','fruit',12.0,300),(3,'Rice 5kg','grain',320.0,45),(4,'Dal 1kg','grain',140.0,80),(5,'Ghee','dairy',560.0,20),(6,'Milk','dairy',28.0,200),(7,'Jaggery','sweet',90.0,0),(8,'Tamarind','spice',60.0,35),(9,'Turmeric','spice',45.0,60),(10,'Coconut','fruit',25.0,150);\nCREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, joined TEXT);\nINSERT INTO customers VALUES (1,'Asha','Hyderabad','2025-01-10'),(2,'Ravi','Vijayawada','2025-02-14'),(3,'Meena','Hyderabad','2025-03-02'),(4,'Kiran','Guntur','2025-03-20'),(5,'Lakshmi','Tirupati','2025-04-05'),(6,'Suresh',NULL,'2025-05-18'),(7,'Divya','Vijayawada','2025-06-01');\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, product_id INTEGER, qty INTEGER, order_date TEXT, status TEXT);\nINSERT INTO orders VALUES (1,1,1,3,'2025-06-01','delivered'),(2,1,3,1,'2025-06-03','delivered'),(3,2,2,12,'2025-06-03','delivered'),(4,2,5,1,'2025-06-10','cancelled'),(5,3,4,2,'2025-06-11','delivered'),(6,3,1,5,'2025-06-12','pending'),(7,4,6,10,'2025-06-15','delivered'),(8,4,9,2,'2025-06-16','delivered'),(9,5,10,6,'2025-06-18','pending'),(10,1,6,4,'2025-06-20','delivered'),(11,3,5,1,'2025-06-21','delivered'),(12,5,8,3,'2025-06-22','cancelled'),(13,2,1,2,'2025-06-25','delivered'),(14,6,3,1,'2025-06-26','pending');\nINSERT INTO products VALUES (11,'Honey','sweet',210.0,15),(12,'Cardamom','spice',900.0,5); UPDATE products SET stock = stock + 10 WHERE category = 'dairy'; INSERT INTO customers VALUES (8,'Naveen','Guntur','2025-07-01'),(9,'Bhavya',NULL,'2025-07-02'); INSERT INTO orders VALUES (15,8,11,2,'2025-07-03','delivered'),(16,9,12,1,'2025-07-04','delivered'),(17,1,12,2,'2025-07-05','pending');",
+      "expect": [
+        [
+          1,
+          3,
+          null
+        ],
+        [
+          2,
+          1,
+          3
+        ],
+        [
+          3,
+          12,
+          1
+        ],
+        [
+          5,
+          2,
+          12
+        ],
+        [
+          7,
+          10,
+          2
+        ],
+        [
+          8,
+          2,
+          10
+        ],
+        [
+          10,
+          4,
+          2
+        ],
+        [
+          11,
+          1,
+          4
+        ],
+        [
+          13,
+          2,
+          1
+        ],
+        [
+          15,
+          2,
+          2
+        ],
+        [
+          16,
+          1,
+          2
+        ]
+      ],
+      "ordered": true
+    }
+  ],
+  "hints": [
+    "LAG(qty) OVER (ORDER BY ...) returns the value from the row above.",
+    "The first row has nothing above it, so it is NULL.",
+    "SELECT id, qty, LAG(qty) OVER (ORDER BY order_date, id) AS prev_qty FROM orders WHERE status = 'delivered' ORDER BY order_date, id;"
+  ],
+  "socratic": [
+    "Why is the first prev_qty NULL?",
+    "What would LEAD give?",
+    "How would you compute the change qty - prev_qty?"
+  ],
+  "explain": "In one sentence: what does this query do, and why does it need the LAG?",
+  "xp": 60,
+  "skills": [
+    "sql",
+    "window"
+  ],
+  "requires": [
+    "sqa-08-running"
+  ],
+  "solution": "SELECT id, qty, LAG(qty) OVER (ORDER BY order_date, id) AS prev_qty FROM orders WHERE status = 'delivered' ORDER BY order_date, id;",
+  "alt": "SELECT id, qty, LAG(qty, 1) OVER (ORDER BY order_date, id) AS prev_qty FROM orders WHERE status = 'delivered' ORDER BY order_date, id;"
+}
