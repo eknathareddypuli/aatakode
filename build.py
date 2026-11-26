@@ -24,8 +24,8 @@ for k in ("arena", "arena2", "clash", "learn", "story", "boss", "misconceptions"
     if os.path.exists(os.path.join(R, "missions", k + ".json")):
         data[k] = json.loads(rd("missions/" + k + ".json"))
 html = rd("src/template.html")
-ENGINE = "\n".join(rd("src/" + f) for f in ("engine.js", "term_extra.js", "git.js", "play.js", "more.js", "more2.js", "more3.js"))
-UI = "\n".join(rd("src/" + f) for f in ("fx.js", "modes.js", "ext.js", "feel.js", "ext2.js", "ext3.js", "feel2.js", "ext4.js", "feel3.js") if os.path.exists(os.path.join(R, "src", f)))
+ENGINE = "\n".join(rd("src/" + f) for f in ("engine.js", "term_extra.js", "git.js", "play.js", "more.js", "more2.js", "more3.js", "goeval.js", "web.js"))
+UI = "\n".join(rd("src/" + f) for f in ("fx.js", "modes.js", "ext.js", "feel.js", "ext2.js", "ext3.js", "feel2.js", "ext4.js", "ext5.js", "feel3.js") if os.path.exists(os.path.join(R, "src", f)))
 parts = {"/*@CSS@*/": rd("src/styles.css"), "/*@ENGINE@*/": safe(ENGINE), "/*@UI@*/": safe(UI),
          "/*@DATA@*/": safe(json.dumps(data, ensure_ascii=False, separators=(",", ":"))),
          "/*@RUNNER@*/": safe(json.dumps(rd("src/runner.py"))), "/*@APP@*/": safe(rd("src/app.js"))}

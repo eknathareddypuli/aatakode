@@ -42,6 +42,12 @@ Bot Arena, Clash of Code, read-the-code, Explain panel, fair motivation design, 
 ## v5 (built)
 Goal chooser, mastery map, Game Workshop and Micro-Jobs tracks, Maze Dash, story bosses, parrot growth, misconception detector.
 
+## v6 (built)
+Real Go execution, Web Basics, SQL windows and CTEs plus capstone, track-level Test out, placement in the goal chooser, status labels, learn-first cards, daily review, transfer code, dark-mode fix.
+
+## After v6
+- Placement questions for Go, SQL and Web; Go generics and goroutines in the interpreter; a QR transfer code; Web: a framework-free mini project per goal.
+
 ## After v4
 - A friends leaderboard that needs no account (shared files), and more Arena games beyond Seed Grab.
 - Native-speaker review of translations.

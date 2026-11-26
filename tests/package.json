@@ -3,6 +3,11 @@
   "private": true,
   "type": "module",
   "description": "Verifies every AataKode mission: reference solutions pass, starters fail.",
-  "scripts": { "verify": "node verify.mjs" },
-  "dependencies": { "pyodide": "314.0.8" }
+  "scripts": {
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "jsdom": "^31.0.1",
+    "pyodide": "314.0.8"
+  }
 }

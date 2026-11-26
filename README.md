@@ -43,6 +43,15 @@ Learn-and-practice lessons, real multi-step projects (Log Analyzer, Key-Value St
 - Misconception detector: 22 rules show a "common mix-up" card after a failed run.
 - Telugu strings for the new tracks need native review.
 
+## v6
+- **Real Go execution**: a Go interpreter (`src/goeval.js`) runs your program in the page, with real-looking compile errors and panics. Two new regions, Write Real Go (12 missions) and Go Projects (3 steps). Verified against real `go run`. Limits: no goroutines, channels, generics or `time`; type errors show at run time.
+- **Web Basics track** (36 missions): HTML, CSS, JavaScript and a four-step Quiz Page project. Your page runs in a sandboxed iframe (no network) with a live preview and a Console tab; checks run inside the sandbox.
+- **SQL**: Subqueries, CTEs and Windows (10 missions) and a four-step SQL Capstone, with expected rows computed in SQLite.
+- **Track-level Test out** (`#/testout`): beat a short gauntlet of boss missions and the whole track opens for good. A placement quiz link sits in the goal chooser and on the Path page.
+- Track status labels (Complete, Core, Preview, Play) with mission count and rough hours; a learn-first card on each region's first mission; a daily review queue of 3 replays; a copy-paste progress transfer code on Profile (the file export stays).
+- Dark mode: the goal chooser text is readable (the buttons used an undefined colour variable).
+- Telugu titles for the new tracks need native review.
+
 ## Develop
 ```
 python3 build.py                      # writes index.html + sw.js from src/ and missions/

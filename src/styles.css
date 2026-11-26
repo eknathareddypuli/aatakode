@@ -414,14 +414,14 @@ body.zen #hdr .chip.gold,body.zen #seedChip,body.zen #hdr .flame,body.zen #hdr .
 @media (max-width:640px){.arena-view{flex-direction:column}.trow{grid-template-columns:1fr}.heat{grid-template-columns:repeat(7,1fr)}}
 /* v5 */
 .goalgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.6rem;margin:.8rem 0}
-.goal{display:flex;flex-direction:column;gap:.2rem;text-align:left;padding:.8rem;border-radius:14px;border:2px solid var(--line,#ddd);background:var(--card,#fff);color:inherit;cursor:pointer;font:inherit;min-height:44px}
-.goal:hover,.goal:focus-visible{border-color:var(--accent,#2a7)}.goal.on{border-color:var(--accent,#2a7);box-shadow:0 0 0 2px var(--accent,#2a7) inset}
-.goal .gi{font-size:1.6rem}.goal .muted{font-size:.85rem}
-.chooser{border:2px solid var(--accent,#2a7)}
+.gpick{display:flex;flex-direction:column;gap:.2rem;text-align:left;padding:.8rem;border-radius:8px;border:2px solid var(--line);background:var(--panel);color:var(--ink);box-shadow:var(--shadow);cursor:pointer;font:inherit;min-height:44px}
+.gpick:hover{background:var(--panel2)}.gpick:hover,.gpick:focus-visible{border-color:var(--mint)}.gpick.on{border-color:var(--mint);box-shadow:0 0 0 2px var(--mint) inset}
+.gpick .gi{font-size:1.6rem}.gpick .muted{font-size:.85rem}
+.chooser{border:2px solid var(--mint)}
 .pathbar .row.spread,.boss-hp .row.spread,.mrow .row.spread{display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap}
 .pathmini{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.6rem 0;padding:.5rem .8rem}
-.region.onpath{outline:2px solid var(--accent,#2a7);outline-offset:2px}
-.node.next{animation:nextpulse 2s ease-in-out infinite;box-shadow:0 0 0 3px var(--accent,#2a7)}
+.region.onpath{outline:2px solid var(--mint);outline-offset:2px}
+.node.next{animation:nextpulse 2s ease-in-out infinite;box-shadow:0 0 0 3px var(--mint)}
 @keyframes nextpulse{50%{box-shadow:0 0 0 7px transparent}}
 .pathlist li.done{opacity:.7}
 .pgwrap{position:relative;display:inline-block}
@@ -432,10 +432,24 @@ body.zen #hdr .chip.gold,body.zen #seedChip,body.zen #hdr .flame,body.zen #hdr .
 @keyframes pgswift{50%{transform:translateX(4px)}}@keyframes pgcalm{50%{transform:translateY(-3px)}}@keyframes pgbold{50%{transform:scale(1.05)}}
 @media (prefers-reduced-motion:reduce){.pgwrap svg,.node.next{animation:none!important}}
 .grow-step{margin:.4rem 0}.grow-step.lock{opacity:.6}
-.mastery .mrow .bar,.hpbar{height:10px;border-radius:6px;background:rgba(128,128,128,.25);overflow:hidden}.mastery .mrow .bar i,.hpbar i{display:block;height:100%;background:var(--accent,#2a7);transition:width .4s}
+.mastery .mrow .bar,.hpbar{height:10px;border-radius:6px;background:rgba(128,128,128,.25);overflow:hidden}.mastery .mrow .bar i,.hpbar i{display:block;height:100%;background:var(--mint);transition:width .4s}
 .hpbar i{background:#d44}
 .boss-hp{margin:.6rem 0}.boss-top{display:flex;gap:.8rem;align-items:center}.boss-face{font-size:3rem}.boss-face.down{transform:rotate(90deg);opacity:.6}
 .boss-choices{display:grid;gap:.5rem}.boss-card .story-line p.new{animation:fadein .5s}
 .misc{border-left:4px solid #e90;margin:.6rem 0}.ab-flag{filter:drop-shadow(0 0 3px gold)}
-.card.focus{border-left:4px solid var(--accent,#2a7)}
+.card.focus{border-left:4px solid var(--mint)}
 @media (max-width:640px){.goalgrid{grid-template-columns:1fr 1fr}}
+
+/* v6 */
+.tstat{font-size:.78rem}
+.tstat-complete{border-color:var(--mint);color:var(--mint)}
+.tstat-core{border-color:var(--sky);color:var(--sky)}
+.tstat-preview{border-color:var(--gold);color:var(--gold)}
+.tstat-play{border-color:var(--line);color:var(--muted)}
+.trackmeta{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin:.3rem 0 .4rem}
+.learnfirst{background:var(--panel2);color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:.5rem .8rem;margin-bottom:.8rem}
+.learnfirst summary{cursor:pointer}
+.placeRow{margin:.8rem 0 0;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;color:var(--ink)}
+.reviewcard{margin-top:1rem}
+#webcon .conerr{color:var(--coral)}
+#webcon{min-height:6rem;max-height:20rem;overflow:auto}

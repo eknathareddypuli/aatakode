@@ -19,11 +19,11 @@
   /* ---------------------------------------------------------------- goal chooser */
   function goalCards(cur) {
     return '<div class="goalgrid" role="group" aria-label="What do you want to learn?">' + AK.GOALS.map(function (g) {
-      return '<button class="goal' + (cur === g.id ? " on" : "") + '" data-g="' + g.id + '" aria-pressed="' + (cur === g.id) + '"><span class="gi" aria-hidden="true">' + g.icon + "</span><b>" + esc(g.en) + '</b><span class="muted">' + esc(g.line) + "</span></button>";
+      return '<button class="gpick' + (cur === g.id ? " on" : "") + '" data-g="' + g.id + '" aria-pressed="' + (cur === g.id) + '"><span class="gi" aria-hidden="true">' + g.icon + "</span><b>" + esc(g.en) + '</b><span class="muted">' + esc(g.line) + "</span></button>";
     }).join("") + "</div>";
   }
   function bindGoals(root, after) {
-    $$(".goal", root).forEach(function (b) { b.onclick = function () {
+    $$(".gpick", root).forEach(function (b) { b.onclick = function () {
       var st = S(), g = AK.chooseGoal(st, b.dataset.g, new Date()); if (!g) return; C.save(); sfx("click");
       var nx = AK.pathNext(st, D); C.toast("Path set: " + g.icon + " " + g.en + (nx ? ". Next: " + nx.title : "") + ". You can switch any time.");
       if (after) after(g); else goHome();

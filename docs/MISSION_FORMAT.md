@@ -75,3 +75,11 @@ New mission types (all verified by `tests/verify.mjs`):
 - `missions/boss.json`: `choice {q, options[{id,t,reply,perk}]}` and `scenes{<bossId>{emoji,foe,intro[3],win[2]}}`. Perks: `scout` (first hint free), `bold` (+3 seeds with no hints), `patient` (shows the socratic questions).
 - `missions/misconceptions.json`: rules matched against the language, the code and the first visible failed result (hidden tests carry no got/expect).
 - Goal paths live in `src/more3.js` (`AK.GOALS`); a path unlocks the first mission of a region when all unmet `requires` sit outside the path.
+
+## v6 additions
+- `type: "gocode"` (`lang:"go"`): a whole Go program in the editor. Tests: `go-out` (`stdin[]`, `expect` is stdout, compared exactly), `go-call` (`expr` is evaluated after the program loads, `expect` is its `%v` text), `go-compiles`, `go-fails` (`expect` is a message fragment). Every `expect` is computed with the real `go` tool; the verifier runs the reference, `alt` and starter through `AK.goGrade` (`src/goeval.js`). Project steps do not use `carry`.
+- `type: "web"` (`lang:"web"`): `starter` and `solution` are complete HTML documents. Tests: `{kind:"web", label, js, hidden}` where `js` is a function body returning `true` or a string explaining the failure, with helpers `$ $$ css px txt attr click type key color H`; `{kind:"web-clean"}` fails on any script error. The verifier runs them in jsdom (computed colours as written, px only, no `:hover`); the browser runs them in a sandboxed iframe. localStorage does not work in the sandbox, so teach JSON instead.
+- Regions `go-write`, `go-project`, `sql-advanced`, `sql-capstone`, `web-html`, `web-css`, `web-js`, `web-project`; track `web`.
+- Boss missions need a scene in `missions/boss.json`.
+- `AK.v6(S)` (in `src/ext5.js`): `trying`, `pass` (track test-out), `learnSeen`, `review {day, ids, done}`. Transfer code format: `AK1.` plus base64 of the state JSON without drafts.
+

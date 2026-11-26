@@ -99,7 +99,7 @@ with sync_playwright() as p:
                 if t == "pair":
                     pg.locator(f'.opt[data-i="{m["diagnose"]["answer"]}"]').click(); pg.click("#toFix")
                 pg.wait_for_selector("#submitBtn", timeout=10000)
-                if t in ("write-code", "fix-the-bug", "pair"):
+                if t in ("write-code", "fix-the-bug", "pair", "gocode", "web"):
                     pg.fill("#code", m["solution"])
                 elif t == "fill":
                     for i, v in enumerate(aligned_blanks(m["starter"], m["solution"])):
@@ -114,6 +114,8 @@ with sync_playwright() as p:
                 pg.click("#submitBtn")
             pg.wait_for_selector("#rewardSlot .reward", timeout=25000)
             done += 1
+            if m.get("boss"):
+                pg.wait_for_timeout(1100); pg.evaluate("document.querySelectorAll('.boss-ov').forEach(o=>o.remove())")
         except Exception as e:
             fails.append((mid, t, str(e).split("\n")[0][:120]))
             pg.screenshot(path=f"/tmp/fail-{mid}.png")
