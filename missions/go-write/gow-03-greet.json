@@ -1,0 +1,54 @@
+{
+  "id": "gow-03-greet",
+  "region": "go-write",
+  "order": 3,
+  "title": "Build a String",
+  "story": "Strings join with +. Greet people the village way.",
+  "goal": "Write Greet(name string) string returning Namaste, NAME!",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc Greet(name string) string {\n\treturn \"\"\n}\n\nfunc main() {\n\tfmt.Println(Greet(\"Asha\"))\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Greet(\"Asha\")",
+      "expr": "Greet(\"Asha\")",
+      "expect": "Namaste, Asha!"
+    },
+    {
+      "kind": "go-call",
+      "label": "Greet(\"Ravi\")",
+      "expr": "Greet(\"Ravi\")",
+      "expect": "Namaste, Ravi!"
+    },
+    {
+      "kind": "go-call",
+      "label": "Empty name still works",
+      "expr": "Greet(\"\")",
+      "expect": "Namaste, !",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Join string pieces with +.",
+    "return \"Namaste, \" + name + \"!\"",
+    "package main\n\nimport \"fmt\"\n\nfunc Greet(name string) string {\n\treturn \"Namaste, \" + name + \"!\"\n}\n\nfunc main() {\n\tfmt.Println(Greet(\"Asha\"))\n}\n"
+  ],
+  "socratic": [
+    "Which pieces of the text are fixed, and which one changes?",
+    "Does Go let you add a string and an int with +?",
+    "Print your result with Println to see it."
+  ],
+  "explain": "In one sentence: what did you learn from “Build a String”?",
+  "xp": 20,
+  "skills": [
+    "go-basics",
+    "write",
+    "strings"
+  ],
+  "requires": [
+    "gow-02-add"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc Greet(name string) string {\n\treturn \"Namaste, \" + name + \"!\"\n}\n\nfunc main() {\n\tfmt.Println(Greet(\"Asha\"))\n}\n",
+  "alt": "package main\n\nimport \"fmt\"\n\nfunc Greet(name string) string {\n\treturn fmt.Sprintf(\"Namaste, %s!\", name)\n}\n\nfunc main() {\n\tfmt.Println(Greet(\"Asha\"))\n}\n"
+}

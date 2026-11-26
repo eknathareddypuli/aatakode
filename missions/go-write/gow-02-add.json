@@ -1,0 +1,53 @@
+{
+  "id": "gow-02-add",
+  "region": "go-write",
+  "order": 2,
+  "title": "Write a Function",
+  "story": "Functions need typed parameters and a typed result.",
+  "goal": "Write Add(a, b int) int that returns the sum.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\n// Add returns a + b.\nfunc Add(a, b int) int {\n\treturn 0\n}\n\nfunc main() {\n\tfmt.Println(Add(2, 3))\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Add(2, 3) is 5",
+      "expr": "Add(2, 3)",
+      "expect": "5"
+    },
+    {
+      "kind": "go-call",
+      "label": "Add(-4, 4) is 0",
+      "expr": "Add(-4, 4)",
+      "expect": "0"
+    },
+    {
+      "kind": "go-call",
+      "label": "Add(100, 250) is 350",
+      "expr": "Add(100, 250)",
+      "expect": "350",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "The result type comes after the parameter list. Replace the 0 with an expression.",
+    "return a + b",
+    "package main\n\nimport \"fmt\"\n\n// Add returns a + b.\nfunc Add(a, b int) int {\n\treturn a + b\n}\n\nfunc main() {\n\tfmt.Println(Add(2, 3))\n}\n"
+  ],
+  "socratic": [
+    "What are the types of a and b?",
+    "What type does the function promise to return?",
+    "Which test is failing, and what did you return?"
+  ],
+  "explain": "In one sentence: what did you learn from “Write a Function”?",
+  "xp": 20,
+  "skills": [
+    "go-basics",
+    "write",
+    "functions"
+  ],
+  "requires": [
+    "gow-01-hello"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\n// Add returns a + b.\nfunc Add(a, b int) int {\n\treturn a + b\n}\n\nfunc main() {\n\tfmt.Println(Add(2, 3))\n}\n"
+}

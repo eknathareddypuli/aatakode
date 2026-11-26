@@ -1,0 +1,72 @@
+{
+  "id": "gow-06-fizzbuzz",
+  "region": "go-write",
+  "order": 6,
+  "title": "FizzBuzz, Go Style",
+  "story": "The classic interview warm-up. Order of the checks matters.",
+  "goal": "Write FizzBuzz(n int) string: Fizz for multiples of 3, Buzz for 5, FizzBuzz for both, else the number as text.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc FizzBuzz(n int) string {\n\treturn strconv.Itoa(n)\n}\n\nfunc main() {\n\tfor i := 1; i <= 15; i++ {\n\t\tfmt.Println(FizzBuzz(i))\n\t}\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "FizzBuzz(3)",
+      "expr": "FizzBuzz(3)",
+      "expect": "Fizz"
+    },
+    {
+      "kind": "go-call",
+      "label": "FizzBuzz(5)",
+      "expr": "FizzBuzz(5)",
+      "expect": "Buzz"
+    },
+    {
+      "kind": "go-call",
+      "label": "FizzBuzz(15)",
+      "expr": "FizzBuzz(15)",
+      "expect": "FizzBuzz"
+    },
+    {
+      "kind": "go-call",
+      "label": "FizzBuzz(7) is the number",
+      "expr": "FizzBuzz(7)",
+      "expect": "7"
+    },
+    {
+      "kind": "go-call",
+      "label": "FizzBuzz(30)",
+      "expr": "FizzBuzz(30)",
+      "expect": "FizzBuzz",
+      "hidden": true
+    },
+    {
+      "kind": "go-out",
+      "label": "main prints 1 to 15",
+      "stdin": [],
+      "expect": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"
+    }
+  ],
+  "hints": [
+    "Check the combined case (divisible by 3 and 5) first.",
+    "A tagless switch with case n%15 == 0 reads nicely.",
+    "package main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc FizzBuzz(n int) string {\n\tswitch {\n\tcase n%15 == 0:\n\t\treturn \"FizzBuzz\"\n\tcase n%3 == 0:\n\t\treturn \"Fizz\"\n\tcase n%5 == 0:\n\t\treturn \"Buzz\"\n\t}\n\treturn strconv.Itoa(n)\n}\n\nfunc main() {\n\tfor i := 1; i <= 15; i++ {\n\t\tfmt.Println(FizzBuzz(i))\n\t}\n}\n"
+  ],
+  "socratic": [
+    "Which number is divisible by both 3 and 5?",
+    "What happens if you test n%3 before n%15?",
+    "How do you turn an int into a string?"
+  ],
+  "explain": "In one sentence: what did you learn from “FizzBuzz, Go Style”?",
+  "xp": 35,
+  "skills": [
+    "go-flow",
+    "write",
+    "decisions"
+  ],
+  "requires": [
+    "gow-05-sum"
+  ],
+  "solution": "package main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc FizzBuzz(n int) string {\n\tswitch {\n\tcase n%15 == 0:\n\t\treturn \"FizzBuzz\"\n\tcase n%3 == 0:\n\t\treturn \"Fizz\"\n\tcase n%5 == 0:\n\t\treturn \"Buzz\"\n\t}\n\treturn strconv.Itoa(n)\n}\n\nfunc main() {\n\tfor i := 1; i <= 15; i++ {\n\t\tfmt.Println(FizzBuzz(i))\n\t}\n}\n",
+  "alt": "package main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc FizzBuzz(n int) string {\n\ts := \"\"\n\tif n%3 == 0 {\n\t\ts += \"Fizz\"\n\t}\n\tif n%5 == 0 {\n\t\ts += \"Buzz\"\n\t}\n\tif s == \"\" {\n\t\ts = strconv.Itoa(n)\n\t}\n\treturn s\n}\n\nfunc main() {\n\tfor i := 1; i <= 15; i++ {\n\t\tfmt.Println(FizzBuzz(i))\n\t}\n}\n"
+}

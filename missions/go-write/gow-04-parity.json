@@ -1,0 +1,60 @@
+{
+  "id": "gow-04-parity",
+  "region": "go-write",
+  "order": 4,
+  "title": "Even or Odd",
+  "story": "if and else decide. The remainder operator % tells you what is left over.",
+  "goal": "Write Parity(n int) string returning even or odd.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc Parity(n int) string {\n\treturn \"\"\n}\n\nfunc main() {\n\tfmt.Println(Parity(7))\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Parity(4) is even",
+      "expr": "Parity(4)",
+      "expect": "even"
+    },
+    {
+      "kind": "go-call",
+      "label": "Parity(7) is odd",
+      "expr": "Parity(7)",
+      "expect": "odd"
+    },
+    {
+      "kind": "go-call",
+      "label": "Parity(0) is even",
+      "expr": "Parity(0)",
+      "expect": "even"
+    },
+    {
+      "kind": "go-call",
+      "label": "Negative numbers: Parity(-3)",
+      "expr": "Parity(-3)",
+      "expect": "odd",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Test n%2 == 0.",
+    "if n%2 == 0 { return \"even\" } then return \"odd\" after the if.",
+    "package main\n\nimport \"fmt\"\n\nfunc Parity(n int) string {\n\tif n%2 == 0 {\n\t\treturn \"even\"\n\t}\n\treturn \"odd\"\n}\n\nfunc main() {\n\tfmt.Println(Parity(7))\n}\n"
+  ],
+  "socratic": [
+    "What is 7 % 2? What is 8 % 2?",
+    "Does Go need parentheses around the if condition?",
+    "What is -3 % 2 in Go?"
+  ],
+  "explain": "In one sentence: what did you learn from “Even or Odd”?",
+  "xp": 25,
+  "skills": [
+    "go-basics",
+    "write",
+    "decisions"
+  ],
+  "requires": [
+    "gow-03-greet"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc Parity(n int) string {\n\tif n%2 == 0 {\n\t\treturn \"even\"\n\t}\n\treturn \"odd\"\n}\n\nfunc main() {\n\tfmt.Println(Parity(7))\n}\n",
+  "alt": "package main\n\nimport \"fmt\"\n\nfunc Parity(n int) string {\n\tswitch n % 2 {\n\tcase 0:\n\t\treturn \"even\"\n\tdefault:\n\t\treturn \"odd\"\n\t}\n}\n\nfunc main() {\n\tfmt.Println(Parity(7))\n}\n"
+}

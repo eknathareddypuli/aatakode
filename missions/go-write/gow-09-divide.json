@@ -1,0 +1,66 @@
+{
+  "id": "gow-09-divide",
+  "region": "go-write",
+  "order": 9,
+  "title": "Return an Error",
+  "story": "Go has no exceptions. A function returns an error and the caller checks it.",
+  "goal": "Write Divide(a, b float64) (float64, error). Dividing by zero returns an error with the message division by zero.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc Divide(a, b float64) (float64, error) {\n\t_ = errors.New\n\treturn 0, nil\n}\n\nfunc main() {\n\tres, err := Divide(10, 4)\n\tif err != nil {\n\t\tfmt.Println(\"error:\", err)\n\t\treturn\n\t}\n\tfmt.Println(res)\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Divide(10, 4)",
+      "expr": "Divide(10, 4)",
+      "expect": "2.5 <nil>"
+    },
+    {
+      "kind": "go-call",
+      "label": "Divide(1, 8)",
+      "expr": "Divide(1, 8)",
+      "expect": "0.125 <nil>"
+    },
+    {
+      "kind": "go-call",
+      "label": "Divide(5, 0) fails",
+      "expr": "Divide(5, 0)",
+      "expect": "0 division by zero"
+    },
+    {
+      "kind": "go-call",
+      "label": "Divide(0, 3)",
+      "expr": "Divide(0, 3)",
+      "expect": "0 <nil>",
+      "hidden": true
+    },
+    {
+      "kind": "go-out",
+      "label": "main prints 2.5",
+      "stdin": [],
+      "expect": "2.5"
+    }
+  ],
+  "hints": [
+    "Check b == 0 first and return early with errors.New(...).",
+    "On success return the result and nil.",
+    "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc Divide(a, b float64) (float64, error) {\n\tif b == 0 {\n\t\treturn 0, errors.New(\"division by zero\")\n\t}\n\treturn a / b, nil\n}\n\nfunc main() {\n\tres, err := Divide(10, 4)\n\tif err != nil {\n\t\tfmt.Println(\"error:\", err)\n\t\treturn\n\t}\n\tfmt.Println(res)\n}\n"
+  ],
+  "socratic": [
+    "What does nil mean for an error?",
+    "What should the number be when there is an error?",
+    "Why does Go make you check err yourself?"
+  ],
+  "explain": "In one sentence: what did you learn from “Return an Error”?",
+  "xp": 40,
+  "skills": [
+    "go-flow",
+    "write",
+    "errors"
+  ],
+  "requires": [
+    "gow-08-wordcount"
+  ],
+  "solution": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc Divide(a, b float64) (float64, error) {\n\tif b == 0 {\n\t\treturn 0, errors.New(\"division by zero\")\n\t}\n\treturn a / b, nil\n}\n\nfunc main() {\n\tres, err := Divide(10, 4)\n\tif err != nil {\n\t\tfmt.Println(\"error:\", err)\n\t\treturn\n\t}\n\tfmt.Println(res)\n}\n",
+  "alt": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nvar errZero = errors.New(\"division by zero\")\n\nfunc Divide(a, b float64) (float64, error) {\n\tif b != 0 {\n\t\treturn a / b, nil\n\t}\n\treturn 0, errZero\n}\n\nfunc main() {\n\tres, err := Divide(10, 4)\n\tif err != nil {\n\t\tfmt.Println(\"error:\", err)\n\t\treturn\n\t}\n\tfmt.Println(res)\n}\n"
+}

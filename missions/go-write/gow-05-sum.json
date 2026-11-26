@@ -1,0 +1,60 @@
+{
+  "id": "gow-05-sum",
+  "region": "go-write",
+  "order": 5,
+  "title": "Sum a Slice",
+  "story": "A slice is a growable list. range walks it.",
+  "goal": "Write Sum(xs []int) int that adds every element.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc Sum(xs []int) int {\n\treturn 0\n}\n\nfunc main() {\n\tfmt.Println(Sum([]int{1, 2, 3}))\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Sum of 1, 2, 3",
+      "expr": "Sum([]int{1, 2, 3})",
+      "expect": "6"
+    },
+    {
+      "kind": "go-call",
+      "label": "Empty slice sums to 0",
+      "expr": "Sum([]int{})",
+      "expect": "0"
+    },
+    {
+      "kind": "go-call",
+      "label": "Negative numbers",
+      "expr": "Sum([]int{-5, 5, 10})",
+      "expect": "10"
+    },
+    {
+      "kind": "go-call",
+      "label": "Bigger list",
+      "expr": "Sum([]int{10, 20, 30, 40, 50})",
+      "expect": "150",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Keep a running total and add each element to it.",
+    "for _, x := range xs { total += x }",
+    "package main\n\nimport \"fmt\"\n\nfunc Sum(xs []int) int {\n\ttotal := 0\n\tfor _, x := range xs {\n\t\ttotal += x\n\t}\n\treturn total\n}\n\nfunc main() {\n\tfmt.Println(Sum([]int{1, 2, 3}))\n}\n"
+  ],
+  "socratic": [
+    "What should the total start at?",
+    "What do the two names after for mean when you range over a slice?",
+    "Why does the underscore work for the index?"
+  ],
+  "explain": "In one sentence: what did you learn from “Sum a Slice”?",
+  "xp": 30,
+  "skills": [
+    "go-data",
+    "write",
+    "loops"
+  ],
+  "requires": [
+    "gow-04-parity"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc Sum(xs []int) int {\n\ttotal := 0\n\tfor _, x := range xs {\n\t\ttotal += x\n\t}\n\treturn total\n}\n\nfunc main() {\n\tfmt.Println(Sum([]int{1, 2, 3}))\n}\n",
+  "alt": "package main\n\nimport \"fmt\"\n\nfunc Sum(xs []int) int {\n\ttotal := 0\n\tfor i := 0; i < len(xs); i++ {\n\t\ttotal += xs[i]\n\t}\n\treturn total\n}\n\nfunc main() {\n\tfmt.Println(Sum([]int{1, 2, 3}))\n}\n"
+}

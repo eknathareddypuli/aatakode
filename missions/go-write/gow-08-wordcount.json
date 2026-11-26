@@ -1,0 +1,59 @@
+{
+  "id": "gow-08-wordcount",
+  "region": "go-write",
+  "order": 8,
+  "title": "Count the Words",
+  "story": "A map counts things: the word is the key, the count is the value. A missing key gives zero.",
+  "goal": "Write WordCount(s string) map[string]int that counts how many times each word appears.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc WordCount(s string) map[string]int {\n\tcounts := map[string]int{}\n\t_ = strings.Fields(s)\n\treturn counts\n}\n\nfunc main() {\n\tfmt.Println(WordCount(\"go is fun and go is fast\"))\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "go is fun and go is fast",
+      "expr": "WordCount(\"go is fun and go is fast\")",
+      "expect": "map[and:1 fast:1 fun:1 go:2 is:2]"
+    },
+    {
+      "kind": "go-call",
+      "label": "Empty string",
+      "expr": "WordCount(\"\")",
+      "expect": "map[]"
+    },
+    {
+      "kind": "go-call",
+      "label": "Extra spaces",
+      "expr": "WordCount(\"a  b   a\")",
+      "expect": "map[a:2 b:1]"
+    },
+    {
+      "kind": "go-call",
+      "label": "Case matters",
+      "expr": "WordCount(\"Go go GO\")",
+      "expect": "map[GO:1 Go:1 go:1]",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Loop over strings.Fields(s) and add one to counts[w].",
+    "counts[w]++ works even for a word you have not seen, because a missing key reads as 0.",
+    "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc WordCount(s string) map[string]int {\n\tcounts := map[string]int{}\n\tfor _, w := range strings.Fields(s) {\n\t\tcounts[w]++\n\t}\n\treturn counts\n}\n\nfunc main() {\n\tfmt.Println(WordCount(\"go is fun and go is fast\"))\n}\n"
+  ],
+  "socratic": [
+    "What does strings.Fields do with extra spaces?",
+    "What does counts[\"new\"] give for a key that does not exist?",
+    "Why does fmt print the map with sorted keys?"
+  ],
+  "explain": "In one sentence: what did you learn from “Count the Words”?",
+  "xp": 40,
+  "skills": [
+    "go-data",
+    "write",
+    "maps"
+  ],
+  "requires": [
+    "gow-07-minmax"
+  ],
+  "solution": "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc WordCount(s string) map[string]int {\n\tcounts := map[string]int{}\n\tfor _, w := range strings.Fields(s) {\n\t\tcounts[w]++\n\t}\n\treturn counts\n}\n\nfunc main() {\n\tfmt.Println(WordCount(\"go is fun and go is fast\"))\n}\n"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "gow-12-boss",
+  "region": "go-write",
+  "order": 12,
+  "title": "Boss: The Compiler Gremlin",
+  "story": "The Gremlin left five mistakes in the shop till. Go's compiler is strict: it refuses to build until every one is fixed. Fix them and the till prints the total.",
+  "goal": "Make the program compile and print: Total: 20.00",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\ntype Item struct {\n\tName  string\n\tPrice float64\n\tQty   int\n}\n\nfunc total(items []Item) float64 {\n\tsum := 0.0\n\tfor i := 0; i <= len(items); i++ {\n\t\tsum += items[i].Price * items[i].Qty\n\t}\n}\n\nfunc main() {\n\titems := []Item{{\"pen\", 2.5, 4}, {\"book\", 10, 1}}\n\tcount := len(items)\n\tfmt.Printf(\"Total: %.2f\\n\", total(items))\n}\n",
+  "tests": [
+    {
+      "kind": "go-out",
+      "label": "Prints Total: 20.00",
+      "stdin": [],
+      "expect": "Total: 20.00"
+    },
+    {
+      "kind": "go-call",
+      "label": "total of two items",
+      "expr": "total([]Item{{\"a\", 1.5, 2}, {\"b\", 3, 1}})",
+      "expect": "6",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Read the first compile error. Go reports them in order with line numbers: fix the top one, then press Run again.",
+    "The five problems: an unused import, an unused variable, a missing return, a loop that goes one step too far, and mixing float64 with int.",
+    "package main\n\nimport (\n\t\"fmt\"\n)\n\ntype Item struct {\n\tName  string\n\tPrice float64\n\tQty   int\n}\n\nfunc total(items []Item) float64 {\n\tsum := 0.0\n\tfor i := 0; i < len(items); i++ {\n\t\tsum += items[i].Price * float64(items[i].Qty)\n\t}\n\treturn sum\n}\n\nfunc main() {\n\titems := []Item{{\"pen\", 2.5, 4}, {\"book\", 10, 1}}\n\tfmt.Printf(\"Total: %.2f\\n\", total(items))\n}\n"
+  ],
+  "socratic": [
+    "Which line does the first error point to?",
+    "Does Go allow an imported package you never use?",
+    "What does i <= len(items) do on the last turn?"
+  ],
+  "explain": "In one sentence: what did you learn from “Boss: The Compiler Gremlin”?",
+  "xp": 80,
+  "skills": [
+    "go-flow",
+    "write",
+    "errors"
+  ],
+  "requires": [
+    "gow-11-shapes"
+  ],
+  "solution": "package main\n\nimport (\n\t\"fmt\"\n)\n\ntype Item struct {\n\tName  string\n\tPrice float64\n\tQty   int\n}\n\nfunc total(items []Item) float64 {\n\tsum := 0.0\n\tfor i := 0; i < len(items); i++ {\n\t\tsum += items[i].Price * float64(items[i].Qty)\n\t}\n\treturn sum\n}\n\nfunc main() {\n\titems := []Item{{\"pen\", 2.5, 4}, {\"book\", 10, 1}}\n\tfmt.Printf(\"Total: %.2f\\n\", total(items))\n}\n",
+  "boss": true
+}

@@ -1,0 +1,59 @@
+{
+  "id": "gow-07-minmax",
+  "region": "go-write",
+  "order": 7,
+  "title": "Two Results",
+  "story": "Go functions can return more than one value. This is how Go reports errors too.",
+  "goal": "Write MinMax(xs []int) (int, int) returning the smallest and the largest. Assume xs is not empty.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc MinMax(xs []int) (int, int) {\n\treturn 0, 0\n}\n\nfunc main() {\n\tlo, hi := MinMax([]int{3, 1, 4, 1, 5})\n\tfmt.Println(lo, hi)\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "MinMax(3, 1, 4, 1, 5)",
+      "expr": "MinMax([]int{3, 1, 4, 1, 5})",
+      "expect": "1 5"
+    },
+    {
+      "kind": "go-call",
+      "label": "One element",
+      "expr": "MinMax([]int{7})",
+      "expect": "7 7"
+    },
+    {
+      "kind": "go-call",
+      "label": "All negative",
+      "expr": "MinMax([]int{-3, -9, -1})",
+      "expect": "-9 -1"
+    },
+    {
+      "kind": "go-call",
+      "label": "Already sorted",
+      "expr": "MinMax([]int{1, 2, 3, 4})",
+      "expect": "1 4",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Start both lo and hi at the first element, then compare each one.",
+    "return lo, hi",
+    "package main\n\nimport \"fmt\"\n\nfunc MinMax(xs []int) (int, int) {\n\tlo, hi := xs[0], xs[0]\n\tfor _, x := range xs {\n\t\tif x < lo {\n\t\t\tlo = x\n\t\t}\n\t\tif x > hi {\n\t\t\thi = x\n\t\t}\n\t}\n\treturn lo, hi\n}\n\nfunc main() {\n\tlo, hi := MinMax([]int{3, 1, 4, 1, 5})\n\tfmt.Println(lo, hi)\n}\n"
+  ],
+  "socratic": [
+    "Why start from xs[0] instead of 0?",
+    "What if all numbers are negative and you started at 0?",
+    "How does the caller receive two values?"
+  ],
+  "explain": "In one sentence: what did you learn from “Two Results”?",
+  "xp": 35,
+  "skills": [
+    "go-flow",
+    "write",
+    "functions"
+  ],
+  "requires": [
+    "gow-06-fizzbuzz"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc MinMax(xs []int) (int, int) {\n\tlo, hi := xs[0], xs[0]\n\tfor _, x := range xs {\n\t\tif x < lo {\n\t\t\tlo = x\n\t\t}\n\t\tif x > hi {\n\t\t\thi = x\n\t\t}\n\t}\n\treturn lo, hi\n}\n\nfunc main() {\n\tlo, hi := MinMax([]int{3, 1, 4, 1, 5})\n\tfmt.Println(lo, hi)\n}\n"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "gow-01-hello",
+  "region": "go-write",
+  "order": 1,
+  "title": "Say It in Go",
+  "story": "Every Go program starts at main. Your first real program: print a greeting.",
+  "goal": "Print exactly: Hello, Aata!",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\t// print the greeting here\n}\n",
+  "tests": [
+    {
+      "kind": "go-out",
+      "label": "Prints Hello, Aata!",
+      "stdin": [],
+      "expect": "Hello, Aata!"
+    }
+  ],
+  "hints": [
+    "Use fmt.Println with a string in double quotes.",
+    "The text must match exactly, including the comma and the exclamation mark.",
+    "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"Hello, Aata!\")\n}\n"
+  ],
+  "socratic": [
+    "Which package holds Println?",
+    "What does Println add after your text?",
+    "Run it, then compare the output with the goal."
+  ],
+  "explain": "In one sentence: what did you learn from “Say It in Go”?",
+  "xp": 20,
+  "skills": [
+    "go-basics",
+    "write"
+  ],
+  "requires": [
+    "go-26-closure"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"Hello, Aata!\")\n}\n",
+  "alt": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tgreeting := \"Hello, Aata!\"\n\tfmt.Println(greeting)\n}\n"
+}

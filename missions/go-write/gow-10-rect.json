@@ -1,0 +1,59 @@
+{
+  "id": "gow-10-rect",
+  "region": "go-write",
+  "order": 10,
+  "title": "Your Own Type",
+  "story": "A struct groups fields. A method is a function attached to a type.",
+  "goal": "Give Rect an Area() method and a Perimeter() method.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\ntype Rect struct {\n\tW, H float64\n}\n\n// Add the Area and Perimeter methods here.\n\nfunc main() {\n\tr := Rect{W: 3, H: 4}\n\tfmt.Println(r)\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Rect{3, 4}.Area()",
+      "expr": "Rect{3, 4}.Area()",
+      "expect": "12"
+    },
+    {
+      "kind": "go-call",
+      "label": "Rect{3, 4}.Perimeter()",
+      "expr": "Rect{3, 4}.Perimeter()",
+      "expect": "14"
+    },
+    {
+      "kind": "go-call",
+      "label": "Rect{2.5, 2}.Area()",
+      "expr": "Rect{2.5, 2}.Area()",
+      "expect": "5"
+    },
+    {
+      "kind": "go-call",
+      "label": "A square",
+      "expr": "Rect{5, 5}.Perimeter()",
+      "expect": "20",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A method looks like a function with the receiver in parentheses before the name: func (r Rect) Area() float64.",
+    "Perimeter is 2 * (W + H).",
+    "package main\n\nimport \"fmt\"\n\ntype Rect struct {\n\tW, H float64\n}\n\nfunc (r Rect) Area() float64 { return r.W * r.H }\n\nfunc (r Rect) Perimeter() float64 { return 2 * (r.W + r.H) }\n\nfunc main() {\n\tr := Rect{W: 3, H: 4}\n\tfmt.Println(r.Area(), r.Perimeter())\n}\n"
+  ],
+  "socratic": [
+    "What does the receiver (r Rect) give you inside the method?",
+    "Why are the fields float64 and not int?",
+    "Which one would change the struct: a value receiver or a pointer receiver?"
+  ],
+  "explain": "In one sentence: what did you learn from “Your Own Type”?",
+  "xp": 45,
+  "skills": [
+    "go-data",
+    "write",
+    "structs"
+  ],
+  "requires": [
+    "gow-09-divide"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\ntype Rect struct {\n\tW, H float64\n}\n\nfunc (r Rect) Area() float64 { return r.W * r.H }\n\nfunc (r Rect) Perimeter() float64 { return 2 * (r.W + r.H) }\n\nfunc main() {\n\tr := Rect{W: 3, H: 4}\n\tfmt.Println(r.Area(), r.Perimeter())\n}\n"
+}

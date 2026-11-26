@@ -1,0 +1,59 @@
+{
+  "id": "gow-11-shapes",
+  "region": "go-write",
+  "order": 11,
+  "title": "Interfaces",
+  "story": "An interface lists behaviour. Any type with those methods fits, with no declaration needed.",
+  "goal": "Make Circle satisfy Shape, then write TotalArea(shapes []Shape) float64.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\ntype Shape interface {\n\tArea() float64\n}\n\ntype Rect struct{ W, H float64 }\n\nfunc (r Rect) Area() float64 { return r.W * r.H }\n\ntype Circle struct{ R float64 }\n\n// Give Circle an Area method (use 3 for pi to keep the numbers simple).\n\nfunc TotalArea(shapes []Shape) float64 {\n\treturn 0\n}\n\nfunc main() {\n\tshapes := []Shape{Rect{2, 3}}\n\tfmt.Println(TotalArea(shapes))\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Circle{2}.Area() with pi = 3",
+      "expr": "Circle{2}.Area()",
+      "expect": "12"
+    },
+    {
+      "kind": "go-call",
+      "label": "TotalArea of a rect and a circle",
+      "expr": "TotalArea([]Shape{Rect{2, 3}, Circle{2}})",
+      "expect": "18"
+    },
+    {
+      "kind": "go-call",
+      "label": "No shapes",
+      "expr": "TotalArea([]Shape{})",
+      "expect": "0"
+    },
+    {
+      "kind": "go-call",
+      "label": "Three shapes",
+      "expr": "TotalArea([]Shape{Circle{1}, Rect{1, 1}, Circle{3}})",
+      "expect": "31",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "func (c Circle) Area() float64 { return 3 * c.R * c.R }",
+    "In TotalArea, call s.Area() on every element and add it up.",
+    "package main\n\nimport \"fmt\"\n\ntype Shape interface {\n\tArea() float64\n}\n\ntype Rect struct{ W, H float64 }\n\nfunc (r Rect) Area() float64 { return r.W * r.H }\n\ntype Circle struct{ R float64 }\n\nfunc (c Circle) Area() float64 { return 3 * c.R * c.R }\n\nfunc TotalArea(shapes []Shape) float64 {\n\ttotal := 0.0\n\tfor _, s := range shapes {\n\t\ttotal += s.Area()\n\t}\n\treturn total\n}\n\nfunc main() {\n\tshapes := []Shape{Rect{2, 3}, Circle{2}}\n\tfmt.Println(TotalArea(shapes))\n}\n"
+  ],
+  "socratic": [
+    "Why does Circle not need to say it implements Shape?",
+    "What type is each element of the slice?",
+    "What happens if Circle has no Area method?"
+  ],
+  "explain": "In one sentence: what did you learn from “Interfaces”?",
+  "xp": 45,
+  "skills": [
+    "go-data",
+    "write",
+    "interfaces"
+  ],
+  "requires": [
+    "gow-10-rect"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\ntype Shape interface {\n\tArea() float64\n}\n\ntype Rect struct{ W, H float64 }\n\nfunc (r Rect) Area() float64 { return r.W * r.H }\n\ntype Circle struct{ R float64 }\n\nfunc (c Circle) Area() float64 { return 3 * c.R * c.R }\n\nfunc TotalArea(shapes []Shape) float64 {\n\ttotal := 0.0\n\tfor _, s := range shapes {\n\t\ttotal += s.Area()\n\t}\n\treturn total\n}\n\nfunc main() {\n\tshapes := []Shape{Rect{2, 3}, Circle{2}}\n\tfmt.Println(TotalArea(shapes))\n}\n"
+}
