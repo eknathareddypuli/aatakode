@@ -1,0 +1,77 @@
+{
+  "id": "wc-10-boss",
+  "region": "web-css",
+  "order": 10,
+  "title": "Boss: The Profile Card",
+  "story": "Build a neat card from scratch: the Pixel Imp wants a card with rounded corners, spacing and a coloured header.",
+  "goal": "Style .card: width 280px, padding 20px, border-radius 12px, a 1px border, a background that is not white. Style .card h2: centred and a colour that is not black. Make .card .tags a flex row with a 8px gap.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    /* style the card */\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <h2>Chilaka</h2>\n    <p>Parrot, teacher, coder.</p>\n    <div class=\"tags\"><span>python</span><span>go</span><span>sql</span></div>\n  </div>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "The card is 280px wide",
+      "js": "return px(\".card\",\"width\") === 280 || px(\".card\",\"width\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Padding 20px",
+      "js": "return px(\".card\",\"padding-top\") === 20 || px(\".card\",\"padding-top\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Rounded corners of 12px",
+      "js": "return px(\".card\",\"border-top-left-radius\") === 12 || px(\".card\",\"border-top-left-radius\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A 1px border",
+      "js": "return (px(\".card\",\"border-top-width\") === 1 && css(\".card\",\"border-top-style\") !== \"none\") || \"border: \" + px(\".card\",\"border-top-width\") + \"px \" + css(\".card\",\"border-top-style\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The background is not white",
+      "js": "var c = css(\".card\",\"background-color\"); return (c !== \"\" && c !== \"rgba(0, 0, 0, 0)\" && c !== \"rgb(255, 255, 255)\") || \"background is \" + c",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The h2 is centred and not black",
+      "js": "return (css(\".card h2\",\"text-align\") === \"center\" && css(\".card h2\",\"color\") !== \"rgb(0, 0, 0)\") || css(\".card h2\",\"text-align\") + \" \" + css(\".card h2\",\"color\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The tags are a flex row with an 8px gap",
+      "js": "return (css(\".tags\",\"display\") === \"flex\" && (px(\".tags\",\"gap\") === 8 || px(\".tags\",\"column-gap\") === 8)) || css(\".tags\",\"display\")",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Break it into three rules: .card, .card h2, .card .tags.",
+    "width, padding, border-radius, border and background all go in the .card rule.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .card {\n      width: 280px;\n      padding: 20px;\n      border-radius: 12px;\n      border: 1px solid #ccc;\n      background: #f0fdf4;\n    }\n    .card h2 {\n      text-align: center;\n      color: #166534;\n    }\n    .card .tags {\n      display: flex;\n      gap: 8px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <h2>Chilaka</h2>\n    <p>Parrot, teacher, coder.</p>\n    <div class=\"tags\"><span>python</span><span>go</span><span>sql</span></div>\n  </div>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Which rule styles what?",
+    "What does a space between two selectors mean?",
+    "Which property rounds the corners?"
+  ],
+  "explain": "In one sentence: what did you learn from “Boss: The Profile Card”?",
+  "xp": 70,
+  "skills": [
+    "css",
+    "box-model",
+    "flexbox"
+  ],
+  "requires": [
+    "wc-09-variables"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .card {\n      width: 280px;\n      padding: 20px;\n      border-radius: 12px;\n      border: 1px solid #ccc;\n      background: #f0fdf4;\n    }\n    .card h2 {\n      text-align: center;\n      color: #166534;\n    }\n    .card .tags {\n      display: flex;\n      gap: 8px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <h2>Chilaka</h2>\n    <p>Parrot, teacher, coder.</p>\n    <div class=\"tags\"><span>python</span><span>go</span><span>sql</span></div>\n  </div>\n</body>\n</html>\n",
+  "boss": true
+}

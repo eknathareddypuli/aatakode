@@ -1,0 +1,49 @@
+{
+  "id": "wc-01-color",
+  "region": "web-css",
+  "order": 1,
+  "title": "Colour and Size",
+  "story": "CSS styles the page. A rule picks something (the selector) and sets properties inside braces.",
+  "goal": "Make the h1 a colour that is not black, and at least 32px in size.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    /* write your rule here */\n  </style>\n</head>\n<body>\n  <h1>Welcome to Aata</h1>\n  <p>Style me!</p>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "The h1 is not black",
+      "js": "return css(\"h1\",\"color\") !== \"rgb(0, 0, 0)\" || \"still black\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The h1 is at least 32px",
+      "js": "return px(\"h1\",\"font-size\") >= 32 || \"font-size is \" + px(\"h1\",\"font-size\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The paragraph is not touched",
+      "js": "return css(\"p\",\"color\") === \"rgb(0, 0, 0)\" || css(\"p\",\"color\")",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "h1 { color: ...; font-size: ...px; }",
+    "h1 { color: crimson; font-size: 40px; }",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    h1 {\n      color: crimson;\n      font-size: 40px;\n    }\n  </style>\n</head>\n<body>\n  <h1>Welcome to Aata</h1>\n  <p>Style me!</p>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What is the selector in your rule?",
+    "What is a property, and what is a value?",
+    "Why does the paragraph stay black?"
+  ],
+  "explain": "In one sentence: what did you learn from “Colour and Size”?",
+  "xp": 20,
+  "skills": [
+    "css",
+    "selectors"
+  ],
+  "requires": [],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    h1 {\n      color: crimson;\n      font-size: 40px;\n    }\n  </style>\n</head>\n<body>\n  <h1>Welcome to Aata</h1>\n  <p>Style me!</p>\n</body>\n</html>\n"
+}

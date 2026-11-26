@@ -1,0 +1,51 @@
+{
+  "id": "wc-03-box",
+  "region": "web-css",
+  "order": 3,
+  "title": "The Box Model",
+  "story": "Every element is a box: content, then padding, then border, then margin outside.",
+  "goal": "Make .card have 16px padding, a 2px solid border and a 24px bottom margin.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .card {\n      /* box model here */\n    }\n  </style>\n</head>\n<body>\n  <div class=\"card\">Card one</div>\n  <div class=\"card\">Card two</div>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Padding is 16px",
+      "js": "return px(\".card\",\"padding-top\") === 16 || px(\".card\",\"padding-top\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The border is 2px and solid",
+      "js": "return (px(\".card\",\"border-top-width\") === 2 && css(\".card\",\"border-top-style\") === \"solid\") || px(\".card\",\"border-top-width\") + \"px \" + css(\".card\",\"border-top-style\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The bottom margin is 24px",
+      "js": "return px(\".card\",\"margin-bottom\") === 24 || px(\".card\",\"margin-bottom\") + \"px\"",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "padding and margin and border are all properties.",
+    ".card { padding: 16px; border: 2px solid #444; margin-bottom: 24px; }",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .card {\n      padding: 16px;\n      border: 2px solid #444;\n      margin-bottom: 24px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"card\">Card one</div>\n  <div class=\"card\">Card two</div>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What is the difference between padding and margin?",
+    "Which one is inside the border?",
+    "What does the shorthand border: 2px solid red set?"
+  ],
+  "explain": "In one sentence: what did you learn from “The Box Model”?",
+  "xp": 25,
+  "skills": [
+    "css",
+    "box-model"
+  ],
+  "requires": [
+    "wc-02-classes"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .card {\n      padding: 16px;\n      border: 2px solid #444;\n      margin-bottom: 24px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"card\">Card one</div>\n  <div class=\"card\">Card two</div>\n</body>\n</html>\n"
+}

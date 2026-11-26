@@ -1,0 +1,52 @@
+{
+  "id": "wc-06-grid",
+  "region": "web-css",
+  "order": 6,
+  "title": "Grid",
+  "story": "Grid arranges things in rows and columns at the same time. fr means a fair share of the space.",
+  "goal": "Make .gallery a grid with 3 equal columns (repeat(3, 1fr)) and a 12px gap.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .gallery {\n      /* grid here */\n    }\n  </style>\n</head>\n<body>\n  <div class=\"gallery\">\n    <div>1</div><div>2</div><div>3</div>\n    <div>4</div><div>5</div><div>6</div>\n  </div>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": ".gallery is a grid",
+      "js": "return css(\".gallery\",\"display\") === \"grid\" || css(\".gallery\",\"display\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Three equal columns",
+      "js": "var v = css(\".gallery\",\"grid-template-columns\").replace(/\\s+/g, \" \"); return /^(repeat\\(3, ?1fr\\)|1fr 1fr 1fr|[\\d.]+px [\\d.]+px [\\d.]+px)$/.test(v) || v",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The gap is 12px",
+      "js": "var g = px(\".gallery\",\"gap\"); var r = px(\".gallery\",\"row-gap\"); return (g === 12 || r === 12) || \"gap is \" + (g || r)",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "display: grid; grid-template-columns: repeat(3, 1fr);",
+    ".gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .gallery {\n      display: grid;\n      grid-template-columns: repeat(3, 1fr);\n      gap: 12px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"gallery\">\n    <div>1</div><div>2</div><div>3</div>\n    <div>4</div><div>5</div><div>6</div>\n  </div>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What does 1fr mean?",
+    "How many rows does this grid have, and who decided?",
+    "When would you pick grid instead of flex?"
+  ],
+  "explain": "In one sentence: what did you learn from “Grid”?",
+  "xp": 30,
+  "skills": [
+    "css",
+    "grid",
+    "layout"
+  ],
+  "requires": [
+    "wc-05-flex"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .gallery {\n      display: grid;\n      grid-template-columns: repeat(3, 1fr);\n      gap: 12px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"gallery\">\n    <div>1</div><div>2</div><div>3</div>\n    <div>4</div><div>5</div><div>6</div>\n  </div>\n</body>\n</html>\n"
+}

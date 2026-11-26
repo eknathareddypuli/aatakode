@@ -1,0 +1,52 @@
+{
+  "id": "wc-07-hover",
+  "region": "web-css",
+  "order": 7,
+  "title": "Hover and Transitions",
+  "story": "A pseudo-class like :hover styles an element only in a certain state. A transition makes the change smooth.",
+  "goal": "Give .btn a :hover rule that changes the background colour, and a transition on .btn.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .btn {\n      background: #4ade9f;\n      border: 0;\n      padding: 10px 18px;\n    }\n    /* add the hover rule, and a transition on .btn */\n  </style>\n</head>\n<body>\n  <button class=\"btn\">Play</button>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "There is a .btn:hover rule",
+      "js": "var rules = []; Array.prototype.forEach.call(document.styleSheets, function (s) { Array.prototype.forEach.call(s.cssRules, function (r) { if (r.selectorText) rules.push(r); }); }); return rules.some(function (r) { return /\\.btn:hover/.test(r.selectorText); }) || \"no rule for .btn:hover\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The hover rule changes the background",
+      "js": "var ok = false; Array.prototype.forEach.call(document.styleSheets, function (s) { Array.prototype.forEach.call(s.cssRules, function (r) { if (r.selectorText && /\\.btn:hover/.test(r.selectorText) && r.style.getPropertyValue(\"background\") + r.style.getPropertyValue(\"background-color\") !== \"\") ok = true; }); }); return ok || \"the :hover rule does not set a background\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": ".btn has a transition",
+      "js": "var t = css(\".btn\",\"transition\") + css(\".btn\",\"transition-duration\"); return (t.replace(/(all 0s ease 0s|0s)/g, \"\").trim() !== \"\") || \"no transition on .btn\"",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    ".btn:hover { background: ...; }",
+    ".btn { transition: background 0.2s; }",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .btn {\n      background: #4ade9f;\n      border: 0;\n      padding: 10px 18px;\n      transition: background 0.2s;\n    }\n    .btn:hover {\n      background: #22c55e;\n    }\n  </style>\n</head>\n<body>\n  <button class=\"btn\">Play</button>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "When does a :hover rule apply?",
+    "Why put the transition on .btn and not on .btn:hover?",
+    "Which other pseudo-classes exist, like :focus?"
+  ],
+  "explain": "In one sentence: what did you learn from “Hover and Transitions”?",
+  "xp": 30,
+  "skills": [
+    "css",
+    "hover",
+    "transitions"
+  ],
+  "requires": [
+    "wc-06-grid"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .btn {\n      background: #4ade9f;\n      border: 0;\n      padding: 10px 18px;\n      transition: background 0.2s;\n    }\n    .btn:hover {\n      background: #22c55e;\n    }\n  </style>\n</head>\n<body>\n  <button class=\"btn\">Play</button>\n</body>\n</html>\n"
+}

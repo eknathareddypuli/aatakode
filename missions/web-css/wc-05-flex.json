@@ -1,0 +1,52 @@
+{
+  "id": "wc-05-flex",
+  "region": "web-css",
+  "order": 5,
+  "title": "Flexbox",
+  "story": "display: flex lines children up in a row and gives you control of spacing.",
+  "goal": "Make .row a flex container: children in a row, 16px gap, spaced out evenly with space-between.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .box { padding: 12px; background: #dff; }\n    .row {\n      /* flex here */\n    }\n  </style>\n</head>\n<body>\n  <div class=\"row\">\n    <div class=\"box\">One</div>\n    <div class=\"box\">Two</div>\n    <div class=\"box\">Three</div>\n  </div>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": ".row is a flex container",
+      "js": "return css(\".row\",\"display\") === \"flex\" || css(\".row\",\"display\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The gap is 16px",
+      "js": "var g = px(\".row\",\"column-gap\"); var g2 = px(\".row\",\"gap\"); return (g === 16 || g2 === 16) || \"gap is \" + (g2 || g)",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "justify-content is space-between",
+      "js": "return css(\".row\",\"justify-content\") === \"space-between\" || css(\".row\",\"justify-content\")",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Put display: flex on the PARENT (.row), not on the boxes.",
+    ".row { display: flex; gap: 16px; justify-content: space-between; }",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .box { padding: 12px; background: #dff; }\n    .row {\n      display: flex;\n      gap: 16px;\n      justify-content: space-between;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"row\">\n    <div class=\"box\">One</div>\n    <div class=\"box\">Two</div>\n    <div class=\"box\">Three</div>\n  </div>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Which element is the container and which are the items?",
+    "What does justify-content do along the main axis?",
+    "What would flex-direction: column change?"
+  ],
+  "explain": "In one sentence: what did you learn from “Flexbox”?",
+  "xp": 30,
+  "skills": [
+    "css",
+    "flexbox",
+    "layout"
+  ],
+  "requires": [
+    "wc-04-text"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .box { padding: 12px; background: #dff; }\n    .row {\n      display: flex;\n      gap: 16px;\n      justify-content: space-between;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"row\">\n    <div class=\"box\">One</div>\n    <div class=\"box\">Two</div>\n    <div class=\"box\">Three</div>\n  </div>\n</body>\n</html>\n"
+}

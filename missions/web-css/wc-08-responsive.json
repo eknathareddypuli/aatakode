@@ -1,0 +1,51 @@
+{
+  "id": "wc-08-responsive",
+  "region": "web-css",
+  "order": 8,
+  "title": "Responsive Design",
+  "story": "A media query changes styles for certain screen sizes. Phones are narrow, so stack things up.",
+  "goal": "Make .row a flex row, then add a media query for max-width 600px that switches it to a column.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .row {\n      display: flex;\n      gap: 8px;\n    }\n    /* add the media query */\n  </style>\n</head>\n<body>\n  <div class=\"row\"><div>A</div><div>B</div></div>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "There is a media query for 600px",
+      "js": "var found = false; Array.prototype.forEach.call(document.styleSheets, function (s) { Array.prototype.forEach.call(s.cssRules, function (r) { if (r.media && /max-width:\\s*600px/.test(r.media.mediaText || (r.conditionText || \"\"))) found = true; }); }); return found || \"no @media (max-width: 600px)\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "It switches flex-direction to column",
+      "js": "var ok = false; Array.prototype.forEach.call(document.styleSheets, function (s) { Array.prototype.forEach.call(s.cssRules, function (r) { if (r.media && r.cssRules) Array.prototype.forEach.call(r.cssRules, function (q) { if (q.style && q.style.getPropertyValue(\"flex-direction\") === \"column\") ok = true; }); }); }); return ok || \"the media query does not set flex-direction: column\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "On wide screens .row is still a flex row",
+      "js": "return (css(\".row\",\"display\") === \"flex\" && css(\".row\",\"flex-direction\") !== \"column\") || \"wide screens should be a row\"",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "@media (max-width: 600px) { .row { flex-direction: column; } }",
+    "The media query wraps a normal rule in its own braces.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .row {\n      display: flex;\n      gap: 8px;\n    }\n    @media (max-width: 600px) {\n      .row {\n        flex-direction: column;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class=\"row\"><div>A</div><div>B</div></div>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What does max-width: 600px mean?",
+    "Why design for phones first?",
+    "What other things could you change in a media query?"
+  ],
+  "explain": "In one sentence: what did you learn from “Responsive Design”?",
+  "xp": 30,
+  "skills": [
+    "css",
+    "responsive"
+  ],
+  "requires": [
+    "wc-07-hover"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    .row {\n      display: flex;\n      gap: 8px;\n    }\n    @media (max-width: 600px) {\n      .row {\n        flex-direction: column;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class=\"row\"><div>A</div><div>B</div></div>\n</body>\n</html>\n"
+}
