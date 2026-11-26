@@ -1,0 +1,52 @@
+{
+  "id": "ss-01-func",
+  "region": "sh-scripts",
+  "order": 1,
+  "title": "Functions",
+  "story": "A function is a named block you can call many times. Arguments arrive as $1, $2 inside it.",
+  "goal": "Write a function shout that prints its argument in upper case followed by an exclamation mark, then call it with each script argument.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# shout() { ... }\n",
+  "tests": [
+    {
+      "label": "two words",
+      "kind": "sh-out",
+      "expect": "HELLO!\nWORLD!\n",
+      "args": [
+        "hello",
+        "world"
+      ]
+    },
+    {
+      "label": "one word",
+      "kind": "sh-out",
+      "expect": "OK!\n",
+      "args": [
+        "ok"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Define it with name() { ...; } and call it like a command.",
+    "${1^^} upper-cases a variable. tr a-z A-Z also works.",
+    "shout() {\n  echo \"${1^^}!\"\n}\nfor w in \"$@\"; do\n  shout \"$w\"\ndone\n"
+  ],
+  "socratic": [
+    "Where do a function's arguments come from?",
+    "What is $1 inside the function vs outside?",
+    "How do you call a function?"
+  ],
+  "explain": "In one sentence: what did you learn from “Functions”?",
+  "xp": 20,
+  "skills": [
+    "shell",
+    "functions"
+  ],
+  "requires": [
+    "sf-06-cfor"
+  ],
+  "solution": "shout() {\n  echo \"${1^^}!\"\n}\nfor w in \"$@\"; do\n  shout \"$w\"\ndone\n",
+  "alt": "shout() { echo \"$1\" | tr a-z A-Z | sed 's/$/!/'; }\nfor w in \"$@\"; do shout \"$w\"; done\n"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "ss-03-defaults",
+  "region": "sh-scripts",
+  "order": 3,
+  "title": "Default Values",
+  "story": "${var:-default} supplies a fallback. It makes scripts friendly when an argument is missing.",
+  "goal": "Print Hello, NAME! using the first argument, or Hello, friend! when none is given. Print Env: X using the second argument or dev.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# ${1:-default}\n",
+  "tests": [
+    {
+      "label": "no args",
+      "kind": "sh-out",
+      "expect": "Hello, friend!\nEnv: dev\n"
+    },
+    {
+      "label": "name only",
+      "kind": "sh-out",
+      "expect": "Hello, Asha!\nEnv: dev\n",
+      "args": [
+        "Asha"
+      ]
+    },
+    {
+      "label": "both",
+      "kind": "sh-out",
+      "expect": "Hello, Ravi!\nEnv: prod\n",
+      "args": [
+        "Ravi",
+        "prod"
+      ]
+    },
+    {
+      "label": "empty name",
+      "kind": "sh-out",
+      "expect": "Hello, friend!\nEnv: qa\n",
+      "args": [
+        "",
+        "qa"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "${1:-friend} means: $1, or friend if it is empty or unset.",
+    "Do the same for the environment name.",
+    "name=${1:-friend}\nenv=${2:-dev}\necho \"Hello, $name!\"\necho \"Env: $env\"\n"
+  ],
+  "socratic": [
+    "What is the difference between :- and -?",
+    "When would you use :=?",
+    "What does ${1:?} do?"
+  ],
+  "explain": "In one sentence: what did you learn from “Default Values”?",
+  "xp": 20,
+  "skills": [
+    "shell",
+    "parameter-expansion"
+  ],
+  "requires": [
+    "ss-02-status"
+  ],
+  "solution": "name=${1:-friend}\nenv=${2:-dev}\necho \"Hello, $name!\"\necho \"Env: $env\"\n"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "ss-02-status",
+  "region": "sh-scripts",
+  "order": 2,
+  "title": "Exit Status",
+  "story": "Every command leaves a number behind: 0 for success, anything else for failure. $? holds the last one.",
+  "goal": "Write a function is_even that returns success for even numbers. For each argument print N is even or N is odd.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# return 0 means true, return 1 means false\n",
+  "tests": [
+    {
+      "label": "mixed",
+      "kind": "sh-out",
+      "expect": "1 is odd\n2 is even\n7 is odd\n10 is even\n",
+      "args": [
+        "1",
+        "2",
+        "7",
+        "10"
+      ]
+    },
+    {
+      "label": "zero",
+      "kind": "sh-out",
+      "expect": "0 is even\n",
+      "args": [
+        "0"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A function's exit status is the status of its last command.",
+    "(( $1 % 2 == 0 )) succeeds when the test is true.",
+    "is_even() {\n  (( $1 % 2 == 0 ))\n}\nfor n in \"$@\"; do\n  if is_even \"$n\"; then echo \"$n is even\"; else echo \"$n is odd\"; fi\ndone\n"
+  ],
+  "socratic": [
+    "Why does 0 mean success?",
+    "What does if do with a function?",
+    "What does return 3 do?"
+  ],
+  "explain": "In one sentence: what did you learn from “Exit Status”?",
+  "xp": 25,
+  "skills": [
+    "shell",
+    "exit-status"
+  ],
+  "requires": [
+    "ss-01-func"
+  ],
+  "solution": "is_even() {\n  (( $1 % 2 == 0 ))\n}\nfor n in \"$@\"; do\n  if is_even \"$n\"; then echo \"$n is even\"; else echo \"$n is odd\"; fi\ndone\n",
+  "alt": "is_even() { [ $(( $1 % 2 )) -eq 0 ]; }\nfor n in \"$@\"; do\n  is_even \"$n\" && echo \"$n is even\" || echo \"$n is odd\"\ndone\n"
+}

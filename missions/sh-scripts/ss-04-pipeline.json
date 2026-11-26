@@ -1,0 +1,61 @@
+{
+  "id": "ss-04-pipeline",
+  "region": "sh-scripts",
+  "order": 4,
+  "title": "Pipelines",
+  "story": "Small tools joined by | do big jobs. This is the shell's superpower.",
+  "goal": "Read words from standard input, one per line, and print the three most common as COUNT WORD, most common first (ties alphabetical).",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# sort | uniq -c | sort ...\n",
+  "tests": [
+    {
+      "label": "fruit",
+      "kind": "sh-out",
+      "expect": "3 apple\n2 pear\n1 fig\n",
+      "stdin": [
+        "apple",
+        "pear",
+        "apple",
+        "fig",
+        "pear",
+        "apple",
+        "kiwi"
+      ]
+    },
+    {
+      "label": "tie",
+      "kind": "sh-out",
+      "expect": "2 a\n2 b\n1 c\n",
+      "stdin": [
+        "b",
+        "a",
+        "b",
+        "a",
+        "c"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "uniq -c only counts neighbours, so sort first.",
+    "sort -rn puts the biggest count first; head -3 keeps the top three.",
+    "sort | uniq -c | sort -k1,1nr -k2 | head -3 | while read -r c w; do echo \"$c $w\"; done\n"
+  ],
+  "socratic": [
+    "Why must you sort before uniq?",
+    "What does head -3 do?",
+    "Where does each stage's output go?"
+  ],
+  "explain": "In one sentence: what did you learn from “Pipelines”?",
+  "xp": 30,
+  "skills": [
+    "shell",
+    "pipes"
+  ],
+  "requires": [
+    "ss-03-defaults"
+  ],
+  "solution": "sort | uniq -c | sort -k1,1nr -k2 | head -3 | while read -r c w; do echo \"$c $w\"; done\n",
+  "alt": "sort | uniq -c | sort -k1,1nr -k2,2 | head -n 3 | sed -E 's/^ +//'\n"
+}

@@ -1,0 +1,83 @@
+{
+  "id": "ss-07-boss",
+  "region": "sh-scripts",
+  "order": 7,
+  "title": "Boss: The Tangled Script",
+  "story": "The Knot Spider has tied a script into a tangle. Write a tidy one that handles every case.",
+  "goal": "Read numbers from standard input (one per line). Ignore blank lines and any line that is not a whole number. Print count, sum, min and max, one per line as count=N, sum=N, min=N, max=N. With no numbers print count=0 only.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# read, validate with [[ =~ ]], keep totals\n",
+  "tests": [
+    {
+      "label": "plain numbers",
+      "kind": "sh-out",
+      "expect": "count=3\nsum=16\nmin=3\nmax=9\n",
+      "stdin": [
+        "3",
+        "9",
+        "4"
+      ]
+    },
+    {
+      "label": "blanks and junk",
+      "kind": "sh-out",
+      "expect": "count=3\nsum=14\nmin=-3\nmax=12\n",
+      "stdin": [
+        "5",
+        "",
+        "x1",
+        "12",
+        "-3",
+        "4.5"
+      ]
+    },
+    {
+      "label": "empty",
+      "kind": "sh-out",
+      "expect": "count=0\n",
+      "hidden": true
+    },
+    {
+      "label": "one number",
+      "kind": "sh-out",
+      "expect": "count=1\nsum=42\nmin=42\nmax=42\n",
+      "stdin": [
+        "42"
+      ],
+      "hidden": true
+    },
+    {
+      "label": "all negative",
+      "kind": "sh-out",
+      "expect": "count=3\nsum=-16\nmin=-9\nmax=-2\n",
+      "stdin": [
+        "-5",
+        "-2",
+        "-9"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Test each line with [[ $n =~ ^-?[0-9]+$ ]] and skip bad ones with continue.",
+    "Keep min and max empty until the first number, then compare with -lt and -gt.",
+    "count=0; sum=0; min=; max=\nwhile read -r n; do\n  [[ $n =~ ^-?[0-9]+$ ]] || continue\n  count=$((count + 1)); sum=$((sum + n))\n  if [ -z \"$min\" ] || [ \"$n\" -lt \"$min\" ]; then min=$n; fi\n  if [ -z \"$max\" ] || [ \"$n\" -gt \"$max\" ]; then max=$n; fi\ndone\necho \"count=$count\"\nif [ \"$count\" -gt 0 ]; then\n  echo \"sum=$sum\"; echo \"min=$min\"; echo \"max=$max\"\nfi\n"
+  ],
+  "socratic": [
+    "What should happen to a blank line?",
+    "Why start min and max empty?",
+    "What does the output look like with no numbers?"
+  ],
+  "explain": "In one sentence: what did you learn from “Boss: The Tangled Script”?",
+  "xp": 60,
+  "skills": [
+    "shell",
+    "boss"
+  ],
+  "requires": [
+    "ss-06-safe"
+  ],
+  "solution": "count=0; sum=0; min=; max=\nwhile read -r n; do\n  [[ $n =~ ^-?[0-9]+$ ]] || continue\n  count=$((count + 1)); sum=$((sum + n))\n  if [ -z \"$min\" ] || [ \"$n\" -lt \"$min\" ]; then min=$n; fi\n  if [ -z \"$max\" ] || [ \"$n\" -gt \"$max\" ]; then max=$n; fi\ndone\necho \"count=$count\"\nif [ \"$count\" -gt 0 ]; then\n  echo \"sum=$sum\"; echo \"min=$min\"; echo \"max=$max\"\nfi\n",
+  "boss": true
+}

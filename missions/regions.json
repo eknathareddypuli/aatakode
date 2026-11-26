@@ -83,6 +83,12 @@
       "title": "Web Basics",
       "title_te": "వెబ్ ప్రాథమికాలు",
       "blurb": "HTML, CSS and JavaScript: build a real page and a small quiz app."
+    },
+    {
+      "id": "shell",
+      "title": "Shell Scripting",
+      "title_te": "షెల్ స్క్రిప్టింగ్",
+      "blurb": "Write real bash scripts: variables, loops, functions and a log report you can run every night."
     }
   ],
   "regions": [
@@ -589,6 +595,46 @@
       "icon": "🧩",
       "place": "The Town Hall",
       "story": "Put HTML, CSS and JavaScript together in one working page."
+    },
+    {
+      "id": "sh-basics",
+      "track": "shell",
+      "title": "Script Basics",
+      "title_te": "స్క్రిప్ట్ ప్రాథమికాలు",
+      "blurb": "Echo, variables, arguments and arithmetic.",
+      "icon": "📜",
+      "place": "The Script Hut",
+      "story": "Your first lines of bash, one command at a time."
+    },
+    {
+      "id": "sh-flow",
+      "track": "shell",
+      "title": "Decisions and Loops",
+      "title_te": "నిర్ణయాలు మరియు లూపులు",
+      "blurb": "if, case, for and while.",
+      "icon": "🔀",
+      "place": "The Crossroads",
+      "story": "Teach your script to choose and to repeat."
+    },
+    {
+      "id": "sh-scripts",
+      "track": "shell",
+      "title": "Real Scripts",
+      "title_te": "నిజమైన స్క్రిప్టులు",
+      "blurb": "Functions, exit codes, pipelines, arrays and strict mode.",
+      "icon": "🧰",
+      "place": "The Toolshed",
+      "story": "Build tools you can trust and reuse."
+    },
+    {
+      "id": "sh-project",
+      "track": "shell",
+      "title": "Shell Project: Log Report",
+      "title_te": "షెల్ ప్రాజెక్ట్",
+      "blurb": "A nightly log report, built in four steps.",
+      "icon": "📊",
+      "place": "The Night Office",
+      "story": "Count levels, find the top error and exit with a useful status."
     }
   ]
 }

@@ -1,0 +1,68 @@
+{
+  "id": "ss-06-safe",
+  "region": "sh-scripts",
+  "order": 6,
+  "title": "Strict Mode and Errors",
+  "story": "Scripts should stop on trouble instead of ploughing on. set -e exits on failure and set -u catches typos.",
+  "goal": "Start with set -eu. If the file in the first argument is missing print error: FILE not found and exit with status 3. Otherwise print Backing up FILE, copy it to FILE.bak and print Done.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "set -eu\n",
+  "tests": [
+    {
+      "kind": "sh-source",
+      "label": "starts with strict mode",
+      "pattern": "^\\s*set\\s+-[a-z]*e[a-z]*u|^\\s*set\\s+-[a-z]*u[a-z]*e"
+    },
+    {
+      "label": "existing file",
+      "kind": "sh-out",
+      "expect": "Backing up data.txt\nDone\n",
+      "args": [
+        "data.txt"
+      ]
+    },
+    {
+      "label": "missing file exits 3",
+      "kind": "sh-out",
+      "expect": "error: nope.txt not found\n",
+      "status": 3,
+      "args": [
+        "nope.txt"
+      ]
+    },
+    {
+      "label": "backup is written",
+      "kind": "sh-file",
+      "path": "data.txt.bak",
+      "expect": "keep me\n",
+      "args": [
+        "data.txt"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Test with [ ! -f \"$f\" ] before copying.",
+    "exit 3 ends the script with status 3.",
+    "set -eu\nf=\"$1\"\nif [ ! -f \"$f\" ]; then\n  echo \"error: $f not found\"\n  exit 3\nfi\necho \"Backing up $f\"\ncp \"$f\" \"$f.bak\"\necho \"Done\"\n"
+  ],
+  "socratic": [
+    "What does set -e do?",
+    "What does set -u catch?",
+    "How does a caller see your exit code?"
+  ],
+  "explain": "In one sentence: what did you learn from “Strict Mode and Errors”?",
+  "xp": 30,
+  "skills": [
+    "shell",
+    "robustness"
+  ],
+  "requires": [
+    "ss-05-arrays"
+  ],
+  "solution": "set -eu\nf=\"$1\"\nif [ ! -f \"$f\" ]; then\n  echo \"error: $f not found\"\n  exit 3\nfi\necho \"Backing up $f\"\ncp \"$f\" \"$f.bak\"\necho \"Done\"\n",
+  "files": {
+    "data.txt": "keep me\n"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "ss-05-arrays",
+  "region": "sh-scripts",
+  "order": 5,
+  "title": "Arrays",
+  "story": "Bash has arrays. They hold lists without the word-splitting bugs of plain strings.",
+  "goal": "Put the arguments into an array, then print the count, the first item and the last item on separate lines, then every item in reverse.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# items=(\"$@\")\n",
+  "tests": [
+    {
+      "label": "four",
+      "kind": "sh-out",
+      "expect": "4\na\nd\nd\nc\nb\na\n",
+      "args": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ]
+    },
+    {
+      "label": "one",
+      "kind": "sh-out",
+      "expect": "1\nsolo\nsolo\nsolo\n",
+      "args": [
+        "solo"
+      ],
+      "hidden": true
+    },
+    {
+      "label": "spaces",
+      "kind": "sh-out",
+      "expect": "2\nx y\nz\nz\nx y\n",
+      "args": [
+        "x y",
+        "z"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "${#items[@]} is the length, ${items[0]} is the first item.",
+    "Count down with for ((i=len-1; i>=0; i--)).",
+    "items=(\"$@\")\necho \"${#items[@]}\"\necho \"${items[0]}\"\necho \"${items[-1]}\"\nfor ((i=${#items[@]}-1; i>=0; i--)); do\n  echo \"${items[i]}\"\ndone\n"
+  ],
+  "socratic": [
+    "Why is (\"$@\") safer than a string?",
+    "How do you get the last item?",
+    "What does \"${items[@]}\" expand to?"
+  ],
+  "explain": "In one sentence: what did you learn from “Arrays”?",
+  "xp": 30,
+  "skills": [
+    "shell",
+    "arrays"
+  ],
+  "requires": [
+    "ss-04-pipeline"
+  ],
+  "solution": "items=(\"$@\")\necho \"${#items[@]}\"\necho \"${items[0]}\"\necho \"${items[-1]}\"\nfor ((i=${#items[@]}-1; i>=0; i--)); do\n  echo \"${items[i]}\"\ndone\n",
+  "alt": "items=(\"$@\")\necho ${#items[@]}\necho \"${items[0]}\"\necho \"${items[${#items[@]}-1]}\"\nfor (( i=${#items[@]}; i>0; i-- )); do echo \"${items[i-1]}\"; done\n"
+}
