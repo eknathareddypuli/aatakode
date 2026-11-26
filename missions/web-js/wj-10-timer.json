@@ -1,0 +1,57 @@
+{
+  "id": "wj-10-timer",
+  "region": "web-js",
+  "order": 10,
+  "title": "Timers",
+  "story": "setInterval runs code again and again. Be careful to give it a way to stop.",
+  "goal": "Define a function tick() that adds 1 to #n each time it is called. (Call it from setInterval every 1000ms, too.)",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <p id=\"n\">0</p>\n  <script>\n    // function tick() ...\n    // setInterval(tick, 1000);\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "tick exists",
+      "js": "return typeof H.win.tick === \"function\" || \"no tick function\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "tick adds 1",
+      "js": "H.win.tick(); H.win.tick(); return txt(\"#n\") === \"2\" || txt(\"#n\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A timer is set up",
+      "js": "return /setInterval\\s*\\(\\s*tick/.test($$(\"script\").map(function (s) { return s.textContent; }).join(\" \")) || \"call setInterval(tick, 1000)\"",
+      "hidden": false
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Write the function first, then hand its name to setInterval (no brackets).",
+    "setInterval(tick, 1000);",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <p id=\"n\">0</p>\n  <script>\n    function tick() {\n      var el = document.getElementById(\"n\");\n      el.textContent = Number(el.textContent) + 1;\n    }\n    setInterval(tick, 1000);\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why pass tick and not tick()?",
+    "What unit is 1000?",
+    "How would you stop it?"
+  ],
+  "explain": "In one sentence: what did you learn from “Timers”?",
+  "xp": 40,
+  "skills": [
+    "js",
+    "timers",
+    "functions"
+  ],
+  "requires": [
+    "wj-09-keys"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <p id=\"n\">0</p>\n  <script>\n    function tick() {\n      var el = document.getElementById(\"n\");\n      el.textContent = Number(el.textContent) + 1;\n    }\n    setInterval(tick, 1000);\n  </script>\n</body>\n</html>\n"
+}

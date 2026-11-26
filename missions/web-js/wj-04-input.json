@@ -1,0 +1,51 @@
+{
+  "id": "wj-04-input",
+  "region": "web-js",
+  "order": 4,
+  "title": "Read an Input",
+  "story": "An input's .value is what the user typed. Read it when the button is clicked.",
+  "goal": "When #go is clicked, show Hello, NAME! in #greet using the text in #name.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"name\" placeholder=\"Your name\">\n  <button id=\"go\">Greet</button>\n  <p id=\"greet\"></p>\n  <script>\n    // read #name.value on click\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Greets Ravi",
+      "js": "type(\"#name\",\"Ravi\"); click(\"#go\"); return txt(\"#greet\") === \"Hello, Ravi!\" || txt(\"#greet\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Greets someone else",
+      "js": "type(\"#name\",\"Sita\"); click(\"#go\"); return txt(\"#greet\") === \"Hello, Sita!\" || txt(\"#greet\")",
+      "hidden": true
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Read .value inside the click function, not outside it.",
+    "\"Hello, \" + name + \"!\"",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"name\" placeholder=\"Your name\">\n  <button id=\"go\">Greet</button>\n  <p id=\"greet\"></p>\n  <script>\n    document.getElementById(\"go\").addEventListener(\"click\", function () {\n      var name = document.getElementById(\"name\").value;\n      document.getElementById(\"greet\").textContent = \"Hello, \" + name + \"!\";\n    });\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why read the value inside the handler?",
+    "What is the type of input.value?",
+    "What does + do with two strings?"
+  ],
+  "explain": "In one sentence: what did you learn from “Read an Input”?",
+  "xp": 30,
+  "skills": [
+    "js",
+    "dom",
+    "events"
+  ],
+  "requires": [
+    "wj-03-counter"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"name\" placeholder=\"Your name\">\n  <button id=\"go\">Greet</button>\n  <p id=\"greet\"></p>\n  <script>\n    document.getElementById(\"go\").addEventListener(\"click\", function () {\n      var name = document.getElementById(\"name\").value;\n      document.getElementById(\"greet\").textContent = \"Hello, \" + name + \"!\";\n    });\n  </script>\n</body>\n</html>\n"
+}

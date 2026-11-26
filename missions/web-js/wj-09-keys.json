@@ -1,0 +1,63 @@
+{
+  "id": "wj-09-keys",
+  "region": "web-js",
+  "order": 9,
+  "title": "Keyboard Events",
+  "story": "Pages can listen to keys. The event object says which key was pressed.",
+  "goal": "Pressing Enter inside #todo adds its text as a new <li> to #items and clears the input.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"todo\">\n  <ul id=\"items\"></ul>\n  <script>\n    // listen for keydown on #todo\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Enter adds an item",
+      "js": "type(\"#todo\",\"Buy milk\"); key(\"#todo\",\"Enter\"); return txt(\"#items li\") === \"Buy milk\" || $$(\"#items li\").length + \" items\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The input is cleared",
+      "js": "return $(\"#todo\").value === \"\" || \"input still has: \" + $(\"#todo\").value",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Other keys do nothing",
+      "js": "type(\"#todo\",\"abc\"); key(\"#todo\",\"a\"); return $$(\"#items li\").length === 1 || $$(\"#items li\").length + \" items\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Empty Enter adds nothing",
+      "js": "type(\"#todo\",\"  \"); key(\"#todo\",\"Enter\"); return $$(\"#items li\").length === 1 || \"added an empty item\"",
+      "hidden": true
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "The handler gets an event object: e.key tells which key.",
+    "if (e.key === \"Enter\") { ... }",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"todo\">\n  <ul id=\"items\"></ul>\n  <script>\n    var box = document.getElementById(\"todo\");\n    box.addEventListener(\"keydown\", function (e) {\n      if (e.key === \"Enter\" && box.value.trim() !== \"\") {\n        var li = document.createElement(\"li\");\n        li.textContent = box.value.trim();\n        document.getElementById(\"items\").appendChild(li);\n        box.value = \"\";\n      }\n    });\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What is e.key when the user presses a letter?",
+    "Why clear the input afterwards?",
+    "Why trim() the text?"
+  ],
+  "explain": "In one sentence: what did you learn from “Keyboard Events”?",
+  "xp": 40,
+  "skills": [
+    "js",
+    "events",
+    "dom"
+  ],
+  "requires": [
+    "wj-08-condition"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"todo\">\n  <ul id=\"items\"></ul>\n  <script>\n    var box = document.getElementById(\"todo\");\n    box.addEventListener(\"keydown\", function (e) {\n      if (e.key === \"Enter\" && box.value.trim() !== \"\") {\n        var li = document.createElement(\"li\");\n        li.textContent = box.value.trim();\n        document.getElementById(\"items\").appendChild(li);\n        box.value = \"\";\n      }\n    });\n  </script>\n</body>\n</html>\n"
+}

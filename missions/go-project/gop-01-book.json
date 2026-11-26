@@ -1,0 +1,53 @@
+{
+  "id": "gop-01-book",
+  "region": "go-project",
+  "order": 1,
+  "title": "Step 1: A Book",
+  "story": "The village library wants a small catalogue tool. Start with what a book is and how it prints.",
+  "goal": "Give Book a String() method so printing a Book shows: Title by Author (Year).",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport \"fmt\"\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\n// Add a String method so a Book prints as: Title by Author (Year)\n\nfunc main() {\n\tb := Book{\"Malleshwari\", \"Rachakonda\", 1950}\n\tfmt.Println(b)\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "A book prints nicely",
+      "expr": "Book{\"Malleshwari\", \"Rachakonda\", 1950}",
+      "expect": "Malleshwari by Rachakonda (1950)"
+    },
+    {
+      "kind": "go-call",
+      "label": "Another book",
+      "expr": "Book{\"Go\", \"Gopher\", 2009}",
+      "expect": "Go by Gopher (2009)"
+    },
+    {
+      "kind": "go-out",
+      "label": "main prints the book",
+      "stdin": [],
+      "expect": "Malleshwari by Rachakonda (1950)"
+    }
+  ],
+  "hints": [
+    "fmt uses a String() string method automatically when it prints a value.",
+    "return fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)",
+    "package main\n\nimport \"fmt\"\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\nfunc main() {\n\tb := Book{\"Malleshwari\", \"Rachakonda\", 1950}\n\tfmt.Println(b)\n}\n"
+  ],
+  "socratic": [
+    "What does fmt.Println do when the value has a String method?",
+    "Which verb prints a number inside Sprintf?",
+    "Why does the receiver not need to be a pointer?"
+  ],
+  "explain": "In one sentence: what did you learn from “Step 1: A Book”?",
+  "xp": 40,
+  "skills": [
+    "go-data",
+    "structs",
+    "project"
+  ],
+  "requires": [
+    "gow-12-boss"
+  ],
+  "solution": "package main\n\nimport \"fmt\"\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\nfunc main() {\n\tb := Book{\"Malleshwari\", \"Rachakonda\", 1950}\n\tfmt.Println(b)\n}\n",
+  "project_step": true
+}

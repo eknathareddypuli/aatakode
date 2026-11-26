@@ -1,0 +1,69 @@
+{
+  "id": "wj-11-json",
+  "region": "web-js",
+  "order": 11,
+  "title": "Saving as Text (JSON)",
+  "story": "Browsers store data as text. JSON turns lists and objects into text and back. (On a real site you would pass this text to localStorage.)",
+  "goal": "Define toText(list) that returns the JSON text of a list, and fromText(text) that returns the list back, or [] when the text is empty or not valid JSON.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <p>JSON helpers</p>\n  <script>\n    // function toText(list) { ... }\n    // function fromText(text) { ... }\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "toText makes JSON",
+      "js": "return H.win.toText([\"a\",\"b\"]) === '[\"a\",\"b\"]' || String(H.win.toText([\"a\",\"b\"]))",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "fromText reads it back",
+      "js": "return JSON.stringify(H.win.fromText('[\"x\",1]')) === '[\"x\",1]' || JSON.stringify(H.win.fromText('[\"x\",1]'))",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Empty text gives []",
+      "js": "return JSON.stringify(H.win.fromText(\"\")) === \"[]\" || JSON.stringify(H.win.fromText(\"\"))",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Broken text gives []",
+      "js": "return JSON.stringify(H.win.fromText(\"{oops\")) === \"[]\" || JSON.stringify(H.win.fromText(\"{oops\"))",
+      "hidden": true
+    },
+    {
+      "kind": "web",
+      "label": "A non-list gives []",
+      "js": "return JSON.stringify(H.win.fromText('{\"a\":1}')) === \"[]\" || JSON.stringify(H.win.fromText('{\"a\":1}'))",
+      "hidden": true
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "JSON.stringify makes text; JSON.parse reads it, and throws on bad text.",
+    "Wrap JSON.parse in try/catch and return [] in catch.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <p>JSON helpers</p>\n  <script>\n    function toText(list) {\n      return JSON.stringify(list);\n    }\n    function fromText(text) {\n      try {\n        var v = JSON.parse(text);\n        return Array.isArray(v) ? v : [];\n      } catch (e) {\n        return [];\n      }\n    }\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why does JSON.parse need a try/catch here?",
+    "What does Array.isArray check?",
+    "Why is text the right shape to store?"
+  ],
+  "explain": "In one sentence: what did you learn from “Saving as Text (JSON)”?",
+  "xp": 40,
+  "skills": [
+    "js",
+    "json",
+    "errors"
+  ],
+  "requires": [
+    "wj-10-timer"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <p>JSON helpers</p>\n  <script>\n    function toText(list) {\n      return JSON.stringify(list);\n    }\n    function fromText(text) {\n      try {\n        var v = JSON.parse(text);\n        return Array.isArray(v) ? v : [];\n      } catch (e) {\n        return [];\n      }\n    }\n  </script>\n</body>\n</html>\n"
+}

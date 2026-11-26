@@ -1,0 +1,56 @@
+{
+  "id": "wj-08-condition",
+  "region": "web-js",
+  "order": 8,
+  "title": "Decide With If",
+  "story": "if lets the page choose. Check a value and show a different message.",
+  "goal": "On click of #check, show Adult if #age is 18 or more, otherwise Minor, in #verdict.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"age\" type=\"number\">\n  <button id=\"check\">Check</button>\n  <p id=\"verdict\"></p>\n  <script>\n    // read #age on click and decide\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "20 is Adult",
+      "js": "type(\"#age\",\"20\"); click(\"#check\"); return txt(\"#verdict\") === \"Adult\" || txt(\"#verdict\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "10 is Minor",
+      "js": "type(\"#age\",\"10\"); click(\"#check\"); return txt(\"#verdict\") === \"Minor\" || txt(\"#verdict\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "18 is Adult",
+      "js": "type(\"#age\",\"18\"); click(\"#check\"); return txt(\"#verdict\") === \"Adult\" || txt(\"#verdict\")",
+      "hidden": true
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Convert with Number(...) then compare with >=.",
+    "if (age >= 18) { ... } else { ... }",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"age\" type=\"number\">\n  <button id=\"check\">Check</button>\n  <p id=\"verdict\"></p>\n  <script>\n    document.getElementById(\"check\").addEventListener(\"click\", function () {\n      var age = Number(document.getElementById(\"age\").value);\n      document.getElementById(\"verdict\").textContent = age >= 18 ? \"Adult\" : \"Minor\";\n    });\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why convert the value with Number()?",
+    "Is 18 an adult by your rule?",
+    "What does age >= 18 return?"
+  ],
+  "explain": "In one sentence: what did you learn from “Decide With If”?",
+  "xp": 35,
+  "skills": [
+    "js",
+    "conditions"
+  ],
+  "requires": [
+    "wj-07-loop"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"age\" type=\"number\">\n  <button id=\"check\">Check</button>\n  <p id=\"verdict\"></p>\n  <script>\n    document.getElementById(\"check\").addEventListener(\"click\", function () {\n      var age = Number(document.getElementById(\"age\").value);\n      document.getElementById(\"verdict\").textContent = age >= 18 ? \"Adult\" : \"Minor\";\n    });\n  </script>\n</body>\n</html>\n"
+}

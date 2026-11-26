@@ -1,0 +1,55 @@
+{
+  "id": "gop-02-library",
+  "region": "go-project",
+  "order": 2,
+  "title": "Step 2: A Library",
+  "story": "Now a library holds many books. Adding changes the library, so these methods use a pointer receiver.",
+  "goal": "Write Add (append a book) and Find (return the book with that title, or the error not found: TITLE).",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\ntype Library struct {\n\tbooks []Book\n}\n\n// Add appends a book.\nfunc (l *Library) Add(b Book) {\n}\n\n// Find returns the first book with this title, or an error when it is not there.\nfunc (l *Library) Find(title string) (Book, error) {\n\t_ = errors.New\n\treturn Book{}, nil\n}\n\nfunc main() {\n\tlib := &Library{}\n\tlib.Add(Book{\"Go\", \"Gopher\", 2009})\n\tfmt.Println(lib.Find(\"Go\"))\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Find a book that was added",
+      "expr": "func() string { l := &Library{}; l.Add(Book{\"Go\", \"Gopher\", 2009}); b, err := l.Find(\"Go\"); return fmt.Sprint(b, err) }()",
+      "expect": "Go by Gopher (2009) <nil>"
+    },
+    {
+      "kind": "go-call",
+      "label": "A missing book gives an error",
+      "expr": "func() string { l := &Library{}; l.Add(Book{\"Go\", \"Gopher\", 2009}); _, err := l.Find(\"Rust\"); return fmt.Sprint(err) }()",
+      "expect": "not found: Rust"
+    },
+    {
+      "kind": "go-call",
+      "label": "Add keeps every book",
+      "expr": "func() int { l := &Library{}; l.Add(Book{\"A\", \"x\", 1}); l.Add(Book{\"B\", \"y\", 2}); return len(l.books) }()",
+      "expect": "2",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Add: l.books = append(l.books, b). The receiver is a pointer so the change sticks.",
+    "Find: loop over l.books, return b, nil when the title matches, and errors.New(\"not found: \" + title) at the end.",
+    "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\ntype Library struct {\n\tbooks []Book\n}\n\nfunc (l *Library) Add(b Book) {\n\tl.books = append(l.books, b)\n}\n\nfunc (l *Library) Find(title string) (Book, error) {\n\tfor _, b := range l.books {\n\t\tif b.Title == title {\n\t\t\treturn b, nil\n\t\t}\n\t}\n\treturn Book{}, errors.New(\"not found: \" + title)\n}\n\nfunc main() {\n\tlib := &Library{}\n\tlib.Add(Book{\"Go\", \"Gopher\", 2009})\n\tfmt.Println(lib.Find(\"Go\"))\n}\n"
+  ],
+  "socratic": [
+    "Why does Add need *Library and not Library?",
+    "What would happen to l.books if the receiver were a copy?",
+    "What should Find return in the Book position when it fails?"
+  ],
+  "explain": "In one sentence: what did you learn from “Step 2: A Library”?",
+  "xp": 55,
+  "skills": [
+    "go-data",
+    "go-flow",
+    "project",
+    "errors"
+  ],
+  "requires": [
+    "gop-01-book"
+  ],
+  "solution": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\ntype Library struct {\n\tbooks []Book\n}\n\nfunc (l *Library) Add(b Book) {\n\tl.books = append(l.books, b)\n}\n\nfunc (l *Library) Find(title string) (Book, error) {\n\tfor _, b := range l.books {\n\t\tif b.Title == title {\n\t\t\treturn b, nil\n\t\t}\n\t}\n\treturn Book{}, errors.New(\"not found: \" + title)\n}\n\nfunc main() {\n\tlib := &Library{}\n\tlib.Add(Book{\"Go\", \"Gopher\", 2009})\n\tfmt.Println(lib.Find(\"Go\"))\n}\n",
+  "project_step": true
+}

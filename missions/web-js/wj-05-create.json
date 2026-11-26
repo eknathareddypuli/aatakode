@@ -1,0 +1,56 @@
+{
+  "id": "wj-05-create",
+  "region": "web-js",
+  "order": 5,
+  "title": "Create Elements",
+  "story": "createElement and appendChild let JavaScript build new page content.",
+  "goal": "On each click of #add, append a new <li> to #list with the text Item 1, Item 2, ...",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"add\">Add</button>\n  <ul id=\"list\"></ul>\n  <script>\n    var count = 0;\n    // build and append an li on each click\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Starts empty",
+      "js": "return $$(\"#list li\").length === 0 || $$(\"#list li\").length",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Two clicks give 2 items",
+      "js": "click(\"#add\"); click(\"#add\"); return $$(\"#list li\").length === 2 || $$(\"#list li\").length",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Items are numbered",
+      "js": "return (txt($$(\"#list li\")[0]) === \"Item 1\" && txt($$(\"#list li\")[1]) === \"Item 2\") || $$(\"#list li\").map(txt).join(\"|\")",
+      "hidden": false
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "createElement makes the element, then you fill it and appendChild it.",
+    "var li = document.createElement(\"li\"); li.textContent = ...; list.appendChild(li);",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"add\">Add</button>\n  <ul id=\"list\"></ul>\n  <script>\n    var count = 0;\n    document.getElementById(\"add\").addEventListener(\"click\", function () {\n      count++;\n      var li = document.createElement(\"li\");\n      li.textContent = \"Item \" + count;\n      document.getElementById(\"list\").appendChild(li);\n    });\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Does createElement put anything on the page by itself?",
+    "Which call puts it on the page?",
+    "Why use count++ here?"
+  ],
+  "explain": "In one sentence: what did you learn from “Create Elements”?",
+  "xp": 35,
+  "skills": [
+    "js",
+    "dom"
+  ],
+  "requires": [
+    "wj-04-input"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"add\">Add</button>\n  <ul id=\"list\"></ul>\n  <script>\n    var count = 0;\n    document.getElementById(\"add\").addEventListener(\"click\", function () {\n      count++;\n      var li = document.createElement(\"li\");\n      li.textContent = \"Item \" + count;\n      document.getElementById(\"list\").appendChild(li);\n    });\n  </script>\n</body>\n</html>\n"
+}

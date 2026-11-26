@@ -1,0 +1,52 @@
+{
+  "id": "wj-07-loop",
+  "region": "web-js",
+  "order": 7,
+  "title": "Loops Make Pages",
+  "story": "A loop plus createElement can build a whole table of content from an array.",
+  "goal": "Use the fruits array to fill #menu with one <li> per fruit, in order.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <ul id=\"menu\"></ul>\n  <script>\n    var fruits = [\"Mango\", \"Banana\", \"Guava\", \"Papaya\"];\n    // one li for each\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Four items",
+      "js": "return $$(\"#menu li\").length === 4 || $$(\"#menu li\").length",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "In order",
+      "js": "return $$(\"#menu li\").map(txt).join(\",\") === \"Mango,Banana,Guava,Papaya\" || $$(\"#menu li\").map(txt).join(\",\")",
+      "hidden": false
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "for (var i = 0; i < fruits.length; i++) { ... fruits[i] ... }",
+    "Create an li inside the loop body.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <ul id=\"menu\"></ul>\n  <script>\n    var fruits = [\"Mango\", \"Banana\", \"Guava\", \"Papaya\"];\n    for (var i = 0; i < fruits.length; i++) {\n      var li = document.createElement(\"li\");\n      li.textContent = fruits[i];\n      document.getElementById(\"menu\").appendChild(li);\n    }\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Where does the loop start and stop?",
+    "What is fruits[0]?",
+    "Where would an extra item go if you added it to the array?"
+  ],
+  "explain": "In one sentence: what did you learn from “Loops Make Pages”?",
+  "xp": 35,
+  "skills": [
+    "js",
+    "loops",
+    "arrays",
+    "dom"
+  ],
+  "requires": [
+    "wj-06-classes"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <ul id=\"menu\"></ul>\n  <script>\n    var fruits = [\"Mango\", \"Banana\", \"Guava\", \"Papaya\"];\n    for (var i = 0; i < fruits.length; i++) {\n      var li = document.createElement(\"li\");\n      li.textContent = fruits[i];\n      document.getElementById(\"menu\").appendChild(li);\n    }\n  </script>\n</body>\n</html>\n"
+}

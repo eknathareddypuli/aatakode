@@ -1,0 +1,42 @@
+{
+  "id": "wj-01-text",
+  "region": "web-js",
+  "order": 1,
+  "title": "Change the Page",
+  "story": "JavaScript makes pages react. First trick: find an element and change its text.",
+  "goal": "Make the script change #msg to say Hello, Aata!",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1 id=\"msg\">Loading...</h1>\n  <script>\n    // find #msg and change its textContent\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "#msg says Hello, Aata!",
+      "js": "return txt(\"#msg\") === \"Hello, Aata!\" || txt(\"#msg\")",
+      "hidden": false
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "document.getElementById(\"msg\") finds the element; .textContent is its text.",
+    "document.getElementById(\"msg\").textContent = \"Hello, Aata!\";",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1 id=\"msg\">Loading...</h1>\n  <script>\n    document.getElementById(\"msg\").textContent = \"Hello, Aata!\";\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What does getElementById return?",
+    "What is the difference between reading and assigning textContent?",
+    "What happens if the id does not exist?"
+  ],
+  "explain": "In one sentence: what did you learn from “Change the Page”?",
+  "xp": 20,
+  "skills": [
+    "js",
+    "dom"
+  ],
+  "requires": [],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1 id=\"msg\">Loading...</h1>\n  <script>\n    document.getElementById(\"msg\").textContent = \"Hello, Aata!\";\n  </script>\n</body>\n</html>\n"
+}

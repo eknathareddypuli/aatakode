@@ -1,0 +1,71 @@
+{
+  "id": "wj-12-boss",
+  "region": "web-js",
+  "order": 12,
+  "title": "Boss: The Tip Calculator",
+  "story": "The Bug Wasp bet that you cannot build a working calculator. Prove it wrong.",
+  "goal": "On click of #calc: read #bill and #pct (percent), then show the tip with 2 decimals in #tip as Tip: 12.50, and the total in #total as Total: 112.50. If #bill is empty or not a number, show Enter a bill in #tip and clear #total.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"bill\" placeholder=\"Bill\">\n  <input id=\"pct\" placeholder=\"Tip %\">\n  <button id=\"calc\">Calculate</button>\n  <p id=\"tip\"></p>\n  <p id=\"total\"></p>\n  <script>\n    // your code\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "100 at 12.5% gives 12.50",
+      "js": "type(\"#bill\",\"100\"); type(\"#pct\",\"12.5\"); click(\"#calc\"); return (txt(\"#tip\") === \"Tip: 12.50\" && txt(\"#total\") === \"Total: 112.50\") || txt(\"#tip\") + \" / \" + txt(\"#total\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "80 at 10% gives 8.00",
+      "js": "type(\"#bill\",\"80\"); type(\"#pct\",\"10\"); click(\"#calc\"); return (txt(\"#tip\") === \"Tip: 8.00\" && txt(\"#total\") === \"Total: 88.00\") || txt(\"#tip\") + \" / \" + txt(\"#total\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Empty bill is rejected",
+      "js": "type(\"#bill\",\"\"); type(\"#pct\",\"10\"); click(\"#calc\"); return (txt(\"#tip\") === \"Enter a bill\" && txt(\"#total\") === \"\") || txt(\"#tip\") + \" / \" + txt(\"#total\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Text is rejected",
+      "js": "type(\"#bill\",\"abc\"); type(\"#pct\",\"10\"); click(\"#calc\"); return txt(\"#tip\") === \"Enter a bill\" || txt(\"#tip\")",
+      "hidden": true
+    },
+    {
+      "kind": "web",
+      "label": "A blank percent counts as 0",
+      "js": "type(\"#bill\",\"50\"); type(\"#pct\",\"\"); click(\"#calc\"); return (txt(\"#tip\") === \"Tip: 0.00\" && txt(\"#total\") === \"Total: 50.00\") || txt(\"#tip\") + \" / \" + txt(\"#total\")",
+      "hidden": true
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Check the bill first with isNaN, and return early.",
+    "toFixed(2) gives two decimals as text. total = bill + tip.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"bill\" placeholder=\"Bill\">\n  <input id=\"pct\" placeholder=\"Tip %\">\n  <button id=\"calc\">Calculate</button>\n  <p id=\"tip\"></p>\n  <p id=\"total\"></p>\n  <script>\n    document.getElementById(\"calc\").addEventListener(\"click\", function () {\n      var bill = parseFloat(document.getElementById(\"bill\").value);\n      var pct = parseFloat(document.getElementById(\"pct\").value) || 0;\n      var tip = document.getElementById(\"tip\");\n      var total = document.getElementById(\"total\");\n      if (isNaN(bill)) {\n        tip.textContent = \"Enter a bill\";\n        total.textContent = \"\";\n        return;\n      }\n      var t = bill * pct / 100;\n      tip.textContent = \"Tip: \" + t.toFixed(2);\n      total.textContent = \"Total: \" + (bill + t).toFixed(2);\n    });\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What does parseFloat return for text?",
+    "What happens if you skip the early return?",
+    "Why toFixed(2) and not rounding yourself?"
+  ],
+  "explain": "In one sentence: what did you learn from “Boss: The Tip Calculator”?",
+  "xp": 80,
+  "skills": [
+    "js",
+    "dom",
+    "conditions",
+    "events"
+  ],
+  "requires": [
+    "wj-11-json"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <input id=\"bill\" placeholder=\"Bill\">\n  <input id=\"pct\" placeholder=\"Tip %\">\n  <button id=\"calc\">Calculate</button>\n  <p id=\"tip\"></p>\n  <p id=\"total\"></p>\n  <script>\n    document.getElementById(\"calc\").addEventListener(\"click\", function () {\n      var bill = parseFloat(document.getElementById(\"bill\").value);\n      var pct = parseFloat(document.getElementById(\"pct\").value) || 0;\n      var tip = document.getElementById(\"tip\");\n      var total = document.getElementById(\"total\");\n      if (isNaN(bill)) {\n        tip.textContent = \"Enter a bill\";\n        total.textContent = \"\";\n        return;\n      }\n      var t = bill * pct / 100;\n      tip.textContent = \"Tip: \" + t.toFixed(2);\n      total.textContent = \"Total: \" + (bill + t).toFixed(2);\n    });\n  </script>\n</body>\n</html>\n",
+  "boss": true
+}

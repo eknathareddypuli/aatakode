@@ -1,0 +1,62 @@
+{
+  "id": "gop-03-report",
+  "region": "go-project",
+  "order": 3,
+  "title": "Step 3: The Report",
+  "story": "The librarian wants a printed list, oldest book first. Sort a copy so the shelf order does not change.",
+  "goal": "Write Report() so it returns the numbered list, oldest first, one book per line.",
+  "type": "gocode",
+  "lang": "go",
+  "starter": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"sort\"\n\t\"strings\"\n)\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\ntype Library struct {\n\tbooks []Book\n}\n\nfunc (l *Library) Add(b Book) {\n\tl.books = append(l.books, b)\n}\n\nfunc (l *Library) Find(title string) (Book, error) {\n\tfor _, b := range l.books {\n\t\tif b.Title == title {\n\t\t\treturn b, nil\n\t\t}\n\t}\n\treturn Book{}, errors.New(\"not found: \" + title)\n}\n\n// Report lists the books oldest first, one per line, numbered from 1:\n// 1. Title by Author (Year)\nfunc (l *Library) Report() string {\n\t_ = sort.Slice\n\t_ = strings.Join\n\treturn \"\"\n}\n\nfunc main() {\n\tlib := &Library{}\n\tlib.Add(Book{\"Go\", \"Gopher\", 2009})\n\tlib.Add(Book{\"Malleshwari\", \"Rachakonda\", 1950})\n\tfmt.Println(lib.Report())\n}\n",
+  "tests": [
+    {
+      "kind": "go-call",
+      "label": "Two books, sorted by year",
+      "expr": "func() string { l := &Library{}; l.Add(Book{\"Go\", \"Gopher\", 2009}); l.Add(Book{\"Malleshwari\", \"Rachakonda\", 1950}); return l.Report() }()",
+      "expect": "1. Malleshwari by Rachakonda (1950)\n2. Go by Gopher (2009)"
+    },
+    {
+      "kind": "go-call",
+      "label": "The shelf order is not changed",
+      "expr": "func() string { l := &Library{}; l.Add(Book{\"B\", \"y\", 2000}); l.Add(Book{\"A\", \"x\", 1990}); l.Report(); return l.books[0].Title }()",
+      "expect": "B"
+    },
+    {
+      "kind": "go-call",
+      "label": "An empty library gives an empty report",
+      "expr": "(&Library{}).Report()",
+      "expect": "",
+      "hidden": true
+    },
+    {
+      "kind": "go-out",
+      "label": "main prints the report",
+      "stdin": [],
+      "expect": "1. Malleshwari by Rachakonda (1950)\n2. Go by Gopher (2009)"
+    }
+  ],
+  "hints": [
+    "Copy the slice first (make + copy), sort the copy with sort.Slice, then build the lines.",
+    "Use fmt.Sprintf(\"%d. %s\", i+1, b) and strings.Join(lines, \"\\n\").",
+    "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"sort\"\n\t\"strings\"\n)\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\ntype Library struct {\n\tbooks []Book\n}\n\nfunc (l *Library) Add(b Book) {\n\tl.books = append(l.books, b)\n}\n\nfunc (l *Library) Find(title string) (Book, error) {\n\tfor _, b := range l.books {\n\t\tif b.Title == title {\n\t\t\treturn b, nil\n\t\t}\n\t}\n\treturn Book{}, errors.New(\"not found: \" + title)\n}\n\n// Report lists the books oldest first, one per line, numbered from 1.\nfunc (l *Library) Report() string {\n\tbooks := make([]Book, len(l.books))\n\tcopy(books, l.books)\n\tsort.Slice(books, func(i, j int) bool { return books[i].Year < books[j].Year })\n\tlines := []string{}\n\tfor i, b := range books {\n\t\tlines = append(lines, fmt.Sprintf(\"%d. %s\", i+1, b))\n\t}\n\treturn strings.Join(lines, \"\\n\")\n}\n\nfunc main() {\n\tlib := &Library{}\n\tlib.Add(Book{\"Go\", \"Gopher\", 2009})\n\tlib.Add(Book{\"Malleshwari\", \"Rachakonda\", 1950})\n\tfmt.Println(lib.Report())\n}\n"
+  ],
+  "socratic": [
+    "Why copy before sorting?",
+    "What does sort.Slice need as its second argument?",
+    "Why does %s work on a Book?"
+  ],
+  "explain": "In one sentence: what did you learn from “Step 3: The Report”?",
+  "xp": 70,
+  "skills": [
+    "go-data",
+    "go-flow",
+    "project",
+    "sorting"
+  ],
+  "requires": [
+    "gop-02-library"
+  ],
+  "solution": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"sort\"\n\t\"strings\"\n)\n\ntype Book struct {\n\tTitle  string\n\tAuthor string\n\tYear   int\n}\n\nfunc (b Book) String() string {\n\treturn fmt.Sprintf(\"%s by %s (%d)\", b.Title, b.Author, b.Year)\n}\n\ntype Library struct {\n\tbooks []Book\n}\n\nfunc (l *Library) Add(b Book) {\n\tl.books = append(l.books, b)\n}\n\nfunc (l *Library) Find(title string) (Book, error) {\n\tfor _, b := range l.books {\n\t\tif b.Title == title {\n\t\t\treturn b, nil\n\t\t}\n\t}\n\treturn Book{}, errors.New(\"not found: \" + title)\n}\n\n// Report lists the books oldest first, one per line, numbered from 1.\nfunc (l *Library) Report() string {\n\tbooks := make([]Book, len(l.books))\n\tcopy(books, l.books)\n\tsort.Slice(books, func(i, j int) bool { return books[i].Year < books[j].Year })\n\tlines := []string{}\n\tfor i, b := range books {\n\t\tlines = append(lines, fmt.Sprintf(\"%d. %s\", i+1, b))\n\t}\n\treturn strings.Join(lines, \"\\n\")\n}\n\nfunc main() {\n\tlib := &Library{}\n\tlib.Add(Book{\"Go\", \"Gopher\", 2009})\n\tlib.Add(Book{\"Malleshwari\", \"Rachakonda\", 1950})\n\tfmt.Println(lib.Report())\n}\n",
+  "project_step": true,
+  "project": true
+}

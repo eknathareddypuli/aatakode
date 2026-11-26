@@ -1,0 +1,57 @@
+{
+  "id": "wj-03-counter",
+  "region": "web-js",
+  "order": 3,
+  "title": "A Counter",
+  "story": "Variables keep state between clicks. Each click adds one.",
+  "goal": "Each click on #plus adds 1 to the number in #count (starts at 0).",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"plus\">+1</button>\n  <span id=\"count\">0</span>\n  <script>\n    var n = 0;\n    // update n and #count on each click\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Starts at 0",
+      "js": "return txt(\"#count\") === \"0\" || txt(\"#count\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Three clicks make 3",
+      "js": "click(\"#plus\"); click(\"#plus\"); click(\"#plus\"); return txt(\"#count\") === \"3\" || txt(\"#count\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Two more make 5",
+      "js": "click(\"#plus\"); click(\"#plus\"); return txt(\"#count\") === \"5\" || txt(\"#count\")",
+      "hidden": true
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Keep n outside the function so it remembers between clicks.",
+    "n = n + 1; then write n into #count.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"plus\">+1</button>\n  <span id=\"count\">0</span>\n  <script>\n    var n = 0;\n    document.getElementById(\"plus\").addEventListener(\"click\", function () {\n      n = n + 1;\n      document.getElementById(\"count\").textContent = n;\n    });\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Where must n live so it survives between clicks?",
+    "What would happen if var n = 0 were inside the handler?",
+    "How is this like a Python variable?"
+  ],
+  "explain": "In one sentence: what did you learn from “A Counter”?",
+  "xp": 30,
+  "skills": [
+    "js",
+    "events",
+    "state"
+  ],
+  "requires": [
+    "wj-02-click"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"plus\">+1</button>\n  <span id=\"count\">0</span>\n  <script>\n    var n = 0;\n    document.getElementById(\"plus\").addEventListener(\"click\", function () {\n      n = n + 1;\n      document.getElementById(\"count\").textContent = n;\n    });\n  </script>\n</body>\n</html>\n"
+}

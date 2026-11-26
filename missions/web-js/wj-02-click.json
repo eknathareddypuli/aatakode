@@ -1,0 +1,50 @@
+{
+  "id": "wj-02-click",
+  "region": "web-js",
+  "order": 2,
+  "title": "Click Handler",
+  "story": "addEventListener runs a function when something happens, like a click.",
+  "goal": "When #btn is clicked, change #out to Clicked!",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"btn\">Press</button>\n  <p id=\"out\">Waiting</p>\n  <script>\n    // add a click listener on #btn\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Before the click it still says Waiting",
+      "js": "return txt(\"#out\") === \"Waiting\" || txt(\"#out\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "After a click it says Clicked!",
+      "js": "click(\"#btn\"); return txt(\"#out\") === \"Clicked!\" || txt(\"#out\")",
+      "hidden": false
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "btn.addEventListener(\"click\", function () { ... });",
+    "document.getElementById(\"btn\").addEventListener(\"click\", function () { ... });",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"btn\">Press</button>\n  <p id=\"out\">Waiting</p>\n  <script>\n    document.getElementById(\"btn\").addEventListener(\"click\", function () {\n      document.getElementById(\"out\").textContent = \"Clicked!\";\n    });\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why must the code inside be a function?",
+    "When does that function run?",
+    "What other events exist besides click?"
+  ],
+  "explain": "In one sentence: what did you learn from “Click Handler”?",
+  "xp": 25,
+  "skills": [
+    "js",
+    "events"
+  ],
+  "requires": [
+    "wj-01-text"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <button id=\"btn\">Press</button>\n  <p id=\"out\">Waiting</p>\n  <script>\n    document.getElementById(\"btn\").addEventListener(\"click\", function () {\n      document.getElementById(\"out\").textContent = \"Clicked!\";\n    });\n  </script>\n</body>\n</html>\n"
+}

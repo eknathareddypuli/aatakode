@@ -1,0 +1,97 @@
+{
+  "id": "sqc-03-top",
+  "region": "sql-capstone",
+  "order": 3,
+  "title": "Capstone 3: Best Product per City",
+  "story": "For each city, which product did its customers buy most (by qty, delivered)?",
+  "goal": "Show city, product (name), and units (sum of qty) for the best-selling product in each city (ties: alphabetical product), ordered by city. Skip customers with no city.",
+  "type": "sql",
+  "starter": "SELECT ;",
+  "setup": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, stock INTEGER);\nINSERT INTO products VALUES (1,'Mango','fruit',40.0,120),(2,'Banana','fruit',12.0,300),(3,'Rice 5kg','grain',320.0,45),(4,'Dal 1kg','grain',140.0,80),(5,'Ghee','dairy',560.0,20),(6,'Milk','dairy',28.0,200),(7,'Jaggery','sweet',90.0,0),(8,'Tamarind','spice',60.0,35),(9,'Turmeric','spice',45.0,60),(10,'Coconut','fruit',25.0,150);\nCREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, joined TEXT);\nINSERT INTO customers VALUES (1,'Asha','Hyderabad','2025-01-10'),(2,'Ravi','Vijayawada','2025-02-14'),(3,'Meena','Hyderabad','2025-03-02'),(4,'Kiran','Guntur','2025-03-20'),(5,'Lakshmi','Tirupati','2025-04-05'),(6,'Suresh',NULL,'2025-05-18'),(7,'Divya','Vijayawada','2025-06-01');\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, product_id INTEGER, qty INTEGER, order_date TEXT, status TEXT);\nINSERT INTO orders VALUES (1,1,1,3,'2025-06-01','delivered'),(2,1,3,1,'2025-06-03','delivered'),(3,2,2,12,'2025-06-03','delivered'),(4,2,5,1,'2025-06-10','cancelled'),(5,3,4,2,'2025-06-11','delivered'),(6,3,1,5,'2025-06-12','pending'),(7,4,6,10,'2025-06-15','delivered'),(8,4,9,2,'2025-06-16','delivered'),(9,5,10,6,'2025-06-18','pending'),(10,1,6,4,'2025-06-20','delivered'),(11,3,5,1,'2025-06-21','delivered'),(12,5,8,3,'2025-06-22','cancelled'),(13,2,1,2,'2025-06-25','delivered'),(14,6,3,1,'2025-06-26','pending');",
+  "tests": [
+    {
+      "kind": "rows",
+      "label": "Returns the right rows",
+      "expect": [
+        [
+          "Guntur",
+          "Milk",
+          10
+        ],
+        [
+          "Hyderabad",
+          "Milk",
+          4
+        ],
+        [
+          "Vijayawada",
+          "Banana",
+          12
+        ]
+      ],
+      "ordered": true,
+      "cols": [
+        "city",
+        "product",
+        "units"
+      ]
+    },
+    {
+      "kind": "source",
+      "label": "Uses a CTE",
+      "pattern": "\\bWITH\\b"
+    },
+    {
+      "kind": "source",
+      "label": "Uses a window function",
+      "pattern": "\\bOVER\\s*\\("
+    },
+    {
+      "kind": "rows",
+      "label": "Hidden check on other data",
+      "hidden": true,
+      "setup": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, stock INTEGER);\nINSERT INTO products VALUES (1,'Mango','fruit',40.0,120),(2,'Banana','fruit',12.0,300),(3,'Rice 5kg','grain',320.0,45),(4,'Dal 1kg','grain',140.0,80),(5,'Ghee','dairy',560.0,20),(6,'Milk','dairy',28.0,200),(7,'Jaggery','sweet',90.0,0),(8,'Tamarind','spice',60.0,35),(9,'Turmeric','spice',45.0,60),(10,'Coconut','fruit',25.0,150);\nCREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, joined TEXT);\nINSERT INTO customers VALUES (1,'Asha','Hyderabad','2025-01-10'),(2,'Ravi','Vijayawada','2025-02-14'),(3,'Meena','Hyderabad','2025-03-02'),(4,'Kiran','Guntur','2025-03-20'),(5,'Lakshmi','Tirupati','2025-04-05'),(6,'Suresh',NULL,'2025-05-18'),(7,'Divya','Vijayawada','2025-06-01');\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, product_id INTEGER, qty INTEGER, order_date TEXT, status TEXT);\nINSERT INTO orders VALUES (1,1,1,3,'2025-06-01','delivered'),(2,1,3,1,'2025-06-03','delivered'),(3,2,2,12,'2025-06-03','delivered'),(4,2,5,1,'2025-06-10','cancelled'),(5,3,4,2,'2025-06-11','delivered'),(6,3,1,5,'2025-06-12','pending'),(7,4,6,10,'2025-06-15','delivered'),(8,4,9,2,'2025-06-16','delivered'),(9,5,10,6,'2025-06-18','pending'),(10,1,6,4,'2025-06-20','delivered'),(11,3,5,1,'2025-06-21','delivered'),(12,5,8,3,'2025-06-22','cancelled'),(13,2,1,2,'2025-06-25','delivered'),(14,6,3,1,'2025-06-26','pending');\nINSERT INTO products VALUES (11,'Honey','sweet',210.0,15),(12,'Cardamom','spice',900.0,5); UPDATE products SET stock = stock + 10 WHERE category = 'dairy'; INSERT INTO customers VALUES (8,'Naveen','Guntur','2025-07-01'),(9,'Bhavya',NULL,'2025-07-02'); INSERT INTO orders VALUES (15,8,11,2,'2025-07-03','delivered'),(16,9,12,1,'2025-07-04','delivered'),(17,1,12,2,'2025-07-05','pending');",
+      "expect": [
+        [
+          "Guntur",
+          "Milk",
+          10
+        ],
+        [
+          "Hyderabad",
+          "Milk",
+          4
+        ],
+        [
+          "Vijayawada",
+          "Banana",
+          12
+        ]
+      ],
+      "ordered": true
+    }
+  ],
+  "hints": [
+    "Aggregate per city and product in a CTE, then ROW_NUMBER partitioned by city.",
+    "Filter rn = 1 in the outer query. Remember c.city IS NOT NULL.",
+    "WITH t AS (SELECT c.city, p.name AS product, SUM(o.qty) AS units FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND c.city IS NOT NULL GROUP BY c.city, p.name), r AS (SELECT city, product, units, ROW_NUMBER() OVER (PARTITION BY city ORDER BY units DESC, product) AS rn FROM t) SELECT city, product, units FROM r WHERE rn = 1 ORDER BY city;"
+  ],
+  "socratic": [
+    "What are the two grouping columns?",
+    "Why partition by city?",
+    "What does the tie-breaker do?"
+  ],
+  "explain": "In one sentence: what does this query do, and why does it need the a CTE?",
+  "xp": 80,
+  "skills": [
+    "sql",
+    "cte",
+    "window",
+    "joins"
+  ],
+  "requires": [
+    "sqc-02-category"
+  ],
+  "solution": "WITH t AS (SELECT c.city, p.name AS product, SUM(o.qty) AS units FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND c.city IS NOT NULL GROUP BY c.city, p.name), r AS (SELECT city, product, units, ROW_NUMBER() OVER (PARTITION BY city ORDER BY units DESC, product) AS rn FROM t) SELECT city, product, units FROM r WHERE rn = 1 ORDER BY city;",
+  "alt": "WITH t AS (SELECT c.city, p.name AS product, SUM(o.qty) AS units FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND c.city IS NOT NULL GROUP BY c.city, p.name) SELECT city, product, units FROM (SELECT city, product, units, ROW_NUMBER() OVER (PARTITION BY city ORDER BY units DESC, product) AS rn FROM t) WHERE rn = 1 ORDER BY city;"
+}
