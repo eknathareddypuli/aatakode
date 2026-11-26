@@ -1,0 +1,52 @@
+{
+  "id": "wh-03-links",
+  "region": "web-html",
+  "order": 3,
+  "title": "Links",
+  "story": "The web is made of links. The <a> tag takes a destination in its href attribute.",
+  "goal": "Make a link with the text Visit EknathaLabs that goes to https://eknathalabs.com.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>My bookmarks</h1>\n  <!-- Add your link here -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "There is a link",
+      "js": "return !!$(\"a\") || \"no a tag\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "It goes to eknathalabs.com",
+      "js": "return /^https:\\/\\/eknathalabs\\.com\\/?$/.test(attr(\"a\",\"href\") || \"\") || \"href is \" + attr(\"a\",\"href\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The link text is right",
+      "js": "return txt(\"a\") === \"Visit EknathaLabs\" || txt(\"a\")",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "An attribute goes inside the opening tag: <a href=\"...\">.",
+    "<a href=\"https://eknathalabs.com\">Visit EknathaLabs</a>",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>My bookmarks</h1>\n  <a href=\"https://eknathalabs.com\">Visit EknathaLabs</a>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Which part is the destination, and which part is the clickable text?",
+    "Why is the address in quotes?",
+    "What would happen with no href?"
+  ],
+  "explain": "In one sentence: what did you learn from “Links”?",
+  "xp": 20,
+  "skills": [
+    "html",
+    "links",
+    "attributes"
+  ],
+  "requires": [
+    "wh-02-paragraphs"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>My bookmarks</h1>\n  <a href=\"https://eknathalabs.com\">Visit EknathaLabs</a>\n</body>\n</html>\n"
+}

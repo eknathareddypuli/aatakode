@@ -1,0 +1,58 @@
+{
+  "id": "wh-04-image",
+  "region": "web-html",
+  "order": 4,
+  "title": "Pictures With Alt Text",
+  "story": "Images need alt text: it is what a screen reader says and what shows if the picture cannot load. The picture below is already in the starter.",
+  "goal": "Add an <img> that uses the picture in the starter, with alt text that describes it (not just 'image').",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Photo wall</h1>\n  <!-- picture to use: data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='90'%3E%3Crect width='120' height='90' fill='%234ade9f'/%3E%3C/svg%3E -->\n  <!-- Add your img here -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "There is an image",
+      "js": "return !!$(\"img\") || \"no img tag\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "It uses the picture from the starter",
+      "js": "return (attr(\"img\",\"src\")||\"\").indexOf(\"data:image/svg+xml\") === 0 || \"src is \" + attr(\"img\",\"src\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "It has alt text",
+      "js": "var a = (attr(\"img\",\"alt\")||\"\").trim(); return a.length >= 3 || \"alt is \\\"\" + a + \"\\\"\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The alt text is more than the word image",
+      "js": "return !/^(image|picture|photo)$/i.test((attr(\"img\",\"alt\")||\"\").trim()) || \"describe what the picture shows\"",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "<img> has no closing tag. It needs src and alt attributes.",
+    "<img src=\"(the data: address)\" alt=\"A green rectangle\">",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Photo wall</h1>\n  <img src=\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='90'%3E%3Crect width='120' height='90' fill='%234ade9f'/%3E%3C/svg%3E\" alt=\"A green rectangle\" width=\"120\" height=\"90\">\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Who is the alt text for?",
+    "Why is <img> written without a closing tag?",
+    "What would you write as alt for a photo of a mango tree?"
+  ],
+  "explain": "In one sentence: what did you learn from “Pictures With Alt Text”?",
+  "xp": 20,
+  "skills": [
+    "html",
+    "images",
+    "accessibility"
+  ],
+  "requires": [
+    "wh-03-links"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Photo wall</h1>\n  <img src=\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='90'%3E%3Crect width='120' height='90' fill='%234ade9f'/%3E%3C/svg%3E\" alt=\"A green rectangle\" width=\"120\" height=\"90\">\n</body>\n</html>\n"
+}

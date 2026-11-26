@@ -1,378 +1,456 @@
 {
- "choice": {
-  "q": "How do you face it?",
-  "options": [
-   {
-    "id": "scout",
-    "t": "Send Chilaka to scout ahead",
-    "reply": "Chilaka flutters off and returns with a clue. Your first hint in this fight is free.",
-    "perk": "scout"
-   },
-   {
-    "id": "bold",
-    "t": "Charge in alone",
-    "reply": "You roll up your sleeves. Clear it without any hints and you earn 3 bonus seeds.",
-    "perk": "bold"
-   },
-   {
-    "id": "patient",
-    "t": "Read the clues first",
-    "reply": "You steady your breath and write three questions to ask the bug.",
-    "perk": "patient"
-   }
-  ]
- },
- "scenes": {
-  "py-04-bugfix-1": {
-   "emoji": "👺",
-   "foe": "The Typo Imp",
-   "intro": [
-    "The Typo Imp 👺 blocks the road.",
-    "“I hide one tiny slip in your very first program.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The imp pops like a bubble. One small fix, and the whole program works.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
+  "choice": {
+    "q": "How do you face it?",
+    "options": [
+      {
+        "id": "scout",
+        "t": "Send Chilaka to scout ahead",
+        "reply": "Chilaka flutters off and returns with a clue. Your first hint in this fight is free.",
+        "perk": "scout"
+      },
+      {
+        "id": "bold",
+        "t": "Charge in alone",
+        "reply": "You roll up your sleeves. Clear it without any hints and you earn 3 bonus seeds.",
+        "perk": "bold"
+      },
+      {
+        "id": "patient",
+        "t": "Read the clues first",
+        "reply": "You steady your breath and write three questions to ask the bug.",
+        "perk": "patient"
+      }
+    ]
   },
-  "py-07-bugfix-2": {
-   "emoji": "🐦‍⬛",
-   "foe": "The Crossroads Crow",
-   "intro": [
-    "The Crossroads Crow 🐦‍⬛ blocks the road.",
-    "“Which door is the right one? I swapped the signs!”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The crow caws and flies off. The conditions finally point the right way.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "py-10-bugfix-3": {
-   "emoji": "🐍",
-   "foe": "The Endless Loop Serpent",
-   "intro": [
-    "The Endless Loop Serpent 🐍 blocks the road.",
-    "“Round and round! I never let a loop finish.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The serpent uncoils and slides away. Your loop stops exactly where it should.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "str-boss": {
-   "emoji": "🧵",
-   "foe": "The Tangle of Words",
-   "intro": [
-    "The Tangle of Words 🧵 blocks the road.",
-    "“Every letter you touch comes out knotted.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The knots fall loose. Your text comes out clean.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "py-13-bugfix-4": {
-   "emoji": "🧺",
-   "foe": "The Basket Bandit",
-   "intro": [
-    "The Basket Bandit 🧺 blocks the road.",
-    "“I swap the items in your lists when nobody looks.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The bandit drops the basket and runs. Every item is back in its place.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "py-16-bugfix-5": {
-   "emoji": "👻",
-   "foe": "The Missing-Return Ghost",
-   "intro": [
-    "The Missing-Return Ghost 👻 blocks the road.",
-    "“I take your answers and leave only None.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The ghost fades. Your function hands its answer back at last.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "fe-boss": {
-   "emoji": "🛒",
-   "foe": "The Crashing Cart",
-   "intro": [
-    "The Crashing Cart 🛒 blocks the road.",
-    "“One missing file and the whole cart tips over!”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The cart rolls on. Errors are caught instead of crashing everything.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "md-boss": {
-   "emoji": "🪞",
-   "foe": "The Shadow in the Mirror",
-   "intro": [
-    "The Shadow in the Mirror 🪞 blocks the road.",
-    "“I hide behind a name you already used.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The shadow steps into the light. Every name means one thing again.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "ob-boss": {
-   "emoji": "🐑",
-   "foe": "The Copycat Class",
-   "intro": [
-    "The Copycat Class 🐑 blocks the road.",
-    "“Change one of us and all of us change!”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The copies stand apart. Each object keeps its own data.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "cc-boss": {
-   "emoji": "🍝",
-   "foe": "The Spaghetti Giant",
-   "intro": [
-    "The Spaghetti Giant 🍝 blocks the road.",
-    "“Nobody can read my code, not even me!”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The giant untangles into tidy little functions.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "ps-boss": {
-   "emoji": "🐌",
-   "foe": "The Slow Sorting Troll",
-   "intro": [
-    "The Slow Sorting Troll 🐌 blocks the road.",
-    "“I check every pair, again and again, and take forever.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The troll shrinks. Your solution is quick as well as correct.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "rw-boss": {
-   "emoji": "🚨",
-   "foe": "The Wrong Alarm",
-   "intro": [
-    "The Wrong Alarm 🚨 blocks the road.",
-    "“I ring for good news and stay quiet for bad.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The alarm goes quiet, then rings only when it should.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "rd-20-purpose-d": {
-   "emoji": "🗿",
-   "foe": "The Riddle Sphinx",
-   "intro": [
-    "The Riddle Sphinx 🗿 blocks the road.",
-    "“Read my code and tell me what it is for.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The sphinx smiles. You read code like a story.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "linux-20-capstone": {
-   "emoji": "🐉",
-   "foe": "The Midnight Outage Dragon",
-   "intro": [
-    "The Midnight Outage Dragon 🐉 blocks the road.",
-    "“I take down servers while you sleep.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The dragon curls up and sleeps. The service is healthy again.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "sql-select-fix": {
-   "emoji": "🦋",
-   "foe": "The Missing-Rows Moth",
-   "intro": [
-    "The Missing-Rows Moth 🦋 blocks the road.",
-    "“Half your rows flew away with my wings.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The moth lands. Every row you asked for is back.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "sql-aggregate-fix": {
-   "emoji": "📒",
-   "foe": "The Miscounted Ledger",
-   "intro": [
-    "The Miscounted Ledger 📒 blocks the road.",
-    "“My totals are always a little off.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The ledger balances. Counts and sums are right.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "sql-join-fix": {
-   "emoji": "🕷️",
-   "foe": "The Lost-Link Spider",
-   "intro": [
-    "The Lost-Link Spider 🕷️ blocks the road.",
-    "“I cut the thread between your tables.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The web reconnects. Every row finds its partner.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "sql-update-fix": {
-   "emoji": "🐝",
-   "foe": "The Wrong-Row Wasp",
-   "intro": [
-    "The Wrong-Row Wasp 🐝 blocks the road.",
-    "“I sting every row, not just the one you meant.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The wasp buzzes off. Only the right row changed.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "git-06-boss-release": {
-   "emoji": "😈",
-   "foe": "The Release Gremlin",
-   "intro": [
-    "The Release Gremlin 😈 blocks the road.",
-    "“I tag the wrong commit and ship it.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The gremlin groans. The release is tagged exactly right.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "git-12-boss-two-features": {
-   "emoji": "🐂",
-   "foe": "The Merge Minotaur",
-   "intro": [
-    "The Merge Minotaur 🐂 blocks the road.",
-    "“Two branches, one maze, and no way out.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The minotaur bows. Both features are merged cleanly.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "git-18-boss-stash": {
-   "emoji": "👤",
-   "foe": "The Vanishing Stash Phantom",
-   "intro": [
-    "The Vanishing Stash Phantom 👤 blocks the road.",
-    "“Your unsaved work is gone... or is it?”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The phantom hands everything back. Nothing was lost.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "do-boss-healthcheck": {
-   "emoji": "💓",
-   "foe": "The Flapping Health Check",
-   "intro": [
-    "The Flapping Health Check 💓 blocks the road.",
-    "“I say healthy, then sick, then healthy again.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The pulse steadies. Your check is reliable.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "ip-boss-bsearch": {
-   "emoji": "🚪",
-   "foe": "The Interview Gatekeeper",
-   "intro": [
-    "The Interview Gatekeeper 🚪 blocks the road.",
-    "“Find it in a million items, and fast.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The gate swings open. Binary search halves the work every step.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "patch-06-boss": {
-   "emoji": "🕶️",
-   "foe": "The Injection Shadow",
-   "intro": [
-    "The Injection Shadow 🕶️ blocks the road.",
-    "“Give me a quote mark and I run my own query.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The shadow is sealed out. Your query treats input as plain data.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "api-06-boss": {
-   "emoji": "🗝️",
-   "foe": "The Token Thief",
-   "intro": [
-    "The Token Thief 🗝️ blocks the road.",
-    "“I slip in where your API forgets to check.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The thief is caught at the door. Every request is checked.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "gw-11-boss": {
-   "emoji": "👹",
-   "foe": "The Laggy Coin Goblin",
-   "intro": [
-    "The Laggy Coin Goblin 👹 blocks the road.",
-    "“I make the same coin pay out twice.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The goblin drops his sack. Each coin pays out once.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
-  },
-  "mj-10-boss": {
-   "emoji": "🧌",
-   "foe": "The Till Troll",
-   "intro": [
-    "The Till Troll 🧌 blocks the road.",
-    "“I hand back the wrong notes every time.”",
-    "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
-   ],
-   "win": [
-    "The troll counts out the right change at last.",
-    "Chilaka: “That is how you debug: calmly, one clue at a time.”"
-   ]
+  "scenes": {
+    "py-04-bugfix-1": {
+      "emoji": "👺",
+      "foe": "The Typo Imp",
+      "intro": [
+        "The Typo Imp 👺 blocks the road.",
+        "“I hide one tiny slip in your very first program.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The imp pops like a bubble. One small fix, and the whole program works.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "py-07-bugfix-2": {
+      "emoji": "🐦‍⬛",
+      "foe": "The Crossroads Crow",
+      "intro": [
+        "The Crossroads Crow 🐦‍⬛ blocks the road.",
+        "“Which door is the right one? I swapped the signs!”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The crow caws and flies off. The conditions finally point the right way.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "py-10-bugfix-3": {
+      "emoji": "🐍",
+      "foe": "The Endless Loop Serpent",
+      "intro": [
+        "The Endless Loop Serpent 🐍 blocks the road.",
+        "“Round and round! I never let a loop finish.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The serpent uncoils and slides away. Your loop stops exactly where it should.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "str-boss": {
+      "emoji": "🧵",
+      "foe": "The Tangle of Words",
+      "intro": [
+        "The Tangle of Words 🧵 blocks the road.",
+        "“Every letter you touch comes out knotted.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The knots fall loose. Your text comes out clean.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "py-13-bugfix-4": {
+      "emoji": "🧺",
+      "foe": "The Basket Bandit",
+      "intro": [
+        "The Basket Bandit 🧺 blocks the road.",
+        "“I swap the items in your lists when nobody looks.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The bandit drops the basket and runs. Every item is back in its place.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "py-16-bugfix-5": {
+      "emoji": "👻",
+      "foe": "The Missing-Return Ghost",
+      "intro": [
+        "The Missing-Return Ghost 👻 blocks the road.",
+        "“I take your answers and leave only None.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The ghost fades. Your function hands its answer back at last.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "fe-boss": {
+      "emoji": "🛒",
+      "foe": "The Crashing Cart",
+      "intro": [
+        "The Crashing Cart 🛒 blocks the road.",
+        "“One missing file and the whole cart tips over!”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The cart rolls on. Errors are caught instead of crashing everything.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "md-boss": {
+      "emoji": "🪞",
+      "foe": "The Shadow in the Mirror",
+      "intro": [
+        "The Shadow in the Mirror 🪞 blocks the road.",
+        "“I hide behind a name you already used.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The shadow steps into the light. Every name means one thing again.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "ob-boss": {
+      "emoji": "🐑",
+      "foe": "The Copycat Class",
+      "intro": [
+        "The Copycat Class 🐑 blocks the road.",
+        "“Change one of us and all of us change!”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The copies stand apart. Each object keeps its own data.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "cc-boss": {
+      "emoji": "🍝",
+      "foe": "The Spaghetti Giant",
+      "intro": [
+        "The Spaghetti Giant 🍝 blocks the road.",
+        "“Nobody can read my code, not even me!”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The giant untangles into tidy little functions.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "ps-boss": {
+      "emoji": "🐌",
+      "foe": "The Slow Sorting Troll",
+      "intro": [
+        "The Slow Sorting Troll 🐌 blocks the road.",
+        "“I check every pair, again and again, and take forever.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The troll shrinks. Your solution is quick as well as correct.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "rw-boss": {
+      "emoji": "🚨",
+      "foe": "The Wrong Alarm",
+      "intro": [
+        "The Wrong Alarm 🚨 blocks the road.",
+        "“I ring for good news and stay quiet for bad.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The alarm goes quiet, then rings only when it should.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "rd-20-purpose-d": {
+      "emoji": "🗿",
+      "foe": "The Riddle Sphinx",
+      "intro": [
+        "The Riddle Sphinx 🗿 blocks the road.",
+        "“Read my code and tell me what it is for.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The sphinx smiles. You read code like a story.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "linux-20-capstone": {
+      "emoji": "🐉",
+      "foe": "The Midnight Outage Dragon",
+      "intro": [
+        "The Midnight Outage Dragon 🐉 blocks the road.",
+        "“I take down servers while you sleep.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The dragon curls up and sleeps. The service is healthy again.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "sql-select-fix": {
+      "emoji": "🦋",
+      "foe": "The Missing-Rows Moth",
+      "intro": [
+        "The Missing-Rows Moth 🦋 blocks the road.",
+        "“Half your rows flew away with my wings.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The moth lands. Every row you asked for is back.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "sql-aggregate-fix": {
+      "emoji": "📒",
+      "foe": "The Miscounted Ledger",
+      "intro": [
+        "The Miscounted Ledger 📒 blocks the road.",
+        "“My totals are always a little off.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The ledger balances. Counts and sums are right.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "sql-join-fix": {
+      "emoji": "🕷️",
+      "foe": "The Lost-Link Spider",
+      "intro": [
+        "The Lost-Link Spider 🕷️ blocks the road.",
+        "“I cut the thread between your tables.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The web reconnects. Every row finds its partner.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "sql-update-fix": {
+      "emoji": "🐝",
+      "foe": "The Wrong-Row Wasp",
+      "intro": [
+        "The Wrong-Row Wasp 🐝 blocks the road.",
+        "“I sting every row, not just the one you meant.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The wasp buzzes off. Only the right row changed.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "git-06-boss-release": {
+      "emoji": "😈",
+      "foe": "The Release Gremlin",
+      "intro": [
+        "The Release Gremlin 😈 blocks the road.",
+        "“I tag the wrong commit and ship it.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The gremlin groans. The release is tagged exactly right.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "git-12-boss-two-features": {
+      "emoji": "🐂",
+      "foe": "The Merge Minotaur",
+      "intro": [
+        "The Merge Minotaur 🐂 blocks the road.",
+        "“Two branches, one maze, and no way out.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The minotaur bows. Both features are merged cleanly.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "git-18-boss-stash": {
+      "emoji": "👤",
+      "foe": "The Vanishing Stash Phantom",
+      "intro": [
+        "The Vanishing Stash Phantom 👤 blocks the road.",
+        "“Your unsaved work is gone... or is it?”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The phantom hands everything back. Nothing was lost.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "do-boss-healthcheck": {
+      "emoji": "💓",
+      "foe": "The Flapping Health Check",
+      "intro": [
+        "The Flapping Health Check 💓 blocks the road.",
+        "“I say healthy, then sick, then healthy again.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The pulse steadies. Your check is reliable.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "ip-boss-bsearch": {
+      "emoji": "🚪",
+      "foe": "The Interview Gatekeeper",
+      "intro": [
+        "The Interview Gatekeeper 🚪 blocks the road.",
+        "“Find it in a million items, and fast.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The gate swings open. Binary search halves the work every step.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "patch-06-boss": {
+      "emoji": "🕶️",
+      "foe": "The Injection Shadow",
+      "intro": [
+        "The Injection Shadow 🕶️ blocks the road.",
+        "“Give me a quote mark and I run my own query.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The shadow is sealed out. Your query treats input as plain data.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "api-06-boss": {
+      "emoji": "🗝️",
+      "foe": "The Token Thief",
+      "intro": [
+        "The Token Thief 🗝️ blocks the road.",
+        "“I slip in where your API forgets to check.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The thief is caught at the door. Every request is checked.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "gw-11-boss": {
+      "emoji": "👹",
+      "foe": "The Laggy Coin Goblin",
+      "intro": [
+        "The Laggy Coin Goblin 👹 blocks the road.",
+        "“I make the same coin pay out twice.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The goblin drops his sack. Each coin pays out once.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "mj-10-boss": {
+      "emoji": "🧌",
+      "foe": "The Till Troll",
+      "intro": [
+        "The Till Troll 🧌 blocks the road.",
+        "“I hand back the wrong notes every time.”",
+        "Chilaka whispers: “Every bug has a reason. Find it, and it loses its power.”"
+      ],
+      "win": [
+        "The troll counts out the right change at last.",
+        "Chilaka: “That is how you debug: calmly, one clue at a time.”"
+      ]
+    },
+    "gow-12-boss": {
+      "emoji": "🐹",
+      "foe": "The Gopher Gremlin",
+      "intro": [
+        "The Gopher Gremlin 🐹 guards the last gate of the Grove.",
+        "“Write me a whole program that compiles, or go back to reading.”",
+        "Chilaka whispers: “Compile errors are just the compiler being kind. Read them from the top.”"
+      ],
+      "win": [
+        "The Gremlin nods and the gate opens.",
+        "Chilaka: “You wrote real Go. Not a snippet, a program.”"
+      ]
+    },
+    "wh-10-boss": {
+      "emoji": "🏷",
+      "foe": "The Tag Goblin",
+      "intro": [
+        "The Tag Goblin 🏷 has scrambled a shop page. It looks fine at a glance.",
+        "“Can you find what I broke? Screen readers can.”",
+        "Chilaka whispers: “Look at the structure, not the colours.”"
+      ],
+      "win": [
+        "The goblin drops its tags and runs.",
+        "Chilaka: “Good HTML is the base of everything else on the web.”"
+      ]
+    },
+    "wc-10-boss": {
+      "emoji": "🎨",
+      "foe": "The Pixel Imp",
+      "intro": [
+        "The Pixel Imp 🎨 wants a profile card, and it wants it neat.",
+        "“Rounded corners, spacing and a tidy row of tags. No pressure.”",
+        "Chilaka whispers: “Three rules. Do them one at a time.”"
+      ],
+      "win": [
+        "The imp admires the card and tips its tiny hat.",
+        "Chilaka: “That is real CSS. You can style anything now.”"
+      ]
+    },
+    "wj-12-boss": {
+      "emoji": "🐝",
+      "foe": "The Bug Wasp",
+      "intro": [
+        "The Bug Wasp 🐝 buzzes around a blank page.",
+        "“You cannot build a working calculator. Not with empty boxes.”",
+        "Chilaka whispers: “Check the input first. Bad input is the wasp's favourite snack.”"
+      ],
+      "win": [
+        "The wasp buzzes off. The calculator works, even with empty boxes.",
+        "Chilaka: “Events, the page and edge cases, all in one. Well done.”"
+      ]
+    },
+    "sqa-10-boss": {
+      "emoji": "🐉",
+      "foe": "The Query Hydra",
+      "intro": [
+        "The Query Hydra 🐉 has four heads: a CTE, a join, a window and a filter.",
+        "“Cut one head and two more appear.”",
+        "Chilaka whispers: “Build it in layers. Test each layer alone.”"
+      ],
+      "win": [
+        "The last head falls silent.",
+        "Chilaka: “Windows and CTEs are what analysts use every day. You have them.”"
+      ]
+    },
+    "sqc-04-boss": {
+      "emoji": "📊",
+      "foe": "The Report Wraith",
+      "intro": [
+        "The Report Wraith 📊 floats out of the owner's office with a long list of demands.",
+        "“Spend, city, rank. And no NULLs.”",
+        "Chilaka whispers: “One CTE for spend, then the rank. You have done each part before.”"
+      ],
+      "win": [
+        "The wraith folds into a neat spreadsheet and vanishes.",
+        "Chilaka: “That is a real report, built by you.”"
+      ]
+    }
   }
- }
 }

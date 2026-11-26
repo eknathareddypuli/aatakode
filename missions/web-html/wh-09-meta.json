@@ -1,0 +1,51 @@
+{
+  "id": "wh-09-meta",
+  "region": "web-html",
+  "order": 9,
+  "title": "Head and Meta",
+  "story": "The <head> is not shown on the page, but it tells the browser and search engines about it: the title, the character set and a description.",
+  "goal": "In the head add a title Aata Village, a meta description of at least 20 characters, and the viewport meta so phones show the page at the right size.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <!-- add title, description and viewport here -->\n</head>\n<body>\n  <h1>Aata Village</h1>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "The title is Aata Village",
+      "js": "return document.title.trim() === \"Aata Village\" || document.title",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A description of at least 20 characters",
+      "js": "var c = attr(\"meta[name=description]\",\"content\") || \"\"; return c.trim().length >= 20 || \"description has \" + c.length + \" characters\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The viewport meta is set",
+      "js": "return /width=device-width/.test(attr(\"meta[name=viewport]\",\"content\") || \"\") || \"add width=device-width\"",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "<meta name=\"description\" content=\"...\"> goes inside <head>.",
+    "The viewport tag is <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Aata Village</title>\n  <meta name=\"description\" content=\"A friendly village where you learn to code by playing.\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n</head>\n<body>\n  <h1>Aata Village</h1>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why is the description not shown on the page?",
+    "What would a phone do without the viewport tag?",
+    "Where does the title appear?"
+  ],
+  "explain": "In one sentence: what did you learn from “Head and Meta”?",
+  "xp": 25,
+  "skills": [
+    "html",
+    "meta"
+  ],
+  "requires": [
+    "wh-08-form"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Aata Village</title>\n  <meta name=\"description\" content=\"A friendly village where you learn to code by playing.\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n</head>\n<body>\n  <h1>Aata Village</h1>\n</body>\n</html>\n"
+}

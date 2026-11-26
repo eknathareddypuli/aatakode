@@ -1,0 +1,49 @@
+{
+  "id": "wh-01-heading",
+  "region": "web-html",
+  "order": 1,
+  "title": "Your First Heading",
+  "story": "Every web page is made of tags. A heading tag gives the page its title.",
+  "goal": "Add a main heading: <h1>Welcome to Aata</h1>.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <!-- Add your heading here -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "There is an h1 on the page",
+      "js": "return !!$(\"h1\") || \"no h1 found\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "It says Welcome to Aata",
+      "js": "return txt(\"h1\") === \"Welcome to Aata\" || txt(\"h1\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "There is only one h1",
+      "js": "return $$(\"h1\").length === 1 || $$(\"h1\").length + \" h1 tags\"",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "A tag has an opening part <h1> and a closing part </h1>. The words go between them.",
+    "<h1>Welcome to Aata</h1>",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Welcome to Aata</h1>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What are the two parts of a tag?",
+    "Where does the text go?",
+    "Open the Preview: do you see your heading?"
+  ],
+  "explain": "In one sentence: what did you learn from “Your First Heading”?",
+  "xp": 15,
+  "skills": [
+    "html",
+    "tags"
+  ],
+  "requires": [],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Welcome to Aata</h1>\n</body>\n</html>\n"
+}

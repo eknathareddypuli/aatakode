@@ -1,0 +1,60 @@
+{
+  "id": "wp-03-logic",
+  "region": "web-project",
+  "order": 3,
+  "title": "Project: Quiz Page, Logic",
+  "story": "Make it work: clicking a choice says Correct! or Try again.",
+  "goal": "Clicking the li with text h1 shows Correct! in #result; any other choice shows Try again.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    li { cursor: pointer; }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n  </main>\n  <script>\n    // loop over the choices and add click handlers\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Clicking h1 is Correct!",
+      "js": "click($$(\"#choices li\")[1]); return txt(\"#result\") === \"Correct!\" || txt(\"#result\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Clicking h6 is Try again",
+      "js": "click($$(\"#choices li\")[0]); return txt(\"#result\") === \"Try again\" || txt(\"#result\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Clicking head is Try again",
+      "js": "click($$(\"#choices li\")[2]); return txt(\"#result\") === \"Try again\" || txt(\"#result\")",
+      "hidden": false
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "querySelectorAll gives a list; loop and add a listener to each.",
+    "Inside the handler, this is the clicked li.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    li { cursor: pointer; }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n  </main>\n  <script>\n    var choices = document.querySelectorAll(\"#choices li\");\n    for (var i = 0; i < choices.length; i++) {\n      choices[i].addEventListener(\"click\", function () {\n        var ok = this.textContent === \"h1\";\n        document.getElementById(\"result\").textContent = ok ? \"Correct!\" : \"Try again\";\n      });\n    }\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why a loop?",
+    "What does this mean inside the handler?",
+    "How do you check the text of the clicked li?"
+  ],
+  "explain": "In one sentence: what did you learn from “Project: Quiz Page, Logic”?",
+  "xp": 40,
+  "skills": [
+    "js",
+    "events",
+    "loops",
+    "conditions"
+  ],
+  "requires": [
+    "wp-02-style"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    li { cursor: pointer; }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n  </main>\n  <script>\n    var choices = document.querySelectorAll(\"#choices li\");\n    for (var i = 0; i < choices.length; i++) {\n      choices[i].addEventListener(\"click\", function () {\n        var ok = this.textContent === \"h1\";\n        document.getElementById(\"result\").textContent = ok ? \"Correct!\" : \"Try again\";\n      });\n    }\n  </script>\n</body>\n</html>\n",
+  "project": true,
+  "project_step": 3
+}

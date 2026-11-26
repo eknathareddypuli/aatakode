@@ -1,0 +1,57 @@
+{
+  "id": "wh-07-table",
+  "region": "web-html",
+  "order": 7,
+  "title": "Tables",
+  "story": "Tables are for data in rows and columns. Headers use <th>, cells use <td>.",
+  "goal": "Build a table with a header row (Item, Price) and 2 rows of data.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h2>Shop prices</h2>\n  <!-- Add the table here -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "There is a table",
+      "js": "return !!$(\"table\") || \"no table\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Two header cells: Item and Price",
+      "js": "var h = $$(\"th\").map(txt); return (h.length === 2 && h[0] === \"Item\" && h[1] === \"Price\") || \"headers: \" + h.join(\", \")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Two data rows",
+      "js": "return $$(\"tbody tr\").length === 2 || $$(\"tbody tr\").length + \" data rows (put data rows in tbody)\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Each data row has 2 cells",
+      "js": "return $$(\"tbody tr\").every(function (r) { return r.querySelectorAll(\"td\").length === 2; }) || \"a row has the wrong number of td cells\"",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "<tr> is a row. Inside it use <th> for headings and <td> for data.",
+    "Put the header row in <thead> and the data rows in <tbody>.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h2>Shop prices</h2>\n  <table>\n    <thead>\n      <tr><th>Item</th><th>Price</th></tr>\n    </thead>\n    <tbody>\n      <tr><td>Mango</td><td>40</td></tr>\n      <tr><td>Milk</td><td>28</td></tr>\n    </tbody>\n  </table>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "How many cells should every row have?",
+    "What is the difference between th and td?",
+    "Should you use a table to arrange a page layout?"
+  ],
+  "explain": "In one sentence: what did you learn from “Tables”?",
+  "xp": 25,
+  "skills": [
+    "html",
+    "tables"
+  ],
+  "requires": [
+    "wh-06-semantic"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h2>Shop prices</h2>\n  <table>\n    <thead>\n      <tr><th>Item</th><th>Price</th></tr>\n    </thead>\n    <tbody>\n      <tr><td>Mango</td><td>40</td></tr>\n      <tr><td>Milk</td><td>28</td></tr>\n    </tbody>\n  </table>\n</body>\n</html>\n"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "wh-08-form",
+  "region": "web-html",
+  "order": 8,
+  "title": "Forms With Labels",
+  "story": "A form asks for input. Every input needs a label tied to it with for and id, so people can click the label and screen readers can read it.",
+  "goal": "Build a sign-up form: a labelled email input (type email, required) and a submit button.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Join the village</h1>\n  <!-- Add the form here -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "There is a form",
+      "js": "return !!$(\"form\") || \"no form\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "An email input exists",
+      "js": "return !!$(\"input[type=email]\") || \"no input with type=email\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "It is required",
+      "js": "return !!($(\"input[type=email]\") && $(\"input[type=email]\").required) || \"add the required attribute\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A label points at the input",
+      "js": "var i = $(\"input[type=email]\"); return !!(i && i.id && $(\"label[for=\\\"\" + i.id + \"\\\"]\")) || \"label for= must match the input id\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "There is a submit button",
+      "js": "return !!($(\"button[type=submit]\") || $(\"input[type=submit]\")) || \"no submit button\"",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "<label for=\"email\"> must match <input id=\"email\">.",
+    "<input id=\"email\" name=\"email\" type=\"email\" required>",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Join the village</h1>\n  <form>\n    <label for=\"email\">Your email</label>\n    <input id=\"email\" name=\"email\" type=\"email\" required>\n    <button type=\"submit\">Join</button>\n  </form>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "How does the label know which input it belongs to?",
+    "What does type=email change for the user?",
+    "What does required do?"
+  ],
+  "explain": "In one sentence: what did you learn from “Forms With Labels”?",
+  "xp": 30,
+  "skills": [
+    "html",
+    "forms",
+    "accessibility"
+  ],
+  "requires": [
+    "wh-07-table"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Join the village</h1>\n  <form>\n    <label for=\"email\">Your email</label>\n    <input id=\"email\" name=\"email\" type=\"email\" required>\n    <button type=\"submit\">Join</button>\n  </form>\n</body>\n</html>\n"
+}

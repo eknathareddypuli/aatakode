@@ -1,0 +1,66 @@
+{
+  "id": "wp-02-style",
+  "region": "web-project",
+  "order": 2,
+  "title": "Project: Quiz Page, Style",
+  "story": "Now make it look like a card.",
+  "goal": "Style: body font-family sans-serif; main width 400px with padding 20px, margin 40px auto, a 1px border, border-radius 12px; #choices li padding 8px with cursor pointer.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    /* style it */\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n  </main>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "main is 400px wide",
+      "js": "return px(\"main\",\"width\") === 400 || px(\"main\",\"width\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "main padding 20px",
+      "js": "return px(\"main\",\"padding-top\") === 20 || px(\"main\",\"padding-top\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "rounded 12px with a 1px border",
+      "js": "return (px(\"main\",\"border-top-left-radius\") === 12 && px(\"main\",\"border-top-width\") === 1) || px(\"main\",\"border-top-left-radius\") + \"/\" + px(\"main\",\"border-top-width\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "choices have padding 8px",
+      "js": "return px(\"#choices li\",\"padding-top\") === 8 || px(\"#choices li\",\"padding-top\") + \"px\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "choices show a pointer cursor",
+      "js": "return css(\"#choices li\",\"cursor\") === \"pointer\" || css(\"#choices li\",\"cursor\")",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Four rules: body, main, #choices li. margin: 40px auto centres the card.",
+    "See the solution.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    body { font-family: sans-serif; }\n    main {\n      width: 400px;\n      padding: 20px;\n      margin: 40px auto;\n      border: 1px solid #ccc;\n      border-radius: 12px;\n    }\n    #choices li {\n      padding: 8px;\n      cursor: pointer;\n    }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n  </main>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What does margin: 40px auto do?",
+    "Why cursor: pointer on choices?",
+    "Which selector reaches the list items?"
+  ],
+  "explain": "In one sentence: what did you learn from “Project: Quiz Page, Style”?",
+  "xp": 35,
+  "skills": [
+    "css",
+    "box-model",
+    "selectors"
+  ],
+  "requires": [
+    "wp-01-structure"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    body { font-family: sans-serif; }\n    main {\n      width: 400px;\n      padding: 20px;\n      margin: 40px auto;\n      border: 1px solid #ccc;\n      border-radius: 12px;\n    }\n    #choices li {\n      padding: 8px;\n      cursor: pointer;\n    }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n  </main>\n</body>\n</html>\n",
+  "project": true,
+  "project_step": 2
+}

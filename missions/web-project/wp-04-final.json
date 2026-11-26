@@ -1,0 +1,66 @@
+{
+  "id": "wp-04-final",
+  "region": "web-project",
+  "order": 4,
+  "title": "Project: Quiz Page, Score",
+  "story": "Last step: keep a score and mark the answers.",
+  "goal": "Add a <p id=\"score\">Score: 0</p>. Correct answers add 1 (once only per page load), and the clicked choice gets the class right or wrong.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    li { cursor: pointer; }\n    .right { background: #bbf7d0; }\n    .wrong { background: #fecaca; }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n    <p id=\"score\">Score: 0</p>\n  </main>\n  <script>\n    // choices, result, score\n  </script>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Score starts at 0",
+      "js": "return txt(\"#score\") === \"Score: 0\" || txt(\"#score\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A wrong answer is marked wrong",
+      "js": "click($$(\"#choices li\")[0]); return $$(\"#choices li\")[0].classList.contains(\"wrong\") || \"no wrong class\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The correct answer is marked right and scores",
+      "js": "click($$(\"#choices li\")[1]); return ($$(\"#choices li\")[1].classList.contains(\"right\") && txt(\"#score\") === \"Score: 1\") || txt(\"#score\")",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Clicking the correct answer again does not score twice",
+      "js": "click($$(\"#choices li\")[1]); return txt(\"#score\") === \"Score: 1\" || txt(\"#score\")",
+      "hidden": false
+    },
+    {
+      "kind": "web-clean",
+      "label": "The script runs with no errors",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Use a flag (scored) so the score counts once.",
+    "classList.add(ok ? \"right\" : \"wrong\").",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    li { cursor: pointer; }\n    .right { background: #bbf7d0; }\n    .wrong { background: #fecaca; }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n    <p id=\"score\">Score: 0</p>\n  </main>\n  <script>\n    var score = 0;\n    var scored = false;\n    var choices = document.querySelectorAll(\"#choices li\");\n    for (var i = 0; i < choices.length; i++) {\n      choices[i].addEventListener(\"click\", function () {\n        var ok = this.textContent === \"h1\";\n        this.classList.add(ok ? \"right\" : \"wrong\");\n        document.getElementById(\"result\").textContent = ok ? \"Correct!\" : \"Try again\";\n        if (ok && !scored) {\n          scored = true;\n          score++;\n          document.getElementById(\"score\").textContent = \"Score: \" + score;\n        }\n      });\n    }\n  </script>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Why do you need the scored flag?",
+    "What does classList.add do?",
+    "Where should score and scored live?"
+  ],
+  "explain": "In one sentence: what did you learn from “Project: Quiz Page, Score”?",
+  "xp": 60,
+  "skills": [
+    "js",
+    "state",
+    "dom",
+    "events"
+  ],
+  "requires": [
+    "wp-03-logic"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n  <style>\n    li { cursor: pointer; }\n    .right { background: #bbf7d0; }\n    .wrong { background: #fecaca; }\n  </style>\n</head>\n<body>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\"><li>h6</li><li>h1</li><li>head</li></ul>\n    <p id=\"result\"></p>\n    <p id=\"score\">Score: 0</p>\n  </main>\n  <script>\n    var score = 0;\n    var scored = false;\n    var choices = document.querySelectorAll(\"#choices li\");\n    for (var i = 0; i < choices.length; i++) {\n      choices[i].addEventListener(\"click\", function () {\n        var ok = this.textContent === \"h1\";\n        this.classList.add(ok ? \"right\" : \"wrong\");\n        document.getElementById(\"result\").textContent = ok ? \"Correct!\" : \"Try again\";\n        if (ok && !scored) {\n          scored = true;\n          score++;\n          document.getElementById(\"score\").textContent = \"Score: \" + score;\n        }\n      });\n    }\n  </script>\n</body>\n</html>\n",
+  "project": true,
+  "project_step": 4
+}

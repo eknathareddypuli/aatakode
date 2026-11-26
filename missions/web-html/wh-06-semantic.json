@@ -1,0 +1,63 @@
+{
+  "id": "wh-06-semantic",
+  "region": "web-html",
+  "order": 6,
+  "title": "Page Structure",
+  "story": "Use tags that say what a part IS: header, nav, main, footer. Screen readers and search engines understand them.",
+  "goal": "Wrap the page parts: put the title in a header, the links in a nav, the text in main and the credit in a footer.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Aata Village</h1>\n  <a href=\"#home\">Home</a> <a href=\"#map\">Map</a>\n  <p>Welcome to the village.</p>\n  <small>Made with care</small>\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "A header contains the h1",
+      "js": "return !!$(\"header h1\") || \"h1 is not inside a header\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A nav contains the links",
+      "js": "return $$(\"nav a\").length >= 2 || \"links are not inside a nav\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "main contains the welcome paragraph",
+      "js": "return /welcome/i.test(txt(\"main p\")) || \"paragraph is not inside main\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A footer contains the credit",
+      "js": "return /made with care/i.test(txt(\"footer\")) || \"credit is not inside a footer\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Only one main",
+      "js": "return $$(\"main\").length === 1",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Wrap each part: <header>...</header>, <nav>...</nav>, <main>...</main>, <footer>...</footer>.",
+    "The h1 goes inside header, the two links inside nav.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <header>\n    <h1>Aata Village</h1>\n  </header>\n  <nav>\n    <a href=\"#home\">Home</a> <a href=\"#map\">Map</a>\n  </nav>\n  <main>\n    <p>Welcome to the village.</p>\n  </main>\n  <footer>\n    <small>Made with care</small>\n  </footer>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "What does each tag tell the browser?",
+    "Is a div better or worse for this? Why?",
+    "Which parts repeat on every page of a site?"
+  ],
+  "explain": "In one sentence: what did you learn from “Page Structure”?",
+  "xp": 25,
+  "skills": [
+    "html",
+    "semantic"
+  ],
+  "requires": [
+    "wh-05-lists"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <header>\n    <h1>Aata Village</h1>\n  </header>\n  <nav>\n    <a href=\"#home\">Home</a> <a href=\"#map\">Map</a>\n  </nav>\n  <main>\n    <p>Welcome to the village.</p>\n  </main>\n  <footer>\n    <small>Made with care</small>\n  </footer>\n</body>\n</html>\n"
+}

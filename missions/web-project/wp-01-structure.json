@@ -1,0 +1,60 @@
+{
+  "id": "wp-01-structure",
+  "region": "web-project",
+  "order": 1,
+  "title": "Project: Quiz Page, Structure",
+  "story": "Build a small quiz page across four steps. First the HTML.",
+  "goal": "Create a header with an h1, a <main> with a <p id=\"question\">, a <ul id=\"choices\"> with 3 <li>, and a <p id=\"result\"></p>.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <!-- header, main, choices, result -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "header with h1",
+      "js": "return !!$(\"header h1\") || \"need header > h1\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "main with #question",
+      "js": "return !!$(\"main #question\") || \"need #question inside main\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "3 choices",
+      "js": "return $$(\"#choices li\").length === 3 || $$(\"#choices li\").length",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "#result exists and is empty",
+      "js": "return !!$(\"#result\") && txt(\"#result\") === \"\" || \"need an empty #result\"",
+      "hidden": false
+    }
+  ],
+  "hints": [
+    "Use header, main, ul and li. Give the ids exactly.",
+    "See the solution for the full structure.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <header>\n    <h1>Quick Quiz</h1>\n  </header>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\">\n      <li>h6</li>\n      <li>h1</li>\n      <li>head</li>\n    </ul>\n    <p id=\"result\"></p>\n  </main>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Which tags describe the page parts?",
+    "Which ids does the next step need?",
+    "Why is #result empty at the start?"
+  ],
+  "explain": "In one sentence: what did you learn from “Project: Quiz Page, Structure”?",
+  "xp": 30,
+  "skills": [
+    "html",
+    "semantic",
+    "lists"
+  ],
+  "requires": [
+    "wh-10-boss"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <header>\n    <h1>Quick Quiz</h1>\n  </header>\n  <main>\n    <p id=\"question\">Which tag makes the biggest heading?</p>\n    <ul id=\"choices\">\n      <li>h6</li>\n      <li>h1</li>\n      <li>head</li>\n    </ul>\n    <p id=\"result\"></p>\n  </main>\n</body>\n</html>\n",
+  "project": true,
+  "project_step": 1
+}

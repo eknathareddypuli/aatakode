@@ -1,0 +1,57 @@
+{
+  "id": "wh-02-paragraphs",
+  "region": "web-html",
+  "order": 2,
+  "title": "Paragraphs",
+  "story": "Text lives in <p> paragraphs. Browsers add the space between them for you.",
+  "goal": "Under the heading add two paragraphs: the first mentions Chilaka, the second mentions coding.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>About Chilaka</h1>\n  <!-- Add two paragraphs here -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "Two paragraphs",
+      "js": "return $$(\"p\").length === 2 || $$(\"p\").length + \" paragraphs\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The first one mentions Chilaka",
+      "js": "return /chilaka/i.test(txt($$(\"p\")[0])) || \"first paragraph: \" + txt($$(\"p\")[0])",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The second one mentions coding",
+      "js": "return /cod/i.test(txt($$(\"p\")[1])) || \"second paragraph: \" + txt($$(\"p\")[1])",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The paragraphs come after the heading",
+      "js": "return !!($(\"h1\") && $(\"p\") && ($(\"h1\").compareDocumentPosition($(\"p\")) & 4)) || \"paragraph is before the heading\"",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use one <p>...</p> pair for each paragraph.",
+    "<p>Chilaka is a green parrot who loves to teach.</p> and a second <p> for coding.",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>About Chilaka</h1>\n  <p>Chilaka is a green parrot who loves to teach.</p>\n  <p>Every day Chilaka practises coding.</p>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "How does the browser know where one paragraph ends?",
+    "What happens if you press Enter inside a paragraph in the editor?",
+    "Which tag would you use for a smaller heading?"
+  ],
+  "explain": "In one sentence: what did you learn from “Paragraphs”?",
+  "xp": 15,
+  "skills": [
+    "html",
+    "tags"
+  ],
+  "requires": [
+    "wh-01-heading"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>About Chilaka</h1>\n  <p>Chilaka is a green parrot who loves to teach.</p>\n  <p>Every day Chilaka practises coding.</p>\n</body>\n</html>\n"
+}

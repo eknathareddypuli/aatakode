@@ -1,0 +1,57 @@
+{
+  "id": "wh-05-lists",
+  "region": "web-html",
+  "order": 5,
+  "title": "Lists",
+  "story": "A <ul> is a bulleted list and an <ol> is numbered. Each item is an <li>.",
+  "goal": "Make a bulleted list of 3 fruits, and a numbered list of 3 steps to make tea.",
+  "type": "web",
+  "lang": "web",
+  "starter": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h2>Fruits</h2>\n  <!-- bulleted list -->\n  <h2>Making tea</h2>\n  <!-- numbered list -->\n</body>\n</html>\n",
+  "tests": [
+    {
+      "kind": "web",
+      "label": "A bulleted list with 3 items",
+      "js": "return $$(\"ul > li\").length === 3 || $$(\"ul > li\").length + \" items\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "A numbered list with 3 items",
+      "js": "return $$(\"ol > li\").length === 3 || $$(\"ol > li\").length + \" items\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "Items have text",
+      "js": "return $$(\"li\").every(function (l) { return txt(l).length > 1; }) || \"an li is empty\"",
+      "hidden": false
+    },
+    {
+      "kind": "web",
+      "label": "The fruit list is first",
+      "js": "return !!($(\"ul\").compareDocumentPosition($(\"ol\")) & 4) || \"ul should come before ol\"",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "<ul> holds <li> items. <ol> works the same way.",
+    "<ul><li>Mango</li>...</ul> and <ol><li>Boil water</li>...</ol>",
+    "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h2>Fruits</h2>\n  <ul>\n    <li>Mango</li>\n    <li>Banana</li>\n    <li>Guava</li>\n  </ul>\n  <h2>Making tea</h2>\n  <ol>\n    <li>Boil water</li>\n    <li>Add tea leaves</li>\n    <li>Pour and enjoy</li>\n  </ol>\n</body>\n</html>\n"
+  ],
+  "socratic": [
+    "Which tag decides bullets or numbers?",
+    "Can you put an <li> outside a list?",
+    "How would you nest a list inside an item?"
+  ],
+  "explain": "In one sentence: what did you learn from “Lists”?",
+  "xp": 20,
+  "skills": [
+    "html",
+    "lists"
+  ],
+  "requires": [
+    "wh-04-image"
+  ],
+  "solution": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h2>Fruits</h2>\n  <ul>\n    <li>Mango</li>\n    <li>Banana</li>\n    <li>Guava</li>\n  </ul>\n  <h2>Making tea</h2>\n  <ol>\n    <li>Boil water</li>\n    <li>Add tea leaves</li>\n    <li>Pour and enjoy</li>\n  </ol>\n</body>\n</html>\n"
+}
