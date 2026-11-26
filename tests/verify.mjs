@@ -11,7 +11,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
 const require = createRequire(import.meta.url);
 const AK = require(join(root, "src", "engine.js"));
-for (const f of ["term_extra.js", "git.js", "play.js", "more.js", "more2.js", "more3.js", "goeval.js", "web.js"]) require(join(root, "src", f));
+for (const f of ["term_extra.js", "git.js", "play.js", "more.js", "more2.js", "more3.js", "goeval.js", "web.js", "shell.js"]) require(join(root, "src", f));
 
 const regionsFile = JSON.parse(readFileSync(join(root, "missions", "regions.json"), "utf8"));
 const regionIds = regionsFile.regions.map((r) => r.id);
@@ -31,7 +31,7 @@ const ok = () => { checks++; };
 // ---- structure
 const ids = new Set(missions.map((m) => m.id));
 const REQUIRED = ["id", "region", "order", "title", "story", "goal", "type", "starter", "tests", "hints", "socratic", "explain", "xp", "skills", "requires", "solution"];
-const TYPES = ["write-code", "fix-the-bug", "terminal", "predict", "fill", "order", "sql", "pair", "lesson", "go", "hunt", "grid", "pipe", "read", "gocode", "web"];
+const TYPES = ["write-code", "fix-the-bug", "terminal", "predict", "fill", "order", "sql", "pair", "lesson", "go", "hunt", "grid", "pipe", "read", "gocode", "web", "shell"];
 const seen = new Set();
 for (const m of missions) {
   for (const k of REQUIRED) if (!(k in m)) bad(m, `missing field "${k}"`); else ok();
@@ -155,7 +155,7 @@ const place = JSON.parse(readFileSync(join(root, "missions", "placement.json"), 
   }
 }
 
-const NEWT = ["lesson", "go", "hunt", "grid", "pipe", "read", "gocode", "web"];
+const NEWT = ["lesson", "go", "hunt", "grid", "pipe", "read", "gocode", "web", "shell"];
 for (const m of missions.filter((x) => x.type !== "terminal" && x.type !== "predict" && x.type !== "sql" && !NEWT.includes(x.type))) {
   if (typeof m.solution !== "string") { bad(m, "solution must be a string of code"); continue; }
   let res = AK.py.grade(m.solution, m.tests);
@@ -207,6 +207,14 @@ for (const m of missions.filter((x) => x.type === "gocode")) {
   r = AK.goGrade(m.starter, m.tests); if (r.some((x) => !x.ok)) ok(); else bad(m, "go starter already passes");
   if (!m.tests.some((t) => t.hidden) && !m.project_step && m.order > 1) bad(m, "go mission needs a hidden check");
   if (m.tests.some((t) => t.kind === "go-call" && (t.expect === undefined))) bad(m, "go-call test missing expectation");
+}
+for (const m of missions.filter((x) => x.type === "shell")) {
+  if (m.lang !== "bash") bad(m, "shell mission needs lang bash");
+  let r = AK.shGrade(m.solution, m.tests, m); if (r.every((x) => x.ok)) ok(); else bad(m, "shell reference fails: " + r.filter((x) => !x.ok).map((x) => `${x.label} (got ${String(x.got).slice(0, 60)})`).join("; "));
+  if (m.alt) { r = AK.shGrade(m.alt, m.tests, m); if (r.every((x) => x.ok)) ok(); else bad(m, "shell alternative fails"); }
+  r = AK.shGrade(m.starter, m.tests, m); if (r.some((x) => !x.ok)) ok(); else bad(m, "shell starter already passes");
+  if (AK.shCheck(m.solution)) bad(m, "shell reference has a syntax error"); else ok();
+  if (!m.tests.some((t) => t.hidden) && m.order > 1 && !m.project_step) bad(m, "shell mission needs a hidden check"); else ok();
 }
 for (const m of missions.filter((x) => x.type === "web")) {
   if (m.lang !== "web") bad(m, "web mission needs lang web");
@@ -540,7 +548,7 @@ for (const m of missions.filter((x) => x.type === "read")) {
   const D = { regions: regionsFile.regions, missions, tracks: regionsFile.tracks };
   A_ = (c, msg) => { if (c) ok(); else bad({ id: "paths" }, msg); };
   A_(AK.GOALS.length >= 9 && ["new", "job", "ops", "data", "go", "sec", "play"].every((id) => AK.goalById(id)), "all seven requested goals exist");
-  const firstOf = { new: "py-01-hello", job: "py-01-hello", ops: "py-01-hello", data: "sql-select-all", go: "go-01-hello", sec: "sec-01-mindset", play: "golf-01-double", game: "py-01-hello", jobs: "py-01-hello", web: "wh-01-heading" };
+  const firstOf = { new: "py-01-hello", job: "py-01-hello", ops: "py-01-hello", data: "sql-select-all", go: "go-01-hello", sec: "sec-01-mindset", play: "golf-01-double", game: "py-01-hello", jobs: "py-01-hello", web: "wh-01-heading", script: "sb-01-hello" };
   const orderOf = (g) => AK.pathOf(AK.newState(), D, g.id).stages.map((s) => s.label).join(" > ");
   A_(orderOf(AK.goalById("job")) === "Python > Git > SQL > Go > Interview prep", "job path order: Python, Git, SQL, Go, Interview prep");
   A_(orderOf(AK.goalById("ops")) === "Python > Git > HTTP and APIs > Python for DevOps", "devops path order");

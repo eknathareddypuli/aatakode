@@ -944,8 +944,10 @@
       return rhs.map((x) => evalExpr(x, env));
     }
     const asMulti = (r) => r;
+    const snapVars = (env) => { const o = {}; for (const k in env) { const c = env[k]; if (k.indexOf(":") >= 0 || !c || c.fnDecl || c.iotaConst || typeof c !== "object" || !("v" in c)) continue; try { o[k] = fmtVal(c.v, "v", {}, true); } catch (e) { o[k] = "?"; } } return o; };
     function execStmt(s, env) {
       tick();
+      if (opts.trace && s.line && s.k !== "Block" && s.k !== "Empty" && opts.trace.length < 300) opts.trace.push({ line: s.line, vars: snapVars(env), out: outLen });
       switch (s.k) {
         case "Empty": return null;
         case "ExprStmt": evalExpr(s.x, env, true); return null;
@@ -1208,6 +1210,8 @@
       return Object.assign(base, { ok: false });
     });
   }
+  /* Step trace for the "Watch it run" visualizer: one entry per executed statement, with the variables in scope at that moment. */
+  AK.goTrace = function (src, o) { const trace = []; const r = goRun(src, Object.assign({}, o || {}, { trace: trace })); return { steps: trace, out: r.out, err: r.err, code: r.code, compile: r.compile }; };
   AK.goRun = goRun; AK.goGrade = goGrade; AK.goParse = parse; AK.goCheck = (src) => { try { return check(parse(src)); } catch (e) { if (e instanceof GoErr) return [{ line: e.line, col: e.col, msg: e.message }]; throw e; } };
   AK.GO_LIMITS = "No goroutines, channels, generics, reflect or time. Type errors show up when the code runs, not before.";
   if (typeof module !== "undefined" && module.exports) module.exports = AK;

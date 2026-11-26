@@ -41,6 +41,8 @@
   var solvedNote = function (m) { var s = Q("#rewardSlot"); if (s) s.innerHTML = S().solved[m.id] ? '<div class="reward"><b>✔ You solved this mission.</b> <a href="#/map">Back to the map</a></div>' : ""; };
   var btnRow = function (extra) { return '<div class="row" style="margin-top:.6rem"><button class="btn primary" id="runBtn">▶ Run</button><button class="btn good" id="submitBtn">✔ ' + esc(C.t("submit")) + '</button><button class="btn small" id="resetBtn">↺ ' + esc(C.t("reset")) + "</button></div>" + (extra || ""); };
 
+  UI.x5 = { judge: judge, solvedNote: solvedNote, btnRow: btnRow, md: md, codeBox: codeBox, chain: chain, Q: Q };
+
   /* ---------------------------------------------------------------- real Go programs */
   UI.mission.gocode = function (v, m, w) {
     v.innerHTML = C.missionFrame(m, {
@@ -115,8 +117,13 @@
     "web-html": { c: "HTML is **tags** that describe content. A tag has an opening part and a closing part. **Attributes** such as href live inside the opening tag.", code: "<h1>Welcome</h1>\n<a href=\"https://eknathalabs.com\">Visit</a>", out: "A big heading, then a clickable link.", note: "The Preview tab shows your page as you type." },
     "web-css": { c: "A CSS rule is a **selector** plus braces holding `property: value;` pairs. Classes (.note) style many elements; an id (#hero) styles one.", code: ".note {\n  background: #fff3a0;\n  padding: 8px;\n}", out: "Every element with class note gets a yellow background.", note: "Change one property at a time and watch the preview." },
     "web-js": { c: "JavaScript finds elements, listens for **events** such as clicks and changes the page. The pattern is: find, listen, change.", code: "document.getElementById(\"btn\")\n  .addEventListener(\"click\", function () {\n    document.getElementById(\"out\").textContent = \"Hi!\";\n  });", out: "Clicking the button writes Hi!", note: "The Console tab shows errors and console.log." },
-    "web-project": { c: "Build a page in layers: **structure** with HTML, **look** with CSS, **behaviour** with JavaScript. Finish each layer before the next.", code: "<main>…</main>      /* structure */\nmain { … }          /* look */\naddEventListener…   /* behaviour */", out: "(a working quiz page)", note: "Four steps, one per layer, plus a score." }
+    "web-project": { c: "Build a page in layers: **structure** with HTML, **look** with CSS, **behaviour** with JavaScript. Finish each layer before the next.", code: "<main>…</main>      /* structure */\nmain { … }          /* look */\naddEventListener…   /* behaviour */", out: "(a working quiz page)", note: "Four steps, one per layer, plus a score." },
+    "sh-basics": { c: "A **shell script** is commands saved in a file and run top to bottom. `name=value` makes a variable (no spaces), `$name` reads it, `$1 $2` are the arguments and `$(( ))` does integer maths. **Quote** your variables.", code: "name=Asha\necho \"Hello $name, you passed $# args\"\necho $(( 6 * 7 ))", out: "Hello Asha, you passed 0 args\n42" },
+    "sh-flow": { c: "`if` runs a command and checks its **exit status** (0 means yes). `[ ]` is a command that tests numbers, strings and files. `for` walks a list, `while read` walks lines and `case` matches patterns.", code: "for f in *.log; do\n  if [ -s \"$f\" ]; then echo \"$f has data\"; fi\ndone", out: "app.log has data" },
+    "sh-scripts": { c: "Real scripts use **functions**, **exit codes**, **pipelines** and **arrays**. `set -eu` stops on errors and unset variables. A script's last status is how schedulers know it worked.", code: "set -eu\ngreet() { echo \"hi $1\"; }\ngreet Ravi\nexit 0", out: "hi Ravi" },
+    "sh-project": { c: "Build the report in layers: first **count**, then **rank**, then wrap it in a **function**, then add **checks and an exit code**. Run it after every step.", code: "grep -c ' ERROR ' app.log\ngrep ' ERROR ' app.log | sort | uniq -c | sort -rn | head -1", out: "3\n2 ERROR db timeout" }
   };
+  UI.x5.LEARN = LEARN;
   chain("route", function (name, arg) {
     if (name !== "mission") return;
     setTimeout(function () {

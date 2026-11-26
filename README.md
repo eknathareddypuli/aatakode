@@ -65,3 +65,6 @@ python3 -m http.server                # open http://localhost:8000
 Drop a JSON file in `missions/<region>/`. See `docs/MISSION_FORMAT.md` and `CONTRIBUTING.md`. CI fails if a solution doesn't pass or the starter already does.
 
 MIT licensed.
+
+## v7
+Shell Scripting track, Watch it run step-through visualizer, live web preview with click-to-source, worked→faded→solo scaffolding, Teach Chilaka, animation pack, and guided tours with an ask-the-guide `?`. Tests: `node tests/shell_diff.mjs` compares the shell interpreter with real bash.

@@ -43,7 +43,7 @@ with sync_playwright() as p:
         if ONLY and not re.search(ONLY, mid): continue
         try:
             pg.evaluate(f"location.hash='#/mission/{mid}'")
-            pg.wait_for_selector("#midpane, #dopts, .lesson", timeout=10000)
+            pg.wait_for_selector("#midpane, #dopts, .lesson, #code", timeout=10000)
             pg.wait_for_timeout(150)
             if pg.locator("#bsSkip").count(): pg.click("#bsSkip")
             pg.evaluate("document.querySelectorAll('.boss-ov').forEach(o=>{if(!o.querySelector('#bsSkip')&&!o.querySelector('#bsNext'))o.remove()})")
@@ -99,7 +99,7 @@ with sync_playwright() as p:
                 if t == "pair":
                     pg.locator(f'.opt[data-i="{m["diagnose"]["answer"]}"]').click(); pg.click("#toFix")
                 pg.wait_for_selector("#submitBtn", timeout=10000)
-                if t in ("write-code", "fix-the-bug", "pair", "gocode", "web"):
+                if t in ("write-code", "fix-the-bug", "pair", "gocode", "web", "shell"):
                     pg.fill("#code", m["solution"])
                 elif t == "fill":
                     for i, v in enumerate(aligned_blanks(m["starter"], m["solution"])):

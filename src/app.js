@@ -184,7 +184,7 @@
   };
 
   /* ---- map */
-  const TYPE_ICON = { predict: "🔮", fill: "✏️", order: "🧩", "fix-the-bug": "🔧", terminal: "💻", "write-code": "⌨️", lesson: "📖", go: "🐹", hunt: "🕵️", grid: "🤖", pipe: "🔧", sql: "🗄️", pair: "🦜", gocode: "🐹", web: "🌐" };
+  const TYPE_ICON = { predict: "🔮", fill: "✏️", order: "🧩", "fix-the-bug": "🔧", terminal: "💻", "write-code": "⌨️", lesson: "📖", go: "🐹", hunt: "🕵️", grid: "🤖", pipe: "🔧", sql: "🗄️", pair: "🦜", gocode: "🐹", web: "🌐", shell: "📜" };
   const nodeIcon = (m) => (m.boss ? "🐛" : m.project || m.project_step ? "🏗️" : m.type === "hunt" && m.lang === "go" ? "🐹" : TYPE_ICON[m.type] || "⌨️");
   const starRow = (n) => "★".repeat(n) + "☆".repeat(3 - n);
   VIEWS.map = function (v) {
@@ -344,7 +344,7 @@
   }
 
   function missionFrame(m, extraRight) {
-    const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT", sql: "SQL QUERY", pair: "PAIR PARROT", lesson: "LESSON", go: "GO PRACTICE", gocode: "GO PROGRAM", web: "WEB PAGE", hunt: m.lang === "go" ? "COMPILER HUNT" : "SECURITY HUNT", grid: "ROBOT CODING", pipe: "BUILD A PIPELINE" }[m.type] || (m.mystery ? "CASE FILE" : m.golf ? "CODE GOLF" : "");
+    const reg = regionById[m.region], kind = { predict: "PREDICT", fill: "FILL THE BLANK", order: "PUT IN ORDER", "fix-the-bug": "BUG HUNT", sql: "SQL QUERY", pair: "PAIR PARROT", lesson: "LESSON", go: "GO PRACTICE", gocode: "GO PROGRAM", web: "WEB PAGE", shell: "SHELL SCRIPT", hunt: m.lang === "go" ? "COMPILER HUNT" : "SECURITY HUNT", grid: "ROBOT CODING", pipe: "BUILD A PIPELINE" }[m.type] || (m.mystery ? "CASE FILE" : m.golf ? "CODE GOLF" : "");
     return '<div class="mhead"><a class="btn small" href="#/map">← ' + esc(t("back")) + "</a><span class=\"tag\">" + esc(lt(reg, "title")) + (m.boss ? " · BOSS" : m.project ? " · PROJECT" : m.project_step ? " · PROJECT STEP" : kind ? " · " + kind : "") + "</span><h2>" + esc(m.title) + '</h2><span class="chip gold">' + m.xp + ' XP</span><span id="mstatus"></span><span class="pill load" id="pypill"></span></div>' +
       '<div class="mgrid" id="mgrid"><aside class="card" id="leftpane"><div class="story">' + esc(m.story) + '</div><div class="goal"><b>Goal:</b> ' + esc(m.goal) + "</div>" + (m.type === "predict" ? "" : "<b>Checks</b>" + renderTests(m, null)) + '<div id="hintSlot"></div><div id="rewardSlot"></div><div id="learnSlot"></div><div id="explainSlot">' + (S.solved[m.id] ? explainHtml(m) : "") + "</div></aside>" +
       '<section id="midpane"></section><section class="card" id="rightpane"><div class="tabs" role="tablist">' + extraRight.tabs + "</div>" + extraRight.panels + '<div id="tab-compare" hidden></div></section></div>';

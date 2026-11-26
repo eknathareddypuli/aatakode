@@ -28,7 +28,7 @@ with sync_playwright() as p:
         for sel in ("#chooser h2", "#chooser .gpick b", "#chooser .gpick .muted", "#chooser > p.muted"):
             c = pg.evaluate(f"({LUM})('{sel}')")
             check(f"{theme}: {sel} contrast >= 4.5 (got {c:.1f})", c >= 4.5)
-    check("chooser lists 10 goals incl web", pg.locator("#chooser .gpick").count() == 10 and pg.locator('.gpick[data-g="web"]').count() == 1)
+    check("chooser lists 11 goals incl web", pg.locator("#chooser .gpick").count() == 11 and pg.locator('.gpick[data-g="web"]').count() == 1)
     check("placement link in the chooser", pg.locator("#chooser #chPlace").count() == 1)
     pg.evaluate("document.documentElement.dataset.theme='dark'")
     pg.locator("#chooser #chPlace").click(); pg.wait_for_selector("text=Placement quiz")

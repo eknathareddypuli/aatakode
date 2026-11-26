@@ -56,3 +56,10 @@ Real Go execution, Web Basics, SQL windows and CTEs plus capstone, track-level T
 - Native-speaker review of festival greetings and the new nav labels (they fall back to English).
 - Real Go in the browser (WASM toolchain) to replace static grading.
 - More projects and a Rust track.
+
+## v7 (built)
+- Shell Scripting track (23 missions, 4 regions, two bosses) with a bash-subset interpreter checked against real bash.
+- Watch it run (Python and Go step-through), live "what changed" preview and click-to-source in Web missions.
+- Worked → faded → solo scaffolding, a free "show me a similar example" hint, Teach Chilaka.
+- Animation pack (domino tests, boss effects, bloom, honest flame states, level-up burst), all calm-mode and reduced-motion safe.
+- Nine guided tours plus "What's new", a checklist, and an ask-the-guide `?` search (Telugu strings need native review).

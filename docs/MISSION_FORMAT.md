@@ -83,3 +83,9 @@ New mission types (all verified by `tests/verify.mjs`):
 - Boss missions need a scene in `missions/boss.json`.
 - `AK.v6(S)` (in `src/ext5.js`): `trying`, `pass` (track test-out), `learnSeen`, `review {day, ids, done}`. Transfer code format: `AK1.` plus base64 of the state JSON without drafts.
 
+
+## v7 additions
+- **`type: "shell"`**: a bash-subset script run by the in-browser interpreter (`src/shell.js`, differential-tested against real bash in `tests/shell_diff.mjs`). Optional `files` is an object `{path: contents}` for the virtual file system; `lang: "bash"`.
+- Shell test kinds: `sh-out` (`expect`, optional `args`, `stdin[]`, `files`, `status`, `hidden`), `sh-status`, `sh-file` (`path`, `expect`), `sh-source` (`pattern` regex, optional `absent`).
+- Supported: pipes, redirects, here-docs, functions, arrays and associative arrays, `[[ ]]`, `(( ))`, parameter expansion, globbing, `case`, loops, and virtual `cat grep sort uniq cut tr sed wc head tail seq printf`. Not supported: awk, find, getopts, background jobs, process substitution.
+- `fade: {partial, example:{title,code,note}}` is optional; missions without it get a synthesized worked/faded/solo ladder on the first three missions of each region.
