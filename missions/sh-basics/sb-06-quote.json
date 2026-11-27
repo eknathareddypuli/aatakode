@@ -1,0 +1,62 @@
+{
+  "id": "sb-06-quote",
+  "region": "sh-basics",
+  "order": 6,
+  "title": "Quote It Right",
+  "story": "Unquoted variables split on spaces. A file called my notes.txt becomes two words and breaks things.",
+  "goal": "Print each argument on its own line inside square brackets, like [one two]. Arguments may contain spaces.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# Loop over all arguments safely\n",
+  "tests": [
+    {
+      "label": "simple",
+      "kind": "sh-out",
+      "expect": "[a]\n[b]\n",
+      "args": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "label": "with spaces",
+      "kind": "sh-out",
+      "expect": "[hello world]\n[x]\n",
+      "args": [
+        "hello world",
+        "x"
+      ]
+    },
+    {
+      "label": "empty one",
+      "kind": "sh-out",
+      "expect": "[]\n[z]\n",
+      "args": [
+        "",
+        "z"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "\"$@\" keeps each argument as one word.",
+    "for a in \"$@\"; do ... done",
+    "for a in \"$@\"; do\n  echo \"[$a]\"\ndone\n"
+  ],
+  "socratic": [
+    "What does $@ without quotes do to an argument with a space?",
+    "Why is \"$@\" special?",
+    "Where else do unquoted variables cause bugs?"
+  ],
+  "explain": "In one sentence: what did you learn from “Quote It Right”?",
+  "xp": 25,
+  "skills": [
+    "shell",
+    "quoting"
+  ],
+  "requires": [
+    "sb-05-cmdsub"
+  ],
+  "solution": "for a in \"$@\"; do\n  echo \"[$a]\"\ndone\n",
+  "alt": "for a in \"$@\"\ndo\n  printf '[%s]\\n' \"$a\"\ndone\n"
+}

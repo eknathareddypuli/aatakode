@@ -1,0 +1,37 @@
+{
+  "id": "sb-01-hello",
+  "region": "sh-basics",
+  "order": 1,
+  "title": "Your First Script",
+  "story": "Chilaka found a plain text file that does things. A shell script is just commands saved in order.",
+  "goal": "Print the line Hello, AataKode! using echo.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# Print: Hello, AataKode!\n",
+  "tests": [
+    {
+      "label": "prints the greeting",
+      "kind": "sh-out",
+      "expect": "Hello, AataKode!\n"
+    }
+  ],
+  "hints": [
+    "echo prints its arguments and adds a newline.",
+    "Put the text in quotes: echo \"...\"",
+    "echo \"Hello, AataKode!\"\n"
+  ],
+  "socratic": [
+    "What does a shell run first, the top line or the bottom line?",
+    "Why are quotes useful around text with spaces?",
+    "What did echo add at the end of the line?"
+  ],
+  "explain": "In one sentence: what did you learn from “Your First Script”?",
+  "xp": 10,
+  "skills": [
+    "shell",
+    "echo"
+  ],
+  "requires": [],
+  "solution": "echo \"Hello, AataKode!\"\n",
+  "alt": "echo 'Hello, AataKode!'\n"
+}

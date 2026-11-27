@@ -1,0 +1,51 @@
+{
+  "id": "sb-05-cmdsub",
+  "region": "sh-basics",
+  "order": 5,
+  "title": "Command Substitution",
+  "story": "$( ) runs a command and pastes its output into your line. It turns commands into values.",
+  "goal": "Count the lines in notes.txt and print: notes.txt has N lines",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# wc -l < file prints a line count\n",
+  "tests": [
+    {
+      "label": "three lines",
+      "kind": "sh-out",
+      "expect": "notes.txt has 3 lines\n"
+    },
+    {
+      "label": "five lines",
+      "kind": "sh-out",
+      "expect": "notes.txt has 5 lines\n",
+      "files": {
+        "notes.txt": "a\nb\nc\nd\ne\n"
+      },
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Run wc -l < notes.txt inside $( ) and keep it in a variable.",
+    "n=$(wc -l < notes.txt), then echo it.",
+    "n=$(wc -l < notes.txt)\necho \"notes.txt has $n lines\"\n"
+  ],
+  "socratic": [
+    "Why use < notes.txt instead of passing the file name to wc?",
+    "What does $( ) do?",
+    "Could you use backticks instead?"
+  ],
+  "explain": "In one sentence: what did you learn from “Command Substitution”?",
+  "xp": 20,
+  "skills": [
+    "shell",
+    "command-substitution"
+  ],
+  "requires": [
+    "sb-04-math"
+  ],
+  "solution": "n=$(wc -l < notes.txt)\necho \"notes.txt has $n lines\"\n",
+  "files": {
+    "notes.txt": "alpha\nbeta\ngamma\n"
+  },
+  "alt": "echo \"notes.txt has $(wc -l < notes.txt) lines\"\n"
+}

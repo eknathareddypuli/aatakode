@@ -1,0 +1,62 @@
+{
+  "id": "sb-04-math",
+  "region": "sh-basics",
+  "order": 4,
+  "title": "Arithmetic",
+  "story": "The shell only does text unless you ask for maths. $(( )) does integer arithmetic.",
+  "goal": "Read two numbers from the arguments and print their sum, then their product, one per line.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# $1 and $2 are numbers\n",
+  "tests": [
+    {
+      "label": "3 and 4",
+      "kind": "sh-out",
+      "expect": "7\n12\n",
+      "args": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "label": "10 and 5",
+      "kind": "sh-out",
+      "expect": "15\n50\n",
+      "args": [
+        "10",
+        "5"
+      ]
+    },
+    {
+      "label": "zero",
+      "kind": "sh-out",
+      "expect": "9\n0\n",
+      "args": [
+        "0",
+        "9"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Wrap an expression in $(( )) to calculate it.",
+    "Inside $(( )) you can use $1 or just 1 directly.",
+    "echo $(( $1 + $2 ))\necho $(( $1 * $2 ))\n"
+  ],
+  "socratic": [
+    "What does echo $1 + $2 print without $(( ))?",
+    "Does $(( )) do decimals?",
+    "How would you divide?"
+  ],
+  "explain": "In one sentence: what did you learn from “Arithmetic”?",
+  "xp": 15,
+  "skills": [
+    "shell",
+    "arithmetic"
+  ],
+  "requires": [
+    "sb-03-args"
+  ],
+  "solution": "echo $(( $1 + $2 ))\necho $(( $1 * $2 ))\n",
+  "alt": "a=$1; b=$2\necho $((a + b))\necho $((a * b))\n"
+}

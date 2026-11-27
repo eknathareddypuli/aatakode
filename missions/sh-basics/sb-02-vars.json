@@ -1,0 +1,45 @@
+{
+  "id": "sb-02-vars",
+  "region": "sh-basics",
+  "order": 2,
+  "title": "Variables",
+  "story": "A variable is a labelled box. You write name=value with no spaces, and read it back with a dollar sign.",
+  "goal": "Set a variable city to Chennai, then print: I live in Chennai",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# Make a variable, then use it in echo\n",
+  "tests": [
+    {
+      "label": "prints the sentence",
+      "kind": "sh-out",
+      "expect": "I live in Chennai\n"
+    },
+    {
+      "kind": "sh-source",
+      "label": "reads the variable instead of typing the city twice",
+      "pattern": "\\$\\{?city",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "No spaces around the equals sign: city=Chennai.",
+    "Read the variable with $city inside double quotes.",
+    "city=Chennai\necho \"I live in $city\"\n"
+  ],
+  "socratic": [
+    "What breaks if you write city = Chennai with spaces?",
+    "Why use double quotes around the sentence?",
+    "What would single quotes print instead?"
+  ],
+  "explain": "In one sentence: what did you learn from “Variables”?",
+  "xp": 15,
+  "skills": [
+    "shell",
+    "variables"
+  ],
+  "requires": [
+    "sb-01-hello"
+  ],
+  "solution": "city=Chennai\necho \"I live in $city\"\n",
+  "alt": "city=\"Chennai\"\necho I live in $city\n"
+}

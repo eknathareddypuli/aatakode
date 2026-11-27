@@ -1,0 +1,61 @@
+{
+  "id": "sb-03-args",
+  "region": "sh-basics",
+  "order": 3,
+  "title": "Script Arguments",
+  "story": "Scripts take input from the command line. The first word is $1, the second is $2, and $# counts them.",
+  "goal": "Print: Hello NAME, you passed N argument(s) where NAME is the first argument and N is how many were passed.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# $1 is the first argument, $# is how many\n",
+  "tests": [
+    {
+      "label": "one argument",
+      "kind": "sh-out",
+      "expect": "Hello Asha, you passed 1 argument(s)\n",
+      "args": [
+        "Asha"
+      ]
+    },
+    {
+      "label": "three arguments",
+      "kind": "sh-out",
+      "expect": "Hello Ravi, you passed 3 argument(s)\n",
+      "args": [
+        "Ravi",
+        "x",
+        "y"
+      ]
+    },
+    {
+      "label": "another name",
+      "kind": "sh-out",
+      "expect": "Hello Meena, you passed 2 argument(s)\n",
+      "args": [
+        "Meena",
+        "z"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Use $1 for the first argument and $# for the count.",
+    "Put both inside one double-quoted echo.",
+    "echo \"Hello $1, you passed $# argument(s)\"\n"
+  ],
+  "socratic": [
+    "Which variable holds the first argument?",
+    "What does $# count?",
+    "What would $0 hold?"
+  ],
+  "explain": "In one sentence: what did you learn from “Script Arguments”?",
+  "xp": 15,
+  "skills": [
+    "shell",
+    "arguments"
+  ],
+  "requires": [
+    "sb-02-vars"
+  ],
+  "solution": "echo \"Hello $1, you passed $# argument(s)\"\n"
+}
