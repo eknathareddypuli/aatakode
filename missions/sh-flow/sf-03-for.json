@@ -1,0 +1,53 @@
+{
+  "id": "sf-03-for",
+  "region": "sh-flow",
+  "order": 3,
+  "title": "For Loops",
+  "story": "A for loop walks a list. The list can be words, a glob like *.log or a range like {1..5}.",
+  "goal": "Print the name of every .log file in the current folder with its line count, like app.log: 3",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# Loop over *.log\n",
+  "tests": [
+    {
+      "label": "two logs",
+      "kind": "sh-out",
+      "expect": "app.log: 3\ndb.log: 1\n"
+    },
+    {
+      "label": "different logs",
+      "kind": "sh-out",
+      "expect": "app.log: 3\ndb.log: 1\ny.log: 1\nz.log: 2\n",
+      "files": {
+        "z.log": "1\n2\n",
+        "y.log": "1\n"
+      },
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "for f in *.log; do ... done expands the glob for you.",
+    "Use $(wc -l < \"$f\") for the count.",
+    "for f in *.log; do\n  echo \"$f: $(wc -l < \"$f\")\"\ndone\n"
+  ],
+  "socratic": [
+    "Who expands *.log, you or the shell?",
+    "What happens when nothing matches?",
+    "Why quote \"$f\"?"
+  ],
+  "explain": "In one sentence: what did you learn from “For Loops”?",
+  "xp": 20,
+  "skills": [
+    "shell",
+    "for",
+    "glob"
+  ],
+  "requires": [
+    "sf-02-files"
+  ],
+  "solution": "for f in *.log; do\n  echo \"$f: $(wc -l < \"$f\")\"\ndone\n",
+  "files": {
+    "app.log": "a\nb\nc\n",
+    "db.log": "x\n"
+  }
+}

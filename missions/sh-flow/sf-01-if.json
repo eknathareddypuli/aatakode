@@ -1,0 +1,59 @@
+{
+  "id": "sf-01-if",
+  "region": "sh-flow",
+  "order": 1,
+  "title": "If Statements",
+  "story": "if runs a command and looks at its exit status. Zero means yes. [ ] is a command that tests things.",
+  "goal": "If the first argument is greater than 10 print big, otherwise print small.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# Use [ $1 -gt 10 ]\n",
+  "tests": [
+    {
+      "label": "seven",
+      "kind": "sh-out",
+      "expect": "small\n",
+      "args": [
+        "7"
+      ]
+    },
+    {
+      "label": "twenty",
+      "kind": "sh-out",
+      "expect": "big\n",
+      "args": [
+        "20"
+      ]
+    },
+    {
+      "label": "exactly ten",
+      "kind": "sh-out",
+      "expect": "small\n",
+      "args": [
+        "10"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Compare numbers with -gt, -lt, -eq inside [ ].",
+    "if [ \"$1\" -gt 10 ]; then ... else ... fi",
+    "if [ \"$1\" -gt 10 ]; then\n  echo big\nelse\n  echo small\nfi\n"
+  ],
+  "socratic": [
+    "Why do the spaces inside [ ] matter?",
+    "What does the exit status of a command mean to if?",
+    "What is fi?"
+  ],
+  "explain": "In one sentence: what did you learn from “If Statements”?",
+  "xp": 15,
+  "skills": [
+    "shell",
+    "if"
+  ],
+  "requires": [
+    "sb-06-quote"
+  ],
+  "solution": "if [ \"$1\" -gt 10 ]; then\n  echo big\nelse\n  echo small\nfi\n",
+  "alt": "if (( $1 > 10 )); then echo big; else echo small; fi\n"
+}

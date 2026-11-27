@@ -1,0 +1,66 @@
+{
+  "id": "sf-05-case",
+  "region": "sh-flow",
+  "order": 5,
+  "title": "Case Statements",
+  "story": "case matches a word against patterns. It is tidier than a long if-elif chain.",
+  "goal": "Print the kind of the first argument: ending in .py is python, .sh is shell, .md is docs, anything else is other.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# case \"$1\" in ... esac\n",
+  "tests": [
+    {
+      "label": "py",
+      "kind": "sh-out",
+      "expect": "python\n",
+      "args": [
+        "app.py"
+      ]
+    },
+    {
+      "label": "sh",
+      "kind": "sh-out",
+      "expect": "shell\n",
+      "args": [
+        "run.sh"
+      ]
+    },
+    {
+      "label": "md",
+      "kind": "sh-out",
+      "expect": "docs\n",
+      "args": [
+        "README.md"
+      ]
+    },
+    {
+      "label": "other",
+      "kind": "sh-out",
+      "expect": "other\n",
+      "args": [
+        "notes.txt"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Patterns like *.py end with ) and each branch ends with ;;",
+    "The last pattern *) catches everything else.",
+    "case \"$1\" in\n  *.py) echo python ;;\n  *.sh) echo shell ;;\n  *.md) echo docs ;;\n  *) echo other ;;\nesac\n"
+  ],
+  "socratic": [
+    "What does ;; do?",
+    "Why does *) go last?",
+    "How would you match two patterns in one branch?"
+  ],
+  "explain": "In one sentence: what did you learn from “Case Statements”?",
+  "xp": 20,
+  "skills": [
+    "shell",
+    "case"
+  ],
+  "requires": [
+    "sf-04-while"
+  ],
+  "solution": "case \"$1\" in\n  *.py) echo python ;;\n  *.sh) echo shell ;;\n  *.md) echo docs ;;\n  *) echo other ;;\nesac\n"
+}

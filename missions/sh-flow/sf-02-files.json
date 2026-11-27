@@ -1,0 +1,57 @@
+{
+  "id": "sf-02-files",
+  "region": "sh-flow",
+  "order": 2,
+  "title": "Testing Files",
+  "story": "Scripts check the world before they act. -f tests for a file and -d for a directory.",
+  "goal": "For each argument print file, dir or missing depending on what it is.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# [ -f x ] file, [ -d x ] directory\n",
+  "tests": [
+    {
+      "label": "mixed",
+      "kind": "sh-out",
+      "expect": "a.txt: file\nlogs: dir\nnope: missing\n",
+      "args": [
+        "a.txt",
+        "logs",
+        "nope"
+      ]
+    },
+    {
+      "label": "only missing",
+      "kind": "sh-out",
+      "expect": "x: missing\ny: missing\n",
+      "args": [
+        "x",
+        "y"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Loop over \"$@\" and test each with -f and -d.",
+    "Use elif for the second test, else for missing.",
+    "for p in \"$@\"; do\n  if [ -f \"$p\" ]; then echo \"$p: file\"\n  elif [ -d \"$p\" ]; then echo \"$p: dir\"\n  else echo \"$p: missing\"\n  fi\ndone\n"
+  ],
+  "socratic": [
+    "What does -f check?",
+    "Why quote \"$p\"?",
+    "What is the order of the tests and why does it matter?"
+  ],
+  "explain": "In one sentence: what did you learn from “Testing Files”?",
+  "xp": 20,
+  "skills": [
+    "shell",
+    "test"
+  ],
+  "requires": [
+    "sf-01-if"
+  ],
+  "solution": "for p in \"$@\"; do\n  if [ -f \"$p\" ]; then echo \"$p: file\"\n  elif [ -d \"$p\" ]; then echo \"$p: dir\"\n  else echo \"$p: missing\"\n  fi\ndone\n",
+  "files": {
+    "a.txt": "hi\n",
+    "logs/app.log": "x\n"
+  }
+}

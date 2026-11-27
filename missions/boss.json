@@ -451,6 +451,32 @@
         "The wraith folds into a neat spreadsheet and vanishes.",
         "Chilaka: “That is a real report, built by you.”"
       ]
+    },
+    "ss-07-boss": {
+      "emoji": "🕷️",
+      "foe": "The Knot Spider",
+      "intro": [
+        "The Knot Spider 🕷️ drops from a tangle of pipes and loose quotes.",
+        "“Blank lines, junk, negatives... your script will choke on one of them.”",
+        "Chilaka whispers: “Check every line before you trust it. Skip what you cannot use.”"
+      ],
+      "win": [
+        "The spider unravels into one neat thread.",
+        "Chilaka: “Validation, totals and edge cases, in a dozen lines. Tidy work.”"
+      ]
+    },
+    "sp-04-boss": {
+      "emoji": "🦉",
+      "foe": "The Night Owl",
+      "intro": [
+        "The Night Owl 🦉 watches the server room at 3 a.m.",
+        "“A script that cannot report failure is a script that hides it.”",
+        "Chilaka whispers: “Exit codes are how scripts talk to schedulers. Say the right number.”"
+      ],
+      "win": [
+        "The owl blinks twice and flies off. The nightly job is safe.",
+        "Chilaka: “Counts, top error and an honest exit status. That is a real tool.”"
+      ]
     }
   }
 }

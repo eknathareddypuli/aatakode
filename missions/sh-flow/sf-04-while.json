@@ -1,0 +1,61 @@
+{
+  "id": "sf-04-while",
+  "region": "sh-flow",
+  "order": 4,
+  "title": "Reading Input Line by Line",
+  "story": "while read is the classic way to process lines from a file or a pipe, one at a time.",
+  "goal": "Read lines from standard input and print each one with its line number, like 1: first line.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# while read -r line; do ... done\n",
+  "tests": [
+    {
+      "label": "three lines",
+      "kind": "sh-out",
+      "expect": "1: alpha\n2: beta\n3: gamma\n",
+      "stdin": [
+        "alpha",
+        "beta",
+        "gamma"
+      ]
+    },
+    {
+      "label": "with spaces",
+      "kind": "sh-out",
+      "expect": "1: a b  c\n2: d\n",
+      "stdin": [
+        "a b  c",
+        "d"
+      ],
+      "hidden": true
+    },
+    {
+      "label": "empty input",
+      "kind": "sh-out",
+      "expect": "",
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Start a counter, then loop with while read -r line.",
+    "Inside the loop add one to the counter and echo it.",
+    "n=0\nwhile read -r line; do\n  n=$((n + 1))\n  echo \"$n: $line\"\ndone\n"
+  ],
+  "socratic": [
+    "When does while read stop?",
+    "Why use -r?",
+    "Where does read take its input from?"
+  ],
+  "explain": "In one sentence: what did you learn from “Reading Input Line by Line”?",
+  "xp": 25,
+  "skills": [
+    "shell",
+    "while",
+    "read"
+  ],
+  "requires": [
+    "sf-03-for"
+  ],
+  "solution": "n=0\nwhile read -r line; do\n  n=$((n + 1))\n  echo \"$n: $line\"\ndone\n",
+  "alt": "i=1\nwhile IFS= read -r l; do\n  printf '%d: %s\\n' \"$i\" \"$l\"\n  ((i++))\ndone\n"
+}
