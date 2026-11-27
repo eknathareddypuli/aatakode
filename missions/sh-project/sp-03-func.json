@@ -1,0 +1,61 @@
+{
+  "id": "sp-03-func",
+  "region": "sh-project",
+  "order": 3,
+  "title": "Step 3: Make It a Function",
+  "story": "Tidy the script. Wrap the report in a function that takes the log file as its argument.",
+  "goal": "Write a function report FILE that prints the level counts and the top error for FILE. Call it with the first script argument, or app.log when none is given.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# report() { ... }\n",
+  "tests": [
+    {
+      "label": "default file",
+      "kind": "sh-out",
+      "expect": "INFO 2\nWARN 1\nERROR 3\n2 db timeout\n"
+    },
+    {
+      "label": "named file",
+      "kind": "sh-out",
+      "expect": "INFO 1\nWARN 0\nERROR 2\n2 x one\n",
+      "args": [
+        "old.log"
+      ]
+    },
+    {
+      "label": "missing arg uses default",
+      "kind": "sh-out",
+      "expect": "INFO 1\nWARN 0\nERROR 2\n2 x one\n",
+      "files": {
+        "app.log": "2026-12-01 ERROR x one\n2026-12-01 ERROR x one\n2026-12-02 INFO ok fine\n"
+      },
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "report() { local f=$1; ... } then report \"${1:-app.log}\".",
+    "Use local so the loop variable does not leak out.",
+    "report() {\n  local f=$1 lvl\n  for lvl in INFO WARN ERROR; do\n    echo \"$lvl $(grep -c \" $lvl \" \"$f\")\"\n  done\n  grep ' ERROR ' \"$f\" | cut -d' ' -f3- | sort | uniq -c | sort -rn | head -1 | sed -E 's/^ +//'\n}\nreport \"${1:-app.log}\"\n"
+  ],
+  "socratic": [
+    "What does local protect?",
+    "What does ${1:-app.log} do?",
+    "Why quote \"$f\"?"
+  ],
+  "explain": "In one sentence: what did you learn from “Step 3: Make It a Function”?",
+  "xp": 40,
+  "skills": [
+    "shell",
+    "project",
+    "functions"
+  ],
+  "requires": [
+    "sp-02-top"
+  ],
+  "solution": "report() {\n  local f=$1 lvl\n  for lvl in INFO WARN ERROR; do\n    echo \"$lvl $(grep -c \" $lvl \" \"$f\")\"\n  done\n  grep ' ERROR ' \"$f\" | cut -d' ' -f3- | sort | uniq -c | sort -rn | head -1 | sed -E 's/^ +//'\n}\nreport \"${1:-app.log}\"\n",
+  "files": {
+    "app.log": "2026-11-01 INFO web started\n2026-11-01 ERROR db timeout\n2026-11-01 WARN disk 91%\n2026-11-02 ERROR db timeout\n2026-11-02 INFO web started\n2026-11-02 ERROR auth failed\n",
+    "old.log": "2026-12-01 ERROR x one\n2026-12-01 ERROR x one\n2026-12-02 INFO ok fine\n"
+  },
+  "project_step": true
+}

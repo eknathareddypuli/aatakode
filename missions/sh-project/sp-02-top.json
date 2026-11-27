@@ -1,0 +1,52 @@
+{
+  "id": "sp-02-top",
+  "region": "sh-project",
+  "order": 2,
+  "title": "Step 2: The Top Error",
+  "story": "Now find which error message repeats the most.",
+  "goal": "Print the most common ERROR message (the words after ERROR) and its count, like 2 db timeout. Keep the level counts from step 1 above it.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# level counts first, then the top error\n",
+  "tests": [
+    {
+      "label": "top error",
+      "kind": "sh-out",
+      "expect": "INFO 2\nWARN 1\nERROR 3\n2 db timeout\n"
+    },
+    {
+      "label": "other log",
+      "kind": "sh-out",
+      "expect": "INFO 1\nWARN 0\nERROR 2\n2 x one\n",
+      "files": {
+        "app.log": "2026-12-01 ERROR x one\n2026-12-01 ERROR x one\n2026-12-02 INFO ok fine\n"
+      },
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Filter ERROR lines, cut off the date and level, then sort | uniq -c | sort -rn.",
+    "head -1 keeps the winner. sed can trim the leading spaces.",
+    "for lvl in INFO WARN ERROR; do\n  echo \"$lvl $(grep -c \" $lvl \" app.log)\"\ndone\ngrep ' ERROR ' app.log | cut -d' ' -f3- | sort | uniq -c | sort -rn | head -1 | sed -E 's/^ +//'\n"
+  ],
+  "socratic": [
+    "What does cut -d' ' -f3- keep?",
+    "Why sort twice?",
+    "What if two messages tie?"
+  ],
+  "explain": "In one sentence: what did you learn from “Step 2: The Top Error”?",
+  "xp": 35,
+  "skills": [
+    "shell",
+    "project",
+    "pipes"
+  ],
+  "requires": [
+    "sp-01-levels"
+  ],
+  "solution": "for lvl in INFO WARN ERROR; do\n  echo \"$lvl $(grep -c \" $lvl \" app.log)\"\ndone\ngrep ' ERROR ' app.log | cut -d' ' -f3- | sort | uniq -c | sort -rn | head -1 | sed -E 's/^ +//'\n",
+  "files": {
+    "app.log": "2026-11-01 INFO web started\n2026-11-01 ERROR db timeout\n2026-11-01 WARN disk 91%\n2026-11-02 ERROR db timeout\n2026-11-02 INFO web started\n2026-11-02 ERROR auth failed\n"
+  },
+  "project_step": true
+}

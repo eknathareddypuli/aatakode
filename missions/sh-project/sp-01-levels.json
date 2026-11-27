@@ -1,0 +1,52 @@
+{
+  "id": "sp-01-levels",
+  "region": "sh-project",
+  "order": 1,
+  "title": "Step 1: Count the Levels",
+  "story": "The team's app.log keeps growing. Build a report script one step at a time.",
+  "goal": "Print how many lines of each level (INFO, WARN, ERROR) app.log has, like INFO 2, in that order.",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# for each level, count matching lines\n",
+  "tests": [
+    {
+      "label": "counts levels",
+      "kind": "sh-out",
+      "expect": "INFO 2\nWARN 1\nERROR 3\n"
+    },
+    {
+      "label": "other log",
+      "kind": "sh-out",
+      "expect": "INFO 1\nWARN 0\nERROR 2\n",
+      "files": {
+        "app.log": "2026-12-01 ERROR x one\n2026-12-01 ERROR x one\n2026-12-02 INFO ok fine\n"
+      },
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "grep -c counts matching lines. Put spaces around the level so you match the whole word.",
+    "Loop over the three levels.",
+    "for lvl in INFO WARN ERROR; do\n  echo \"$lvl $(grep -c \" $lvl \" app.log)\"\ndone\n"
+  ],
+  "socratic": [
+    "Why grep -c instead of grep | wc -l?",
+    "What if a level never appears?",
+    "Why match \" $lvl \"?"
+  ],
+  "explain": "In one sentence: what did you learn from “Step 1: Count the Levels”?",
+  "xp": 30,
+  "skills": [
+    "shell",
+    "project"
+  ],
+  "requires": [
+    "ss-07-boss"
+  ],
+  "solution": "for lvl in INFO WARN ERROR; do\n  echo \"$lvl $(grep -c \" $lvl \" app.log)\"\ndone\n",
+  "files": {
+    "app.log": "2026-11-01 INFO web started\n2026-11-01 ERROR db timeout\n2026-11-01 WARN disk 91%\n2026-11-02 ERROR db timeout\n2026-11-02 INFO web started\n2026-11-02 ERROR auth failed\n"
+  },
+  "alt": "for l in INFO WARN ERROR; do\n  n=$(grep -c \" $l \" app.log)\n  echo \"$l $n\"\ndone\n",
+  "project_step": true
+}

@@ -1,0 +1,75 @@
+{
+  "id": "sp-04-boss",
+  "region": "sh-project",
+  "order": 4,
+  "title": "Step 4: The Final Report",
+  "story": "The last step. Add checks and an exit code so the script can run in a nightly job.",
+  "goal": "Finish the report. If the file is missing print error: FILE not found and exit 2. Otherwise print the report from step 3, and when there are any ERROR lines exit with status 1 at the end (otherwise 0).",
+  "type": "shell",
+  "lang": "bash",
+  "starter": "# add the missing-file check and the final exit status\n",
+  "tests": [
+    {
+      "label": "log with errors exits 1",
+      "kind": "sh-out",
+      "expect": "INFO 2\nWARN 1\nERROR 3\n2 db timeout\n",
+      "status": 1
+    },
+    {
+      "label": "clean log exits 0",
+      "kind": "sh-out",
+      "expect": "INFO 1\nWARN 1\nERROR 0\n",
+      "args": [
+        "clean.log"
+      ]
+    },
+    {
+      "label": "missing exits 2",
+      "kind": "sh-out",
+      "expect": "error: gone.log not found\n",
+      "status": 2,
+      "args": [
+        "gone.log"
+      ]
+    },
+    {
+      "label": "other log",
+      "kind": "sh-out",
+      "expect": "INFO 1\nWARN 0\nERROR 2\n2 x one\n",
+      "status": 1,
+      "args": [
+        "old.log"
+      ],
+      "hidden": true
+    }
+  ],
+  "hints": [
+    "Check [ ! -f \"$f\" ] first and exit 2.",
+    "grep -q is silent and sets the status. Use it in an if before the final exit.",
+    "report() {\n  local f=$1 lvl\n  for lvl in INFO WARN ERROR; do\n    echo \"$lvl $(grep -c \" $lvl \" \"$f\")\"\n  done\n  grep ' ERROR ' \"$f\" | cut -d' ' -f3- | sort | uniq -c | sort -rn | head -1 | sed -E 's/^ +//'\n}\nf=${1:-app.log}\nif [ ! -f \"$f\" ]; then\n  echo \"error: $f not found\"\n  exit 2\nfi\nreport \"$f\"\nif grep -q ' ERROR ' \"$f\"; then exit 1; fi\nexit 0\n"
+  ],
+  "socratic": [
+    "What would a scheduler do with a non-zero exit code?",
+    "Why use grep -q here?",
+    "Which status wins if the file is missing?"
+  ],
+  "explain": "In one sentence: what did you learn from “Step 4: The Final Report”?",
+  "xp": 60,
+  "skills": [
+    "shell",
+    "project",
+    "boss"
+  ],
+  "requires": [
+    "sp-03-func"
+  ],
+  "solution": "report() {\n  local f=$1 lvl\n  for lvl in INFO WARN ERROR; do\n    echo \"$lvl $(grep -c \" $lvl \" \"$f\")\"\n  done\n  grep ' ERROR ' \"$f\" | cut -d' ' -f3- | sort | uniq -c | sort -rn | head -1 | sed -E 's/^ +//'\n}\nf=${1:-app.log}\nif [ ! -f \"$f\" ]; then\n  echo \"error: $f not found\"\n  exit 2\nfi\nreport \"$f\"\nif grep -q ' ERROR ' \"$f\"; then exit 1; fi\nexit 0\n",
+  "files": {
+    "app.log": "2026-11-01 INFO web started\n2026-11-01 ERROR db timeout\n2026-11-01 WARN disk 91%\n2026-11-02 ERROR db timeout\n2026-11-02 INFO web started\n2026-11-02 ERROR auth failed\n",
+    "clean.log": "2026-11-03 INFO fine ok\n2026-11-03 WARN slow\n",
+    "old.log": "2026-12-01 ERROR x one\n2026-12-01 ERROR x one\n2026-12-02 INFO ok fine\n"
+  },
+  "boss": true,
+  "project_step": true,
+  "project": true
+}
